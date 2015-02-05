@@ -1,12 +1,12 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v0.1.0 
+ * @version     v1.0.0 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-05
+ * @updateTime  2015-02-06
  */
 
 ;(function(factory) {
@@ -791,6 +791,8 @@
             var mouseOrTouch     = editormd.mouseOrTouch;
             var htmlTextarea     = this.htmlTextarea     = editor.find("."+this.classNames.textarea.html);
             var markdownTextarea = this.markdownTextarea = editor.find("."+this.classNames.textarea.markdown);
+            
+            editor.css("background", "none");
             
             this.saveToTextareas();
             

@@ -12,10 +12,24 @@
     @include box-sizing(border-box);             
     border: 1px solid $borderColor;
     text-align: left;
-    overflow: hidden;
+    overflow: hidden;    
+    background: url("../images/loading.gif") no-repeat center center;
+    @include background-size(32px 32px);
     
     a {
         text-decoration: none;
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    .editormd {
+        background-image: url(../images/loading@2x.gif);
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min-device-pixel-ratio: 3) {
+    .editormd {
+        background-image: url(../images/loading@3x.gif);
     }
 }
 

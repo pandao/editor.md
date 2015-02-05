@@ -6,7 +6,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-05
+ * @updateTime  2015-02-06
  */
 
 /*!
@@ -2370,11 +2370,24 @@
   border: 1px solid #ddd;
   text-align: left;
   overflow: hidden;
+  background: url("../images/loading.gif") no-repeat center center;
+  -webkit-background-size: 32px 32px;
+  background-size: 32px 32px;
 }
 .editormd a {
   text-decoration: none;
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+  .editormd {
+    background-image: url(../images/loading@2x.gif);
+  }
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min-device-pixel-ratio: 3) {
+  .editormd {
+    background-image: url(../images/loading@3x.gif);
+  }
+}
 .editormd-toolbar {
   width: 100%;
   min-height: 35px;

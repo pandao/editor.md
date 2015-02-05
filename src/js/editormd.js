@@ -781,6 +781,8 @@
             var htmlTextarea     = this.htmlTextarea     = editor.find("."+this.classNames.textarea.html);
             var markdownTextarea = this.markdownTextarea = editor.find("."+this.classNames.textarea.markdown);
             
+            editor.css("background", "none");
+            
             this.saveToTextareas();
             
             preview.show();
