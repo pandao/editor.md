@@ -16,7 +16,7 @@ A simple online markdown editor.
 
 ####在线演示
 
-[https://pandao.github.io/editor.md/examples/index.html](https://pandao.github.io/examples/index.html)
+[https://pandao.github.io/editor.md/examples/index.html](https://pandao.github.io/editor.md/examples/index.html)
 
 ####下载和安装
 
@@ -46,9 +46,9 @@ javascript:
 		});
 	</script>
 
-> Require.js的使用方法：[https://github.com/pandao/editor.md/examples/use-requirejs.html](https://github.com/pandao/editor.md/examples/use-requirejs.html)
+> Require.js的使用方法：[https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html](https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html)
 
-> Sea.js的使用方法：[https://github.com/pandao/editor.md/examples/use-seajs.html](https://github.com/pandao/editor.md/examples/use-seajs.html)
+> Sea.js的使用方法：[https://github.com/pandao/editor.md/tree/master/examples/use-seajs.html](https://github.com/pandao/editor.md/tree/master/examples/use-seajs.html)
 
 ####依赖项目及感谢
 
