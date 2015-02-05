@@ -2546,8 +2546,13 @@
   background: #fff;
 }
 
+.editormd-dialog-info {
+  width: 420px;
+  height: 160px;
+}
+
 .editormd-dialog-container {
-  padding: 10px 25px 25px;
+  padding: 20px 25px 25px;
   line-height: 1.6;
   border: 1px solid #ddd\0;
 }

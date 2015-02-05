@@ -254,7 +254,7 @@
             this.preview          = editor.find("." + classPrefix + "preview");
             this.toolbar          = editor.find("." + classPrefix + "toolbar");
             this.previewContainer = this.preview.children("." + classPrefix + "preview-container");
-            
+            this.infoDialog       = editor.find("." + classPrefix + "dialog-info");
             this.toolbarIconHandlers  = {};
             
             editor.addClass(classPrefix + "vertical");
@@ -981,6 +981,7 @@
             var preview          = this.preview;
             var toolbar          = this.toolbar;
             var settings         = this.settings;
+            var infoDialog       = this.infoDialog;
             var codeEditor       = this.codeEditor;
             var codeMirror       = this.codeMirror;
             
@@ -991,6 +992,11 @@
                     height : (typeof height === "number") ? height + "px" : height
                 });
             }
+            
+            infoDialog.css({
+                top  : (editor.height() - infoDialog.height()) / 2,
+                left : (editor.width() - infoDialog.width()) / 2
+            });
                         
             if (settings.toolbar) {            
                 codeMirror.css("margin-top", toolbar.outerHeight()).outerHeight(editor.height() - toolbar.outerHeight());
