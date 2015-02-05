@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+@import "lib/variables";
+@import "lib/functions";
+@import "font-awesome";
+        
+.editormd {
+    width: 90%;
+    height: 640px;
+    margin: 0 auto;
+    position: relative;
+    @include box-sizing(border-box);             
+    border: 1px solid $borderColor;
+    text-align: left;
+    overflow: hidden;
+    
+    a {
+        text-decoration: none;
+    }
+}
+
+#{$prefix}toolbar {
+    width: 100%;
+    min-height: 35px;
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border-bottom: 1px solid $borderColor;
+}
+
+#{$prefix}toolbar-container {
+    padding: 0 8px;
+    min-height: 35px;
+}
+
+@import "editormd.menu";
+
+#{$prefix}container {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 35px 0 0;
+    position: relative;
+    @include box-sizing(border-box);
+            
+    textarea {
+        display: none;
+    }
+}
+
+#{$prefix}html-textarea, #{$prefix}markdown-textarea {
+    display: none;
+}
+
+@import "editormd.dialog"; 
+@import "editormd.codemirror"; 
+@import "editormd.preview";

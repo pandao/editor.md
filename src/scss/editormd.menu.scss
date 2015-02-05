@@ -1,0 +1,109 @@
+@charset "UTF-8";
+
+.editormd-menu {       
+    list-style: none;
+    
+    > li {
+        padding: 4px 0 5px;
+        display: inline-block;
+        position: relative;
+
+        &.divider {
+            display: inline-block;
+            text-indent: -9999px;
+            margin: 0 5px; 
+            height: 65%;
+            border-right: 1px solid #ddd;
+        }
+
+        > a {
+            color: #666;
+            display: inline-block;
+            width: 24px;
+            font-size: 14px;
+            text-decoration: none;
+            text-align: center;
+            @include border-radius(2px);
+            border: 1px solid #fff;
+
+            &:hover, &.active {
+                border: 1px solid #ddd;
+                background: #eee;
+                @include transition(all 300ms ease-out);
+            }
+
+            > .fa { 
+                text-align: center;
+                display: block;
+                padding: 5px;
+            }
+
+            > .editormd-bold {
+                padding: 5px 0; 
+                display: inline-block;
+                font-weight: bold;
+            }
+        }
+
+        &:hover .editormd-dropdown-menu {
+            display: block;
+        }
+    }
+
+    > li + li > a {
+        margin-left: 3px;
+    }
+}
+
+.editormd-dropdown-menu { 
+    display: none;
+    background: #fff;
+    border: 1px solid #ddd;
+    width: 148px;
+    list-style: none;
+    position: absolute;
+    top: 33px;
+    left: 0;
+    z-index: 100;
+    @include box-shadow(1px 2px 6px rgba(0, 0, 0, 0.15));
+
+    &:before, &:after {
+        width: 0;
+        height: 0;
+        display: block;
+        content: "";
+        position: absolute;
+        top: -11px;
+        left: 8px;
+        border: 5px solid transparent;
+    }
+
+    &:before { 
+        border-bottom-color: #ccc;   
+    }
+
+    &:after { 
+        border-bottom-color: #ffffff;  
+        top: -10px;
+    }
+
+
+    > li {
+        
+        > a {
+            color: #666;
+            display: block;
+            text-decoration: none;
+            padding: 8px 10px;
+
+            &:hover {
+                background: #f6f6f6;
+                @include transition(all 300ms ease-out);
+            }
+        }
+    }
+
+    > li + li {
+        border-top: 1px solid #ddd;
+    }
+}

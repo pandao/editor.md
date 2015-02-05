@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>FlowChart - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>FlowChart 流程图</h1>
+                <p>基于flowchart.js：<a href="http://adrai.github.io/flowchart.js/" target="_blank">http://adrai.github.io/flowchart.js/</a></p>        
+            </header>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">
+```flow
+st=>start: 用户登陆
+op=>operation: 登陆操作
+cond=>condition: 登陆成功 Yes or No?
+e=>end: 进入后台
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+```</script>
+            </div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {       
+                var testEditor = editormd("test-editormd", {
+					width: "90%",
+					height: 640,
+					path : '../lib/',
+					flowChart : true,
+				});
+            });
+        </script>
+    </body>
+</html>

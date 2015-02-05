@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Simple - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Simple 简单模式</h1>
+                <p>默认不开启Latex(MathJax)、流程图和序列图支持;</p>            
+            </header>
+            <div class="btns">
+                <button id="show-btn">显示编辑器</button>
+                <button id="hide-btn">隐藏编辑器</button>
+                <button id="get-md-btn">获取Markdown(源码)</button>
+                <button id="get-html-btn">获取HTML(源码)</button>
+                <button id="watch-btn">开启实时预览</button>
+                <button id="unwatch-btn">关闭实时预览</button>
+                <button id="preview-btn">预览HTML(按ESC取消)</button>
+                <button id="fullscreen-btn">全屏(按ESC取消)</button>
+                <button id="show-toolbar-btn">显示工具栏</button>
+                <button id="close-toolbar-btn">关闭工具栏</button>
+            </div>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">###Hello world!</script>
+            </div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+                var testEditor;
+                
+                $.get('test.md', function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 720,
+                        path : '../lib/',
+                        markdown : md,
+                        //toolbar  : false,   //关闭工具栏
+                        mathjax : true,
+                        previewCodeHighlight : true,
+                        flowChart : true,
+                        sequenceDiagram : true,
+                        onload : function() {
+                            console.log('onload', this);
+                            //this.fullscreen();
+                            //this.unwatch();
+                            //this.watch().fullscreen();
+
+                            //this.setMarkdown("#PHP");
+                            //this.width("100%");
+                            //this.height(480);
+                            //this.resize("100%", 640);
+                        }
+                    });
+                });
+                
+                $("#show-btn").bind('click', function(){
+                    testEditor.show();
+                });
+                
+                $("#hide-btn").bind('click', function(){
+                    testEditor.hide();
+                });
+                
+                $("#get-md-btn").bind('click', function(){
+                    alert(testEditor.getMarkdown());
+                });
+                
+                $("#get-html-btn").bind('click', function() {
+                    alert(testEditor.getHTML());
+                });                
+                
+                $("#watch-btn").bind('click', function() {
+                    testEditor.watch();
+                });                 
+                
+                $("#unwatch-btn").bind('click', function() {
+                    testEditor.unwatch();
+                });              
+                
+                $("#preview-btn").bind('click', function() {
+                    testEditor.previewing();
+                });
+                
+                $("#fullscreen-btn").bind('click', function() {
+                    testEditor.fullscreen();
+                });
+                
+                $("#show-toolbar-btn").bind('click', function() {
+                    testEditor.showToolbar();
+                });
+                
+                $("#close-toolbar-btn").bind('click', function() {
+                    testEditor.hideToolbar();
+                });
+            });
+        </script>
+    </body>
+</html>

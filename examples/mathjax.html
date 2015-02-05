@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Mathjax - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>支持Latex(MathJax)科学公式</h1>
+				<p>基于MathJax.js：<a href="http://www.mathjax.org/" target="_blank">http://www.mathjax.org/</a></p>
+                <p>注：默认不开启，影响实时预览的响应速度;</p>            
+            </header>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">####科学公式
+                    
+$$E=mc^2$$
+
+$$\(\sqrt{3x-1}+(1+x)^2\)$$
+                    
+$$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$</script>
+            </div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {                
+                var testEditor = editormd("test-editormd", {
+					width: "90%",
+					height: 480,
+					path : '../lib/',
+					mathjax : true
+                });
+            });
+        </script>
+    </body>
+</html>

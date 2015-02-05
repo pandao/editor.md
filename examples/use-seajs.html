@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Use sea.js - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <style>
+            header p code {
+                padding: 3px;
+                border: 1px solid #ddd;
+                background: #f6f6f6;
+                border-radius: 3px;
+                font-size: 85%;
+                font-family: Consolas, 'Monaco', courier, monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Use sea.js</h1>   
+                <p>说明：由于Editor.md是依赖jQuery的，所以在使用Sea.js加载Editor.md时，要在jQuery.js文件尾部加上 <code>if(typeof define === "function") { define(function () { return $.noConflict(); }); }</code>，使jQuery支持Sea.js</p>        
+            </header>
+            <div class="btns">
+                <button id="show-btn">显示编辑器</button>
+                <button id="hide-btn">隐藏编辑器</button>
+                <button id="get-md-btn">获取Markdown(源码)</button>
+                <button id="get-html-btn">获取HTML(源码)</button>
+                <button id="watch-btn">开启实时预览</button>
+                <button id="unwatch-btn">关闭实时预览</button>
+                <button id="preview-btn">预览HTML(按ESC取消)</button>
+                <button id="fullscreen-btn">全屏(按ESC取消)</button>
+                <button id="show-toolbar-btn">显示工具栏</button>
+                <button id="close-toolbar-btn">关闭工具栏</button>
+            </div>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">###Hello world!</script>
+            </div>
+        </div>   
+        <script src="js/sea.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" /> 
+        <script type="text/javascript"> 
+            seajs.config({
+                base  : "../lib",
+                alias : {
+                    "jquery"   : "jquery.min",
+                    "editormd" : "../src/js/editormd"
+                }
+            });
+                
+            var testEditor;
+
+			seajs.use(["jquery", "editormd"], function($, editormd) { 
+
+                $.get("./test.md", function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 640,
+                        path : '../lib/',
+                        markdown : md,
+                        mathjax : true,
+                        //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
+                        //flowChart : true,              // 未解决的Bug：因为Sea.js下Raphael无法加载
+                        //sequenceDiagram : true,        // 同上
+                        onload : function() {
+                            console.log('onload', this);
+                            //this.fullscreen();
+                            //this.unwatch();
+                            //this.watch().fullscreen();
+
+                            //this.setMarkdown("#PHP");
+                            //this.width("100%");
+                            //this.height(480);
+                            //this.resize("100%", 640);
+                        }
+                    });
+                });
+
+                $("#show-btn").bind('click', function(){
+                    testEditor.show();
+                });
+
+                $("#hide-btn").bind('click', function(){
+                    testEditor.hide();
+                });
+
+                $("#get-md-btn").bind('click', function(){
+                    alert(testEditor.getMarkdown());
+                });
+
+                $("#get-html-btn").bind('click', function() {
+                    alert(testEditor.getHTML());
+                });                
+
+                $("#watch-btn").bind('click', function() {
+                    testEditor.watch();
+                });                 
+
+                $("#unwatch-btn").bind('click', function() {
+                    testEditor.unwatch();
+                });              
+
+                $("#preview-btn").bind('click', function() {
+                    testEditor.previewing();
+                });
+
+                $("#fullscreen-btn").bind('click', function() {
+                    testEditor.fullscreen();
+                });
+                
+                $("#show-toolbar-btn").bind('click', function() {
+                    testEditor.showToolbar();
+                });
+                
+                $("#close-toolbar-btn").bind('click', function() {
+                    testEditor.hideToolbar();
+                });
+            });
+        </script>
+    </body>
+</html>

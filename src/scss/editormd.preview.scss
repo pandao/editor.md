@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+@import "lib/variables";
+@import "lib/functions";
+
+// github-markdown.css
+@import "github-markdown";  
+
+#{$prefix}preview-container, #{$prefix}html-preview {
+    padding: 20px;
+
+    blockquote {
+        border-left: 4px solid #ddd;
+        padding-left: 20px;
+        margin-left: 0;
+        color: #666;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    p > code {
+        margin-left: 5px;
+    }
+    
+    .markdown-body {
+        line-height: 1.6;
+
+        hr {
+            height: 1px;
+            border: none;
+            border-top: 1px solid #ddd;
+            background: none;
+        }
+
+        code {
+            border: 1px solid #ddd;
+            background: #f6f6f6;
+            padding: 3px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-family: Consolas, 'Monaco', courier, monospace;
+        }
+
+        pre {
+            border: 1px solid #ddd;
+            background: #f6f6f6;
+            padding: 10px;
+            @include border-radius(3px);
+
+            code {
+                padding: 0;
+            }
+        }
+    }
+
+    .sequence-diagram, .flowchart {
+        text-align: center;
+    }
+
+    .sequence-diagram text, .flowchart text {
+        font-size: 15px !important;
+        font-family: Arial !important;
+    }
+}
+
+//Pretty printing styles. Used with prettify.js.
+
+@import "prettify";
+
+#{$prefix}preview-container, #{$prefix}html-preview {
+    pre.prettyprint { 
+        padding: 10px; 
+        border: 1px solid #ddd; 
+    }
+
+    ol.linenums { 
+        color: #999; 
+        padding-left: 2.5em; 
+        
+        code {
+            border: none;
+            background:none;  
+            padding: 0;
+        }
+    }
+    
+    li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 { 
+        list-style-type: decimal;
+    }
+}

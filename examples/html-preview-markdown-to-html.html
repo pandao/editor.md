@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>HTML Preview(markdown to html) - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>非编辑情况下的HTML预览</h1>           
+            </header>
+            <div class="editormd-html-preview" id="test-editormd">
+               <script type="text/markdown">###Hello world!</script>                
+            </div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.preview.css" />
+        <script src="../lib/marked.min.js"></script>
+        <script src="../lib/prettify.min.js"></script>
+        <script src="../lib/raphael.min.js"></script>
+        <script src="../lib/underscore.min.js"></script>
+        <script src="../lib/sequence-diagram.min.js"></script>
+        <script src="../lib/flowchart.min.js"></script>
+        <script src="../lib/jquery.flowchart.min.js"></script>
+        <script src="../src/js/editormd.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $.get("test.md", function(markdown) {
+				    editormd.markdownToHTML("test-editormd", {
+                        markdown : markdown,     // 不设置时，从<script type="text/markdown">获取markdown文档
+                        mathjax : true,          // 默认不解析
+                        flowChart: true,         // 默认不解析
+                        sequenceDiagram : true,  // 默认不解析
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

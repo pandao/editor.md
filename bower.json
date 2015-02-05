@@ -1,0 +1,24 @@
+{
+  "name": "editor.md",
+  "version": "1.0.0",
+  "homepage": "https://github.com/pandao/editor.md",
+  "authors": [
+    "Pandao <pandao@vip.qq.com>"
+  ],
+  "description": "A simple online markdown editor.",
+  "keywords": [
+    "editor.md",
+    "markdown",
+    "editor"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "research",
+    "docs",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

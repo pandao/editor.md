@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.editormd-dialog {
+    position: absolute;
+    top: 38%;
+    left: 33%;
+    z-index: 101;
+    width: 34%;
+    height: 24%;
+    display: none;
+    @include border-radius(3px);
+    @include box-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+    background: #fff;
+}
+
+.editormd-dialog-container {
+    padding: 10px 25px 25px;
+    line-height: 1.6;
+    border: 1px solid #ddd\0;
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+
+        .fa {
+            color: #2C7EEA;
+            padding-right: 5px;
+        }
+
+        small {
+            padding-left: 5px;
+            font-weight: normal;
+            font-size:  12px;
+            color: #999;
+        }
+    }
+}
+
+.editormd-dialog-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #ccc;
+
+    &:hover {
+        color: #999;
+        @include transition(all 300ms ease-out);
+    }
+}
