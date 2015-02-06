@@ -892,7 +892,6 @@
 
             codeEditor.on("change", function(cm, changeObj) { 
 
-                console.log('change =>', codeEditor);
                 if (!settings.watch) {
                     return ;
                 }
@@ -922,7 +921,8 @@
                             
                             $(this).html($(jaxScript));
 
-                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathjax-code"]);
+                            //MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathjax-code"]);
+                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, $(this)[0]]);
                         });
                     }); 
                 }
@@ -1565,6 +1565,7 @@
         callback();
     };
     
+    // 注：国内可以采用这个CDN，http://cdn.bootcss.com/mathjax/2.4.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
     editormd.mathjaxURL  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     
     /**
