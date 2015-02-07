@@ -9,6 +9,12 @@
  * @updateTime  2015-02-07
  */
 
+/** 
+ * @fileOverview Editor.md
+ * @author pandao
+ * @version 1.0.0 
+ */
+
 ;(function(factory) {
     "use strict";
     
