@@ -1,9 +1,12 @@
 @charset "UTF-8";
 
-.editormd-menu {       
+.editormd-menu {
+    margin: 0;
+    padding: 0;       
     list-style: none;
     
     > li {
+        margin: 0;
         padding: 4px 0 5px;
         display: inline-block;
         position: relative;

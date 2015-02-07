@@ -2406,9 +2406,12 @@
 }
 
 .editormd-menu {
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 .editormd-menu > li {
+  margin: 0;
   padding: 4px 0 5px;
   display: inline-block;
   position: relative;
