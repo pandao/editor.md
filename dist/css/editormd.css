@@ -2613,6 +2613,7 @@
 }
 
 .editormd .CodeMirror {
+  z-index: 10;
   float: left;
   border-right: 1px solid #ddd;
   font-size: 13px;
