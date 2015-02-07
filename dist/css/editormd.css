@@ -2370,7 +2370,7 @@
   border: 1px solid #ddd;
   text-align: left;
   overflow: hidden;
-  background: url("../images/loading.gif") no-repeat center center;
+  background: #fff url("../images/loading.gif") no-repeat center center;
   -webkit-background-size: 32px 32px;
   background-size: 32px 32px;
 }

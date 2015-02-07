@@ -13,7 +13,7 @@
     border: 1px solid $borderColor;
     text-align: left;
     overflow: hidden;    
-    background: url("../images/loading.gif") no-repeat center center;
+    background: #fff url("../images/loading.gif") no-repeat center center;
     @include background-size(32px 32px);
     
     a {
