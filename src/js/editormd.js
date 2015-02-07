@@ -1,3 +1,9 @@
+/** 
+ * @fileOverview Editor.md
+ * @author pandao
+ * @version 1.0.0 
+ */
+
 ;(function(factory) {
     "use strict";
     
