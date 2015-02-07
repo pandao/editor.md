@@ -1402,17 +1402,24 @@
             var text  = toc[i].text;
             var level = toc[i].level;
             
-            if (level < startLevel) { continue; }
+            if (level < startLevel) {
+                continue;
+            }
             
-            if (level > lastLevel) {
+            if (level > lastLevel) 
+            {
                 html += "";
-            } else if (level < lastLevel) {
+            } 
+            else if (level < lastLevel) 
+            {
                 html += (new Array(lastLevel - level + 2)).join("</ul></li>");
-            } else {
+            } 
+            else 
+            {
                 html += "</ul></li>";
             }
 
-            html += "<li><a class=\"toc-level-"+level+"\" href=\"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            html += "<li><a class=\"toc-level-" + level + "\" href=\"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
             lastLevel = level;
         }
         
