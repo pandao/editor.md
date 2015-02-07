@@ -47,6 +47,8 @@
         path                 : "./lib/",
         watch                : true,            
         onload               : function() {},
+        toc                  : true,
+        tocStartLevel        : 2,
         fontSize             : "13px",
         flowChart            : false,          // flowChart.js only support IE9+
         mathjax              : false,
@@ -240,10 +242,10 @@
             
             editor.append(infoDialogHTML).append(appendElements);
             
-            this.preview          = editor.find("." + classPrefix + "preview");
-            this.toolbar          = editor.find("." + classPrefix + "toolbar");
-            this.previewContainer = this.preview.children("." + classPrefix + "preview-container");
-            this.infoDialog       = editor.find("." + classPrefix + "dialog-info");
+            this.preview              = editor.find("." + classPrefix + "preview");
+            this.toolbar              = editor.find("." + classPrefix + "toolbar");
+            this.previewContainer     = this.preview.children("." + classPrefix + "preview-container");
+            this.infoDialog           = editor.find("." + classPrefix + "dialog-info");
             this.toolbarIconHandlers  = {};
             
             editor.addClass(classPrefix + "vertical");
@@ -743,18 +745,18 @@
          */
         
         setMarked : function() {
-            var marked         = editormd.$marked;            
-            var markedRenderer = this.markedRenderer = editormd.markedRenderer();
+            var marked       = editormd.$marked; 
+            var markdownToC  = this.markdownToC = [];
             
             marked.setOptions({
-                renderer: markedRenderer,
-                gfm: true,
-                tables: true,
-                breaks: false,
-                pedantic: false,
-                sanitize: true,
-                smartLists: true,
-                smartypants: true
+                renderer    : editormd.markedRenderer(markdownToC),
+                gfm         : true,
+                tables      : true,
+                breaks      : false,
+                pedantic    : false,
+                sanitize    : true,
+                smartLists  : true,
+                smartypants : true
             });
 
             return this;
@@ -1019,16 +1021,23 @@
          */
         
         saveToTextareas : function() {
-            
-            var codeEditor     = this.codeEditor;
+            var settings         = this.settings;
+            var codeEditor       = this.codeEditor;
+            var previewContainer = this.previewContainer;
             
             codeEditor.save();
-                     
-            var newMarkdownDoc = editormd.$marked(codeEditor.getValue(), {renderer : this.markedRenderer});
+            
+            var markdownToC      = this.markdownToC   = [];
+            var newMarkdownDoc   = editormd.$marked(codeEditor.getValue(), {renderer : editormd.markedRenderer(markdownToC)});
 
             this.markdownTextarea.html(codeEditor.getValue());   
-            this.htmlTextarea.html(newMarkdownDoc);                        
-            this.previewContainer.html(newMarkdownDoc);
+            this.htmlTextarea.html(newMarkdownDoc);
+            
+            previewContainer.html(newMarkdownDoc);
+            
+            if (settings.toc) {
+                editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
+            }
 
             return this;
         },
@@ -1310,36 +1319,38 @@
      */
     
     editormd.markedRenderer = function(markdownToC) {
-        var marked         = editormd.$marked;
-        var markedRenderer = new marked.Renderer();
-        markdownToC        = markdownToC || [];
-
-        markedRenderer.heading = function(text, level) {
+        var marked             = editormd.$marked;
+        var markedRenderer     = new marked.Renderer();
+        markdownToC            = markdownToC || [];
+        
+        markedRenderer.heading = function(text, level, raw) {
             var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
 
-            //console.log("escapedText", text, escapedText);
-
-            markdownToC.push({
+            //console.log("escapedText", text, escapedText, level, raw);
+            var toc = {
+                text : text,
                 level : level,
-                slug  : escapedText,
-                title : text
-            });
+                slug  : escapedText
+            };
 
-            return "<h" + level + " id=\"" + escape(text) + "\"><a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a><span class=\"header-link\"></span>" + text + "</h" + level + ">";
+            markdownToC.push(toc);
+
+            return "<h" + level + " id=\""+this.options.headerPrefix+raw.toLowerCase().replace(/[^\w]+/g,"-")+"\"><a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a><span class=\"header-link\"></span>" + text + "</h" + level + ">";
         }; 
 
-        var mathJaxList = [];
+        var mathJaxList          = [];
 
         markedRenderer.paragraph = function(text) {
 
-            var isMathJax = /\$\$(.*)\$\$/.test(text);
+            var isMathJax        = /\$\$(.*)\$\$/.test(text);
             var mathjaxClassName = (isMathJax) ? " class=\"mathjax-code\"" : "";
+            var isToC            = /^\[TOC\]$/.test(text);
 
             if (isMathJax) {
                 mathJaxList.push(text);
             }
 
-            return "<p" + mathjaxClassName + ">" + text + "</p>\n";
+            return (isToC) ? "<div class=\"markdown-toc\"><ul class=\"markdown-toc-list\">" + text + "</ul></div>" : "<p" + mathjaxClassName + ">" + text + "</p>\n";
         };
 
         markedRenderer.code = function (code, lang, escaped) { 
@@ -1363,6 +1374,41 @@
     };
     
     /**
+     * 生成TOC(Table of Contents)
+     * @param {Array}    toc        从marked获取的TOC数组列表
+     * @param {Element}  container  插入TOC的容器元素
+     * @param {Integer}  startLevel Hx 起始层级
+     */
+    
+    editormd.markdownToCRenderer = function(toc, container, startLevel) {
+        
+        var html       = "";    
+        var lastLevel  = 0;
+        startLevel     = startLevel || 2;
+        
+        for (var i = 0, len = toc.length; i < len; i++) 
+        {
+            var text  = toc[i].text;
+            var level = toc[i].level;
+            
+            if (level < startLevel) { continue; }
+            
+            if (level > lastLevel) {
+                html += "";
+            } else if (level < lastLevel) {
+                html += (new Array(lastLevel - level + 2)).join("</ul></li>");
+            } else {
+                html += "</ul></li>";
+            }
+
+            html += "<li><a class=\"toc-level-"+level+"\" href=\"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            lastLevel = level;
+        }
+        
+        container.find('.markdown-toc-list').html("").html(html);
+    };
+    
+    /**
      * 将Markdown文档解析为HTML用于前台显示
      * @param {String}   id           用于显示HTML的对象ID
      * @param {Object}   [options={}] 配置选项，可选
@@ -1372,11 +1418,13 @@
         options      = options || {};
         
         var defaults = {
-            markdown : "",
-            mathjax : false,
+            toc                  : true,
+            tocStartLevel        : 2,
+            markdown             : "",
+            mathjax              : false,
             previewCodeHighlight : true,
-            flowChart : false,
-            sequenceDiagram : false
+            flowChart            : false,
+            sequenceDiagram      : false
         };
         
         editormd.$marked = marked;
@@ -1385,20 +1433,26 @@
         var div           = $("#" + id);
         var saveTo        = div.find("[type=\"text/markdown\"]");
         var markdownDoc   = (settings.markdown === "") ? saveTo.html() : settings.markdown; 
+        var markdownToC   = [];
         var markedOptions = {
-            renderer: editormd.markedRenderer(),
-            gfm: true,
-            tables: true,
-            breaks: false,
-            pedantic: false,
-            sanitize: true,
-            smartLists: true,
-            smartypants: true
+            renderer    : editormd.markedRenderer(markdownToC),
+            gfm         : true,
+            tables      : true,
+            breaks      : false,
+            pedantic    : false,
+            sanitize    : true,
+            smartLists  : true,
+            smartypants : true
         };
+        
         var markdownParsed   = marked(markdownDoc, markedOptions);
         
         saveTo.html(markdownDoc);
         div.addClass("markdown-body").append(markdownParsed);
+            
+        if (settings.toc) {
+            editormd.markdownToCRenderer(markdownToC, div, settings.tocStartLevel);
+        }
             
         if (settings.previewCodeHighlight) 
         {
