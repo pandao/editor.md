@@ -2602,7 +2602,8 @@
 .editormd-preview {
   position: absolute;
   top: 35px;
-  right: -1px;
+  right: 0;
+  right: -1px\0;
   float: right;
   overflow: auto;
   line-height: 1.6;
