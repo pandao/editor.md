@@ -56,8 +56,9 @@
         width                : "100%",
         height               : "100%",
         path                 : "./lib/",
-        watch                : true,            
+        watch                : true,  
         onload               : function() {},
+        onchange             : function() {},
         toc                  : true,
         tocStartLevel        : 2,
         fontSize             : "13px",
@@ -928,6 +929,8 @@
                         });
                     }); 
                 }
+                
+                $.proxy(settings.onchange, _this)();
             });
 
             return this;
@@ -1089,7 +1092,8 @@
          * @returns {editormd}         返回editormd的实例对象
          */
         
-        watch : function() {
+        watch : function(callback) {
+            callback  = callback || function() {};
             
             this.settings.watch = true;
             this.preview.show();
@@ -1104,6 +1108,8 @@
             
             this.saveToTextareas().resize();
             
+            $.proxy(callback, this)();
+            
             return this;
         },
         
@@ -1112,7 +1118,8 @@
          * @returns {editormd}         返回editormd的实例对象
          */
         
-        unwatch : function() {
+        unwatch : function(callback) {
+            callback  = callback || function() {};
             
             this.settings.watch = false;
             this.preview.hide();
@@ -1128,27 +1135,40 @@
             
             this.resize();
             
+            $.proxy(callback, this)();
+            
             return this;
         },
         
         /**
          * 显示编辑器
-         * @returns {editormd}         返回editormd的实例对象
+         * @param   {Function} [callback=function()] 回调函数
+         * @returns {editormd}                       返回editormd的实例对象
          */
-        
-        show : function() {
-            this.editor.show();
+        show : function(callback) {
+            callback  = callback || function() {};
+            
+            var _this = this;
+            this.editor.show(function(){
+                $.proxy(callback, _this)();
+            });
             
             return this;
         },
         
         /**
          * 隐藏编辑器
-         * @returns {editormd}         返回editormd的实例对象
+         * @param   {Function} [callback=function()] 回调函数
+         * @returns {editormd}                       返回editormd的实例对象
          */
         
-        hide : function() {
-            this.editor.hide();
+        hide : function(callback) {
+            callback  = callback || function() {};
+            
+            var _this = this;
+            this.editor.hide(function(){
+                $.proxy(callback, _this)();
+            });
             
             return this;
         },

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Onload - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Onload event</h1>        
+            </header>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">###Hello world!</script>
+            </div>
+        </div>        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+                var testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 720,
+                    path   : '../lib/',
+                    onload : function() {
+                        console.log("onload =>", this, this.id, this.settings);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
