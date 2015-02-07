@@ -58,7 +58,8 @@
     height: 100%;
     overflow: hidden;
     padding: 35px 0 0;
-    position: relative;
+    position: relative;   
+    background: #fff;
     @include box-sizing(border-box);
             
     textarea {
