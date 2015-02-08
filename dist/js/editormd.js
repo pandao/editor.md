@@ -6,7 +6,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-07
+ * @updateTime  2015-02-08
  */
 
 /** 
@@ -751,7 +751,7 @@
          */
         
         hideInfoDialog : function() {
-            $("html,body").css("overflow-x", null);
+            $("html,body").css("overflow-x", "");
             this.editor.find("." + this.classPrefix + "dialog-info").fadeOut();
 
             return this;
@@ -1329,7 +1329,7 @@
             
             this.toolbar.find(".fa[name=fullscreen]").parent().removeClass("active"); 
 
-            $("html,body").css("overflow", null);
+            $("html,body").css("overflow", "");
 
             editor.css({
                 position : "", 
