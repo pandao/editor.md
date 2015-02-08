@@ -65,6 +65,8 @@
         watch                : true,  
         onload               : function() {},
         onchange             : function() {},
+        onfullscreen         : function() {},
+        onfullscreenExit     : function() {},
         toc                  : true,
         tocStartLevel        : 2,
         fontSize             : "13px",
@@ -1294,14 +1296,15 @@
                     border   : "none",
                     width    : $(window).width(),
                     height   : $(window).height()
-                }).addClass(fullscreenClass);                
+                }).addClass(fullscreenClass);                                             
+
+                this.resize();
+                $.proxy(this.settings.onfullscreen, this)();            
             }
             else
             {                
-                this.fullscreenExit();                
-            }                            
-
-            this.resize();
+                this.fullscreenExit();             
+            }
 
             $(window).keyup(function(event) {
                 if (_this.state.preview) {
@@ -1342,6 +1345,8 @@
             }).removeClass(fullscreenClass);
 
             this.resize();
+            
+            $.proxy(this.settings.onfullscreenExit, this)();
 
             return this;
         }
