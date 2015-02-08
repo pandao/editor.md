@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Onfullscreen & onfullscreenExit - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Onfullscreen & onfullscreenExit event</h1>   
+                <p>Enter F12 open the develop tools</p>     
+            </header>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">###Hello world!</script>
+            </div>
+        </div>        
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+                var testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 720,
+                    path   : '../lib/',
+                    onfullscreen : function() {
+                        alert("onfullscreen");
+                        console.log("onfullscreen =>", this, this.id, this.settings);
+                    },
+                    onfullscreenExit : function() {
+                        alert("onfullscreenExit");
+                        console.log("onfullscreenExit =>", this, this.id, this.settings);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
