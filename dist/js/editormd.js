@@ -6,7 +6,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-08
+ * @updateTime  2015-02-10
  */
 
 /** 
@@ -70,8 +70,8 @@
         toc                  : true,
         tocStartLevel        : 2,
         fontSize             : "13px",
+        tex                  : false,
         flowChart            : false,          // flowChart.js only support IE9+
-        mathjax              : false,
         sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
         previewCodeHighlight : true,
         inRequirejs          : false,
@@ -144,60 +144,14 @@
                 fullscreen       : "全屏(按ESC还原)",
                 info             : "关于" + editormd.title
             }
-        },
-
-        codemirror : {
-            modes : [
-                "css",
-                "sass",
-                "shell",
-                "sql",
-                "clike",
-                "php",
-                "xml",
-                "markdown",
-                "javascript",
-                "htmlmixed",
-                "gfm",
-                "http",
-                "go",
-                "dart",
-                "coffeescript",
-                "nginx",
-                "python",
-                "perl",
-                "lua",
-                //"r", 
-                "ruby", 
-                "rst",
-                "smartymixed",
-                //"vb",
-                //"vbscript",
-                //"velocity",
-                //"xquery",
-                "yaml"
-            ],
-
-            addons : [
-                "edit/trailingspace", 
-                "dialog/dialog", 
-                "search/searchcursor", 
-                "search/search", 
-                "scroll/annotatescrollbar", 
-                "search/matchesonscrollbar", 
-                "display/placeholder", 
-                "edit/closetag", 
-                "fold/xml-fold", 
-                "mode/overlay", 
-                "selection/active-line", 
-                "edit/closebrackets", 
-                "display/fullscreen", 
-                "search/searchcursor", 
-                "search/match-highlighter"
-            ]
         }
     };
     
+    editormd.classNames  = {
+        tex  : editormd.classPrefix + "tex"
+    };
+    
+    editormd.$katex       = null;
     editormd.$marked      = null;
     editormd.$CodeMirror  = null;
     editormd.$prettyPrint = null;
@@ -276,7 +230,7 @@
             } 
             else 
             {                
-                _this.setCodeEditor();                        
+                _this.setCodeMirror();                        
                 _this.setToolbar();                        
                 _this.toolbarHandler();
                 _this.setMarked().loadedDisplay();
@@ -293,8 +247,6 @@
         loadQueues : function() {
             var _this        = this;
             var settings     = this.settings;
-            var cmModeIndex  = 0, cmModeTotal  = settings.codemirror.modes.length;
-            var cmAddonIndex = 0, cmAddonTotal = settings.codemirror.addons.length;
             var loadPath     = settings.path;
                                 
             var loadFlowChartOrSequenceDiagram = function() {
@@ -339,28 +291,23 @@
                 }
             }; 
 
-            var loadCodeMirrorAddons = function() {
-
-                var addonName = settings.codemirror.addons[cmAddonIndex];
-
-                editormd.loadScript(loadPath + "codemirror/addon/" + addonName, function() {
-
-                    if(cmAddonIndex < cmAddonTotal - 1) 
-                    {
-                        cmAddonIndex ++;                            
-                        loadCodeMirrorAddons();
-                    } 
-                    else 
-                    {
-                        _this.setCodeEditor();                        
-                        _this.setToolbar();                        
+            editormd.loadCSS(loadPath + "codemirror/codemirror.min");            
+            editormd.loadScript(loadPath + "codemirror/codemirror.min", function() {  
+                
+                editormd.$CodeMirror = CodeMirror;
+                
+                editormd.loadScript(loadPath + "codemirror/modes.min", function() {
+                    
+                    editormd.loadScript(loadPath + "codemirror/addons.min", function() {
+                        
+                        _this.setCodeMirror();                        
+                        _this.setToolbar();    
                         _this.toolbarHandler();
 
                         editormd.loadScript(loadPath + "marked.min", function() {
 
                             editormd.$marked = marked;
-                            //_this.marked = marked;
-
+                                
                             if (settings.previewCodeHighlight) 
                             {
                                 editormd.loadScript(loadPath + "prettify.min", function() {
@@ -372,33 +319,11 @@
                                 loadFlowChartOrSequenceDiagram();
                             }
                         });
-                    }
+                        
+                    });
+                    
                 });
-            };
-
-            var loadCodeMirrorModes = function(){
-
-                var modeName = settings.codemirror.modes[cmModeIndex];
-
-                editormd.loadScript(loadPath + "codemirror/mode/" + modeName + "/" + modeName, function() {
-
-                    if(cmModeIndex < cmModeTotal - 1) 
-                    {
-                        cmModeIndex ++;
-                        loadCodeMirrorModes();
-                    } 
-                    else 
-                    {
-                        loadCodeMirrorAddons();
-                    }
-                });
-            };
-                      
-            //editormd.loadCSS(loadPath + "font-awesome.min");
-            editormd.loadCSS(loadPath + "codemirror/lib/codemirror.min");            
-            editormd.loadScript(loadPath + "codemirror/lib/codemirror.min", function() {  
-                editormd.$CodeMirror = CodeMirror;                
-                loadCodeMirrorModes(); 
+                
             });
 
             return this;
@@ -409,7 +334,7 @@
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        setCodeEditor : function() { 
+        setCodeMirror : function() { 
             var settings = this.settings;
             
             var codeMirrorConfig = {
@@ -822,12 +747,24 @@
             if (settings.sequenceDiagram) {
                 previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
             }
-
-            if (settings.mathjax) 
-            {
-                editormd.setMathJaxConfig(function() {
-                    editormd.loadMathJax();
+            
+            var katexHandle = function() {
+                previewContainer.find("." + editormd.classNames.tex).each(function(){
+                    var tex  = $(this);
+                    editormd.$katex.render(tex.html(), tex[0]);
                 });
+            };
+
+            if (settings.tex) 
+            {            
+                if (!settings.inRequirejs) {
+                    editormd.loadKaTex(function(){
+                        editormd.$katex = katex;
+                        katexHandle();
+                    });
+                } else {
+                    katexHandle();
+                }
             }
             
             editor.data({
@@ -921,21 +858,9 @@
                 if (settings.sequenceDiagram) {
                     previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
                 }
-
-                if (settings.mathjax)
-                {                        
-                    MathJax.Hub.Queue(function () {
-                        previewContainer.find(".mathjax-code").each(function() {
-
-                            var mathjaxDoc = $(this).html().replace(/\$\$(.*)\$\$/, function(s1, s2) { return s2; });
-                            var jaxScript  = "<script type=\"math/tex; mode=display\">" + mathjaxDoc + "</script>";
-                            
-                            $(this).html($(jaxScript));
-
-                            //MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathjax-code"]);
-                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, $(this)[0]]);
-                        });
-                    }); 
+                
+                if (settings.tex) {                                
+                    katexHandle();
                 }
                 
                 $.proxy(settings.onchange, _this)();
@@ -1367,8 +1292,6 @@
         
         markedRenderer.heading = function(text, level, raw) {
             var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
-
-            //console.log("escapedText", text, escapedText, level, raw);
             var toc = {
                 text : text,
                 level : level,
@@ -1377,27 +1300,35 @@
 
             markdownToC.push(toc);
 
-            return "<h" + level + " id=\""+this.options.headerPrefix+raw.toLowerCase().replace(/[^\w]+/g,"-")+"\"><a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a><span class=\"header-link\"></span>" + text + "</h" + level + ">";
-        }; 
-
-        var mathJaxList          = [];
+            return "<h" + level + " id=\"" + this.options.headerPrefix + raw.toLowerCase().replace(/[^\w]+/g,"-")+"\">" +
+                   "<a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a>" +
+                   "<span class=\"header-link\"></span>" + text + "</h" + level + ">";
+        };
 
         markedRenderer.paragraph = function(text) {
-
-            var isMathJax        = /\$\$(.*)\$\$/.test(text);
-            var mathjaxClassName = (isMathJax) ? " class=\"mathjax-code\"" : "";
-            var isToC            = /^\[TOC\]$/.test(text);
-
-            if (isMathJax) {
-                mathJaxList.push(text);
+            var isTeXInline     = /\$\$(.*)\$\$/g.test(text);
+            var isTeXLine       = /^\$\$(.*)\$\$$/.test(text);
+            var isTeXAddClass   = (isTeXLine) ? " class=\"" + editormd.classNames.tex + "\"" : "";
+            var isToC           = /^\[TOC\]$/.test(text);
+            
+            if (!isTeXLine && isTeXInline) 
+            {
+                text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function($1, $2) {
+                    return "<span class=\"" + editormd.classNames.tex + "\">" + $2.replace(/\$/g, "") + "</span>";
+                });
+            } 
+            else 
+            {
+                text = (isTeXLine) ? text.replace(/\$/g, "") : text;
             }
-
-            return (isToC) ? "<div class=\"markdown-toc\"><ul class=\"markdown-toc-list\">" + text + "</ul></div>" : "<p" + mathjaxClassName + ">" + text + "</p>\n";
+            
+            return (isToC) ? "<div class=\"markdown-toc\"><ul class=\"markdown-toc-list\">" + text + "</ul></div>" 
+                           : "<p" + isTeXAddClass + ">" + text + "</p>\n";
         };
 
         markedRenderer.code = function (code, lang, escaped) { 
 
-            if (lang === "seq")
+            if (lang === "seq" || lang === "sequence")
             {
                 return "<div class=\"sequence-diagram\">" + code + "</div>";
             } 
@@ -1470,10 +1401,11 @@
             toc                  : true,
             tocStartLevel        : 2,
             markdown             : "",
-            mathjax              : false,
-            previewCodeHighlight : true,
+            inRequirejs          : false,
+            tex                  : false,
             flowChart            : false,
-            sequenceDiagram      : false
+            sequenceDiagram      : false,
+            previewCodeHighlight : true
         };
         
         editormd.$marked = marked;
@@ -1517,24 +1449,92 @@
             div.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
         }
 
-        if (settings.mathjax) 
+        if (settings.tex)
         {
-            editormd.setMathJaxConfig(function() {
-                editormd.loadMathJax();
-            });
+            var katexHandle = function() {
+                div.find("." + editormd.classNames.tex).each(function(){
+                    var tex  = $(this);
+                    editormd.$katex.render(tex.html(), tex[0]);
+                });
+            };
+            
+            if (!settings.inRequirejs) {
+                editormd.loadKaTex(function(){
+                    editormd.$katex = katex;
+                    katexHandle();
+                });
+            } else {
+                katexHandle();
+            }
         }
+    };
+
+    // for Requires.js
+    // 与Gulpfile.js对应
+    editormd.codeMirrorModules = {
+        modes : [
+            "css",
+            "sass",
+            "shell",
+            "sql",
+            "clike",
+            "php",
+            "xml",
+            "markdown",
+            "javascript",
+            "htmlmixed",
+            "gfm",
+            "http",
+            "go",
+            "dart",
+            "coffeescript",
+            "nginx",
+            "python",
+            "perl",
+            "lua",
+            "r", 
+            "ruby", 
+            "rst",
+            "smartymixed",
+            "vb",
+            "vbscript",
+            "velocity",
+            "xquery",
+            "yaml",
+            "erlang",
+            "jade",
+        ],
+
+        addons : [
+            "edit/trailingspace", 
+            "dialog/dialog", 
+            "search/searchcursor", 
+            "search/search", 
+            "scroll/annotatescrollbar", 
+            "search/matchesonscrollbar", 
+            "display/placeholder", 
+            "edit/closetag", 
+            "fold/xml-fold", 
+            "mode/overlay", 
+            "selection/active-line", 
+            "edit/closebrackets", 
+            "display/fullscreen", 
+            "search/searchcursor", 
+            "search/match-highlighter"
+        ]
     };
     
     /**
-     * 用于支持Require.js加载的方法
+     * 用于支持Require.js加载的方法，注入
      * @param {Function} CodeMirror  CodeMirror对象
      * @param {Function} marked      marked对象
      * @param {Function} prettyPrint prettyPrint函数
      */
     
-    editormd.requirejsInit    = function(CodeMirror, marked, prettyPrint) {
+    editormd.requirejsInit    = function(CodeMirror, marked, katex, prettyPrint) {
         editormd.$CodeMirror  = CodeMirror;
         editormd.$marked      = marked;
+        editormd.$katex       = katex;
         editormd.$prettyPrint = prettyPrint;
     };
     
@@ -1549,19 +1549,25 @@
         var settings = editormd.defaults;
         var modules  = [];
         
-        modules.push(loadPath + "codemirror/lib/codemirror.min");
+        modules.push(loadPath + "codemirror/codemirror.min");
         
-        for (var i = 0, len = settings.codemirror.modes.length; i < len; i++) 
+        var codeMirrorModules = editormd.codeMirrorModules;
+        
+        for (var i = 0, len = codeMirrorModules.modes.length; i < len; i++) 
         {
-            var modeName = settings.codemirror.modes[i];
+            var modeName = codeMirrorModules.modes[i];
             modules.push(loadPath + "codemirror/mode/" + modeName + "/" + modeName);
         }   
 
-        for (var i = 0, len = settings.codemirror.addons.length; i < len; i++) 
+        for (var i = 0, len = codeMirrorModules.addons.length; i < len; i++) 
         {
-            var addonName = settings.codemirror.addons[i];
+            var addonName = codeMirrorModules.addons[i];
             modules.push(loadPath + "codemirror/addon/" + addonName);
         }
+        
+        editormd.loadCSS(editormd.katexURL.css);
+        
+        //modules.push(editormd.katexURL.js + ".js");
 
         return modules;
     };
@@ -1635,61 +1641,21 @@
         }
     };
     
-    /**
-     * MathJax配置信息
-     * @param {Function} [callback=function()]  加载成功后执行的回调函数
-     */
-    
-    editormd.setMathJaxConfig = function (callback) {
-        callback         = callback || function() {};
-        
-        var script       = document.createElement("script");
-        script.className = "mathjax-config";
-        script.type      = "text/x-mathjax-config";
-        script.text      = 'MathJax.Hub.Config({' +
-                                'extensions: ["tex2jax.js"],'+
-                                'jax: ["input/TeX","output/HTML-CSS"],'+
-                                'tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}'+
-                            '});';
-
-        document.getElementsByTagName("head")[0].appendChild(script);
-
-        callback();
+    // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
+    editormd.katexURL  = {
+        css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
+        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
     };
     
-    // 注：国内可以采用这个CDN，http://cdn.bootcss.com/mathjax/2.4.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-    editormd.mathjaxURL  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    
     /**
-     * 加载MathJax文件
+     * 加载KaTex文件
      * @param {Function} [callback=function()]  加载成功后执行的回调函数
      */
     
-    editormd.loadMathJax = function (callback) {
-        callback = callback || function() {};
-        
-        var script       = document.createElement("script");
-        script.type      = "text/javascript";
-        script.className = "mathjax-script";
-        
-        script.onload    = script.onreadystatechange = function() {
-            if (script.readyState)
-            {
-                if (script.readyState === "loaded" || script.readyState === "complete") 
-                {
-                    script.onreadystatechange = null; 
-                    callback();
-                }
-            } 
-            else 
-            {
-                callback();
-            }
-        };
-        
-        script.src       = editormd.mathjaxURL;
-        
-        document.getElementsByTagName("head")[0].appendChild(script);
+    editormd.loadKaTex = function (callback) {
+        editormd.loadCSS(editormd.katexURL.css, function(){
+            editormd.loadScript(editormd.katexURL.js, callback || function(){});
+        });
     };
     
     /**
