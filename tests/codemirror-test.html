@@ -44,31 +44,6 @@
                     var codeMirrorEditor = CodeMirror.fromTextArea($("#test")[0], codeMirrorConfig);
                     var codeMirror = $(".CodeMirror");
                 });
-               /* var testEditor;
-
-                $.get("./test.md", function(md){
-                    testEditor = editormd("test-editormd", {
-                        width: "90%",
-                        height: 640,
-                        path : '../lib/',
-                        markdown : md,
-                        //mathjax : true,
-                        onload : function() {
-                            this.editor.find(".mathjax-code").each(function(){
-                                //console.log($(this)[0]);
-                                $(this).html($(this).html().replace(/\$\$/g, ""));
-                                katex.render($(this).html(), $(this)[0]);
-                            });
-                        },
-                        onchange : function() {
-                            this.editor.find(".mathjax-code").each(function(){
-                                //console.log($(this)[0]);
-                                $(this).html($(this).html().replace(/\$\$/g, ""));
-                                katex.render($(this).html(), $(this)[0]);
-                            });
-                        }
-                    });
-                });*/
             });
         </script>
     </body>

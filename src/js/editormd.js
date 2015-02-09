@@ -747,7 +747,7 @@
             if (settings.tex) 
             {            
                 if (!settings.inRequirejs) {
-                    editormd.loadKaTex(function(){
+                    editormd.loadKaTeX(function(){
                         editormd.$katex = katex;
                         katexHandle();
                     });
@@ -1448,7 +1448,7 @@
             };
             
             if (!settings.inRequirejs) {
-                editormd.loadKaTex(function(){
+                editormd.loadKaTeX(function(){
                     editormd.$katex = katex;
                     katexHandle();
                 });
@@ -1641,7 +1641,7 @@
      * @param {Function} [callback=function()]  加载成功后执行的回调函数
      */
     
-    editormd.loadKaTex = function (callback) {
+    editormd.loadKaTeX = function (callback) {
         editormd.loadCSS(editormd.katexURL.css, function(){
             editormd.loadScript(editormd.katexURL.js, callback || function(){});
         });
