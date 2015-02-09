@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8" />
+		<title>Katex test</title>
+		<style type="text/css">
+			body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;}
+
+			article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {display: block;}
+			audio, canvas, video {display: inline-block;}
+
+			body,html{width:100%;}
+
+			body, button, input, select, textarea {font:12px/1.5 Tahoma, "Hiragino Sans GB", "Microsoft Yahei", Arial;}
+			body{font-size:12px;color:#666;background:#fff url(../images/) no-repeat left top;}
+
+			body{font-size:14px;color:#444;font-family:"微软雅黑",Arial;background:#fff;}
+
+			a{color:#444;text-decoration: none;}
+			a:hover{color:#065BC2;text-decoration: none;}
+
+			.clear{zoom:1;}
+			.clear:after{content:"";height:0;visibility:hidden;clear:both;display:block;}
+
+			img{border:none;vertical-align: middle;}
+			ul{list-style: none;}
+		</style>
+	</head>
+	<body>
+		<span class="katex">c = \pm\sqrt{a^2 + b^2}</span>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js"></script>
+		<script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(".katex").each(function(){
+					katex.render($(this).html(), $(this)[0]);
+				});
+			});
+		</script>
+	</body>
+</html>
