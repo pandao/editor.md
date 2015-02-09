@@ -19,7 +19,9 @@
         <div id="layout">
             <header>
                 <h1>Use sea.js</h1>   
-                <p>说明：由于Editor.md是依赖jQuery的，所以在使用Sea.js加载Editor.md时，要在jQuery.js文件尾部加上 <code>if(typeof define === "function") { define(function () { return $.noConflict(); }); }</code>，使jQuery支持Sea.js</p>        
+                <p>说明：</p>
+                <p>1、由于Editor.md是依赖jQuery的，所以在使用Sea.js加载Editor.md时，要在jQuery.js文件尾部加上 <code>if(typeof define === "function") { define(function () { return $.noConflict(); }); }</code>，使jQuery支持Sea.js；</p>  
+                <p>2、flowChart（流程图）和sequenceDiagram（时序图）基于Raphael.js，由于疑似Sea.js与Raphael.js有冲突，所以必须先加载Raphael.js再加载Sea.js，Editor.md才能在Sea.js下正常进行；</p>      
             </header>
             <div class="btns">
                 <button id="show-btn">显示编辑器</button>
@@ -37,20 +39,21 @@
                 <script type="text/markdown">###Hello world!</script>
             </div>
         </div>   
+        <script src="../lib/raphael.min.js"></script>
         <script src="js/sea.js"></script>
         <link rel="stylesheet" href="../dist/css/editormd.css" /> 
-        <script type="text/javascript"> 
+        <script type="text/javascript">
             seajs.config({
                 base  : "../lib",
                 alias : {
-                    "jquery"   : "jquery.min",
-                    "editormd" : "../src/js/editormd"
+                    jquery   : "jquery.min",
+                    editormd : "../src/js/editormd"
                 }
             });
                 
             var testEditor;
 
-			seajs.use(["jquery", "editormd"], function($, editormd) { 
+			seajs.use(["jquery", "editormd"], function($, editormd) {
 
                 $.get("./test.md", function(md){
                     testEditor = editormd("test-editormd", {
@@ -58,10 +61,11 @@
                         height: 640,
                         path : '../lib/',
                         markdown : md,
-                        mathjax : true,
+                        //toolbar  : false,             //关闭工具栏
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
-                        //flowChart : true,              // 未解决的Bug：因为Sea.js下Raphael无法加载
-                        //sequenceDiagram : true,        // 同上
+                        flowChart : true,              // 疑似Sea.js与Raphael.js有冲突，必须先加载Raphael.js，Editor.md才能在Sea.js下正常进行；
+                        sequenceDiagram : true,        // 同上
                         onload : function() {
                             console.log('onload', this);
                             //this.fullscreen();

@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>Use require.js - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../lib/codemirror/lib/codemirror.min.css" /> 
+        <link rel="stylesheet" href="../lib/codemirror/codemirror.min.css" /> 
+        <link rel="stylesheet" href="../dist/css/editormd.min.css" />
     </head>
     <body>
         <div id="layout">
@@ -27,8 +28,7 @@
                 <script type="text/markdown">###Hello world!</script>
             </div>
         </div>   
-        <link rel="stylesheet" href="../dist/css/editormd.min.css" /> 
-        <script src="js/require.min.js"></script>     
+        <script src="js/require.min.js"></script>
         <script type="text/javascript">
             
             requirejs.config({
@@ -37,41 +37,44 @@
                     jquery   : "jquery.min",
                     marked   : "marked.min",
                     prettify : "prettify.min",
+                    raphael  : "raphael.min",
                     editormd : "../src/js/editormd"
                 },
                 waitSeconds: 30
             });
 
-            require(["jquery", "marked", "prettify", "editormd", "raphael.min", "underscore.min", "flowchart.min", "jquery.flowchart.min", "sequence-diagram.min"], function($, marked, prettify, editormd) {
+            require(["jquery", "marked", "prettify", "editormd", "raphael", "underscore.min", "flowchart.min", "jquery.flowchart.min", "sequence-diagram.min"], function($, marked, prettify, editormd) {
                 var testEditor;
-                require(editormd.requireModules(), function(CodeMirror) {
-                    //console.log(CodeMirror, marked); 
+                // editormd.katexURL.js + ".js"
+                    require([editormd.katexURL.js + ".js"], function(katex) {
+                    require(editormd.requireModules(), function(CodeMirror) {
+                        console.log(CodeMirror, marked, katex); 
 
-                    editormd.requirejsInit(CodeMirror, marked, prettyPrint);
+                        editormd.requirejsInit(CodeMirror, marked, katex, prettyPrint);
 
-                    $.get('test.md', function(md) {
-                        testEditor = editormd("test-editormd", {
-                            width: "90%",
-                            height: 640,
-                            path : '../lib/',
-                            markdown : md,
-                            mathjax : true,
-                            previewCodeHighlight : true,
-                            inRequirejs : true,
-                            flowChart : true,
-                            //codeMirror : CodeMirror,
-                            sequenceDiagram : true,
-                            onload : function() {
-                                console.log('onload', this);
-                                //this.fullscreen();
-                                //this.unwatch();
-                                //this.watch().fullscreen();
+                        $.get('test.md', function(md) {
+                            testEditor = editormd("test-editormd", {
+                                width: "90%",
+                                height: 640,
+                                path : '../lib/',
+                                markdown : md,
+                                tex : true,
+                                previewCodeHighlight : true,
+                                inRequirejs : true,
+                                flowChart : true,
+                                sequenceDiagram : true,
+                                onload : function() {
+                                    console.log('onload', this);
+                                    //this.fullscreen();
+                                    //this.unwatch();
+                                    //this.watch().fullscreen();
 
-                                //this.setMarkdown("#PHP");
-                                //this.width("100%");
-                                //this.height(480);
-                                //this.resize("100%", 640);
-                            }
+                                    //this.setMarkdown("#PHP");
+                                    //this.width("100%");
+                                    //this.height(480);
+                                    //this.resize("100%", 640);
+                                }
+                            });
                         });
                     });
                 });

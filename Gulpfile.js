@@ -88,6 +88,114 @@ gulp.task('js', function() {
     .pipe(notify({ message: 'js task complete' }));
 }); 
 
+var codeMirror = {
+    path : {
+        src : {
+            mode : "lib/codemirror/mode",
+            addon : "lib/codemirror/addon"
+        },
+        dist : "lib/codemirror"
+    },
+    modes : [
+        "css",
+        "sass",
+        "shell",
+        "sql",
+        "clike",
+        "php",
+        "xml",
+        "markdown",
+        "javascript",
+        "htmlmixed",
+        "gfm",
+        "http",
+        "go",
+        "dart",
+        "coffeescript",
+        "nginx",
+        "python",
+        "perl",
+        "lua",
+        "r", 
+        "ruby", 
+        "rst",
+        "smartymixed",
+        "vb",
+        "vbscript",
+        "velocity",
+        "xquery",
+        "yaml",
+        "erlang",
+        "jade",
+    ],
+
+    addons : [
+        "edit/trailingspace", 
+        "dialog/dialog", 
+        "search/searchcursor", 
+        "search/search", 
+        "scroll/annotatescrollbar", 
+        "search/matchesonscrollbar", 
+        "display/placeholder", 
+        "edit/closetag", 
+        "fold/xml-fold", 
+        "mode/overlay", 
+        "selection/active-line", 
+        "edit/closebrackets", 
+        "display/fullscreen", 
+        "search/searchcursor", 
+        "search/match-highlighter"
+    ]
+};
+
+gulp.task('codemirror-mode', function() { 
+    
+    var modes = [
+        codeMirror.path.src.mode + "/meta.js"
+    ];
+    
+    for(var i in codeMirror.modes) {
+        var mode = codeMirror.modes[i];
+        modes.push(codeMirror.path.src.mode + "/" + mode + "/" + mode + ".js");
+    }
+    
+    //console.log("modes =>", modes);
+    
+  return gulp.src(modes)
+    .pipe(concat('modes.min.js'))
+    .pipe(gulp.dest(codeMirror.path.dist))
+    .pipe(uglify())
+    .pipe(gulp.dest(codeMirror.path.dist))	
+	.pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
+		var name = file.path.split(file.base + "\\");
+		return name[1].replace('\\', '');
+	}}))
+    .pipe(gulp.dest(codeMirror.path.dist))
+    .pipe(notify({ message: 'codemirror-mode task complete' }));
+}); 
+
+gulp.task('codemirror-addon', function() { 
+    
+    var addons = [];
+    
+    for(var i in codeMirror.addons) {
+        var addon = codeMirror.addons[i];
+        addons.push(codeMirror.path.src.addon + "/" + addon + ".js");
+    }
+    
+  return gulp.src(addons)
+    .pipe(concat('addons.min.js'))
+    .pipe(gulp.dest(codeMirror.path.dist))
+    .pipe(uglify())
+    .pipe(gulp.dest(codeMirror.path.dist))	
+	.pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
+		var name = file.path.split(file.base + "\\");
+		return name[1].replace('\\', '');
+	}}))
+    .pipe(gulp.dest(codeMirror.path.dist))
+    .pipe(notify({ message: 'codemirror-addon task complete' }));
+}); 
+
 gulp.task("jsdoc", function(){
     return gulp.src(["./src/editormd.js", "README.md"])
                .pipe(jsdoc.parser())

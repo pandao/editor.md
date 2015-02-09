@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>CodeMirror Test</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="../examples/css/style.css" />
+    </head>
+    <body>
+        <div style="text-align: left;">
+            <textarea id="test" style="height: 700px;">###Hello world!</textarea>
+        </div>
+        <script src="../lib/jquery.min.js"></script>
+        <link rel="stylesheet" href="../lib/codemirror/codemirror.min.css" />
+        <script src="../lib/codemirror/codemirror.min.js"></script>
+        <script src="../lib/codemirror/modes.min.js"></script>  
+        <script src="../lib/codemirror/addons.min.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+            
+                var codeMirrorConfig = {
+                    mode: "gfm",
+                    theme: "default",
+                    tabSize: 4,
+                    dragDrop: false,
+                    autofocus: true,
+                    indentUnit : 4,
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    matchBrackets: true,
+                    indentWithTabs: true,
+                    styleActiveLine: true,
+                    styleSelectedText: true,
+                    autoCloseBrackets: true,
+                    showTrailingSpace: true,
+                    highlightSelectionMatches: {
+                        showToken: /\w/
+                    } 
+                };
+
+                $.get("../examples/test.md", function(md){
+                    $("#test").html(md);
+                    var codeMirrorEditor = CodeMirror.fromTextArea($("#test")[0], codeMirrorConfig);
+                    var codeMirror = $(".CodeMirror");
+                });
+               /* var testEditor;
+
+                $.get("./test.md", function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 640,
+                        path : '../lib/',
+                        markdown : md,
+                        //mathjax : true,
+                        onload : function() {
+                            this.editor.find(".mathjax-code").each(function(){
+                                //console.log($(this)[0]);
+                                $(this).html($(this).html().replace(/\$\$/g, ""));
+                                katex.render($(this).html(), $(this)[0]);
+                            });
+                        },
+                        onchange : function() {
+                            this.editor.find(".mathjax-code").each(function(){
+                                //console.log($(this)[0]);
+                                $(this).html($(this).html().replace(/\$\$/g, ""));
+                                katex.render($(this).html(), $(this)[0]);
+                            });
+                        }
+                    });
+                });*/
+            });
+        </script>
+    </body>
+</html>

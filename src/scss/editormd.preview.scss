@@ -58,6 +58,14 @@
         .markdown-toc-list {
         }
     }
+    
+    p#{$prefix}tex {
+        text-align: center;
+    }
+    
+    span#{$prefix}tex {
+        margin: 0 5px;
+    }
 
     .sequence-diagram, .flowchart {
         text-align: center;

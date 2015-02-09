@@ -10,9 +10,9 @@ A simple online markdown editor.
 
 - 支持Markdown标准和Github风格；
 - 支持实时预览和多语言语法高亮；
-- 支持ToC（Table of Contents）；
+- 支持[ToC（Table of Contents）](https://pandao.github.io/editor.md/examples/toc.html)；
 - 兼容主流的浏览器（IE8+），且支持iPad等平板设备；
-- 支持Latex科学公式（基于MathJax）；
+- 支持TeX科学公式（基于[KaTeX](https://pandao.github.io/editor.md/examples/katex.html)）；
 - 支持流程图 `flowchart` 和时序图 `sequenceDiagram`;
 - 支持AMD/CMD模块化加载（支持 [Require.js](https://pandao.github.io/editor.md/examples/use-requirejs.html) & [Sea.js](https://pandao.github.io/editor.md/examples/use-seajs.html)）；
 

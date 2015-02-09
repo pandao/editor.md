@@ -6,7 +6,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-07
+ * @updateTime  2015-02-09
  */
 
 /*! github-markdown-css | The MIT License (MIT) | Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com) | https://github.com/sindresorhus/github-markdown-css */
@@ -714,6 +714,12 @@
 }
 .editormd-preview-container .markdown-body pre code, .editormd-html-preview .markdown-body pre code {
   padding: 0;
+}
+.editormd-preview-container p.editormd-tex, .editormd-html-preview p.editormd-tex {
+  text-align: center;
+}
+.editormd-preview-container span.editormd-tex, .editormd-html-preview span.editormd-tex {
+  margin: 0 5px;
 }
 .editormd-preview-container .sequence-diagram, .editormd-preview-container .flowchart, .editormd-html-preview .sequence-diagram, .editormd-html-preview .flowchart {
   text-align: center;

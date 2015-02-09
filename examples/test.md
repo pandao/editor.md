@@ -133,6 +133,8 @@ Content Cell  | Content Cell
                     
 $$E=mc^2$$
 
+行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
+
 $$\(\sqrt{3x-1}+(1+x)^2\)$$
                     
 $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
