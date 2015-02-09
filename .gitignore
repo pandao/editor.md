@@ -4,6 +4,7 @@ logs
 *.seed
 node_modules/
 .sass-cache/
+research/
 test/
 backup/
 *.bat
