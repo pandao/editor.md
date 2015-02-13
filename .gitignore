@@ -11,3 +11,4 @@ backup/
 *.sh
 .project
 .url
+.idea/
