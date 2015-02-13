@@ -76,6 +76,10 @@
         previewCodeHighlight : true,
         inRequirejs          : false,
         toolbar              : true,
+        beforePicture        : function(){
+            var path = window.prompt("请输入网络图片路径！");
+            return (!path || path == "") ? "" : path;
+        },
         toolbarIcons         : [
             "undo", "redo", "|", 
             "bold", "del", "italic", "quote", "|", 
@@ -576,7 +580,13 @@
                     },
 
                     picture : function() {
-                        codeEditor.replaceSelection("![" + selection + "](" + selection + " \""+selection+"\")");
+                        var content = "";
+                        if(settings.beforePicture) {
+                            content = settings.beforePicture();
+                        }
+
+                        var title = (!selection || selection == "") ? content : selection;
+                        codeEditor.replaceSelection("![" + title + "](" + content + " \""+title+"\")");
                     },
 
                     code : function() {
@@ -1644,7 +1654,7 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     editormd.katexURL  = {
         css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
+        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min"
     };
     
     /**
