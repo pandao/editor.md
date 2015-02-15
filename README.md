@@ -1,6 +1,6 @@
 # Editor.md
 
-![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-120x120.png)
+![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-180x180.png)
 
 A simple online markdown editor.
 
