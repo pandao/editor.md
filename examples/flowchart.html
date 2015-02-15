@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <title>FlowChart - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
     </head>
     <body>
         <div id="layout">
@@ -11,8 +12,17 @@
                 <h1>FlowChart 流程图</h1>
                 <p>基于flowchart.js：<a href="http://adrai.github.io/flowchart.js/" target="_blank">http://adrai.github.io/flowchart.js/</a></p>        
             </header>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">
+            <div id="test-editormd">
+                <textarea style="display:none;">####开启FlowChart 流程图支持
+
+配置项：
+
+    {
+        flowChart : true
+    }
+
+####示例
+
 ```flow
 st=>start: 用户登陆
 op=>operation: 登陆操作
@@ -22,12 +32,11 @@ e=>end: 进入后台
 st->op->cond
 cond(yes)->e
 cond(no)->op
-```</script>
+```</textarea>
             </div>
         </div>
         
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
             $(function() {       
@@ -35,7 +44,7 @@ cond(no)->op
 					width: "90%",
 					height: 640,
 					path : '../lib/',
-					flowChart : true,
+					flowChart : true
 				});
             });
         </script>

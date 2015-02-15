@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Form get textarea value - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>表单取值</h1>   
+                <p>Form get textarea value.</p>     
+            </header>
+            <form method="post" action="./php/post.php">
+                <div id="test-editormd">
+                    <textarea style="display:none;">####表单取值
+
+每个Editor.md的ID元素下都包含两个Textarea，一个保存Markdown源码，一个保存HTML源码，可以按需要获取相应的值，如下：
+
+```html
+&lt;div class="editormd" id="$id"&gt;
+    &lt;textarea class="editormd-markdown-textarea" name="$id-markdown-doc"&gt;&lt;/textarea&gt;
+
+    &lt;!-- html textarea需要开启配置项 saveHTMLToTextarea == true --&gt;
+    &lt;textarea class="editormd-html-textarea" name="$id-html-code"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+```
+
+####JS取值
+
+```javascript
+var testEditor = editormd("test-editormd", {
+    width  : "90%",
+    height : 640,
+    saveHTMLToTextarea : true,
+    path   : '../lib/'
+});
+
+testEditor.getMarkdown();       // 获取Markdown源码
+testEditor.getHTML();           // 获取Textarea保存的HTML源码
+testEditor.getPreviewedHTML();  // 获取预览窗口里的HTML，在开启watch且没有开启saveHTMLToTextarea时使用
+```
+
+####后台取值
+
+假设编辑器ID为`test-editormd`，以PHP为例：
+
+```php
+<?php
+    header("Content-Type:text/html; charset=utf-8");
+
+    if (isset($_POST['submit'])) {
+        echo "<pre>";
+        echo htmlspecialchars($_POST["test-editormd-markdown-doc"]);
+        echo "<br/><br/>";
+        echo htmlspecialchars($_POST["test-editormd-html-code"]);
+        echo "</pre>";
+    }
+?>
+```</textarea>
+                </div>
+                <div style="width:90%;margin: 10px auto;">
+                    <input type="submit" name="submit" value="提交表单 Submit" style="padding: 5px;" /> 
+                </div>               
+            </form>
+        </div>        
+        <script src="../lib/jquery.min.js"></script>
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+                var testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 640,
+                    saveHTMLToTextarea : true,
+                    path   : '../lib/'
+                });
+
+                //testEditor.getMarkdown();       // 获取Markdown源码
+                //testEditor.getHTML();           // 获取Textarea保存的HTML源码
+                //testEditor.getPreviewedHTML();  // 获取预览窗口里的HTML，在开启watch且没有开启saveHTMLToTextarea时使用
+            });
+        </script>
+    </body>
+</html>

@@ -4,99 +4,34 @@
         <meta charset="utf-8" />
         <title>Simple - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
     </head>
     <body>
         <div id="layout">
             <header>
-                <h1>完整示例</h1>
-                <p>开启TeX(基于KaTeX)、流程图和时序/序列图支持;</p>            
+                <h1>简单示例</h1>  
             </header>
-            <div class="btns">
-                <button id="show-btn">显示编辑器</button>
-                <button id="hide-btn">隐藏编辑器</button>
-                <button id="get-md-btn">获取Markdown(源码)</button>
-                <button id="get-html-btn">获取HTML(源码)</button>
-                <button id="watch-btn">开启实时预览</button>
-                <button id="unwatch-btn">关闭实时预览</button>
-                <button id="preview-btn">预览HTML(按ESC取消)</button>
-                <button id="fullscreen-btn">全屏(按ESC取消)</button>
-                <button id="show-toolbar-btn">显示工具栏</button>
-                <button id="close-toolbar-btn">关闭工具栏</button>
-            </div>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">###Hello world!</script>
+            <div id="test-editormd">                
+                <textarea style="display:none;">###Hello world!
+                
+本示例未开启：
+
+- TeX(基于KaTeX)；
+- 智能识别和解析HTML标签；
+- 流程图和时序/序列图支持;
+</textarea>
             </div>
         </div>
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
-            $(function() {
-                var testEditor;
-                
-                $.get('test.md', function(md){
-                    testEditor = editormd("test-editormd", {
-                        width: "90%",
-                        height: 720,
-                        path : '../lib/',
-                        markdown : md,
-                        //toolbar  : false,             //关闭工具栏
-                        //previewCodeHighlight : false, // 关闭预览HTML的代码块高亮，默认开启
-                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
-                        flowChart : true,             // 开启流程图支持，默认关闭
-                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭
-                        onload : function() {
-                            console.log('onload', this);
-                            //this.fullscreen();
-                            //this.unwatch();
-                            //this.watch().fullscreen();
+			var testEditor;
 
-                            //this.setMarkdown("#PHP");
-                            //this.width("100%");
-                            //this.height(480);
-                            //this.resize("100%", 640);
-                        }
-                    });
-                });
-                
-                $("#show-btn").bind('click', function(){
-                    testEditor.show();
-                });
-                
-                $("#hide-btn").bind('click', function(){
-                    testEditor.hide();
-                });
-                
-                $("#get-md-btn").bind('click', function(){
-                    alert(testEditor.getMarkdown());
-                });
-                
-                $("#get-html-btn").bind('click', function() {
-                    alert(testEditor.getHTML());
-                });                
-                
-                $("#watch-btn").bind('click', function() {
-                    testEditor.watch();
-                });                 
-                
-                $("#unwatch-btn").bind('click', function() {
-                    testEditor.unwatch();
-                });              
-                
-                $("#preview-btn").bind('click', function() {
-                    testEditor.previewing();
-                });
-                
-                $("#fullscreen-btn").bind('click', function() {
-                    testEditor.fullscreen();
-                });
-                
-                $("#show-toolbar-btn").bind('click', function() {
-                    testEditor.showToolbar();
-                });
-                
-                $("#close-toolbar-btn").bind('click', function() {
-                    testEditor.hideToolbar();
+            $(function() {
+                testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 540,
+                    path : '../lib/'
                 });
             });
         </script>

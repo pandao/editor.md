@@ -1,0 +1,39 @@
+<?php
+    header("Content-Type:text/html; charset=utf-8");
+?>
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <!--
+         这是同域下的callback页面，本页面在iframe内，所以只要通过window.parent就能操作父窗口的元素 
+        -->
+        <script type="text/javascript"> 
+            var query = {};
+            var urlParams = window.location.search.split('?')[1];
+            urlParams = urlParams.split("&");
+
+            for (var i = 0; i< urlParams.length; i++) 
+            {
+                var param       = urlParams[i].split("="); 
+                query[param[0]] = param[1]; 
+            }
+
+            var imageDialog = window.parent.document.getElementById(query['dialog_id']);
+            //console.log(imageDialog, window.parent.document, window.parent, query);
+
+            if (query['success'] === '1')
+            {
+                imageDialog.querySelector("[data-url]").value = query['url'];
+            }
+            else
+            {
+                alert(query['message']);
+            }
+
+            location.href = "about:blank";
+        </script>        
+    </body>   
+</html>

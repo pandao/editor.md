@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>只读模式 - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>只读模式</h1> 
+                <p>Editor.md read only</p> 
+            </header>
+            <div id="test-editormd" class="editormd-onlyread">   
+                <textarea style="display:none;">###设置只读模式
+
+```javascript
+var testEditor;
+
+$(function() {
+    testEditor = editormd("test-editormd", {
+        width: "90%",
+        height: 540,
+        path : '../lib/',
+        //watch : false,           // 禁用实时预览
+        readOnly : true,
+        styleActiveLine : false, // 禁止高亮显示当前行
+        //lineNumbers : false      // 隐藏行号
+    });
+});
+```
+</textarea>
+            </div>
+        </div>
+        <script src="../lib/jquery.min.js"></script>
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+			var testEditor;
+
+            $(function() {
+                testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 540,
+                    path : '../lib/',
+                    //watch : false,           // 禁用实时预览
+                    readOnly : true,
+                    styleActiveLine : false, // 禁止高亮显示当前行
+                    //lineNumbers : false      // 隐藏行号
+                });
+            });
+        </script>
+    </body>
+</html>

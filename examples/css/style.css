@@ -71,3 +71,18 @@ body {
     font-size: 20px;
     margin-bottom: 10px;
 }
+
+.btns button, .btn {
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: background 300ms ease-out;
+    transition: background 300ms ease-out;
+}
+
+.btns button:hover, .btn:hover {
+    background: #f6f6f6;
+}

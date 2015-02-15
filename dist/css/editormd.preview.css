@@ -1,12 +1,12 @@
 /*
  * Editor.md
  * @file        editormd.preview.css 
- * @version     v1.0.0 
+ * @version     v1.1.0 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-10
+ * @updateTime  2015-02-15
  */
 
 /*! github-markdown-css | The MIT License (MIT) | Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com) | https://github.com/sindresorhus/github-markdown-css */
@@ -672,29 +672,32 @@
 }
 
 .editormd-preview-container, .editormd-html-preview {
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
   padding: 20px;
 }
 .editormd-preview-container blockquote, .editormd-html-preview blockquote {
+  color: #666;
   border-left: 4px solid #ddd;
   padding-left: 20px;
   margin-left: 0;
-  color: #666;
   font-size: 14px;
   font-style: italic;
 }
 .editormd-preview-container p > code, .editormd-html-preview p > code {
   margin-left: 5px;
 }
-.editormd-preview-container .markdown-body, .editormd-html-preview .markdown-body {
-  line-height: 1.6;
+.editormd-preview-container abbr, .editormd-html-preview abbr {
+  background: #ffffdd;
 }
-.editormd-preview-container .markdown-body hr, .editormd-html-preview .markdown-body hr {
+.editormd-preview-container hr, .editormd-html-preview hr {
   height: 1px;
   border: none;
   border-top: 1px solid #ddd;
   background: none;
 }
-.editormd-preview-container .markdown-body code, .editormd-html-preview .markdown-body code {
+.editormd-preview-container code, .editormd-html-preview code {
   border: 1px solid #ddd;
   background: #f6f6f6;
   padding: 3px;
@@ -702,7 +705,7 @@
   font-size: 13px;
   font-family: Consolas, 'Monaco', courier, monospace;
 }
-.editormd-preview-container .markdown-body pre, .editormd-html-preview .markdown-body pre {
+.editormd-preview-container pre, .editormd-html-preview pre {
   border: 1px solid #ddd;
   background: #f6f6f6;
   padding: 10px;
@@ -712,8 +715,11 @@
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-.editormd-preview-container .markdown-body pre code, .editormd-html-preview .markdown-body pre code {
+.editormd-preview-container pre code, .editormd-html-preview pre code {
   padding: 0;
+}
+.editormd-preview-container table thead tr, .editormd-html-preview table thead tr {
+  background-color: #F8F8F8;
 }
 .editormd-preview-container p.editormd-tex, .editormd-html-preview p.editormd-tex {
   text-align: center;
@@ -883,6 +889,10 @@ li.L9 {
 }
 .editormd-preview-container li.L0, .editormd-preview-container li.L1, .editormd-preview-container li.L2, .editormd-preview-container li.L3, .editormd-preview-container li.L5, .editormd-preview-container li.L6, .editormd-preview-container li.L7, .editormd-preview-container li.L8, .editormd-html-preview li.L0, .editormd-html-preview li.L1, .editormd-html-preview li.L2, .editormd-html-preview li.L3, .editormd-html-preview li.L5, .editormd-html-preview li.L6, .editormd-html-preview li.L7, .editormd-html-preview li.L8 {
   list-style-type: decimal;
+}
+
+.editormd-html-preview textarea {
+  display: none;
 }
 
 /*# sourceMappingURL=editormd.preview.css.map */

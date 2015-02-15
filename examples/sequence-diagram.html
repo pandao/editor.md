@@ -2,17 +2,28 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>sequenceDiagram - Editor.md examples</title>
+        <title>SequenceDiagram - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.min.css" />
     </head>
     <body>
         <div id="layout">
             <header>
-                <h1>sequenceDiagram 时序图/序列图</h1>
+                <h1>SequenceDiagram 时序图/序列图</h1>
 				<p>基于SequenceDiagram.js：<a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank">http://bramp.github.io/js-sequence-diagrams/</a></p>            
             </header>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">```seq
+            <div id="test-editormd">                
+                <textarea style="display:none;">####开启 SequenceDiagram 时序图/序列图支持
+
+配置项：
+
+    {
+        sequenceDiagram : true
+    }
+
+####示例
+
+```seq
 A->B: Message
 ```
 
@@ -21,12 +32,11 @@ Andrew->China: Says Hello
 Note right of China: China thinks\nabout it 
 China-->Andrew: How are you? 
 Andrew->>China: I am good thanks!
-```</script>
+```</textarea>
             </div>
         </div>
         
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
             $(function() {                

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.editormd-menu {
+#{$prefix}menu {
     margin: 0;
     padding: 0;       
     list-style: none;
@@ -16,13 +16,14 @@
             text-indent: -9999px;
             margin: 0 5px; 
             height: 65%;
-            border-right: 1px solid #ddd;
+            border-right: 1px solid $borderColor;
         }
 
         > a {
-            color: #666;
+            outline: 0;
+            color: $color;
             display: inline-block;
-            width: 24px;
+            min-width: 24px;
             font-size: 14px;
             text-decoration: none;
             text-align: center;
@@ -30,7 +31,7 @@
             border: 1px solid #fff;
 
             &:hover, &.active {
-                border: 1px solid #ddd;
+                border: 1px solid $borderColor;
                 background: #eee;
                 @include transition(all 300ms ease-out);
             }
@@ -41,14 +42,14 @@
                 padding: 5px;
             }
 
-            > .editormd-bold {
+            > #{$prefix}bold {
                 padding: 5px 0; 
                 display: inline-block;
                 font-weight: bold;
             }
         }
 
-        &:hover .editormd-dropdown-menu {
+        &:hover #{$prefix}dropdown-menu {
             display: block;
         }
     }
@@ -58,10 +59,10 @@
     }
 }
 
-.editormd-dropdown-menu { 
+#{$prefix}dropdown-menu { 
     display: none;
     background: #fff;
-    border: 1px solid #ddd;
+    border: 1px solid $borderColor;
     width: 148px;
     list-style: none;
     position: absolute;
@@ -94,7 +95,7 @@
     > li {
         
         > a {
-            color: #666;
+            color: $color;
             display: block;
             text-decoration: none;
             padding: 8px 10px;
@@ -107,6 +108,6 @@
     }
 
     > li + li {
-        border-top: 1px solid #ddd;
+        border-top: 1px solid $borderColor;
     }
 }

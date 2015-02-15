@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.editormd .CodeMirror, .editormd-preview {
+.editormd .CodeMirror, #{$prefix}preview {
     display: inline-block;
     width: 50%;
     height: 100%;
@@ -9,7 +9,7 @@
     margin: 0;
 }
 
-.editormd-preview {
+#{$prefix}preview {
     position: absolute;
     top: 35px;
     right: 0;
@@ -26,7 +26,7 @@
     .CodeMirror {
         z-index: 10;
         float: left;
-        border-right: 1px solid #ddd;
+        border-right: 1px solid $borderColor;
         font-size: 13px;
         font-family: Consolas, 'Monaco', courier, monospace;
         line-height: 1.6;
@@ -41,7 +41,7 @@
         background: #70B7FF; 
     }
 
-    .CodeMirror, .CodeMirror-scroll, .editormd-preview {
+    .CodeMirror, .CodeMirror-scroll, #{$prefix}preview {
         -webkit-overflow-scrolling : touch;
     }
 
@@ -56,7 +56,7 @@
     }
     
     .CodeMirror-empty { 
-        outline: 1px solid #c22;
+        //outline: 1px solid #c22;
         
         &.CodeMirror-focused { 
             outline: none;

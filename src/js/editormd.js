@@ -1,7 +1,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.0.0 
+ * @version 1.1.0 
  */
 
 ;(function(factory) {
@@ -33,16 +33,19 @@
     
     "use strict";
     
-    var $ = jQuery; 
+    var $ = (typeof (jQuery) !== "undefined") ? jQuery : Zepto;
+
+	if (typeof ($) === "undefined") {
+		return ;
+	}
     
     var editormd         = function (id, options) {
         return new editormd.fn.init(id, options);
     };
     
-    editormd.title       = "Editor.md";
-    editormd.version     = "1.0.0";
-    editormd.homePage    = "https://github.com/pandao/editor.md";
-    editormd.description = "A simple markdown doucment online editor.";
+    editormd.title       = editormd.$name = "Editor.md";
+    editormd.version     = "1.1.0";
+    editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
     editormd.defaults    = {
@@ -51,30 +54,50 @@
         width                : "100%",
         height               : "100%",
         path                 : "./lib/",
-        watch                : true,  
+        watch                : true,
+        placeholder          : "now coding markdown...",
+        readOnly             : false,
+        lineNumbers          : true,
+        styleActiveLine      : true,           // 高亮显示当前行
+        dialogLockScreen     : true,
+        dialogShowMask       : true,
+        dialogDraggable      : true,
+        dialogMaskBgColor    : "#fff",
+        dialogMaskOpacity    : 0.1,
         onload               : function() {},
         onchange             : function() {},
         onfullscreen         : function() {},
         onfullscreenExit     : function() {},
+        imageUpload          : false,
+        imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL       : "",
+        crossDomainUpload    : false,
+        uploadCallbackURL    : "",
+        saveHTMLToTextarea   : false,
         toc                  : true,
-        tocStartLevel        : 2,
+        tocStartLevel        : 1,              // 表示从H1开始生成ToC
         fontSize             : "13px",
+        htmlDecode           : false,          // 是否开启HTML标签识别
         tex                  : false,
         flowChart            : false,          // flowChart.js only support IE9+
         sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
         previewCodeHighlight : true,
         inRequirejs          : false,
         toolbar              : true,
-        toolbarIcons         : [
-            "undo", "redo", "|", 
-            "bold", "del", "italic", "quote", "|", 
-            "h1", "h2", "h3", "h4", "h5", "h6", "|", 
-            "list-ul", "list-ol", "hr", "|",
-            "link", "picture", "code", "code-block-tab", "code-block", "datetime", "|",
-            "watch", "preview", "fullscreen", "|",
-            "info"
-        ],
-
+        toolbarIcons         : function() {
+            return [
+                "undo", "redo", "|", 
+                "bold", "del", "italic", "quote", "|", 
+                "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+                "list-ul", "list-ol", "hr", "|",
+                "link", "anchor", "image", "code", "code-block-tab", "code-block", "datetime", "|",
+                "watch", "preview", "fullscreen", "clear", "|",
+                "info"
+            ]
+        },   
+        toolbarTitles        : {},
+        toolbarHandlers      : {},  // 工具栏按钮的点击后事件处理
+        
         toolbarIconsClass    : {
             undo             : "fa-undo",
             redo             : "fa-repeat",
@@ -92,7 +115,8 @@
             "list-ol"        : "fa-list-ol",
             hr               : "fa-minus",
             link             : "fa-link",
-            picture          : "fa-picture-o",
+            anchor           : "fa-anchor",
+            image            : "fa-picture-o",
             code             : "fa-code",
             "code-block-tab" : "fa-file-code-o",
             "code-block"     : "fa-file-code-o",
@@ -101,13 +125,17 @@
             unwatch          : "fa-eye",
             preview          : "fa-search",
             fullscreen       : "fa-arrows-alt",
+            clear            : "fa-eraser",
             info             : "fa-info-circle"
         },
-
+        
+        toolbarIconTexts     : {},
         lang : {
-            toolbar : {
-                undo             : "撤销",
-                redo             : "重做",
+            name        : "zh-cn",
+            description : "开源在线Markdown编辑器<br/>A simple markdown doucment online editor.",
+            toolbar     : {
+                undo             : "撤销（Ctrl+Z）",
+                redo             : "重做（Ctrl+Y）",
                 bold             : "粗体",
                 del              : "删除线",
                 italic           : "斜体",
@@ -122,23 +150,71 @@
                 "list-ol"        : "有序列表",
                 hr               : "横线",
                 link             : "链接",
-                picture          : "图片",
+                anchor           : "锚点",
+                image          : "图片",
                 code             : "行内代码",
-                "code-block-tab" : "代码块(缩进风格)",
-                "code-block"     : "代码块(多语言风格)",
+                "code-block-tab" : "预格式文本 / 代码块（缩进风格）",
+                "code-block"     : "代码块（多语言风格）",
                 datetime         : "日期时间",
                 watch            : "关闭实时预览",
                 unwatch          : "开启实时预览",
-                preview          : "预览HTML(按ESC还原)",
-                fullscreen       : "全屏(按ESC还原)",
+                preview          : "全窗口预览HTML（可按ESC还原）",
+                fullscreen       : "全屏（按ESC还原）",
+                clear            : "清空",
                 info             : "关于" + editormd.title
+            },
+            buttons : {
+                enter  : "确定",
+                cancel : "取消"
+            },
+            dialog : {
+                link : {
+                    title    : "添加链接",
+                    url      : "链接地址",
+                    urlTitle : "链接标题",
+                    urlEmpty : "错误：请填写链接地址。",
+                    titleEmpty : "错误：请填写链接标题。"
+                },
+                anchor : {
+                    title    : "添加锚点链接",
+                    name     : "锚点名称",
+                    url      : "链接地址",
+                    urlTitle : "链接标题",
+                    nameEmpty: "错误：锚点名称不能为空。",
+                    titleEmpty : "错误：请填写锚点链接标题。",
+                    urlEmpty : "错误：请填写锚点链接地址。"
+                },
+                image : {
+                    title    : "添加图片",
+                    url      : "图片地址",
+                    link     : "图片链接",
+                    alt      : "图片描述",
+                    uploadButton     : "本地上传",
+                    imageURLEmpty    : "错误：图片地址不能为空。",
+                    uploadFileEmpty  : "错误：上传的图片不能为空。",
+                    formatNotAllowed : "错误：只允许上传图片文件，允许上传的图片文件格式有："
+                },
+                tabCodeBlock : {
+                    title             : "添加预格式文本或代码块", 
+                    codeEmptyAlert    : "错误：请填写预格式文本或代码的内容。"
+                },
+                codeBlock : {
+                    title             : "添加代码块",                    
+                    selectLabel       : "代码语言：",
+                    selectDefaultText : "请选择代码语言",
+                    otherLanguage     : "其他语言",
+                    unselectedLanguageAlert : "错误：请选择代码所属的语言类型。",
+                    codeEmptyAlert    : "错误：请填写代码内容。"
+                }
             }
         }
     };
     
     editormd.classNames  = {
-        tex  : editormd.classPrefix + "tex"
+        tex : editormd.classPrefix + "tex"
     };
+                
+    editormd.dialogZindex = 99999;
     
     editormd.$katex       = null;
     editormd.$marked      = null;
@@ -160,68 +236,70 @@
         
         init : function (id, options) {
             
-            options           = options || {};
+            options              = options || {};
             
-            var _this         = this;
-            var classPrefix   = this.classPrefix  = editormd.classPrefix;
-            var editor        = this.editor       = $("#" + id);        
-            var settings      = this.settings     = $.extend(true, editormd.defaults, options); 
-            var markdownDoc   = (settings.markdown === "") ? editor.children("[type=\"text/markdown\"]").html() : settings.markdown;
-            this.id           = id;
+            var _this            = this;
+            var classPrefix      = this.classPrefix  = editormd.classPrefix;
+            var editor           = this.editor       = $("#" + id);        
+            var settings         = this.settings     = $.extend(true, editormd.defaults, options);
             
-            this.classNames   = {
+            this.id              = id;
+            this.lang            = settings.lang;
+            
+            var classNames       = this.classNames   = {
                 textarea : {
                     html     : this.classPrefix + "html-textarea",
                     markdown : this.classPrefix + "markdown-textarea"
                 }
             };
             
+            if (!editor.hasClass("editormd")) {
+                editor.addClass("editormd");
+            }
+            
             editor.css({
                 width  : (typeof settings.width  === "number") ? settings.width  + "px" : settings.width,
                 height : (typeof settings.height === "number") ? settings.height + "px" : settings.height
             });
+                        
+            var markdownTextarea = this.markdownTextarea = editor.children("textarea");
             
-            editor.children("[type=\"text/markdown\"]").remove();
+            if (markdownTextarea.length < 1)
+            {
+                editor.append("<textarea></textarea>");
+                markdownTextarea = this.markdownTextarea = editor.children("textarea");
+            }
             
-            var infoDialogHTML = [
-                "<div class=\"" + classPrefix + "dialog " + classPrefix + "dialog-info\">",
-                "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>",
-                "<div class=\"" + classPrefix + "dialog-container\">",
-                "<h1><i class=\"fa fa-lg fa-edit\"></i>" + editormd.title + "<small>v" + editormd.version + "</small></h1>",
-                "<p>" + editormd.description + "</p>",
-                "<p>Home page: <a href=\"" + editormd.homePage + "\" traget=\"_blank\">" + editormd.homePage + "</a></p>",
-                "<p>License: MIT</p>",
-                "</div>",
-                "</div>"
-            ].join("\n");
+            markdownTextarea.addClass(classNames.textarea.markdown).attr("name", id + "-markdown-doc").attr("placeholder", settings.placeholder);
             
             var appendElements = [
-                '<div class="'+classPrefix+'toolbar"><div class="'+classPrefix+'toolbar-container"><ul class="'+classPrefix+'menu"></ul></div></div>',
-                '<textarea id="test123" class="'+this.classNames.textarea.markdown+'" name="'+id+'-markdown-doc" placeholder="now coding markdown...">'+markdownDoc+'</textarea>',
-                '<textarea class="'+this.classNames.textarea.html+'" name="'+id+'-html-code"></textarea>',
-                '<div class="'+classPrefix+'preview"><div class="markdown-body '+classPrefix+'preview-container"></div>',
-                "</div>"
+                (!settings.readOnly) ? "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "preview-close-btn\"></a>" : "",
+                ( (settings.saveHTMLToTextarea) ? "<textarea class=\"" + classNames.textarea.html + "\" name=\"" + id + "-html-code\"></textarea>" : "" ),
+                "<div class=\"" + classPrefix + "preview\"><div class=\"markdown-body " + classPrefix + "preview-container\"></div></div>",
+                "<div class=\"" + classPrefix + "container-mask\"></div>",
+                "<div class=\"" + classPrefix + "mask\"></div>"
             ].join("\n");
             
-            editor.append(infoDialogHTML).append(appendElements);
+            editor.append(appendElements).addClass(classPrefix + "vertical");
+            
+            if (settings.markdown !== "") {
+                markdownTextarea.val(settings.markdown);
+            }
+            
+            this.htmlTextarea = editor.find("." + classNames.textarea.html);
             
             this.preview              = editor.find("." + classPrefix + "preview");
-            this.toolbar              = editor.find("." + classPrefix + "toolbar");
             this.previewContainer     = this.preview.children("." + classPrefix + "preview-container");
-            this.infoDialog           = editor.find("." + classPrefix + "dialog-info");
             this.toolbarIconHandlers  = {};
             
-            editor.addClass(classPrefix + "vertical");
-            
             if (!settings.inRequirejs) 
-            {                
+            {
                 this.loadQueues();
             } 
             else 
-            {                
-                _this.setCodeMirror();                        
-                _this.setToolbar();                        
-                _this.toolbarHandler();
+            {
+                _this.setCodeMirror();                 
+                _this.setToolbar();
                 _this.setMarked().loadedDisplay();
             }
 
@@ -239,6 +317,13 @@
             var loadPath     = settings.path;
                                 
             var loadFlowChartOrSequenceDiagram = function() {
+                
+                if (editormd.isIE8) 
+                {
+                    _this.setMarked().loadedDisplay();
+                    
+                    return ;
+                }
 
                 if (settings.flowChart || settings.sequenceDiagram) 
                 {
@@ -289,9 +374,8 @@
                     
                     editormd.loadScript(loadPath + "codemirror/addons.min", function() {
                         
-                        _this.setCodeMirror();                        
-                        _this.setToolbar();    
-                        _this.toolbarHandler();
+                        _this.setCodeMirror(); 
+                        _this.setToolbar();
 
                         editormd.loadScript(loadPath + "marked.min", function() {
 
@@ -304,7 +388,7 @@
                                 });
                             } 
                             else
-                            {                            
+                            {                  
                                 loadFlowChartOrSequenceDiagram();
                             }
                         });
@@ -324,32 +408,36 @@
          */
         
         setCodeMirror : function() { 
-            var settings = this.settings;
-            
+            var settings         = this.settings;            
             var codeMirrorConfig = {
-                mode: this.settings.mode,
-                theme: "default",
-                tabSize: 4,
-                dragDrop: false,
-                autofocus: true,
-                indentUnit : 4,
-                lineNumbers: true,
-                lineWrapping: true,
-                matchBrackets: true,
-                indentWithTabs: true,
-                styleActiveLine: true,
-                styleSelectedText: true,
-                autoCloseBrackets: true,
-                showTrailingSpace: true,
-                highlightSelectionMatches: {
+                mode                      : settings.mode,
+                theme                     : "default",
+                tabSize                   : 4,
+                dragDrop                  : false,
+                autofocus                 : true,
+                readOnly                  : (settings.readOnly) ? "nocursor" : false,
+                indentUnit                : 4,
+                lineNumbers               : settings.lineNumbers,
+                lineWrapping              : true,
+                matchBrackets             : true,
+                indentWithTabs            : true,
+                styleActiveLine           : settings.styleActiveLine,
+                styleSelectedText         : true,
+                autoCloseBrackets         : true,
+                showTrailingSpace         : true,
+                highlightSelectionMatches : {
                     showToken: /\w/
                 } 
             };
             
-            this.codeEditor = editormd.$CodeMirror.fromTextArea(this.editor.find("." + this.classNames.textarea.markdown)[0], codeMirrorConfig);
-                
+            this.codeEditor = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
+
             this.codeMirror = this.editor.find(".CodeMirror");
-            this.codeMirror.css("font-size", this.settings.fontSize);
+            
+            this.codeMirror.css({
+                fontSize : this.settings.fontSize,
+                width    : (!settings.watch) ? "100%" : "50%"
+            });
 
             return this;
         },
@@ -360,8 +448,10 @@
          */
         
         showToolbar : function() {
+            var settings = this.settings;
+            if(settings.readOnly) return ;
             
-            this.settings.toolbar = true; 
+            settings.toolbar = true; 
             this.toolbar.show();
             this.resize();
 
@@ -373,9 +463,10 @@
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        hideToolbar : function() {  
+        hideToolbar : function() { 
+            var settings = this.settings; 
             
-            this.settings.toolbar = false;  
+            settings.toolbar = false;  
             this.toolbar.hide();
             this.resize();
 
@@ -388,65 +479,727 @@
          */
         
         setToolbar : function() {
-            var settings         = this.settings;            
-            var editor           = this.editor;
-            var preview          = this.preview;
-            var toolbar          = this.toolbar;
+            var settings    = this.settings;  
             
-            if (!settings.toolbar) {
+            if(settings.readOnly) return ;
+            
+            var editor      = this.editor;
+            var preview     = this.preview;
+            var classPrefix = this.classPrefix;
+            
+            editor.append('<div class="'+classPrefix+'toolbar"><div class="'+classPrefix+'toolbar-container"><ul class="'+classPrefix+'menu"></ul></div></div>');
+            
+            var toolbar     = this.toolbar = editor.find("." + classPrefix + "toolbar");
+            
+            if (!settings.toolbar) 
+            {
                 toolbar.hide();
+                
                 return ;
-            } else {
+            } 
+            else 
+            {
                 toolbar.show();
             }
             
-            var toolbarMenu      = toolbar.find("." + this.classPrefix + "menu"), menu = "";
+            var icons       = settings.toolbarIcons();
+            var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
             
-            for (var i = 0, len = settings.toolbarIcons.length; i < len; i++)
+            for (var i = 0, len = icons.length; i < len; i++)
             {
-                var name = settings.toolbarIcons[i];
+                var name = icons[i];
                 
                 if (name !== "|")
                 {
                     var isHeader = (/h(\d)/.test(name));
+                    var index    = name;
                     
-                    menu += "<li><a href=\"javascript:;\" title=\""+settings.lang.toolbar[name]+"\"><i class=\"fa "+settings.toolbarIconsClass[name]+"\" name=\""+name+"\">"+((isHeader) ? name : "")+"</i></a></li>";
+                    if (name === "watch" && !settings.watch) {
+                        index = "unwatch";
+                    }
+                    
+                    var title     = settings.lang.toolbar[index];
+                    var iconTexts = settings.toolbarIconTexts[index];
+                    var iconClass = settings.toolbarIconsClass[index];
+                    
+                    title     = (typeof title     === "undefined") ? "" : title;
+                    iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
+                    iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
+                    
+                    menu += "<li><a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">" +
+                            "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name : ( (iconClass === "") ? iconTexts : "") ) + "</i></a></li>";
                 }
                 else
                 {
-                    menu += "<li class=\"divider\">|</li>";
+                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
                 }
             }
             
-            toolbarMenu.append(menu);
+            toolbarMenu.html(menu);
+            
+            this.setToolbarHandler();
 
             return this;
-        },        
+        },
+        
+        /**
+         * 工具栏图标事件处理对象序列
+         * @param   {String}   name  要获取的事件处理器名称
+         * @returns {Object}         返回处理对象序列
+         */
+        
+        getToolbarHandles : function(name) {
+            var _this       = this;
+            var settings    = this.settings;
+            var lang        = settings.lang;
+            var editor      = this.editor;
+            var codeEditor  = this.codeEditor;
+            var cursor      = codeEditor.getCursor();
+            var selection   = codeEditor.getSelection();
+            var classPrefix = this.classPrefix;
+            
+            var dialogLockScreen = function() {    
+                if (settings.dialogLockScreen) {
+                    $("html,body").css("overflow", "hidden");
+                }
+            };
+            
+            var dialogShowMask = function(dialog) {
+                dialog.css({
+                    top    : ($(window).height() - dialog.height()) / 2 + "px",
+                    left   : ($(window).width() - dialog.width()) / 2 + "px"
+                });
+                
+                if (settings.dialogShowMask) {
+                    editor.find("." + classPrefix + "mask").css("z-index", parseInt(dialog.css("z-index")) - 1).show();
+                }
+            };
+            
+            var toolbarHandlers = this.toolbarHandlers = {
+                undo : function() {
+                    codeEditor.undo();
+                },
+                redo : function() {
+                    codeEditor.redo();
+                },
+                bold : function() {
+
+                    codeEditor.replaceSelection("**" + selection + "**");
+
+                    if(selection === "") {
+                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                    }                    
+                },
+                del : function() {
+
+                    codeEditor.replaceSelection("~~" + selection + "~~");
+
+                    if(selection === "") {
+                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                    }
+                },
+
+                italic : function() {
+                    codeEditor.replaceSelection("*" + selection + "*");
+
+                    if(selection === "") {
+                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                    }
+                },
+
+                quote : function() {
+                    codeEditor.replaceSelection((selection === "") ? ["> " + selection, ""].join("\n") : "> " + selection);
+                    codeEditor.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
+                },
+
+                h1 : function() {
+                    codeEditor.replaceSelection("#" + selection);
+                },
+
+                h2 : function() {
+                    codeEditor.replaceSelection("##" + selection);
+                },
+
+                h3 : function() {
+                    codeEditor.replaceSelection("###" + selection);
+                },
+
+                h4 : function() {
+                    codeEditor.replaceSelection("####" + selection);
+                },
+
+                h5 : function() {
+                    codeEditor.replaceSelection("#####" + selection);
+                },
+
+                h6 : function() {
+                    codeEditor.replaceSelection("######" + selection);
+                },
+
+                "list-ul" : function() {
+
+                    if (selection === "") 
+                    {
+                        codeEditor.replaceSelection("- " + selection);
+                    } 
+                    else 
+                    {
+                        var selectionText = selection.split("\n");
+
+                        for (var i = 0, len = selectionText.length; i < len; i++) 
+                        {
+                            selectionText[i] = (selectionText[i] === "") ? "" : "- " + selectionText[i];
+                        }
+
+                        codeEditor.replaceSelection(selectionText.join("\n"));
+                    }
+                },
+
+                "list-ol" : function() {
+
+                    if(selection === "") 
+                    {
+                        codeEditor.replaceSelection("1. " + selection);
+                    }
+                    else
+                    {
+                        var selectionText = selection.split("\n");
+
+                        for (var i = 0, len = selectionText.length; i < len; i++) 
+                        {
+                            selectionText[i] = (selectionText[i] === "") ? "" : (i+1) + ". " + selectionText[i];
+                        }
+
+                        codeEditor.replaceSelection(selectionText.join("\n"));
+                    }
+                },
+
+                hr : function() {
+                    codeEditor.replaceSelection("------------");
+                },
+
+                link : function() {
+                    var linkLang       = lang.dialog.link;
+                    var linkDialogName = classPrefix + "link-dialog", linkDialog;
+
+                    if (editor.find("." + linkDialogName).length > 0)
+                    {
+                        linkDialog = editor.find("." + linkDialogName);
+                        linkDialog.find("[data-url]").val("http://");
+                        linkDialog.find("[data-title]").val(selection);
+                        
+                        dialogShowMask(linkDialog);
+                        dialogLockScreen();
+                        linkDialog.show();
+                    }
+                    else
+                    {                        
+                        var linkDialogHTML = "<div class=\"" + classPrefix + "form\">" + 
+                                                "<label>" + linkLang.url + "</label>" + 
+                                                "<input type=\"text\" value=\"http://\" data-url />" +
+                                                "<br/>" + 
+                                                "<label>" + linkLang.urlTitle + "</label>" + 
+                                                "<input type=\"text\" value=\"" + selection + "\" data-title />" + 
+                                                "<br/>" +
+                                            "</div>";
+
+                        linkDialog = _this.createDialog({
+                            title : linkLang.title,
+                            width : 380,
+                            height : 210,
+                            content : linkDialogHTML,
+                            mask   : settings.dialogShowMask,
+                            drag   : settings.dialogDraggable,
+                            lockScreen : settings.dialogLockScreen,
+                            maskStyle  : {
+                                opacity         : settings.dialogMaskOpacity,
+                                backgroundColor : settings.dialogMaskBgColor
+                            },
+                            buttons : {
+                                enter  : [lang.buttons.enter, function() {
+                                    var url   = this.find("[data-url]").val();
+                                    var title = this.find("[data-title]").val();
+                                    
+                                    if (url === "http://" || url === "")
+                                    {
+                                        alert(linkLang.urlEmpty);
+                                        return false;
+                                    }
+                                    
+                                    if (title === "")
+                                    {
+                                        alert(linkLang.titleEmpty);
+                                        return false;
+                                    }
+
+                                    codeEditor.replaceSelection("[" + title + "](" + url + " \""+title+"\")");
+                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }],
+                                cancel : [lang.buttons.cancel, function() {                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }]
+                            }
+                        });
+                    }
+                },
+
+                anchor : function() {
+                    
+                    var anchorLang = lang.dialog.anchor;
+                    var anchorDialogName = classPrefix + "anchor-dialog", anchorDialog;
+
+                    if (editor.find("." + anchorDialogName).length > 0)
+                    {
+                        anchorDialog = editor.find("." + anchorDialogName);
+                        anchorDialog.find("[data-name]").val("");
+                        anchorDialog.find("[data-url]").val("http://");
+                        anchorDialog.find("[data-title]").val(selection);
+                        
+                        dialogShowMask(anchorDialog);
+                        dialogLockScreen();
+                        anchorDialog.show();
+                    }
+                    else 
+                    {      
+                        var anchorDialogHTML = "<div class=\"" + classPrefix + "form\">" +
+                                                "<label>" + anchorLang.name + "</label>" +
+                                                "<input type=\"text\" data-name />" +  
+                                                "<br/>" +
+                                                "<label>" + anchorLang.url + "</label>" +
+                                                "<input type=\"text\" value=\"http://\" data-url />" + 
+                                                "<br/>" +
+                                                "<label>" + anchorLang.urlTitle + "</label>" +
+                                                "<input type=\"text\" value=\"" + selection + "\" data-title />" +
+                                                "<br/>" +
+                                            "</div>";
+
+                        anchorDialog = _this.createDialog({   
+                            name   : anchorDialogName,
+                            title  : anchorLang.title,
+                            width  : 380,
+                            height : 250,
+                            content : anchorDialogHTML,
+                            mask   : settings.dialogShowMask,
+                            drag   : settings.dialogDraggable,
+                            lockScreen : settings.dialogLockScreen,
+                            maskStyle  : {
+                                opacity         : settings.dialogMaskOpacity,
+                                backgroundColor : settings.dialogMaskBgColor
+                            },
+                            buttons : {
+                                enter  : [lang.buttons.enter, function() {
+                                    var name  = this.find("[data-name]").val();
+                                    var url   = this.find("[data-url]").val();
+                                    var title = this.find("[data-title]").val();
+                                    
+                                    if (name === "")
+                                    {
+                                        alert(anchorLang.nameEmpty);
+                                        return false;
+                                    }
+                                    
+                                    if (url === "http://" || url === "")
+                                    {
+                                        alert(anchorLang.urlEmpty);
+                                        return false;
+                                    }
+                                    
+                                    if (title === "")
+                                    {
+                                        alert(anchorLang.titleEmpty);
+                                        return false;
+                                    }
+
+                                    codeEditor.replaceSelection("[" + title + "][" + name + "]\n[" + name + "]: " + url + "");
+
+                                    if (selection === "") {
+                                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                                    }
+                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }],
+                                cancel : [lang.buttons.cancel, function() {                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }]
+                            }
+                        });
+                    }
+                },
+
+                image : function() {
+                    var imageLang       = lang.dialog.image;
+                    var iframeName      = classPrefix + "image-iframe";                        
+                    var imageDialogName = classPrefix + "image-dialog", imageDialog;
+
+                    if (editor.find("." + imageDialogName).length > 0) 
+                    {
+                        imageDialog = editor.find("." + imageDialogName);
+                        imageDialog.find("[type=\"text\"]").val("");
+                        imageDialog.find("[type=\"file\"]").val("");
+                        imageDialog.find("[data-link]").val("http://");
+                        
+                        dialogShowMask(imageDialog);
+                        dialogLockScreen();
+                        imageDialog.show();
+                    } 
+                    else 
+                    {    
+                        var guid   = (new Date).getTime();
+                        var action = settings.imageUploadURL + "?guid=" + guid;
+                        
+                        if (settings.crossDomainUpload)
+                        {
+                            action += "&callback=" + settings.uploadCallbackURL + "&dialog_id=editormd-image-dialog-" + guid;
+                        }
+                        
+                        var imageDialogHTML = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
+                                                ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
+                                                "<label>" + imageLang.url + "</label>" +
+                                                "<input type=\"text\" data-url />" + (function(){
+                                                    return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
+                                                                                        "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                                                                                        "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
+                                                                                    "</div>" : "";
+                                                })() +
+                                                "<br/>" +
+                                                "<label>" + imageLang.alt + "</label>" +
+                                                "<input type=\"text\" data-alt />" + 
+                                                "<br/>" +
+                                                "<label>" + imageLang.link + "</label>" +
+                                                "<input type=\"text\" value=\"http://\" data-link />" +
+                                                "<br/>" +
+                                            ( (settings.imageUpload) ? "</form>" : "</div>");
+
+                        //var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";  
+
+                        imageDialog = _this.createDialog({
+                            title   : imageLang.title,
+                            width   : (settings.imageUpload) ? 465 : 380,
+                            height  : 250,
+                            name    : imageDialogName,
+                            content : imageDialogHTML,
+                            mask    : settings.dialogShowMask,
+                            drag    : settings.dialogDraggable,
+                            lockScreen : settings.dialogLockScreen,
+                            maskStyle  : {
+                                opacity         : settings.dialogMaskOpacity,
+                                backgroundColor : settings.dialogMaskBgColor
+                            },
+                            buttons : {
+                                enter : [lang.buttons.enter, function() {
+                                    var url  = this.find("[data-url]").val();
+                                    var alt  = this.find("[data-alt]").val();
+                                    var link = this.find("[data-link]").val();
+                                    
+                                    if (url === "")
+                                    {
+                                        alert(imageLang.imageURLEmpty);
+                                        return false;
+                                    }
+
+                                    if (link === "" || link === "http://")
+                                    {                                    
+                                        codeEditor.replaceSelection("![" + alt + "](" + url + " \"" + alt + "\")");
+                                    }
+                                    else 
+                                    {                                   
+                                        codeEditor.replaceSelection("[![" + alt + "](" + url + " \"" + alt + "\")](" + link + " \"" + alt + "\")");
+                                    }
+
+                                    if (alt === "") {
+                                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                                    }
+                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }],
+                                cancel : [lang.buttons.cancel, function() {                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }]
+                            }
+                        });
+                        
+                        imageDialog.attr("id", classPrefix + "image-dialog-" + guid);
+                    }
+                    
+                    var fileInput  = imageDialog.find("[name=\"" + classPrefix + "image-file\"]");
+
+                    fileInput.bind("change", function() {
+                        var fileName  = fileInput.val();
+                        var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+
+                        if (fileName === "")
+                        {
+                            alert(imageLang.uploadFileEmpty);
+                        }
+                        else if (!isImage.test(fileName))
+                        {      
+                            alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
+                        } 
+                        else 
+                        {
+                            imageDialog.loading(true);
+
+                            var submitHandler = function() {
+                                if (settings.crossDomainUpload) {                                    
+                                    imageDialog.loading(false);
+                                    return ;
+                                }
+                                
+                                var uploadIframe = document.getElementById(iframeName);
+                                
+                                uploadIframe.onload = function() {
+                                    imageDialog.loading(false);
+                                    
+                                    var json = uploadIframe.contentWindow.document.body.innerHTML;
+                                    json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+
+                                    if (json.success === 1)
+                                    {
+                                        imageDialog.find("[data-url]").val(json.url);
+                                    }
+                                    else
+                                    {
+                                        alert(json.message);
+                                    }
+
+                                    return false;
+                                };
+                            };
+
+                            imageDialog.find("[type=\"submit\"]").bind(editormd.mouseOrTouch("click", "touchend"), submitHandler).trigger("click");
+
+                        }                    
+
+                        return false;
+                    });
+                },
+
+                code : function() {
+
+                    codeEditor.replaceSelection("`" + selection + "`");
+
+                    if (selection === "") {
+                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                    }
+
+                },
+
+                "code-block-tab" : function() {
+                    var tabCodeBlockDialogName = classPrefix + "dialog-tab-code-block", tabCodeBlockDialog;                     
+                    
+                    if (editor.find("." + tabCodeBlockDialogName).length > 0)
+                    {
+                        tabCodeBlockDialog = editor.find("." + tabCodeBlockDialogName);
+                        tabCodeBlockDialog.find("textarea").val("");
+                        
+                        dialogShowMask(tabCodeBlockDialog);
+                        dialogLockScreen();
+                        tabCodeBlockDialog.show();
+                    }
+                    else 
+                    {      
+                        var tabCodeBlockDialogHTML = "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 300px;\"></textarea>";
+
+                        tabCodeBlockDialog = _this.createDialog({
+                            name   : tabCodeBlockDialogName,
+                            title  : lang.dialog.tabCodeBlock.title,
+                            width  : 750,
+                            height : 470,
+                            mask   : settings.dialogShowMask,
+                            drag   : settings.dialogDraggable,
+                            content : tabCodeBlockDialogHTML,
+                            lockScreen : settings.dialogLockScreen,
+                            maskStyle  : {
+                                opacity         : settings.dialogMaskOpacity,
+                                backgroundColor : settings.dialogMaskBgColor
+                            },
+                            buttons : {
+                                enter  : [lang.buttons.enter, function() {
+                                    var codeTexts  = this.find("textarea").val();
+                                    
+                                    if (codeTexts === "")
+                                    {
+                                        alert(lang.dialog.tabCodeBlock.codeEmptyAlert);
+                                        return false;
+                                    }
+                                    
+                                    codeTexts = codeTexts.split("\n");
+                                    
+                                    for (var i in codeTexts)
+                                    {
+                                        codeTexts[i] = "    " + codeTexts[i];
+                                    }
+                                    
+                                    codeEditor.replaceSelection(codeTexts.join("\n"));
+                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }],
+                                cancel : [lang.buttons.cancel, function() {                                  
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }]
+                            }
+                        });
+                    }
+                },
+
+                "code-block" : function() {
+
+                    var codeBlockDialogName = classPrefix + "dialog-code-block", codeBlockDialog;
+
+                    if (editor.find("." + codeBlockDialogName).length > 0)
+                    {
+                        codeBlockDialog = editor.find("." + codeBlockDialogName);
+                        codeBlockDialog.find("option:first").attr("selected", "selected");
+                        codeBlockDialog.find("textarea").val("");
+                        
+                        dialogShowMask(codeBlockDialog);
+                        dialogLockScreen();
+                        codeBlockDialog.show();
+                    }
+                    else 
+                    {      
+                        var codeBlockDialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
+                                                lang.dialog.codeBlock.selectLabel + "<select><option selected=\"selected\" value=\"\">" + lang.dialog.codeBlock.selectDefaultText + "</option></select>" +
+                                            "</div>" +
+                                            "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 360px;\"></textarea>";
+
+                        codeBlockDialog = _this.createDialog({
+                            name   : codeBlockDialogName,
+                            title  : lang.dialog.codeBlock.title,
+                            width  : 752,
+                            height : 565,
+                            mask   : settings.dialogShowMask,
+                            drag   : settings.dialogDraggable,
+                            content    : codeBlockDialogHTML,
+                            lockScreen : settings.dialogLockScreen,
+                            maskStyle  : {
+                                opacity         : settings.dialogMaskOpacity,
+                                backgroundColor : settings.dialogMaskBgColor
+                            },
+                            buttons : {
+                                enter  : [lang.buttons.enter, function() {
+                                    var codeTexts  = this.find("textarea").val();
+                                    var langName   = this.find("select").val();
+                                    
+                                    if (langName === "")
+                                    {
+                                        alert(lang.dialog.codeBlock.unselectedLanguageAlert);
+                                        return false;
+                                    }
+                                    
+                                    if (codeTexts === "")
+                                    {
+                                        alert(lang.dialog.codeBlock.codeEmptyAlert);
+                                        return false;
+                                    }
+                                    
+                                    langName = (langName === "other") ? "" : langName;
+                                    
+                                    codeEditor.replaceSelection(["```" + langName, codeTexts, "```"].join("\n"));
+
+                                    if (langName === "") {
+                                        codeEditor.setCursor(cursor.line, cursor.ch + 3);
+                                    }
+                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }],
+                                cancel : [lang.buttons.cancel, function() {                                   
+                                    this.hide().lockScreen(false).hideMask();
+                                    
+                                    return false;
+                                }]
+                            }
+                        });
+                        
+                        var langSelect = codeBlockDialog.find("select");
+                        
+                        for (var key in editormd.codeLanguages)
+                        {
+                            var codeLang = editormd.codeLanguages[key];
+                            langSelect.append("<option value=\"" + key + "\">" + codeLang + "</option>");
+                        }
+                        
+                        langSelect.append("<option value=\"other\">" + lang.dialog.codeBlock.otherLanguage + "</option>");
+                    }
+                },
+
+                datetime : function() {
+                    var date     = new Date();
+                    var langName = settings.lang.name;
+                    codeEditor.replaceSelection(editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day"));
+                },
+
+                watch : function() {                        
+                    _this[_this.settings.watch ? "unwatch" : "watch"]();
+                },
+
+                preview : function() {
+
+                    _this.previewing();
+                },
+
+                fullscreen : function() {
+
+                    _this.fullscreen();
+                },
+
+                clear : function() {
+                    _this.clear();
+                },
+
+                info : function() {
+                    _this.showInfoDialog();
+                }
+            };
+            
+            return (name && typeof toolbarIconHandlers[name] !== "undefined") ? toolbarHandlers[name] : toolbarHandlers;
+        },
         
         /**
          * 工具栏图标事件处理器
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        toolbarHandler : function() {
-            var settings         = this.settings; 
+        setToolbarHandler : function() {
+            var _this               = this;
+            var settings            = this.settings;
             
-            if (!settings.toolbar) {
+            if (!settings.toolbar || settings.readOnly) {
                 return ;
-            }            
+            }
             
-            var _this            = this;
-            var editor           = this.editor;
-            var preview          = this.preview;
-            var toolbar          = this.toolbar;
-            var codeEditor       = this.codeEditor;
-            var codeMirror       = this.codeMirror;
-            var previewContainer = this.previewContainer;            
-            var toolbarIcons     = this.toolbarIcons = toolbar.find("." + this.classPrefix + "menu .fa");
+            var editor              = this.editor;
+            var preview             = this.preview;
+            var toolbar             = this.toolbar;
+            var codeEditor          = this.codeEditor;
+            var codeMirror          = this.codeMirror;
+            var classPrefix         = this.classPrefix;
+            var previewContainer    = this.previewContainer;            
+            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu a");            
+            var toolbarIconHandlers = _this.getToolbarHandles();
                 
             toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
 
-                var icon      = $(this);
+                var icon      = $(this).children(".fa");
                 var name      = icon.attr("name");
                 var cursor    = codeEditor.getCursor();
                 var selection = codeEditor.getSelection();
@@ -454,196 +1207,306 @@
                 if (name === "") {
                     return ;
                 }
+                
+                _this.activeIcon = icon;
 
-                //console.log("toolbarIcons.click =>", name);
-            
-                var toolbarIconHandlers  = _this.toolbarIconHandlers = {
-                    undo : function() {
-                        codeEditor.undo();
-                    },
-                    redo : function() {
-                        codeEditor.redo();
-                    },
-                    bold : function() {
-
-                        codeEditor.replaceSelection("**" + selection + "**");
-
-                        if(selection === "") {
-                            codeEditor.setCursor(cursor.line, cursor.ch + 2);
-                        }                    
-                    },
-                    del : function() {
-
-                        codeEditor.replaceSelection("~~" + selection + "~~");
-
-                        if(selection === "") {
-                            codeEditor.setCursor(cursor.line, cursor.ch + 2);
-                        }
-                    },
-
-                    italic : function() {
-                        codeEditor.replaceSelection("*" + selection + "*");
-
-                        if(selection === "") {
-                            codeEditor.setCursor(cursor.line, cursor.ch + 1);
-                        }
-                    },
-
-                    quote : function() {
-                        codeEditor.replaceSelection((selection === "") ? ["> " + selection, ""].join("\n") : "> " + selection);
-                        codeEditor.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
-                    },
-
-                    h1 : function() {
-                        codeEditor.replaceSelection("#" + selection);
-                    },
-
-                    h2 : function() {
-                        codeEditor.replaceSelection("##" + selection);
-                    },
-
-                    h3 : function() {
-                        codeEditor.replaceSelection("###" + selection);
-                    },
-
-                    h4 : function() {
-                        codeEditor.replaceSelection("####" + selection);
-                    },
-
-                    h5 : function() {
-                        codeEditor.replaceSelection("#####" + selection);
-                    },
-
-                    h6 : function() {
-                        codeEditor.replaceSelection("######" + selection);
-                    },
-
-                    "list-ul" : function() {
-
-                        if (selection === "") 
-                        {
-                            codeEditor.replaceSelection("- " + selection);
-                        } 
-                        else 
-                        {
-                            var selectionText = selection.split("\n");
-
-                            for (var i = 0, len = selectionText.length; i < len; i++) 
-                            {
-                                selectionText[i] = (selectionText[i] === "") ? "" : "- " + selectionText[i];
-                            }
-
-                            codeEditor.replaceSelection(selectionText.join("\n"));
-                        }
-                    },
-
-                    "list-ol" : function() {
-
-                        if(selection === "") 
-                        {
-                            codeEditor.replaceSelection("1. " + selection);
-                        }
-                        else
-                        {
-                            var selectionText = selection.split("\n");
-
-                            for (var i = 0, len = selectionText.length; i < len; i++) 
-                            {
-                                selectionText[i] = (selectionText[i] === "") ? "" : (i+1) + ". " + selectionText[i];
-                            }
-
-                            codeEditor.replaceSelection(selectionText.join("\n"));
-                        }
-                    },
-
-                    hr : function() {
-                        codeEditor.replaceSelection("------------");
-                    },
-
-                    link : function() {
-                        codeEditor.replaceSelection("[" + selection + "](" + selection + " \""+selection+"\")");
-                    },
-
-                    picture : function() {
-                        codeEditor.replaceSelection("![" + selection + "](" + selection + " \""+selection+"\")");
-                    },
-
-                    code : function() {
-
-                        codeEditor.replaceSelection("`" + selection + "`");
-
-                        if (selection === "") {
-                            codeEditor.setCursor(cursor.line, cursor.ch + 1);
-                        }
-
-                    },
-
-                    "code-block-tab" : function() {
-                        codeEditor.replaceSelection("    " + selection);                    
-                    },
-
-                    "code-block" : function() {
-
-                        codeEditor.replaceSelection(["```", selection, "```"].join("\n"));
-
-                        if (selection === "") {
-                            codeEditor.setCursor(cursor.line, cursor.ch + 3);
-                        } 
-
-                    },
-
-                    datetime : function() {
-                        var date = new Date();
-                        codeEditor.replaceSelection(editormd.dateFormat() + " " + editormd.dateFormat("cn-week-day"));
-                    },
-                    
-                    watch : function() {
-                        if (_this.settings.watch)
-                        {  
-                            _this.unwatch();
-                        } 
-                        else 
-                        {    
-                            _this.watch();
-                        }
-
-                        event.preventDefault();
-
-                        return false;
-                    },
-                    
-                    preview : function() {
-                        
-                        _this.previewing();
-                        event.preventDefault();
-
-                        return false;
-                    },
-                    
-                    fullscreen : function() {
-                        
-                        _this.fullscreen();
-                        event.preventDefault(); 
-
-                        return false;
-                    },
-                    
-                    info : function() {
-                        _this.showInfoDialog();
-                        event.preventDefault(); 
-
-                        return false;
+                if (typeof toolbarIconHandlers[name] !== "undefined") 
+                {
+                    toolbarIconHandlers[name]();
+                }
+                else 
+                {
+                    if (typeof settings.toolbarHandlers[name] !== "undefined") 
+                    {
+                        $.proxy(settings.toolbarHandlers[name], _this)(codeEditor, icon, cursor, selection);
                     }
-                };
-
-                toolbarIconHandlers[name]();
-
-                codeEditor.focus();
-                event.preventDefault(); 
+                }
+                
+                if (name !== "link" && name !== "anchor" && name !== "image" && name !== "code-block" && name !== "code-block-tab" && name !== "watch" && name !== "preview" && name !== "fullscreen" && name !== "info") 
+                {
+                    codeEditor.focus();
+                }
 
                 return false;
 
             });
+
+            return this;
+        },
+        
+        /**
+         * 动态创建对话框
+         * @param   {Object} options  配置项键值对 Key/Value
+         * @returns {dialog}          返回创建的dialog的jQuery实例对象
+         */
+        
+        createDialog : function(options) {
+            var defaults = {
+                name : "",
+                width : 420,
+                height: 240,
+                title : "",
+                drag  : true,
+                closed : true,
+                content : "",
+                mask : true,
+                maskStyle : {
+                    backgroundColor : "#fff",
+                    opacity : 0.1
+                },
+                lockScreen : true,
+                footer : true,
+                buttons : false
+            };
+
+            options          = $.extend(true, defaults, options);
+
+            var editor       = this.editor;
+            var classPrefix  = this.classPrefix;
+            var guid         = (new Date).getTime();
+            var dialogName   = ( (options.name === "") ? classPrefix + "dialog-" + guid : options.name);
+            var mouseOrTouch = editormd.mouseOrTouch;
+            
+            var html         = "<div class=\"" + classPrefix + "dialog " + dialogName + "\">";
+
+            if (options.title !== "")
+            {
+                html += "<div class=\"" + classPrefix + "dialog-header\"" + ( (options.drag) ? " style=\"cursor: move;\"" : "" ) + ">";
+                html += "<strong class=\"" + classPrefix + "dialog-title\">" + options.title + "</strong>";
+                html += "</div>";
+            }
+
+            if (options.closed)
+            {
+                html += "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>";
+            }
+
+            html += "<div class=\"" + classPrefix + "dialog-container\">" + options.content;                    
+
+            if (options.footer || typeof options.footer === "string") 
+            {
+                html += "<div class=\"" + classPrefix + "dialog-footer\">" + ( (typeof options.footer === "boolean") ? "" : options.footer) + "</div>";
+            }
+
+            html += "</div>";
+
+            html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-bg\"></div>";
+            html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-con\"></div>";
+            html += "</div>";
+
+            editor.append(html);
+
+            var dialog = editor.find("." + dialogName);
+            
+            dialog.lockScreen = function(lock) {
+                if (options.lockScreen)
+                {                
+                    $("html,body").css("overflow", (lock) ? "hidden" : "");
+                }
+                
+                return dialog;
+            };
+
+            dialog.showMask = function() {
+                if (options.mask)
+                {
+                    editor.find("." + classPrefix + "mask").css(options.maskStyle).css("z-index", editormd.dialogZindex - 1).show();
+                }
+                return dialog;
+            };
+
+            dialog.hideMask = function() {                        
+                if (options.mask)
+                {
+                    editor.find("." + classPrefix + "mask").hide();
+                }
+                
+                return dialog;
+            };
+
+            dialog.loading = function(show) {                        
+                var loading = dialog.find("." + classPrefix + "dialog-mask");
+                loading[(show) ? "show" : "hide"]();
+                
+                return dialog;
+            };
+            
+            dialog.lockScreen(true).showMask();
+
+            dialog.show().css({
+                zIndex : editormd.dialogZindex,
+                border : (editormd.isIE8) ? "1px solid #ddd" : "",
+                width  : (typeof options.width  === "number") ? options.width + "px"  : options.width,
+                height : (typeof options.height === "number") ? options.height + "px" : options.height
+            });
+
+            var dialogPosition = function(){
+                dialog.css({
+                    top    : ($(window).height() - dialog.height()) / 2 + "px",
+                    left   : ($(window).width() - dialog.width()) / 2 + "px"
+                });
+            };
+
+            dialogPosition();
+
+            $(window).resize(dialogPosition);
+
+            dialog.children("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
+                dialog.hide().lockScreen(false).hideMask();
+            });
+
+            if (typeof options.buttons == "object")
+            {
+                var footer = dialog.footer = dialog.find("." + classPrefix + "dialog-footer");
+
+                for (var key in options.buttons)
+                {
+                    var btn = options.buttons[key];
+                    var btnClassName = classPrefix + key + "-btn";
+
+                    footer.append("<button class=\"" + classPrefix + "btn " + btnClassName + "\">" + btn[0] + "</button>");
+                    btn[1] = $.proxy(btn[1], dialog);
+                    footer.children("." + btnClassName).bind(mouseOrTouch("click", "touchend"), btn[1]);
+                }
+            }
+
+            if (options.title !== "" && options.drag)
+            {                        
+                var posX, posY;
+                var dialogHeader = dialog.children("." + classPrefix + "dialog-header");
+
+                if (!options.mask) {
+                    dialogHeader.bind(mouseOrTouch("click", "touchend"), function(){
+                        editormd.dialogZindex += 2;
+                        dialog.css("z-index", editormd.dialogZindex);
+                    });
+                }
+
+                dialogHeader.mousedown(function(e) {
+                    e = e || window.event;  //IE
+                    posX = e.clientX - parseInt(dialog[0].style.left);
+                    posY = e.clientY - parseInt(dialog[0].style.top);
+
+                    document.onmousemove = moveAction;                   
+                });
+
+                var userCanSelect = function (obj) {
+                    obj.removeClass(classPrefix + "user-unselect").off("selectstart");
+                }
+
+                var userUnselect = function (obj) {
+                    obj.addClass(classPrefix + "user-unselect").on("selectstart", function(event) { // selectstart for IE                        
+                        return false;
+                    });
+                }
+
+                var moveAction = function (e) {
+                    e = e || window.event;  //IE
+
+                    var left, top, nowLeft = parseInt(dialog[0].style.left), nowTop = parseInt(dialog[0].style.top);
+
+                    if( nowLeft >= 0 ) {
+                        if( nowLeft + dialog.width() <= $(window).width()) {
+                            left = e.clientX - posX;
+                        } else {	
+                            left = $(window).width() - dialog.width();
+                            document.onmousemove = null;
+                        }
+                    } else {
+                        left = 0;
+                        document.onmousemove = null;
+                    }
+
+                    if( nowTop >= 0 ) {
+                        top = e.clientY - posY;
+                    } else {
+                        top = 0;
+                        document.onmousemove = null;
+                    }
+
+                    
+                    document.onselectstart = function() {
+                        return false;
+                    };
+                    
+                    userUnselect($("body"));
+                    userUnselect(dialog);
+                    dialog[0].style.left = left + "px";
+                    dialog[0].style.top  = top + "px";
+                }
+
+                document.onmouseup = function() {                            
+                    userCanSelect($("body"));
+                    userCanSelect(dialog);
+                    
+                    document.onselectstart = null;         
+                    document.onmousemove = null;
+                };
+
+                dialogHeader.touchDraggable = function() {
+                    var offset = null;
+                    var start  = function(e) {
+                        var orig = e.originalEvent; 
+                        var pos  = $(this).parent().position();
+
+                        offset = {
+                            x : orig.changedTouches[0].pageX - pos.left,
+                            y : orig.changedTouches[0].pageY - pos.top
+                        };
+                    };
+
+                    var move = function(e) {
+                        e.preventDefault();
+                        var orig = e.originalEvent;
+
+                        $(this).parent().css({
+                            top  : orig.changedTouches[0].pageY - offset.y,
+                            left : orig.changedTouches[0].pageX - offset.x
+                        });
+                    };
+
+                    this.bind("touchstart", start).bind("touchmove", move);
+                };
+
+                dialogHeader.touchDraggable();
+            }
+
+            editormd.dialogZindex += 2;
+
+            return dialog;
+        },
+        
+        /**
+         * 创建关于Editor.md的对话框
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        createInfoDialog : function() {
+            var _this        = this;
+			var editor       = this.editor;
+            var classPrefix  = this.classPrefix;  
+            
+            var infoDialogHTML = [
+                "<div class=\"" + classPrefix + "dialog " + classPrefix + "dialog-info\">",
+                "<div class=\"" + classPrefix + "dialog-container\">",
+                "<h1><i class=\"editormd-logo editormd-logo-lg editormd-logo-color\"></i> " + editormd.title + "<small>v" + editormd.version + "</small></h1>",
+                "<p>" + this.lang.description + "</p>",
+                "<p>Home page: <a href=\"" + editormd.homePage + "\" traget=\"_blank\">" + editormd.homePage + "</a></p>",
+                "<p>License: MIT</p>",
+                "</div>",
+                "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>",
+                "</div>"
+            ].join("\n");
+
+            editor.append(infoDialogHTML);
+            
+            var infoDialog  = this.infoDialog = editor.find("." + classPrefix + "dialog-info");
+
+            infoDialog.find("." + classPrefix + "dialog-close").bind(editormd.mouseOrTouch("click", "touchend"), function() {
+                _this.hideInfoDialog();
+            });
+            
+            infoDialog.css("border", (editormd.isIE8) ? "1px solid #ddd" : "");
 
             return this;
         },
@@ -656,7 +1519,29 @@
         showInfoDialog : function() {
 
             $("html,body").css("overflow-x", "hidden");
-            this.editor.find("." + this.classPrefix + "dialog-info").fadeIn();
+            
+            var _this       = this;
+			var editor      = this.editor;
+            var classPrefix = this.classPrefix;            
+			var infoDialog  = this.infoDialog = editor.find("." + classPrefix + "dialog-info");
+            
+            if (infoDialog.length < 1)
+            {
+                this.createInfoDialog();
+            }
+
+			infoDialog.show();
+
+			var infoDialogPosition = function() {
+				infoDialog.css({
+					top  : ($(window).height() - infoDialog.height()) / 2 + "px",
+					left : ($(window).width() - infoDialog.width()) / 2 + "px"
+				});
+			};
+
+			infoDialogPosition();
+
+			$(window).resize(infoDialogPosition);
 
             return this;
         },
@@ -668,7 +1553,7 @@
         
         hideInfoDialog : function() {
             $("html,body").css("overflow-x", "");
-            this.editor.find("." + this.classPrefix + "dialog-info").fadeOut();
+            this.infoDialog.hide();
 
             return this;
         },
@@ -686,12 +1571,42 @@
                 renderer    : editormd.markedRenderer(markdownToC),
                 gfm         : true,
                 tables      : true,
-                breaks      : false,
+                breaks      : true,
                 pedantic    : false,
-                sanitize    : true,
+                sanitize    : (this.settings.htmlDecode) ? false : true,  // 关闭忽略HTML标签，即开启识别HTML标签，默认为false
                 smartLists  : true,
                 smartypants : true
             });
+
+            return this;
+        },
+        
+        
+        /**
+         * 编辑器界面重建，用于动态语言包或模块加载等
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        recreateEditor : function() {
+            var _this            = this;
+            var editor           = this.editor;
+            var settings         = this.settings;
+            var toolbarIcons     = settings.toolbarIcons();            
+            
+            if (typeof this.infoDialog !== "undefined") {
+                this.infoDialog.remove();
+            }
+            
+            if (typeof toolbarIcons["info"] !== "undefined") {
+                createInfoDialog();
+            }
+
+            if (!settings.readOnly) {
+                this.getToolbarHandles();
+                this.setToolbar();
+            }
+            
+            this.resize();
 
             return this;
         },
@@ -708,34 +1623,44 @@
             var _this            = this;
             var editor           = this.editor;
             var preview          = this.preview;
-            var toolbar          = this.toolbar;
             var settings         = this.settings;
             var codeEditor       = this.codeEditor;
             var codeMirror       = this.codeMirror;
             var previewContainer = this.previewContainer;
             var mouseOrTouch     = editormd.mouseOrTouch;
-            var htmlTextarea     = this.htmlTextarea     = editor.find("."+this.classNames.textarea.html);
-            var markdownTextarea = this.markdownTextarea = editor.find("."+this.classNames.textarea.markdown);
             
             editor.css("background", "none");
             
             this.saveToTextareas();
             
-            preview.show();
-            
-            if (settings.previewCodeHighlight) 
-            {
-                previewContainer.find("pre").addClass("prettyprint linenums");
-                prettyPrint();
+            if(settings.watch) {
+                preview.show();
             }
             
-            if (settings.flowChart) {
-                previewContainer.find(".flowchart").flowChart(); 
-            }
+            var codeHighlight = function() {                       
+                if (settings.previewCodeHighlight) 
+                {
+                    previewContainer.find("pre").addClass("prettyprint linenums");
+                    prettyPrint();
+                }
+            };
             
-            if (settings.sequenceDiagram) {
-                previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
-            }
+            var flowChartAndSequenceDiagramHandle = function() {
+            
+                if (editormd.isIE8) return ;
+
+                if (settings.flowChart) {
+                    previewContainer.find(".flowchart").flowChart(); 
+                }
+
+                if (settings.sequenceDiagram) {
+                    previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+                }
+            };
+            
+            codeHighlight();
+            
+            flowChartAndSequenceDiagramHandle();
             
             var katexHandle = function() {
                 previewContainer.find("." + editormd.classNames.tex).each(function(){
@@ -756,26 +1681,19 @@
                 }
             }
             
-            editor.data({
-                oldWidth  : editor.outerWidth(),
-                oldHeight : editor.outerHeight()
-            });
+            editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // 为了兼容Zepto
             
-            this.resize(); 
-
+            this.resize();
+            
             $(window).resize(function(){
                 _this.resize();
             });
             
-            $.proxy(this.settings.onload, this)();
-
-            editor.find("." + this.classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
-                _this.hideInfoDialog();
-            });
+            $.proxy(settings.onload, this)();
                 
             var codeEditorBindScroll = function() {    
                 codeMirror.find(".CodeMirror-scroll").bind(mouseOrTouch("scroll", "touchmove"), function() {
-                    var height    = $(this).outerHeight();
+                    var height    = $(this).height();
                     var scrollTop = $(this).scrollTop();                    
                     var percent   = (scrollTop / $(this)[0].scrollHeight);
 
@@ -800,7 +1718,7 @@
 
             var previewBindScroll = function() {
                 preview.bind(mouseOrTouch("scroll", "touchmove"), function() {
-                    var height    = $(this).outerHeight();
+                    var height    = $(this).height();
                     var scrollTop = $(this).scrollTop();                    
                     var percent   = (scrollTop / $(this)[0].scrollHeight);
                     var codeView  = codeMirror.find(".CodeMirror-scroll");
@@ -823,9 +1741,20 @@
             var previewUnbindScroll = function() {
                 preview.unbind(mouseOrTouch("scroll", "touchmove"));
             }; 
+
+			codeMirror.bind({
+				mouseover  : codeEditorBindScroll,
+				mouseout   : codeEditorUnbindScroll,
+				touchstart : codeEditorBindScroll,
+				touchend   : codeEditorUnbindScroll
+			});
             
-            codeMirror.hover(codeEditorBindScroll, codeEditorUnbindScroll).bind("touchstart", codeEditorBindScroll).bind("touchend", codeEditorUnbindScroll);  
-            preview.hover(previewBindScroll, previewUnbindScroll).bind("touchstart", previewBindScroll).bind("touchend", previewUnbindScroll);
+			preview.bind({
+				mouseover  : previewBindScroll,
+				mouseout   : previewUnbindScroll,
+				touchstart : previewBindScroll,
+				touchend   : previewUnbindScroll
+			});
 
             codeEditor.on("change", function(cm, changeObj) { 
 
@@ -834,21 +1763,12 @@
                 }
                 
                 _this.saveToTextareas();
-
-                if (settings.previewCodeHighlight) {
-                    preview.find("pre").addClass("prettyprint linenums");
-                    prettyPrint();      
-                }
-
-                if (settings.flowChart) {
-                    previewContainer.find(".flowchart").flowChart(); 
-                }
                 
-                if (settings.sequenceDiagram) {
-                    previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
-                }
+                codeHighlight();
+
+                flowChartAndSequenceDiagramHandle();
                 
-                if (settings.tex) {                                
+                if (settings.tex) {                             
                     katexHandle();
                 }
                 
@@ -866,10 +1786,7 @@
         
         width : function(width) {
                 
-            this.editor.css({
-                width  : (typeof width === "number") ? width  + "px" : width
-            });
-            
+            this.editor.css("width", (typeof width === "number") ? width  + "px" : width);            
             this.resize();
             
             return this;
@@ -883,10 +1800,7 @@
         
         height : function(height) {
                 
-            this.editor.css({
-                height  : (typeof height === "number")  ? height  + "px" : height
-            });
-            
+            this.editor.css("height", (typeof height === "number")  ? height  + "px" : height);            
             this.resize();
             
             return this;
@@ -908,7 +1822,6 @@
             var preview          = this.preview;
             var toolbar          = this.toolbar;
             var settings         = this.settings;
-            var infoDialog       = this.infoDialog;
             var codeEditor       = this.codeEditor;
             var codeMirror       = this.codeMirror;
             
@@ -919,32 +1832,29 @@
                     height : (typeof height === "number") ? height + "px" : height
                 });
             }
-            
-            infoDialog.css({
-                top  : (editor.height() - infoDialog.height()) / 2,
-                left : (editor.width() - infoDialog.width()) / 2
-            });
                         
-            if (settings.toolbar) {            
-                codeMirror.css("margin-top", toolbar.outerHeight()).outerHeight(editor.height() - toolbar.outerHeight());
+            if (settings.toolbar && !settings.readOnly) {
+                codeMirror.css("margin-top", toolbar.height() + 1).height(editor.height() - toolbar.height());
             } else {
-                codeMirror.css("margin-top", 0).outerHeight(editor.height());
+                codeMirror.css("margin-top", 0).height(editor.height());
             }
             
-            if(this.settings.watch) 
+            codeMirror.find(".CodeMirror-gutters").height(codeMirror.height());
+            
+            if(settings.watch) 
             {
-                codeMirror.outerWidth(editor.width() / 2);
-                preview.outerWidth(editor.width() / 2);
+                codeMirror.width(editor.width() / 2);
+                preview.width(editor.width() / 2);
                 
-                if (settings.toolbar) {
-                    preview.css("top", toolbar.outerHeight()).outerHeight(editor.height() - toolbar.outerHeight());
+                if (settings.toolbar && !settings.readOnly) {
+                    preview.css("top", toolbar.height()).height(editor.height() - toolbar.height());
                 } else {
-                    preview.css("top", 0).outerHeight(editor.height());
+                    preview.css("top", 0).height(editor.height());
                 }
             } 
             else 
             {
-                codeMirror.outerWidth(editor.width());
+                codeMirror.width(editor.width());
                 preview.hide();
             }
 
@@ -966,14 +1876,101 @@
             var markdownToC      = this.markdownToC   = [];
             var newMarkdownDoc   = editormd.$marked(codeEditor.getValue(), {renderer : editormd.markedRenderer(markdownToC)});
 
-            this.markdownTextarea.html(codeEditor.getValue());   
-            this.htmlTextarea.html(newMarkdownDoc);
+            this.markdownTextarea.val(codeEditor.getValue());
             
-            previewContainer.html(newMarkdownDoc);
-            
-            if (settings.toc) {
-                editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
+            if (settings.saveHTMLToTextarea) {     
+                this.htmlTextarea.html(newMarkdownDoc);
             }
+            
+            if(settings.watch)
+            {
+                previewContainer.html(newMarkdownDoc);
+            
+                if (settings.toc) {
+                    editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
+                }
+            }
+
+            return this;
+        },
+        
+        /**
+         * 聚焦光标位置
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        focus : function() {
+            this.codeEditor.focus();
+
+            return this;
+        },
+        
+        /**
+         * 设置光标的位置
+         * @param   {Object}    cursor 要设置的光标位置键值对象，例：{line:1, ch:0}
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        setCursor : function(cursor) {
+            this.codeEditor.setCursor(cursor);
+
+            return this;
+        },
+        
+        /**
+         * 获取当前光标的位置
+         * @returns {Cursor}         返回一个光标Cursor对象
+         */
+        
+        getCursor : function() {
+            return this.codeEditor.getCursor();
+        },
+        
+        /**
+         * 设置光标选中的范围
+         * @param   {Object}    from   开始位置的光标键值对象，例：{line:1, ch:0}
+         * @param   {Object}    to     结束位置的光标键值对象，例：{line:1, ch:0}
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        setSelection : function(from, to) {
+        
+            this.codeEditor.setSelection(from, to);
+        
+            return this;
+        },
+        
+        /**
+         * 获取光标选中的文本
+         * @returns {String}         返回选中文本的字符串形式
+         */
+        
+        getSelection : function() {
+            return this.codeEditor.getSelection();
+        },
+        
+        /**
+         * 替换当前光标选中的文本或在当前光标处插入新字符
+         * @param   {String}    value  要插入的字符值
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        replaceSelection : function(value) {
+            this.codeEditor.replaceSelection(value);
+
+            return this;
+        },
+        
+        /**
+         * 在当前光标处插入新字符
+         *
+         * 同replaceSelection()方法
+         * @param   {String}    value  要插入的字符值
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        insertValue : function(value) {
+            this.replaceSelection(value);
 
             return this;
         },
@@ -1001,12 +1998,56 @@
         },
         
         /**
-         * 获取解析后的HTML源码
+         * 清空编辑器
          * @returns {editormd}         返回editormd的实例对象
          */
         
+        clear : function() {
+            this.codeEditor.setValue("");
+            this.saveToTextareas();
+            
+            return this;            
+        },
+        
+        /**
+         * 获取解析后存放在Textarea的HTML源码
+         * @returns {String}               返回HTML源码
+         */
+        
         getHTML : function() {
-            return this.editor.find("." + this.classNames.textarea.html).val();
+            if (!settings.saveHTMLToTextarea)
+            {
+                alert("Error: settings.saveHTMLToTextarea == false");
+
+                return false;
+            }
+            
+            return this.htmlTextarea.html();
+        },
+        
+        /**
+         * getHTML()的别名
+         * @returns {editormd}         返回HTML源码
+         */
+        
+        getTextareaSavedHTML : function() {
+            return this.getHTML();
+        },
+        
+        /**
+         * 获取预览窗口的HTML源码
+         * @returns {editormd}         返回editormd的实例对象
+         */
+        
+        getPreviewedHTML : function() {
+            if (!settings.watch)
+            {
+                alert("Error: settings.watch == false");
+
+                return false;
+            }
+            
+            return this.preivewContainer.html();
         },
         
         /**
@@ -1026,7 +2067,7 @@
             icon.parent().attr("title", this.settings.lang.toolbar.watch);
             icon.removeClass(unWatchIcon).addClass(watchIcon);
             
-            this.codeMirror.css("border-right", "1px solid #ddd").outerWidth(this.editor.width() / 2); 
+            this.codeMirror.css("border-right", "1px solid #ddd").width(this.editor.width() / 2); 
             
             this.saveToTextareas().resize();
             
@@ -1053,7 +2094,7 @@
             icon.parent().attr("title", this.settings.lang.toolbar.unwatch);
             icon.removeClass(watchIcon).addClass(unWatchIcon);
             
-            this.codeMirror.css("border-right", "none").outerWidth(this.editor.width());
+            this.codeMirror.css("border-right", "none").width(this.editor.width());
             
             this.resize();
             
@@ -1116,17 +2157,20 @@
             toolbar.find(".fa[name=preview]").toggleClass("active");
             codeMirror.toggle();
 
-            if(codeMirror.is(":hidden")) 
+            if(codeMirror.css("display") === "none") // 为了兼容Zepto，而不使用codeMirror.is(":hidden")
             {
                 this.state.preview = true;
 
                 if(this.state.fullscreen) {
                     preview.css("background", "#fff");
                 }
+                
+                editor.find("." + this.classPrefix + "preview-close-btn").show().bind(editormd.mouseOrTouch("click", "touchend"), function(){
+                    _this.previewed();
+                });
 
                 preview.show().css({
                     top       : 0,
-                    //borderTop :  "none", 
                     width     : editor.width(),
                     height    : editor.height()
                 });
@@ -1155,8 +2199,9 @@
             var toolbar          = this.toolbar;
             var settings         = this.settings;
             var codeMirror       = this.codeMirror;
+            var previewCloseBtn  = editor.find("." + this.classPrefix + "preview-close-btn");
 
-            this.state.preview   = false;  
+            this.state.preview   = false;
             
             codeMirror.show();
             
@@ -1170,12 +2215,13 @@
                 preview.hide();
             }
             
+            previewCloseBtn.hide().bind(editormd.mouseOrTouch("click", "touchend"));
+            
             preview.css({ 
                 background : null,
-                //borderTop  : "1px solid #ddd", 
                 width      : editor.width() / 2,
-                height     : editor.height() - toolbar.outerHeight(),
-                top        : (settings.toolbar) ? toolbar.outerHeight() : 0
+                height     : editor.height() - toolbar.height(),
+                top        : (settings.toolbar) ? toolbar.height() : 0
             });
             
             return this;
@@ -1213,6 +2259,7 @@
                 }).addClass(fullscreenClass);                                             
 
                 this.resize();
+    
                 $.proxy(this.settings.onfullscreen, this)();            
             }
             else
@@ -1259,6 +2306,7 @@
             }).removeClass(fullscreenClass);
 
             this.resize();
+
             
             $.proxy(this.settings.onfullscreenExit, this)();
 
@@ -1337,16 +2385,17 @@
     
     /**
      * 生成TOC(Table of Contents)
-     * @param {Array}    toc        从marked获取的TOC数组列表
-     * @param {Element}  container  插入TOC的容器元素
-     * @param {Integer}  startLevel Hx 起始层级
+     * @param   {Array}    toc             从marked获取的TOC数组列表
+     * @param   {Element}  container       插入TOC的容器元素
+     * @param   {Integer}  startLevel      Hx 起始层级
+     * @returns {Object}   tocContainer    返回ToC列表容器层的jQuery对象元素
      */
     
     editormd.markdownToCRenderer = function(toc, container, startLevel) {
         
         var html       = "";    
         var lastLevel  = 0;
-        startLevel     = startLevel || 2;
+        startLevel     = startLevel || 1;
         
         for (var i = 0, len = toc.length; i < len; i++) 
         {
@@ -1360,7 +2409,7 @@
             if (level > lastLevel) 
             {
                 html += "";
-            } 
+            }
             else if (level < lastLevel) 
             {
                 html += (new Array(lastLevel - level + 2)).join("</ul></li>");
@@ -1374,13 +2423,18 @@
             lastLevel = level;
         }
         
-        container.find('.markdown-toc-list').html("").html(html);
+        var tocContainer = container.find('.markdown-toc');
+        
+        tocContainer.children('.markdown-toc-list').html("").html(html);
+        
+        return tocContainer;
     };
     
     /**
      * 将Markdown文档解析为HTML用于前台显示
-     * @param {String}   id           用于显示HTML的对象ID
-     * @param {Object}   [options={}] 配置选项，可选
+     * @param   {String}   id            用于显示HTML的对象ID
+     * @param   {Object}   [options={}]  配置选项，可选
+     * @returns {Object}   div           返回jQuery对象元素
      */
     
     editormd.markdownToHTML = function(id, options) {
@@ -1390,6 +2444,7 @@
             toc                  : true,
             tocStartLevel        : 2,
             markdown             : "",
+            htmlDecode           : false,
             inRequirejs          : false,
             tex                  : false,
             flowChart            : false,
@@ -1398,30 +2453,39 @@
         };
         
         editormd.$marked = marked;
-        
-        var settings      = $.extend(true, defaults, options);
+
         var div           = $("#" + id);
-        var saveTo        = div.find("[type=\"text/markdown\"]");
-        var markdownDoc   = (settings.markdown === "") ? saveTo.html() : settings.markdown; 
+        var settings      = div.settings = $.extend(true, defaults, options);
+        var saveTo        = div.find("textarea");
+        var markdownDoc   = (settings.markdown === "") ? saveTo.val() : settings.markdown; 
         var markdownToC   = [];
+
         var markedOptions = {
             renderer    : editormd.markedRenderer(markdownToC),
             gfm         : true,
             tables      : true,
-            breaks      : false,
+            breaks      : true,
             pedantic    : false,
-            sanitize    : true,
+            sanitize    : (settings.htmlDecode) ? false : true, // 是否忽略HTML标签，即是否开启HTML标签解析，为了安全性，默认不开启
             smartLists  : true,
             smartypants : true
         };
         
         var markdownParsed   = marked(markdownDoc, markedOptions);
         
-        saveTo.html(markdownDoc);
-        div.addClass("markdown-body").append(markdownParsed);
-            
+        if (editormd.isIE8) 
+        {
+            saveTo.val(markdownDoc);
+        }
+        else 
+        {
+            saveTo.html(markdownDoc);
+        }
+        
+        div.addClass("markdown-body " + this.classPrefix + "html-preview").append(markdownParsed);
+         
         if (settings.toc) {
-            editormd.markdownToCRenderer(markdownToC, div, settings.tocStartLevel);
+            div.tocContainer = this.markdownToCRenderer(markdownToC, div, settings.tocStartLevel);
         }
             
         if (settings.previewCodeHighlight) 
@@ -1429,13 +2493,16 @@
             div.find("pre").addClass("prettyprint linenums");
             prettyPrint();
         }
+        
+        if (!editormd.isIE8) 
+        {
+            if (settings.flowChart) {
+                div.find(".flowchart").flowChart(); 
+            }
 
-        if (settings.flowChart) {
-            div.find(".flowchart").flowChart(); 
-        }
-
-        if (settings.sequenceDiagram) {
-            div.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+            if (settings.sequenceDiagram) {
+                div.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+            }
         }
 
         if (settings.tex)
@@ -1448,7 +2515,7 @@
             };
             
             if (!settings.inRequirejs) {
-                editormd.loadKaTeX(function(){
+                this.loadKaTeX(function(){
                     editormd.$katex = katex;
                     katexHandle();
                 });
@@ -1456,10 +2523,55 @@
                 katexHandle();
             }
         }
+        
+        div.getMarkdown = function() {
+            return (editormd.isIE8) ? saveTo.val() : saveTo.html();
+        };
+        
+        return div;
+    };
+    
+    // for CodeBlock dialog select
+    editormd.codeLanguages = {
+        asp           : "ASP",
+        actionscript  : "ActionScript(3.0)/Flash/Flex",
+        bash          : "Bash/Bat",
+        css           : "CSS",
+        c             : "C",
+        cpp           : "C++",
+        csharp        : "C#",
+        coffeescript  : "CoffeeScript",
+        d             : "D",
+        dart          : "Dart",
+        delphi        : "Delphi/Pascal",
+        erlang        : "Erlang",
+        go            : "Golang",
+        groovy        : "Groovy",
+        html          : "HTML",
+        java          : "Java",
+        json          : "JSON",
+        javascript    : "Javascript",
+        lua           : "Lua",
+        less          : "LESS",
+        markdown      : "Markdown",
+        "objective-c" : "Objective-C",
+        php           : "PHP",
+        perl          : "Perl",
+        python        : "Python",
+        r             : "R",
+        rst           : "reStructedText",
+        ruby          : "Ruby",
+        sql           : "SQL",
+        sass          : "SASS/SCSS",
+        shell         : "Shell",
+        scala         : "Scala",
+        swift         : "Swift",
+        vb            : "VB/VBScript",
+        xml           : "XML",
+        yaml          : "YAML"
     };
 
-    // for Requires.js
-    // 与Gulpfile.js对应
+    // for Requires.js and Gulpfile.js
     editormd.codeMirrorModules = {
         modes : [
             "css",
@@ -1491,7 +2603,7 @@
             "xquery",
             "yaml",
             "erlang",
-            "jade",
+            "jade"
         ],
 
         addons : [
@@ -1555,8 +2667,6 @@
         }
         
         editormd.loadCSS(editormd.katexURL.css);
-        
-        //modules.push(editormd.katexURL.js + ".js");
 
         return modules;
     };
@@ -1588,40 +2698,47 @@
             document.body.appendChild(css);
         }
     };
-        
+    
+    editormd.isIE    = (navigator.appName == "Microsoft Internet Explorer");
+    editormd.isIE8   = (editormd.isIE && navigator.appVersion.match(/8./i) == "8.");
+
     /**
      * 动态加载JS文件的方法
      * @param {String}   fileName              JS文件名
      * @param {Function} [callback=function()] 加载成功后执行的回调函数
      * @param {String}   [into="head"]         嵌入页面的位置
      */
-    
+
     editormd.loadScript = function(fileName, callback, into) {
         
         into          = into     || "head";
         callback      = callback || function() {};
         
-        var script    = document.createElement("script");
-        script.type   = "text/javascript";
-        
-        script.onload = script.onreadystatechange = function() {
-            if(script.readyState) 
-            {
-                if (script.readyState === "loaded" || script.readyState === "complete") 
-                {
-                    script.onreadystatechange = null; 
-                    callback();
-                }
-            } 
-            else
-            {
-                callback();
-            }
-        };
-        
+        var script    = null; 
+        script        = document.createElement("script");
+        script.id     = fileName.replace(/[\./]+/g, "-");
+        script.type   = "text/javascript";        
         script.src    = fileName + ".js";
-
-        //console.log("script.src =>", script.src);
+        
+        if (editormd.isIE8) {
+            
+            script.onreadystatechange = function() {
+                if(script.readyState) 
+                {
+                    if (script.readyState === "loaded" || script.readyState === "complete") 
+                    {
+                        script.onreadystatechange = null; 
+                        callback();
+                    }
+                } 
+            };
+        }
+        else
+        {
+            script.onload = function() {
+                callback();
+            };
+        }
 
         if (into === "head") {
             document.getElementsByTagName("head")[0].appendChild(script);
@@ -1633,7 +2750,7 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     editormd.katexURL  = {
         css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
+        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min"
     };
     
     /**
@@ -1669,7 +2786,7 @@
         } 
 
         return eventType;
-    };   
+    };
     
     /**
      * 日期时间的格式化方法
@@ -1732,7 +2849,8 @@
 
             case "week-day" :
             case "wd" :
-                    datefmt = weekDay;
+                    var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    datefmt = weekDays[weekDay];
                 break;
 
             case "day" :
@@ -1777,7 +2895,7 @@
                 default:
                     datefmt = fymd + " " + hms;
                 break;	
-        }
+        };
 
         return datefmt;
     };

@@ -4,55 +4,142 @@
         <meta charset="utf-8" />
         <title>Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
 		<style>
+            #header {
+                width: 100%;
+                color: #fff;
+                background: #2196F3;
+                padding: 80px 0;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            #header h1 {
+                font-size: 48px; 
+                font-weight: normal;
+            }
+            
 			ul { 
 				width: 90%;
-				margin: 10px auto;
-				list-style: default;
-				line-height: 2;
+                padding-bottom: 50px;
+				margin: 0 auto;
+				list-style: none;
 			}
+            
+            ul li {
+                width: 33%;
+                margin-bottom: 4px;
+                display: inline-block;
+            }
+            
+            ul li a {
+                color: #2196F3;
+                display: block;
+                padding: 4px 15px;
+                font-size: 14px;
+                text-align: left;
+                text-decoration: none;
+                -webkit-transition: all 300ms ease-out;
+                transition: all 300ms ease-out;
+            }
+            
+            ul li a span {
+                color: #999;
+                display: block;
+                padding-top: 3px;
+                font-size: 80%;
+            }
+            
+            ul li a:hover {
+                color: #fff;
+                background: #2196F3;
+                border-radius: 8px;
+            }
+            
+            ul li a:hover span {
+                color: #fff;
+            }
 		</style>
     </head>
     <body>
         <div id="layout">
-            <header>
-                <h1>Editor.md examples</h1>           
-            </header>
+            <div id="header">
+                <h1><i class="editormd-logo editormd-logo-4x"></i></h1>
+                <h1>Editor.md examples</h1> 
+            </div>
 			<ul>
 				<li>
-					<a href="./simple.html">Full example</a>
+					<a href="./simple.html">简单示例 <span>Simple example</span></a>
 				</li>
 				<li>
-					<a href="./use-requirejs.html">Use Require.js example</a>
+					<a href="./full.html">完整示例 <span>Full example</span></a>
 				</li>
 				<li>
-					<a href="./use-seajs.html">Use Seajs example</a>
+					<a href="./use-requirejs.html">使用Require.js <span>Using Require.js example</span></a>
 				</li>
 				<li>
-					<a href="./toc.html">ToC (Table of Contents) example</a>
+					<a href="./use-seajs.html">使用Sea.js <span>Using Seajs example</span></a>
 				</li>
 				<li>
-					<a href="./katex.html">TeX (based on KaTeX) </a>
+					<a href="./use-zepto.html">使用Zepto.js <span>Using Zepto.js</span></a>
 				</li>
 				<li>
-					<a href="./onload.html">onload event handle example</a>
+					<a href="./toc.html">自动生成目录 ToC <span>Table of Contents example</span></a>
 				</li>
 				<li>
-					<a href="./onchange.html">onchange event handle example</a>
+					<a href="./form-get-value.html">表单取值 <span>Get textarea value in form</span></a>
 				</li>
 				<li>
-					<a href="./onfullscreen.html">onfullscreen / onfullscreenExit event handle example</a>
+					<a href="./html-tags-decode.html">识别和解析HTML标签 <span>HTML tags decode</span></a>
 				</li>
 				<li>
-					<a href="./flowchart.html">flowChart example</a>
+					<a href="./html-preview-markdown-to-html.html">Markdown转HTML的显示处理 <span>Markdown to HTML for preview</span></a>
 				</li>
 				<li>
-					<a href="./sequence-diagram.html">Sequence Diagram example</a>
+					<a href="./image-upload.html">图片上传 <span>Image upload</span></a>
 				</li>
 				<li>
-					<a href="./html-preview-markdown-to-html.html">Markdown to HTML for preview</a>
+					<a href="./image-cross-domain-upload.html">图片跨域上传 <span>Image cross-domain upload</span></a>
+				</li>
+				<li>
+					<a href="./custom-toolbar.html">自定义工具栏 <span>Custom toolbar</span></a>
+				</li>
+				<li>
+					<a href="./multi-languages.html">多语言支持 <span>Multi-languages for l18n</span></a>
+				</li>
+				<li>
+					<a href="./dynamic-create-editormd.html">动态创建Editor.md <span>Dynamic create Editor.md</span></a>
+				</li>
+				<li>
+					<a href="./multi-editormd.html">多个Editor.md并存 <span>Multi Editor.md</span></a>
+				</li>
+				<li>
+					<a href="./readonly.html">只读模式 <span>Editor.md read only</span></a>
+				</li>
+				<li>
+					<a href="./set-get-replace-selection.html">插入字符/设置和获取光标位置/设置、获取和替换选中的文本 <span>Insert value & Set/Get cursor & Set/Get/Replace selection</span></a>
+				</li>
+				<li>
+					<a href="./onload.html">加载完成事件处理 <span>Onload event handle example</span></a>
+				</li>
+				<li>
+					<a href="./onchange.html">变化监听处理 <span>Onchange event handle example</span></a>
+				</li>
+				<li>
+					<a href="./onfullscreen.html">全屏事件处理 <span>Onfullscreen / onfullscreenExit event handle example</span></a>
+				</li>
+				<li>
+					<a href="./katex.html">科学公式 TeX <span>Based on KaTeX</span> </a>
+				</li>
+				<li>
+					<a href="./flowchart.html">流程图 <span>FlowChart example</span></a>
+				</li>
+				<li>
+					<a href="./sequence-diagram.html">时序/序列图 <span>Sequence Diagram example</span></a>
 				</li>
 			</ul>
+            <div class="clear"></div>
         </div>
     </body>
 </html>

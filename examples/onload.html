@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <title>Onload - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
     </head>
     <body>
         <div id="layout">
@@ -11,12 +12,11 @@
                 <h1>Onload event</h1>   
                 <p>Enter F12 open the develop tools</p>     
             </header>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">###Hello world!</script>
+            <div id="test-editormd">                
+                <textarea style="display:none;">###Hello world!</textarea>
             </div>
         </div>        
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
             $(function() {

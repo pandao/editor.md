@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>识别和解析HTML标签 - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>识别和解析HTML标签</h1>
+                <p>注：虽然此功能能极大地扩展Markdown语法，但也面临着安全上的风险，所以默认是不开启的。</p>      
+            </header>
+            <div id="test-editormd"> 
+                <textarea style="display:none;">####开启识别和解析HTML标签
+
+配置项：
+
+    {
+        htmlDecode : true
+    }
+
+####示例
+
+#####上标和下标
+
+上标：X&lt;sup&gt;2&lt;/sup&gt;
+
+下标：O&lt;sub&gt;2&lt;/sub&gt;
+
+#####插入Flash
+
+&lt;embed src="http://player.youku.com/player.php/sid/XMzA0MzIwMDgw/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;
+
+#####插入视频
+
+李健《最好不相见》
+
+&lt;iframe height=498 width=510 src="http://player.youku.com/embed/XMzA0MzIwMDgw" frameborder=0 allowfullscreen&gt;&lt;/iframe&gt;</textarea>
+            </div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script>
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+            $(function() {
+                var testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 720,
+                    path : '../lib/',
+                    htmlDecode : true
+                });
+            });
+        </script>
+    </body>
+</html>

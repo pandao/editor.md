@@ -2,16 +2,17 @@
 
 A simple online markdown editor.
 
-**Editor.md** 是一个基于jQuery和CodeMirror构建的在线Markdown文档编辑器。
+**Editor.md** 是一个基于jQuery和CodeMirror构建的在线Markdown编辑器。
 
 ![editormd-screenshot](https://pandao.github.io/editor.md/examples/images/editormd-screenshot.png "editormd-screenshot")
 
 ####主要特性
 
 - 支持Markdown标准和Github风格；
-- 支持实时预览和多语言语法高亮；
-- 支持[ToC（Table of Contents）](https://pandao.github.io/editor.md/examples/toc.html)；
+- 支持实时预览、图片上传和多语言语法高亮；
 - 兼容主流的浏览器（IE8+），且支持iPad等平板设备；
+- 支持[ToC（Table of Contents）](https://pandao.github.io/editor.md/examples/toc.html)；
+- 支持识别和解析HTML标签，具有几乎无限的扩展性；
 - 支持TeX科学公式（基于[KaTeX](https://pandao.github.io/editor.md/examples/katex.html)）；
 - 支持流程图 `flowchart` 和时序图 `sequenceDiagram`;
 - 支持AMD/CMD模块化加载（支持 [Require.js](https://pandao.github.io/editor.md/examples/use-requirejs.html) & [Sea.js](https://pandao.github.io/editor.md/examples/use-seajs.html)）；
@@ -30,19 +31,24 @@ A simple online markdown editor.
 
 HTML：
 
-    <div class="editormd" id="test-editormd">
-        <script type="text/markdown">###Hello world!</script>
+    <link rel="stylesheet" href="../dist/css/editormd.css" />
+    <div id="test-editormd">
+        <textarea>###Hello world!</texarea>
     </div>
+
+> 提示1：如果没有Markdown源内容或者通过Ajax异步加载Markdown源文档等，可以不添加`<textarea>`，会自动添加；
+  
+
+> 提示2：如果不想出现textarea闪现，则在textarea加上 style="display:none;"；
 
 javascript:
 
-    <link rel="stylesheet" href="../dist/css/editormd.css" />
     <script src="../lib/jquery.min.js"></script>
     <script src="../src/js/editormd.js"></script>
     <script type="text/javascript">
         $(function() {
             var testEditor = editormd("test-editormd", {
-                    path : '../lib/'
+                    path : '../lib/' // codemirror、marked等依赖的库的路径
                 });
             });
 		});

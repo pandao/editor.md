@@ -2,44 +2,54 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Tex科学公式 - Editor.md examples</title>
+        <title>Tex科学公式语言 - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
     </head>
     <body>
         <div id="layout">
             <header>
-                <h1>Tex科学公式</h1>
+                <h1>Tex科学公式语言</h1>
 				<p>基于KaTeX.js：<a href="http://khan.github.io/KaTeX/" target="_blank">http://khan.github.io/KaTeX/</a></p>
-                <p>注：默认使用cloudflare的CDN，有时加载速度会比较慢，可自定义加载地址。</p>      
+                <p>注：默认使用CloudFlare的CDN，有时加载速度会比较慢，可自定义加载地址。</p>      
             </header>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">####科学公式
-                    
+            <div id="test-editormd">                
+                <textarea style="display:none;">####开启科学公式支持
+
+配置项：
+
+    {
+        tex  : true
+    }
+
+####示例
+            
 $$E=mc^2$$
 
 行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
 
 $$\(\sqrt{3x-1}+(1+x)^2\)$$
-                    
-$$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$</script>
+             
+$$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
+
+####自定义KaTeX的URL
+
+```javascript
+//默认使用CloudFlare的CDN，有时加载速度会比较慢
+//或者直接修改源码
+editormd.katexURL = {
+    js  : "your url",
+    css : "your url"
+};
+```
+</textarea>
             </div>
         </div>
         
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
             $(function() {
-                /*
-                    默认使用cloudflare的CDN，有时加载速度会比较慢
-                    自定义KaTex的URL或者直接修改源码
-                
-                    editormd.katexURL = {
-                        js : ".....",
-                        css : "......"
-                    };
-                */
-
                 var testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 640,

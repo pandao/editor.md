@@ -4,14 +4,15 @@
         <meta charset="utf-8" />
         <title>TOC - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
     </head>
     <body>
         <div id="layout">
             <header>
                 <h1>TOC(Table of Contents)示例</h1>            
             </header>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">#支撑起整个互联网时代的 7 款开源软件
+            <div id="test-editormd">                
+                <textarea style="display:none;">#支撑起整个互联网时代的 7 款开源软件
 
 **目录：**
 
@@ -94,12 +95,11 @@ WebKit 是一个开源的浏览器引擎，与之相应的引擎有Gecko（Mozil
 很多人可能尚未意识到，我们使用的电脑中运行有开源软件，手机中运行有开源软件，家里的电视也运行有开源软件，甚至小小的数码产品中也运行有开源软件，尤其是互联网服务器端软件，几乎全部是开源软件。毫不夸张地说，开源软件已经渗透到了我们日常生活的方方面面。
 
 稿源：[钛媒体](http://www.tmtpost.com/194306.html)
-</script>
+</textarea>
             </div>
         </div>
         
         <script src="../lib/jquery.min.js"></script>
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
             $(function() {
@@ -107,6 +107,7 @@ WebKit 是一个开源的浏览器引擎，与之相应的引擎有Gecko（Mozil
                     width  : "90%",
                     height : 720,
                     //toc    : false,   // diable ToC
+                    tocStartLevel : 2,  // 表示从H2开始解析，默认值为1
                     path   : '../lib/'
                 });
             });

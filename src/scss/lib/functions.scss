@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+// appearance
+
+@mixin appearance($value) {
+    -webkit-appearance: $value;
+    -moz-appearance: $value;
+    appearance: $value;
+}
+
 // clearfix
 
 @mixin clearfix() { 
@@ -129,11 +137,11 @@
 
 // user-select
 
-@mixin user-select($type : none) {    
+@mixin user-select($type) {    
     -webkit-user-select: $type;
     -moz-user-select: $type;
     -ms-user-select: $type;
-    //-o-user-select: $type;
+    -o-user-select: $type;
     user-select: $type;
 }
 

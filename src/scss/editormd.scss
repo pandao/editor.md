@@ -1,4 +1,4 @@
-@charset "utf-8";
+@charset "UTF-8";
 
 @import "lib/variables";
 @import "lib/functions";
@@ -8,29 +8,118 @@
     width: 90%;
     height: 640px;
     margin: 0 auto;
-    position: relative;
-    @include box-sizing(border-box);             
-    border: 1px solid $borderColor;
     text-align: left;
-    overflow: hidden;    
-    background: #fff url("../images/loading.gif") no-repeat center center;
-    @include background-size(32px 32px);
+    overflow: hidden;  
+    position: relative;         
+    border: 1px solid $borderColor;
+    @include box-sizing(border-box);
+    font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif; 
     
     a {
         text-decoration: none;
     }
-}
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-    .editormd {
-        background-image: url(../images/loading@2x.gif);
+    img {
+        border: none;
+        vertical-align: middle;
+    }            
+
+    > textarea,
+    #{$prefix}html-textarea,
+    #{$prefix}markdown-textarea {
+        width: 0;
+        height: 0;
+        outline: 0;
+        resize:none;
+    }
+
+    input[type="text"], 
+    input[type="button"], 
+    input[type="submit"], 
+    select, textarea, button {
+        @include appearance(none);
     }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min-device-pixel-ratio: 3) {
-    .editormd {
-        background-image: url(../images/loading@3x.gif);
+@font-face {
+	font-family: 'editormd-logo';
+	src:url('../fonts/editormd-logo.eot?-5y8q6h');
+	src:url('.../fonts/editormd-logo.eot?#iefix-5y8q6h') format('embedded-opentype'),
+		url('../fonts/editormd-logo.woff?-5y8q6h') format('woff'),
+		url('../fonts/editormd-logo.ttf?-5y8q6h') format('truetype'),
+		url('../fonts/editormd-logo.svg?-5y8q6h#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#{$prefix}logo {
+	font-family: 'editormd-logo';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+    font-size: inherit;
+	line-height: 1;
+    display: inline-block;
+    text-rendering: auto;
+    vertical-align: inherit;
+
+	//Better Font Rendering
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+    &:before {
+        content: "\e1987";
+        /* 
+        HTML Entity &#xe1987; 
+        example: <span class="editormd-logo">&#xe1987;</span>
+        */
     }
+}
+
+#{$prefix}logo-1x {  
+    font-size: 1em;           
+}
+
+#{$prefix}logo-lg {  
+    font-size: 1.2em;           
+}
+
+#{$prefix}logo-2x {  
+    font-size: 2em;           
+}
+
+#{$prefix}logo-3x {  
+    font-size: 3em;           
+}
+
+#{$prefix}logo-4x {  
+    font-size: 4em;           
+}
+
+#{$prefix}logo-5x {  
+    font-size: 5em;      
+}
+
+#{$prefix}logo-6x {  
+    font-size: 6em;      
+}
+
+#{$prefix}logo-7x {  
+    font-size: 7em;      
+}
+
+#{$prefix}logo-8x {  
+    font-size: 8em;   
+}
+
+#{$prefix}logo-color {
+    color: $mainColor;
+}
+            
+#{$prefix}user-unselect { 
+    @include user-select(none); 
 }
 
 #{$prefix}toolbar {
@@ -48,6 +137,7 @@
 #{$prefix}toolbar-container {
     padding: 0 8px;
     min-height: 35px;
+    @include user-select(none);
 }
 
 @import "editormd.menu";
@@ -61,16 +151,41 @@
     position: relative;   
     background: #fff;
     @include box-sizing(border-box);
-            
-    textarea {
-        display: none;
-    }
-}
-
-#{$prefix}html-textarea, #{$prefix}markdown-textarea {
-    display: none;
 }
 
 @import "editormd.dialog"; 
+@import "editormd.form"; 
 @import "editormd.codemirror"; 
 @import "editormd.preview";
+
+#{$prefix}preview-close-btn {
+    color: #fff;
+    padding: 4px 6px;
+    font-size: 18px;
+    @include border-radius(500px);
+    display: none;
+    background-color: #ccc;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 19;
+    @include transition(background-color 300ms ease-out);
+}
+
+#{$prefix}preview-close-btn:hover {
+    background-color: #999;
+}
+
+#{$prefix}onlyread {
+    #{$prefix}toolbar {
+        display: none;
+    }
+
+    .CodeMirror {
+        margin-top: 0;
+    }
+
+    #{$prefix}preview {
+        top: 0;
+    }
+}

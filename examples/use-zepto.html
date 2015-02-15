@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Use Zepto.js - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Use Zepto.js</h1>   
+            </header>
+            <div class="btns">
+                <button id="show-btn">显示编辑器</button>
+                <button id="hide-btn">隐藏编辑器</button>
+                <button id="get-md-btn">获取Markdown(源码)</button>
+                <button id="get-html-btn">获取HTML(源码)</button>
+                <button id="watch-btn">开启实时预览</button>
+                <button id="unwatch-btn">关闭实时预览</button>
+                <button id="preview-btn">预览HTML(按ESC取消)</button>
+                <button id="fullscreen-btn">全屏(按ESC取消)</button>
+                <button id="show-toolbar-btn">显示工具栏</button>
+                <button id="close-toolbar-btn">关闭工具栏</button>
+            </div>
+            <div class="editormd" id="test-editormd">                
+                <script type="text/markdown">###Hello world!</script>
+            </div>
+        </div>        
+        <script src="js/zepto.min.js"></script>
+        <script src="../src/js/editormd.js"></script>   
+        <script type="text/javascript">
+			var testEditor;
+			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以想支持flowChart/sequenceDiagram就得加上这一句
+
+            $(function() {
+                $.get("./test.md", function(md){
+					testEditor = editormd("test-editormd", {
+						width  : "90%",
+						height : 720,
+						path   : '../lib/',
+						markdown : md,
+                        htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
+                        flowChart : true,              // 疑似Sea.js与Raphael.js有冲突，必须先加载Raphael.js，Editor.md才能在Sea.js下正常进行；
+                        sequenceDiagram : true,        // 同上
+						onload : function() {
+							console.log("onload =>", this, this.id, this.settings);
+						}
+					});
+				});
+
+                $("#show-btn").bind('click', function(){
+                    testEditor.show();
+                });
+
+                $("#hide-btn").bind('click', function(){
+                    testEditor.hide();
+                });
+
+                $("#get-md-btn").bind('click', function(){
+                    alert(testEditor.getMarkdown());
+                });
+
+                $("#get-html-btn").bind('click', function() {
+                    alert(testEditor.getHTML());
+                });                
+
+                $("#watch-btn").bind('click', function() {
+                    testEditor.watch();
+                });                 
+
+                $("#unwatch-btn").bind('click', function() {
+                    testEditor.unwatch();
+                });              
+
+                $("#preview-btn").bind('click', function() {
+                    testEditor.previewing();
+                });
+
+                $("#fullscreen-btn").bind('click', function() {
+                    testEditor.fullscreen();
+                });
+                
+                $("#show-toolbar-btn").bind('click', function() {
+                    testEditor.showToolbar();
+                });
+                
+                $("#close-toolbar-btn").bind('click', function() {
+                    testEditor.hideToolbar();
+                });
+            });
+        </script>
+    </body>
+</html>

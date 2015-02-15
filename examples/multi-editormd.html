@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>多个Editor.md并存 - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <style>            
+            h3 {
+                width : 90%;
+                margin: 0 auto 15px;
+            }
+            
+            .editormd {
+                margin: 20px auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>多个Editor.md并存</h1>
+                <p>Multi Editor.md</p>
+                <br/>
+            </header>
+            <h3>Editor.md A</h3>
+            <div id="test-editormd"></div>
+            <h3>Editor.md B</h3>
+            <div id="test-editormd2"></div>
+        </div>
+        
+        <script src="../lib/jquery.min.js"></script> 
+        <script src="../src/js/editormd.js"></script> 
+        <script type="text/javascript">
+            var testEditormd, testEditormd2;
+            
+            $(function() {                        
+                testEditormd = editormd("test-editormd", {
+                    width: "90%",
+                    height: 480,
+                    markdown : "####Editor.md A",
+                    path : '../lib/'
+                });
+
+                testEditormd2 = editormd("test-editormd2", {
+                    width: "90%",
+                    height: 480,
+                    markdown : "####Editor.md B",
+                    path : '../lib/'
+                });
+            });
+        </script>
+    </body>
+</html>

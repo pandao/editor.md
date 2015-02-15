@@ -67,7 +67,7 @@ gulp.task('scss2', function() {
 }); 
 
 gulp.task('js', function() { 
-  return gulp.src('src/js/editormd.js')
+  return gulp.src('src/js/**/*.js')
     .pipe(jshint('./.jshintrc'))
     .pipe(jshint.reporter('default'))
     //.pipe(concat('all.js'))
