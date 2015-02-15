@@ -2717,7 +2717,6 @@
 }
 
 .editormd-mask,
-.editormd-container-mask,
 .editormd-dialog-mask-bg {
   background: #fff;
   opacity: 0.5;
@@ -2732,16 +2731,17 @@
   z-index: 99998;
 }
 
-.editormd-container-mask {
-  opacity: 0.1;
-  filter: alpha(opacity=10);
-}
-
 .editormd-container-mask,
 .editormd-dialog-mask-con {
   background: url(../images/loading.gif) no-repeat center center;
   -webkit-background-size: 32px 32px;
   background-size: 32px 32px;
+}
+
+.editormd-container-mask {
+  z-index: 20;
+  display: block;
+  background-color: #fff;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {

@@ -102,7 +102,6 @@
 }
 
 #{$prefix}mask,
-#{$prefix}container-mask,
 #{$prefix}dialog-mask-bg {
     background: #fff;
     opacity: 0.5;
@@ -116,14 +115,16 @@
     z-index: 99998;  
 }
 
-#{$prefix}container-mask {
-    @include opacity(0.1);          
-}
-
 #{$prefix}container-mask, 
 #{$prefix}dialog-mask-con {
     background: url(../images/loading.gif) no-repeat center center;
     @include background-size(32px 32px);
+}
+
+#{$prefix}container-mask {
+    z-index: 20;  
+    display: block;
+    background-color: #fff;    
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
