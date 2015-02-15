@@ -1,5 +1,7 @@
 # Editor.md
 
+![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-120x120.png)
+
 A simple online markdown editor.
 
 **Editor.md** 是一个基于jQuery和CodeMirror构建的在线Markdown编辑器。
