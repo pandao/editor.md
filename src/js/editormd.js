@@ -953,10 +953,6 @@
                             imageDialog.loading(true);
 
                             var submitHandler = function() {
-                                if (settings.crossDomainUpload) {                                    
-                                    imageDialog.loading(false);
-                                    return ;
-                                }
                                 
                                 var uploadIframe = document.getElementById(iframeName);
                                 

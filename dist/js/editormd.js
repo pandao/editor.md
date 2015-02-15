@@ -6,7 +6,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-15
+ * @updateTime  2015-02-16
  */
 
 /** 
@@ -964,10 +964,6 @@
                             imageDialog.loading(true);
 
                             var submitHandler = function() {
-                                if (settings.crossDomainUpload) {                                    
-                                    imageDialog.loading(false);
-                                    return ;
-                                }
                                 
                                 var uploadIframe = document.getElementById(iframeName);
                                 
