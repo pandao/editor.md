@@ -82,6 +82,8 @@
         imageUpload          : false,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         imageUploadURL       : "",
+        crossDomainUpload    : false,
+        uploadCallbackURL    : "",
         saveHTMLToTextarea   : false,
         toc                  : true,
         tocStartLevel        : 1,              // 表示从H1开始生成ToC
@@ -861,9 +863,17 @@
                         imageDialog.show();
                     } 
                     else 
-                    {        
-                        var imageDialogHTML = ( (settings.imageUpload) ? "<form action=\"" + settings.imageUploadURL + "\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
-                                                ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\"></iframe>" : "" ) +
+                    {    
+                        var guid   = (new Date).getTime();
+                        var action = settings.imageUploadURL + "?guid=" + guid;
+                        
+                        if (settings.crossDomainUpload)
+                        {
+                            action += "&callback=" + settings.uploadCallbackURL + "&dialog_id=editormd-image-dialog-" + guid;
+                        }
+                        
+                        var imageDialogHTML = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
+                                                ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
                                                 "<label>" + imageLang.url + "</label>" +
                                                 "<input type=\"text\" data-url />" + (function(){
                                                     return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
@@ -931,9 +941,11 @@
                                 }]
                             }
                         });
+                        
+                        imageDialog.attr("id", classPrefix + "image-dialog-" + guid);
                     }
-
-                    var fileInput = imageDialog.find("[name=\"" + classPrefix + "image-file\"]");
+                    
+                    var fileInput  = imageDialog.find("[name=\"" + classPrefix + "image-file\"]");
 
                     fileInput.bind("change", function() {
                         var fileName  = fileInput.val();
@@ -952,11 +964,16 @@
                             imageDialog.loading(true);
 
                             var submitHandler = function() {
+                                if (settings.crossDomainUpload) {                                    
+                                    imageDialog.loading(false);
+                                    return ;
+                                }
+                                
                                 var uploadIframe = document.getElementById(iframeName);
-
+                                
                                 uploadIframe.onload = function() {
                                     imageDialog.loading(false);
-
+                                    
                                     var json = uploadIframe.contentWindow.document.body.innerHTML;
                                     json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
@@ -974,6 +991,7 @@
                             };
 
                             imageDialog.find("[type=\"submit\"]").bind(editormd.mouseOrTouch("click", "touchend"), submitHandler).trigger("click");
+
                         }                    
 
                         return false;

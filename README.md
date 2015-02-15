@@ -9,7 +9,7 @@ A simple online markdown editor.
 ####主要特性
 
 - 支持Markdown标准和Github风格；
-- 支持实时预览、图片上传和多语言语法高亮；
+- 支持实时预览、图片（跨域）上传和多语言语法高亮；
 - 兼容主流的浏览器（IE8+），且支持iPad等平板设备；
 - 支持[ToC（Table of Contents）](https://pandao.github.io/editor.md/examples/toc.html)；
 - 支持识别和解析HTML标签，具有几乎无限的扩展性；
