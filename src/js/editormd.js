@@ -2015,7 +2015,7 @@
          */
         
         getHTML : function() {
-            if (!settings.saveHTMLToTextarea)
+            if (!this.settings.saveHTMLToTextarea)
             {
                 alert("Error: settings.saveHTMLToTextarea == false");
 
