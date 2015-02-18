@@ -2047,7 +2047,7 @@
                 return false;
             }
             
-            return this.preivewContainer.html();
+            return this.previewContainer.html();
         },
         
         /**
