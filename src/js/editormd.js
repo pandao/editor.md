@@ -2040,7 +2040,7 @@
          */
         
         getPreviewedHTML : function() {
-            if (!settings.watch)
+            if (!this.settings.watch)
             {
                 alert("Error: settings.watch == false");
 
