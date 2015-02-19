@@ -92,7 +92,7 @@
         - `setToolbar()`方法包含`setToolbarHandler()`；
         - 新建`createInfoDialog()`方法；
 	    - 修改`showInfoDialog()`和`hideInfoDialog()`方法的内部实现等；
-        
+
 - 修改多次Bug，并优化触摸事件，改进对iPad的支持；
 
 - 工具栏新增清空按钮和清空方法`clear()`，解决工具栏文本会被选中出现蓝底的问题;
@@ -102,21 +102,21 @@
 - 解决IE8下加载出错的问题；
     - 新增两个静态成员属性`isIE`和`isIE8`，用于判断IE8；
     - 由于IE8不支持FlowChart和SequenceDiagram，默认在IE8下不加载这两个组件，无论是否开启；
-    
+
 - 新增Zepto.js的支持；
 	- 为了兼容Zepto，某些元素在操作处理上不再使用`outerWidth()`、`outerHeight()`、`hover()`、`is()`等方法；
 	- 为了避免修改flowChart.js和sequence-diagram.js的源码，所以想支持flowChart或sequenceDiagram得加上这一句：`var jQuery = Zepto;`；
-    
+
 - 新增`editormd.$name`属性，修改`editormd.homePage`属性的新地址；
 
 - `editormd.markdownToHTML()`新增方法返回一个jQuery实例对象；
     - 该实例对象定义了一个`getMarkdown()`方法，用于获取Markdown源代码；
     - 该实例对象定义了一个`tocContainer`成员属性，即ToC列表的父层的jQuery实例对象；
-    
+
 - 新增只读模式；
     - 新增配置项`readOnly`，默认值为`false`，即可编辑模式；
     - 其他相关改动；
-    
+
 - 新增方法`focus()`、`setCursor()`、`getCursor()`、`setSelection()`、`getSelection()`、`replaceSelection()`和`insertValue()`方法，并增加对应的示例；
 
 - 新增配置项`saveHTMLToTextarea`，用于将解析后的HTML保存到Textarea，以供提交到后台程序；
@@ -125,3 +125,8 @@
     - 新增方法`getPreviewedHTML()`，用于获取预览窗口的HTML；
 
 - 修复了一些大大小小的Bugs；
+
+#####v1.1.1
+
+接受一个pull请求，修复了`getHTML ()`和`getPreviewedHTML()`方法中的３处错误；
+
