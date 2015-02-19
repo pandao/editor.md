@@ -1,12 +1,12 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v1.1.0 
+ * @version     v1.1.1 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-16
+ * @updateTime  2015-02-19
  */
 
 /** 
@@ -2022,7 +2022,7 @@
          */
         
         getHTML : function() {
-            if (!settings.saveHTMLToTextarea)
+            if (!this.settings.saveHTMLToTextarea)
             {
                 alert("Error: settings.saveHTMLToTextarea == false");
 
@@ -2047,14 +2047,14 @@
          */
         
         getPreviewedHTML : function() {
-            if (!settings.watch)
+            if (!this.settings.watch)
             {
                 alert("Error: settings.watch == false");
 
                 return false;
             }
             
-            return this.preivewContainer.html();
+            return this.previewContainer.html();
         },
         
         /**

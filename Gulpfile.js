@@ -1,5 +1,6 @@
 'use strict';
 
+var os           = require("os");
 var gulp         = require('gulp');
 var gutil        = require("gulp-util");
 var sass         = require('gulp-ruby-sass');
@@ -81,8 +82,8 @@ gulp.task('js', function() {
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'))	
 	.pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
-		var name = file.path.split(file.base + "\\");
-		return name[1].replace('\\', '');
+		var name = file.path.split(file.base + (os.platform() === "linux") ? "/" : "\\");
+		return name[1].replace(/[\\\/]?/, '');
 	}}))
 	.pipe(gulp.dest('dist/js'))
     .pipe(notify({ message: 'js task complete' }));
