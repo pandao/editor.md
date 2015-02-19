@@ -2011,7 +2011,7 @@
          */
         
         getHTML : function() {
-            if (!settings.saveHTMLToTextarea)
+            if (!this.settings.saveHTMLToTextarea)
             {
                 alert("Error: settings.saveHTMLToTextarea == false");
 
@@ -2036,14 +2036,14 @@
          */
         
         getPreviewedHTML : function() {
-            if (!settings.watch)
+            if (!this.settings.watch)
             {
                 alert("Error: settings.watch == false");
 
                 return false;
             }
             
-            return this.preivewContainer.html();
+            return this.previewContainer.html();
         },
         
         /**
