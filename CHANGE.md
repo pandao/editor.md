@@ -132,4 +132,4 @@
 
 #####v1.1.2
 
-- 修复Bug[＃10](https://github.com/pandao/editor.md/issues/10)； 
+- 修复Bug[＃10](https://github.com/pandao/editor.md/issues/10)；
