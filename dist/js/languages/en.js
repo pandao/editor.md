@@ -1,7 +1,7 @@
 /*
  * Editor.md
  * @file        languages/en.js 
- * @version     v1.1.1 
+ * @version     v1.1.2 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao

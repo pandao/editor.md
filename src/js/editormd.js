@@ -1,7 +1,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.0 
+ * @version 1.1.2 
  */
 
 ;(function(factory) {
@@ -44,7 +44,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.0";
+    editormd.version     = "1.1.2";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -2148,9 +2148,9 @@
             
             if (settings.toolbar) {
                 toolbar.toggle();
+                toolbar.find(".fa[name=preview]").toggleClass("active");
             }
-
-            toolbar.find(".fa[name=preview]").toggleClass("active");
+            
             codeMirror.toggle();
 
             if(codeMirror.css("display") === "none") // 为了兼容Zepto，而不使用codeMirror.is(":hidden")
@@ -2164,6 +2164,22 @@
                 editor.find("." + this.classPrefix + "preview-close-btn").show().bind(editormd.mouseOrTouch("click", "touchend"), function(){
                     _this.previewed();
                 });
+            
+                if(!settings.watch)
+                {
+                    var codeEditor       = this.codeEditor;
+                    var previewContainer = this.previewContainer;
+
+                    codeEditor.save();
+
+                    var markdownToC      = this.markdownToC   = [];
+                    var newMarkdownDoc   = editormd.$marked(codeEditor.getValue(), {renderer : editormd.markedRenderer(markdownToC)});
+                    previewContainer.html(newMarkdownDoc);
+
+                    if (settings.toc) {
+                        editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
+                    }
+                }
 
                 preview.show().css({
                     top       : 0,

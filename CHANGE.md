@@ -128,5 +128,8 @@
 
 #####v1.1.1
 
-接受一个pull请求，修复了`getHTML ()`和`getPreviewedHTML()`方法中的３处错误；
+- 接受一个pull请求，修复了`getHTML ()`和`getPreviewedHTML()`方法中的３处错误；
 
+#####v1.1.2
+
+- 修复Bug[＃10](https://github.com/pandao/editor.md/issues/10)； 
