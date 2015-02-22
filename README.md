@@ -50,11 +50,10 @@ javascript:
     <script type="text/javascript">
         $(function() {
             var testEditor = editormd("test-editormd", {
-                    path : '../lib/' // codemirror、marked等依赖的库的路径
-                });
+                path : '../lib/' // codemirror、marked等依赖的库的路径
             });
-		});
-	</script>
+        });
+    </script>
 
 > Require.js的使用方法：[https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html](https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html)
 
