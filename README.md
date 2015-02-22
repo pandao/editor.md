@@ -35,7 +35,7 @@ HTML：
 
     <link rel="stylesheet" href="../dist/css/editormd.css" />
     <div id="test-editormd">
-        <textarea>###Hello world!</texarea>
+        <textarea>###Hello world!</textarea>
     </div>
 
 > 提示1：如果没有Markdown源内容或者通过Ajax异步加载Markdown源文档等，可以不添加`<textarea>`，会自动添加；
