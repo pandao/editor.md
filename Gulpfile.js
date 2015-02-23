@@ -40,7 +40,6 @@ var scssTask = function(fileName, path) {
     
     return gulp.src(path + fileName + ".scss")
            .pipe(sass({ style: 'expanded' }))   //nested,compact,expanded,compressed
-           //.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
            .pipe(gulp.dest('dist/css')) 
             .pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
                 var name = file.path.split(file.base);
@@ -71,18 +70,16 @@ gulp.task('js', function() {
   return gulp.src('src/js/**/*.js')
     .pipe(jshint('./.jshintrc'))
     .pipe(jshint.reporter('default'))
-    //.pipe(concat('all.js'))
-    //.pipe(gulp.dest('dist/js'))
 	.pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
 		var name = file.path.split(file.base);
-		return name[1].replace('\\', '');
+		return name[1].replace(/[\\\/]?/, '');
 	}}))
 	.pipe(gulp.dest('dist/js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'))	
 	.pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
-		var name = file.path.split(file.base + (os.platform() === "linux") ? "/" : "\\");
+		var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
 		return name[1].replace(/[\\\/]?/, '');
 	}}))
 	.pipe(gulp.dest('dist/js'))

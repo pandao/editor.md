@@ -1,7 +1,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.2 
+ * @version 1.1.3
  */
 
 ;(function(factory) {
@@ -44,7 +44,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.2";
+    editormd.version     = "1.1.3";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -1840,7 +1840,7 @@
             if(settings.watch) 
             {
                 codeMirror.width(editor.width() / 2);
-                preview.width(editor.width() / 2);
+                preview.width((!this.state.preview) ? editor.width() / 2 : editor.width());
                 
                 if (settings.toolbar && !settings.readOnly) {
                     preview.css("top", toolbar.height()).height(editor.height() - toolbar.height());
@@ -2182,6 +2182,7 @@
                 }
 
                 preview.show().css({
+                    position  : "static",
                     top       : 0,
                     width     : editor.width(),
                     height    : editor.height()
@@ -2231,6 +2232,7 @@
             
             preview.css({ 
                 background : null,
+                position   : "absolute",
                 width      : editor.width() / 2,
                 height     : editor.height() - toolbar.height(),
                 top        : (settings.toolbar) ? toolbar.height() : 0

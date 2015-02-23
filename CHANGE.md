@@ -133,3 +133,9 @@
 #####v1.1.2
 
 - 修复Bug[＃10](https://github.com/pandao/editor.md/issues/10)；
+- 修复Bug[＃12](https://github.com/pandao/editor.md/issues/12)；
+
+#####v1.1.3
+
+- 修复Bug[＃14](https://github.com/pandao/editor.md/issues/14)；
+- 修复Bug[＃15](https://github.com/pandao/editor.md/issues/15)；
