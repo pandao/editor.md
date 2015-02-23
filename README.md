@@ -35,7 +35,7 @@ HTML：
 
     <link rel="stylesheet" href="../dist/css/editormd.css" />
     <div id="test-editormd">
-        <textarea>###Hello world!</texarea>
+        <textarea>###Hello world!</textarea>
     </div>
 
 > 提示1：如果没有Markdown源内容或者通过Ajax异步加载Markdown源文档等，可以不添加`<textarea>`，会自动添加；
@@ -50,11 +50,10 @@ javascript:
     <script type="text/javascript">
         $(function() {
             var testEditor = editormd("test-editormd", {
-                    path : '../lib/' // codemirror、marked等依赖的库的路径
-                });
+                path : '../lib/' // codemirror、marked等依赖的库的路径
             });
-		});
-	</script>
+        });
+    </script>
 
 > Require.js的使用方法：[https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html](https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html)
 
