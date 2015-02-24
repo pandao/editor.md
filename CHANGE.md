@@ -139,3 +139,10 @@
 
 - 修复Bug[＃14](https://github.com/pandao/editor.md/issues/14)；
 - 修复Bug[＃15](https://github.com/pandao/editor.md/issues/15)；
+
+#####v1.1.4
+
+- 修复Bug[＃17](https://github.com/pandao/editor.md/issues/17)；
+    - 修改了`getToolbarHandles()`和`setToolbarHandler()`方法；
+- 从`editormd.scss`中分离出`editormd.logo.scss`，并生成`editormd.logo.css`，以便单独使用；
+    - 同时修改了`Gulpfile.js`的相应任务；

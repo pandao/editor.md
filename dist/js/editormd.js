@@ -1,18 +1,18 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v1.1.3 
+ * @version     v1.1.4 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-23
+ * @updateTime  2015-02-24
  */
 
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 ;(function(factory) {
@@ -55,7 +55,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.3";
+    editormd.version     = "1.1.4";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -555,18 +555,16 @@
         
         /**
          * 工具栏图标事件处理对象序列
+         * @param   {Object}   cm    CodeMirror的实例对象
          * @param   {String}   name  要获取的事件处理器名称
          * @returns {Object}         返回处理对象序列
          */
         
-        getToolbarHandles : function(name) {
+        getToolbarHandles : function(name) {            
             var _this       = this;
             var settings    = this.settings;
             var lang        = settings.lang;
             var editor      = this.editor;
-            var codeEditor  = this.codeEditor;
-            var cursor      = codeEditor.getCursor();
-            var selection   = codeEditor.getSelection();
             var classPrefix = this.classPrefix;
             
             var dialogLockScreen = function() {    
@@ -587,71 +585,95 @@
             };
             
             var toolbarHandlers = this.toolbarHandlers = {
-                undo : function() {
-                    codeEditor.undo();
+                undo : function(cm) {
+                    cm.undo();
                 },
-                redo : function() {
-                    codeEditor.redo();
+                redo : function(cm) {
+                    cm.redo();
                 },
-                bold : function() {
-
-                    codeEditor.replaceSelection("**" + selection + "**");
+                bold : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("**" + selection + "**");
 
                     if(selection === "") {
-                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                        cm.setCursor(cursor.line, cursor.ch + 2);
                     }                    
                 },
-                del : function() {
-
-                    codeEditor.replaceSelection("~~" + selection + "~~");
+                del : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("~~" + selection + "~~");
 
                     if(selection === "") {
-                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                        cm.setCursor(cursor.line, cursor.ch + 2);
                     }
                 },
 
-                italic : function() {
-                    codeEditor.replaceSelection("*" + selection + "*");
+                italic : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("*" + selection + "*");
 
                     if(selection === "") {
-                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                        cm.setCursor(cursor.line, cursor.ch + 1);
                     }
                 },
 
-                quote : function() {
-                    codeEditor.replaceSelection((selection === "") ? ["> " + selection, ""].join("\n") : "> " + selection);
-                    codeEditor.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
+                quote : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection((selection === "") ? ["> " + selection, ""].join("\n") : "> " + selection);
+                    cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
                 },
 
-                h1 : function() {
-                    codeEditor.replaceSelection("#" + selection);
+                h1 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("#" + selection);
                 },
 
-                h2 : function() {
-                    codeEditor.replaceSelection("##" + selection);
+                h2 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("##" + selection);
                 },
 
-                h3 : function() {
-                    codeEditor.replaceSelection("###" + selection);
+                h3 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("###" + selection);
                 },
 
-                h4 : function() {
-                    codeEditor.replaceSelection("####" + selection);
+                h4 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("####" + selection);
                 },
 
-                h5 : function() {
-                    codeEditor.replaceSelection("#####" + selection);
+                h5 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("#####" + selection);
                 },
 
-                h6 : function() {
-                    codeEditor.replaceSelection("######" + selection);
+                h6 : function(cm) {
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("######" + selection);
                 },
 
-                "list-ul" : function() {
+                "list-ul" : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
 
                     if (selection === "") 
                     {
-                        codeEditor.replaceSelection("- " + selection);
+                        cm.replaceSelection("- " + selection);
                     } 
                     else 
                     {
@@ -662,15 +684,17 @@
                             selectionText[i] = (selectionText[i] === "") ? "" : "- " + selectionText[i];
                         }
 
-                        codeEditor.replaceSelection(selectionText.join("\n"));
+                        cm.replaceSelection(selectionText.join("\n"));
                     }
                 },
 
-                "list-ol" : function() {
+                "list-ol" : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
 
                     if(selection === "") 
                     {
-                        codeEditor.replaceSelection("1. " + selection);
+                        cm.replaceSelection("1. " + selection);
                     }
                     else
                     {
@@ -681,15 +705,19 @@
                             selectionText[i] = (selectionText[i] === "") ? "" : (i+1) + ". " + selectionText[i];
                         }
 
-                        codeEditor.replaceSelection(selectionText.join("\n"));
+                        cm.replaceSelection(selectionText.join("\n"));
                     }
                 },
 
-                hr : function() {
-                    codeEditor.replaceSelection("------------");
+                hr : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
+                    
+                    cm.replaceSelection("------------");
                 },
 
-                link : function() {
+                link : function(cm) {
+                    var selection      = cm.getSelection();
                     var linkLang       = lang.dialog.link;
                     var linkDialogName = classPrefix + "link-dialog", linkDialog;
 
@@ -743,7 +771,7 @@
                                         return false;
                                     }
 
-                                    codeEditor.replaceSelection("[" + title + "](" + url + " \""+title+"\")");
+                                    cm.replaceSelection("[" + title + "](" + url + " \""+title+"\")");
                                    
                                     this.hide().lockScreen(false).hideMask();
                                     
@@ -759,9 +787,10 @@
                     }
                 },
 
-                anchor : function() {
-                    
-                    var anchorLang = lang.dialog.anchor;
+                anchor : function(cm) {
+                    var cursor           = cm.getCursor();
+                    var selection        = cm.getSelection();                    
+                    var anchorLang       = lang.dialog.anchor;
                     var anchorDialogName = classPrefix + "anchor-dialog", anchorDialog;
 
                     if (editor.find("." + anchorDialogName).length > 0)
@@ -826,10 +855,10 @@
                                         return false;
                                     }
 
-                                    codeEditor.replaceSelection("[" + title + "][" + name + "]\n[" + name + "]: " + url + "");
+                                    cm.replaceSelection("[" + title + "][" + name + "]\n[" + name + "]: " + url + "");
 
                                     if (selection === "") {
-                                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                                        cm.setCursor(cursor.line, cursor.ch + 1);
                                     }
                                    
                                     this.hide().lockScreen(false).hideMask();
@@ -846,7 +875,9 @@
                     }
                 },
 
-                image : function() {
+                image : function(cm) {
+                    var cursor          = cm.getCursor();
+                    var selection       = cm.getSelection();
                     var imageLang       = lang.dialog.image;
                     var iframeName      = classPrefix + "image-iframe";                        
                     var imageDialogName = classPrefix + "image-dialog", imageDialog;
@@ -919,15 +950,15 @@
 
                                     if (link === "" || link === "http://")
                                     {                                    
-                                        codeEditor.replaceSelection("![" + alt + "](" + url + " \"" + alt + "\")");
+                                        cm.replaceSelection("![" + alt + "](" + url + " \"" + alt + "\")");
                                     }
                                     else 
                                     {                                   
-                                        codeEditor.replaceSelection("[![" + alt + "](" + url + " \"" + alt + "\")](" + link + " \"" + alt + "\")");
+                                        cm.replaceSelection("[![" + alt + "](" + url + " \"" + alt + "\")](" + link + " \"" + alt + "\")");
                                     }
 
                                     if (alt === "") {
-                                        codeEditor.setCursor(cursor.line, cursor.ch + 2);
+                                        cm.setCursor(cursor.line, cursor.ch + 2);
                                     }
                                    
                                     this.hide().lockScreen(false).hideMask();
@@ -994,23 +1025,27 @@
                     });
                 },
 
-                code : function() {
+                code : function(cm) {
+                    var cursor    = cm.getCursor();
+                    var selection = cm.getSelection();
 
-                    codeEditor.replaceSelection("`" + selection + "`");
+                    cm.replaceSelection("`" + selection + "`");
 
                     if (selection === "") {
-                        codeEditor.setCursor(cursor.line, cursor.ch + 1);
+                        cm.setCursor(cursor.line, cursor.ch + 1);
                     }
 
                 },
 
-                "code-block-tab" : function() {
+                "code-block-tab" : function(cm) {
+                    var cursor                 = cm.getCursor();
+                    var selection              = cm.getSelection();
                     var tabCodeBlockDialogName = classPrefix + "dialog-tab-code-block", tabCodeBlockDialog;                     
                     
                     if (editor.find("." + tabCodeBlockDialogName).length > 0)
                     {
                         tabCodeBlockDialog = editor.find("." + tabCodeBlockDialogName);
-                        tabCodeBlockDialog.find("textarea").val("");
+                        tabCodeBlockDialog.find("textarea").val(selection);
                         
                         dialogShowMask(tabCodeBlockDialog);
                         dialogLockScreen();
@@ -1018,7 +1053,7 @@
                     }
                     else 
                     {      
-                        var tabCodeBlockDialogHTML = "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 300px;\"></textarea>";
+                        var tabCodeBlockDialogHTML = "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 300px;\">" + selection + "</textarea>";
 
                         tabCodeBlockDialog = _this.createDialog({
                             name   : tabCodeBlockDialogName,
@@ -1050,7 +1085,7 @@
                                         codeTexts[i] = "    " + codeTexts[i];
                                     }
                                     
-                                    codeEditor.replaceSelection(codeTexts.join("\n"));
+                                    cm.replaceSelection(codeTexts.join("\n"));
                                    
                                     this.hide().lockScreen(false).hideMask();
                                     
@@ -1066,15 +1101,16 @@
                     }
                 },
 
-                "code-block" : function() {
-
+                "code-block" : function(cm) {
+                    var cursor              = cm.getCursor();
+                    var selection           = cm.getSelection();
                     var codeBlockDialogName = classPrefix + "dialog-code-block", codeBlockDialog;
 
                     if (editor.find("." + codeBlockDialogName).length > 0)
                     {
                         codeBlockDialog = editor.find("." + codeBlockDialogName);
                         codeBlockDialog.find("option:first").attr("selected", "selected");
-                        codeBlockDialog.find("textarea").val("");
+                        codeBlockDialog.find("textarea").val(selection);
                         
                         dialogShowMask(codeBlockDialog);
                         dialogLockScreen();
@@ -1085,7 +1121,7 @@
                         var codeBlockDialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
                                                 lang.dialog.codeBlock.selectLabel + "<select><option selected=\"selected\" value=\"\">" + lang.dialog.codeBlock.selectDefaultText + "</option></select>" +
                                             "</div>" +
-                                            "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 360px;\"></textarea>";
+                                            "<textarea placeholder=\"coding now....\" style=\"width: 680px;height: 360px;\">" + selection + "</textarea>";
 
                         codeBlockDialog = _this.createDialog({
                             name   : codeBlockDialogName,
@@ -1119,10 +1155,10 @@
                                     
                                     langName = (langName === "other") ? "" : langName;
                                     
-                                    codeEditor.replaceSelection(["```" + langName, codeTexts, "```"].join("\n"));
+                                    cm.replaceSelection(["```" + langName, codeTexts, "```"].join("\n"));
 
                                     if (langName === "") {
-                                        codeEditor.setCursor(cursor.line, cursor.ch + 3);
+                                        cm.setCursor(cursor.line, cursor.ch + 3);
                                     }
                                    
                                     this.hide().lockScreen(false).hideMask();
@@ -1149,31 +1185,34 @@
                     }
                 },
 
-                datetime : function() {
-                    var date     = new Date();
-                    var langName = settings.lang.name;
-                    codeEditor.replaceSelection(editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day"));
+                datetime : function(cm) {
+                    var selection = cm.getSelection();
+                    var date      = new Date();
+                    var langName  = settings.lang.name;
+                    var datefmt   = editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day");
+                    
+                    cm.replaceSelection(datefmt);
                 },
 
-                watch : function() {                        
+                watch : function(cm) {          
                     _this[_this.settings.watch ? "unwatch" : "watch"]();
                 },
 
-                preview : function() {
+                preview : function(cm) {
 
                     _this.previewing();
                 },
 
-                fullscreen : function() {
+                fullscreen : function(cm) {
 
                     _this.fullscreen();
                 },
 
-                clear : function() {
+                clear : function(cm) {
                     _this.clear();
                 },
 
-                info : function() {
+                info : function(cm) {
                     _this.showInfoDialog();
                 }
             };
@@ -1201,15 +1240,15 @@
             var codeMirror          = this.codeMirror;
             var classPrefix         = this.classPrefix;
             var previewContainer    = this.previewContainer;            
-            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu a");            
-            var toolbarIconHandlers = _this.getToolbarHandles();
+            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu a");   
                 
             toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
 
-                var icon      = $(this).children(".fa");
-                var name      = icon.attr("name");
-                var cursor    = codeEditor.getCursor();
-                var selection = codeEditor.getSelection();
+                var icon                = $(this).children(".fa");
+                var name                = icon.attr("name");
+                var cursor              = codeEditor.getCursor();
+                var selection           = codeEditor.getSelection();    
+                var toolbarIconHandlers = _this.getToolbarHandles();
 
                 if (name === "") {
                     return ;
@@ -1219,7 +1258,7 @@
 
                 if (typeof toolbarIconHandlers[name] !== "undefined") 
                 {
-                    toolbarIconHandlers[name]();
+                    toolbarIconHandlers[name](codeEditor);
                 }
                 else 
                 {
