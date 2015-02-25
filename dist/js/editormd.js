@@ -1,18 +1,18 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v1.1.4 
+ * @version     v1.1.5 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-02-24
+ * @updateTime  2015-02-26
  */
 
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 ;(function(factory) {
@@ -55,7 +55,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.4";
+    editormd.version     = "1.1.5";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -627,44 +627,44 @@
                     var cursor    = cm.getCursor();
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection((selection === "") ? ["> " + selection, ""].join("\n") : "> " + selection);
+                    cm.replaceSelection("> " + selection);
                     cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
                 },
 
                 h1 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("#" + selection);
+                    cm.replaceSelection("# " + selection);
                 },
 
                 h2 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("##" + selection);
+                    cm.replaceSelection("## " + selection);
                 },
 
                 h3 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("###" + selection);
+                    cm.replaceSelection("### " + selection);
                 },
 
                 h4 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("####" + selection);
+                    cm.replaceSelection("#### " + selection);
                 },
 
                 h5 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("#####" + selection);
+                    cm.replaceSelection("##### " + selection);
                 },
 
                 h6 : function(cm) {
                     var selection = cm.getSelection();
                     
-                    cm.replaceSelection("######" + selection);
+                    cm.replaceSelection("###### " + selection);
                 },
 
                 "list-ul" : function(cm) {
@@ -1533,7 +1533,7 @@
             var classPrefix  = this.classPrefix;  
             
             var infoDialogHTML = [
-                "<div class=\"" + classPrefix + "dialog " + classPrefix + "dialog-info\">",
+                "<div class=\"" + classPrefix + "dialog " + classPrefix + "dialog-info\" style=\"\">",
                 "<div class=\"" + classPrefix + "dialog-container\">",
                 "<h1><i class=\"editormd-logo editormd-logo-lg editormd-logo-color\"></i> " + editormd.title + "<small>v" + editormd.version + "</small></h1>",
                 "<p>" + this.lang.description + "</p>",
@@ -1552,8 +1552,32 @@
                 _this.hideInfoDialog();
             });
             
-            infoDialog.css("border", (editormd.isIE8) ? "1px solid #ddd" : "");
+            infoDialog.css("border", (editormd.isIE8) ? "1px solid #ddd" : "").show();
+            
+            this.infoDialogPosition();
 
+            return this;
+        },
+        
+        /**
+         * 关于Editor.md对话居中定位
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        infoDialogPosition : function() {
+            var infoDialog = this.infoDialog;
+            
+			var _infoDialogPosition = function() {
+				infoDialog.css({
+					top  : ($(window).height() - infoDialog.height()) / 2 + "px",
+					left : ($(window).width()  - infoDialog.width()) / 2  + "px"
+				});
+			};
+
+			_infoDialogPosition();
+
+			$(window).resize(_infoDialogPosition);
+            
             return this;
         },
         
@@ -1578,16 +1602,7 @@
 
 			infoDialog.show();
 
-			var infoDialogPosition = function() {
-				infoDialog.css({
-					top  : ($(window).height() - infoDialog.height()) / 2 + "px",
-					left : ($(window).width() - infoDialog.width()) / 2 + "px"
-				});
-			};
-
-			infoDialogPosition();
-
-			$(window).resize(infoDialogPosition);
+			this.infoDialogPosition();
 
             return this;
         },

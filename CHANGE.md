@@ -146,3 +146,13 @@
     - 修改了`getToolbarHandles()`和`setToolbarHandler()`方法；
 - 从`editormd.scss`中分离出`editormd.logo.scss`，并生成`editormd.logo.css`，以便单独使用；
     - 同时修改了`Gulpfile.js`的相应任务；
+    
+#####v1.1.5
+
+- 修复Bug[＃18](https://github.com/pandao/editor.md/issues/18)；
+    - 修改了`showInfoDialog()`和`createInfoDialog()`方法；
+    - 新增`infoDialogPosition()`方法；
+    
+- 修复Bug[＃20](https://github.com/pandao/editor.md/issues/20)；
+    - 修改了引用的处理函数；
+    - 插入的headers的`#`号后面都加上了一个空格；
