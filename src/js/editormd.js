@@ -1,7 +1,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.5
+ * @version 1.1.6
  */
 
 ;(function(factory) {
@@ -44,7 +44,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.5";
+    editormd.version     = "1.1.6";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -282,7 +282,8 @@
             
             editor.append(appendElements).addClass(classPrefix + "vertical");
             
-            if (settings.markdown !== "") {
+            if (settings.markdown !== "")
+            {
                 markdownTextarea.val(settings.markdown);
             }
             
@@ -408,7 +409,8 @@
          */
         
         setCodeMirror : function() { 
-            var settings         = this.settings;            
+            var settings         = this.settings;
+            var editor           = this.editor;
             var codeMirrorConfig = {
                 mode                      : settings.mode,
                 theme                     : "default",
@@ -427,15 +429,14 @@
                 showTrailingSpace         : true,
                 highlightSelectionMatches : {
                     showToken: /\w/
-                } 
+                }
             };
             
             this.codeEditor = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
-
-            this.codeMirror = this.editor.find(".CodeMirror");
+            this.codeMirror = editor.find(".CodeMirror");
             
             this.codeMirror.css({
-                fontSize : this.settings.fontSize,
+                fontSize : settings.fontSize,
                 width    : (!settings.watch) ? "100%" : "50%"
             });
 
@@ -1631,7 +1632,6 @@
             return this;
         },
         
-        
         /**
          * 编辑器界面重建，用于动态语言包或模块加载等
          * @returns {editormd}  返回editormd的实例对象
@@ -1651,12 +1651,75 @@
                 createInfoDialog();
             }
 
-            if (!settings.readOnly) {
+            if (!settings.readOnly) 
+            {                
+                if (editor.find(".editormd-dialog").length > 0) {
+                    editor.find(".editormd-dialog").remove();
+                }
+                
                 this.getToolbarHandles();
                 this.setToolbar();
             }
             
             this.resize();
+
+            return this;
+        },
+        
+        /**
+         * 高亮预览HTML的pre代码部分
+         * @returns {editormd}             返回editormd的实例对象
+         */
+        
+        previewCodeHighlight : function() {    
+            var settings         = this.settings;
+            var previewContainer = this.previewContainer;
+            
+            if (settings.previewCodeHighlight) 
+            {
+                previewContainer.find("pre").addClass("prettyprint linenums");
+                prettyPrint();
+            }
+
+            return this;
+        },
+        
+        /**
+         * 解析TeX(KaTeX)科学公式
+         * @returns {editormd}             返回editormd的实例对象
+         */
+        
+        katexRender : function() {
+            
+            var previewContainer = this.previewContainer;
+            
+            previewContainer.find("." + editormd.classNames.tex).each(function(){
+                var tex  = $(this);
+                editormd.$katex.render(tex.html(), tex[0]);
+            });   
+
+            return this;
+        },
+        
+        /**
+         * 解析和渲染流程图及时序图
+         * @returns {editormd}             返回editormd的实例对象
+         */
+        
+        flowChartAndSequenceDiagramRender : function() {
+            
+            var settings         = this.settings;
+            var previewContainer = this.previewContainer;
+            
+            if (editormd.isIE8) return ;
+
+            if (settings.flowChart) {
+                previewContainer.find(".flowchart").flowChart(); 
+            }
+
+            if (settings.sequenceDiagram) {
+                previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+            }
 
             return this;
         },
@@ -1685,50 +1748,6 @@
             
             if(settings.watch) {
                 preview.show();
-            }
-            
-            var codeHighlight = function() {                       
-                if (settings.previewCodeHighlight) 
-                {
-                    previewContainer.find("pre").addClass("prettyprint linenums");
-                    prettyPrint();
-                }
-            };
-            
-            var flowChartAndSequenceDiagramHandle = function() {
-            
-                if (editormd.isIE8) return ;
-
-                if (settings.flowChart) {
-                    previewContainer.find(".flowchart").flowChart(); 
-                }
-
-                if (settings.sequenceDiagram) {
-                    previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
-                }
-            };
-            
-            codeHighlight();
-            
-            flowChartAndSequenceDiagramHandle();
-            
-            var katexHandle = function() {
-                previewContainer.find("." + editormd.classNames.tex).each(function(){
-                    var tex  = $(this);
-                    editormd.$katex.render(tex.html(), tex[0]);
-                });
-            };
-
-            if (settings.tex) 
-            {            
-                if (!settings.inRequirejs) {
-                    editormd.loadKaTeX(function(){
-                        editormd.$katex = katex;
-                        katexHandle();
-                    });
-                } else {
-                    katexHandle();
-                }
             }
             
             editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // 为了兼容Zepto
@@ -1806,23 +1825,8 @@
 				touchend   : previewUnbindScroll
 			});
 
-            codeEditor.on("change", function(cm, changeObj) { 
-
-                if (!settings.watch) {
-                    return ;
-                }
-                
+            codeEditor.on("change", function(cm, changeObj) {                 
                 _this.saveToTextareas();
-                
-                codeHighlight();
-
-                flowChartAndSequenceDiagramHandle();
-                
-                if (settings.tex) {                             
-                    katexHandle();
-                }
-                
-                $.proxy(settings.onchange, _this)();
             });
 
             return this;
@@ -1917,28 +1921,49 @@
          */
         
         saveToTextareas : function() {
+            var _this            = this;
             var settings         = this.settings;
             var codeEditor       = this.codeEditor;
             var previewContainer = this.previewContainer;
             
+            var codeMirrorValue  = codeEditor.getValue();
+            var markdownToC      = this.markdownToC   = [];
+            var newMarkdownDoc   = editormd.$marked(codeMirrorValue, {renderer : editormd.markedRenderer(markdownToC)});
+            
+            this.markdownTextarea[0].innerText = codeMirrorValue;
+            
             codeEditor.save();
             
-            var markdownToC      = this.markdownToC   = [];
-            var newMarkdownDoc   = editormd.$marked(codeEditor.getValue(), {renderer : editormd.markedRenderer(markdownToC)});
-
-            this.markdownTextarea.val(codeEditor.getValue());
-            
-            if (settings.saveHTMLToTextarea) {     
+            if (settings.saveHTMLToTextarea) {
                 this.htmlTextarea.html(newMarkdownDoc);
             }
             
-            if(settings.watch)
+            if(settings.watch || (!settings.watch && this.state.preview))
             {
                 previewContainer.html(newMarkdownDoc);
+
+                this.previewCodeHighlight();
             
                 if (settings.toc) {
                     editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
                 }
+
+                if (!settings.inRequirejs && !editormd.kaTeXLoaded) {
+                    editormd.loadKaTeX(function(){
+                        editormd.$katex = katex;
+                        editormd.kaTeXLoaded = true;
+                        _this.katexRender();
+                    });
+                } else {
+                    this.katexRender();
+                }
+                
+                var timer = setTimeout(function(){
+                    clearTimeout(timer);
+                    _this.flowChartAndSequenceDiagramRender();
+                }, 10);
+
+                $.proxy(settings.onchange, this)();
             }
 
             return this;
@@ -2032,8 +2057,9 @@
          */
         
         setMarkdown : function(md) {
+            var settings = this.settings;
+            
             this.codeEditor.setValue(md);
-            this.saveToTextareas();
             
             return this;
         },
@@ -2054,7 +2080,6 @@
         
         clear : function() {
             this.codeEditor.setValue("");
-            this.saveToTextareas();
             
             return this;            
         },
@@ -2221,7 +2246,7 @@
             
                 if(!settings.watch)
                 {
-                    var codeEditor       = this.codeEditor;
+                    /*var codeEditor       = this.codeEditor;
                     var previewContainer = this.previewContainer;
 
                     codeEditor.save();
@@ -2232,7 +2257,8 @@
 
                     if (settings.toc) {
                         editormd.markdownToCRenderer(markdownToC, previewContainer, settings.tocStartLevel);
-                    }
+                    }*/
+                    this.saveToTextareas();
                 }
 
                 preview.show().css({
@@ -2402,10 +2428,13 @@
                 level : level,
                 slug  : escapedText
             };
+            
+            var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
+            var id = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
 
             markdownToC.push(toc);
 
-            return "<h" + level + " id=\"" + this.options.headerPrefix + raw.toLowerCase().replace(/[^\w]+/g,"-")+"\">" +
+            return "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">" +
                    "<a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a>" +
                    "<span class=\"header-link\"></span>" + text + "</h" + level + ">";
         };
@@ -2820,6 +2849,8 @@
         css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min",
         js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min"
     };
+    
+    editormd.kaTeXLoaded = false;
     
     /**
      * 加载KaTex文件

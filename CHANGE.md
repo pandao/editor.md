@@ -156,3 +156,19 @@
 - 修复Bug[＃20](https://github.com/pandao/editor.md/issues/20)；
     - 修改了引用的处理函数；
     - 插入的headers的`#`号后面都加上了一个空格；
+
+#####v1.1.6
+
+修复多处Bug，具体如下：
+    
+- 修复Bug[#23](https://github.com/pandao/editor.md/issues/23)，即Headers的id属性的重复及中文问题；
+    - 修改了`editormd.markedRenderer()`方法；
+
+- 修复Bug[#24](https://github.com/pandao/editor.md/issues/24)；
+    - 修改了`setMarkdown()`、`clear()`和`loadedDisplay()`方法的内部实现；
+    - 新增了`katexRender()`、`flowChartAndSequenceDiagramRender()`、`previewCodeHighlight()`方法；
+    
+- 修复有些情况下无法保存Markdown源文档到textarea的问题；
+    - 修改了`setCodeMirror()`、`recreateEditor()`等方法；
+
+- 修改了以上Bug及部分相关示例文件；

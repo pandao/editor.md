@@ -23,9 +23,12 @@
                 <button id="show-toolbar-btn">显示工具栏</button>
                 <button id="close-toolbar-btn">关闭工具栏</button>
             </div>
-            <div class="editormd" id="test-editormd">                
-                <script type="text/markdown">###Hello world!</script>
-            </div>
+            <form action="php/post.php" method="post">
+                <div class="editormd" id="test-editormd">                
+                    <textarea>###Hello world!</textarea>
+                </div>
+                <br/><input type="submit" name="submit" value="Submit" class="btn" style="margin-left: 5%;" />
+            </form>
         </div>        
         <script src="js/zepto.min.js"></script>
         <script src="../src/js/editormd.js"></script>   
@@ -40,6 +43,8 @@
 						height : 720,
 						path   : '../lib/',
 						markdown : md,
+                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
+                        //watch : false,
                         htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启
                         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启

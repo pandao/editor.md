@@ -39,6 +39,7 @@
                         height: 740,
                         path : '../lib/',
                         markdown : md,
+                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
                         //watch : false,                // 关闭实时预览
                         htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启    
                         //toolbar  : false,             //关闭工具栏
@@ -108,7 +109,7 @@
                     testEditor.hideToolbar();
                 });
             });
-            
+           /* 
             // IE不支持
             editormd.printAreaCount = 0;
             editormd.printArea      = function($obj) {
@@ -153,7 +154,7 @@
             
             function preview() {
                 editormd.printArea(testEditor.previewContainer[0]);
-            }
+            }*/
         </script>
     </body>
 </html>
