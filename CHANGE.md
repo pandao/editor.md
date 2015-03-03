@@ -172,3 +172,16 @@
     - 修改了`setCodeMirror()`、`recreateEditor()`等方法；
 
 - 修改了以上Bug及部分相关示例文件；
+
+#####v1.1.7
+
+修复多处Bug，具体如下：
+
+- 修复Bug[#25](https://github.com/pandao/editor.md/issues/25)；
+    - 修改了`loadedDisplay()`方法，将`settings.onload`移动了`CodeMirror.on("change")`事件注册后再触发；
+
+- 修复Bug[#26](https://github.com/pandao/editor.md/issues/26)；
+    - 修改了`saveToTextareas()`方法；
+    - 新增`state.loaded`和`state.watching`两个属性；
+
+- 修改了以上Bug相关示例文件；

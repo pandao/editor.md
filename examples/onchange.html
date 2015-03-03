@@ -19,13 +19,15 @@
         <script src="../lib/jquery.min.js"></script>
         <script src="../src/js/editormd.js"></script>   
         <script type="text/javascript">
+            var testEditor;
+            
             $(function() {
-                var testEditor = editormd("test-editormd", {
+                testEditor = editormd("test-editormd", {
                     width  : "90%",
                     height : 720,
                     path   : '../lib/',
                     onchange : function() {
-                        console.log("onchange =>", this, this.id, this.settings);
+                        console.log("onchange =>", this, this.id, this.settings, this.state);
                     }
                 });
             });

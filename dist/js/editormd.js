@@ -1,18 +1,18 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v1.1.6 
+ * @version     v1.1.7 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-03-02
+ * @updateTime  2015-03-03
  */
 
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 ;(function(factory) {
@@ -55,7 +55,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.6";
+    editormd.version     = "1.1.7";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -234,6 +234,8 @@
 
     editormd.prototype    = editormd.fn = {
         state : {
+            watching   : false,
+            loaded     : false,
             preview    : false,
             fullscreen : false
         },
@@ -263,6 +265,8 @@
                     markdown : this.classPrefix + "markdown-textarea"
                 }
             };
+            
+            this.state.watching = (settings.watch) ? true : false;
             
             if (!editor.hasClass("editormd")) {
                 editor.addClass("editormd");
@@ -1742,8 +1746,6 @@
         
         loadedDisplay : function() {
             
-            this.state.loaded    = true;
-            
             var _this            = this;
             var editor           = this.editor;
             var preview          = this.preview;
@@ -1768,8 +1770,6 @@
             $(window).resize(function(){
                 _this.resize();
             });
-            
-            $.proxy(settings.onload, this)();
                 
             var codeEditorBindScroll = function() {    
                 codeMirror.find(".CodeMirror-scroll").bind(mouseOrTouch("scroll", "touchmove"), function() {
@@ -1839,6 +1839,10 @@
             codeEditor.on("change", function(cm, changeObj) {                 
                 _this.saveToTextareas();
             });
+            
+            $.proxy(settings.onload, this)();
+            
+            this.state.loaded = true;
 
             return this;
         },
@@ -1933,6 +1937,7 @@
         
         saveToTextareas : function() {
             var _this            = this;
+            var state            = this.state;
             var settings         = this.settings;
             var codeEditor       = this.codeEditor;
             var previewContainer = this.previewContainer;
@@ -1949,7 +1954,7 @@
                 this.htmlTextarea.html(newMarkdownDoc);
             }
             
-            if(settings.watch || (!settings.watch && this.state.preview))
+            if(settings.watch || (!settings.watch && state.preview))
             {
                 previewContainer.html(newMarkdownDoc);
 
@@ -1974,7 +1979,10 @@
                     _this.flowChartAndSequenceDiagramRender();
                 }, 10);
 
-                $.proxy(settings.onchange, this)();
+                if (state.loaded) 
+                {
+                    $.proxy(settings.onchange, this)();
+                }
             }
 
             return this;
@@ -2144,7 +2152,7 @@
         watch : function(callback) {
             callback  = callback || function() {};
             
-            this.settings.watch = true;
+            this.state.watching = this.settings.watch = true;
             this.preview.show();
             
             var watchIcon   = this.settings.toolbarIconsClass.watch;
@@ -2170,7 +2178,7 @@
         unwatch : function(callback) {
             callback  = callback || function() {};
             
-            this.settings.watch = false;
+            this.state.watching = this.settings.watch = false;
             this.preview.hide();
             
             var watchIcon   = this.settings.toolbarIconsClass.watch;

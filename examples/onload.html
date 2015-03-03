@@ -17,16 +17,20 @@
             </div>
         </div>        
         <script src="../lib/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>   
+        <script src="../src/js/editormd.js"></script>
         <script type="text/javascript">
             $(function() {
                 var testEditor = editormd("test-editormd", {
                     width  : "90%",
                     height : 720,
+                    //watch : false,
                     path   : '../lib/',
                     onload : function() {
-                        alert("onload");
-                        console.log("onload =>", this, this.id, this.settings);
+                        //this.watch();
+                        //this.setMarkdown("###test onloaded");
+                        testEditor.setMarkdown("###Test onloaded");
+                        alert("onloaded");
+                        console.log("onloaded =>", this, this.id, this.settings);
                     }
                 });
             });
