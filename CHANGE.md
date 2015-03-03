@@ -185,3 +185,15 @@
     - 新增`state.loaded`和`state.watching`两个属性；
 
 - 修改了以上Bug相关示例文件；
+
+#####v1.1.8
+
+改进功能，具体如下：
+
+- 改进[#27](https://github.com/pandao/editor.md/issues/27)；
+    - 新增配置项`matchWordHighlight`，可选值有：`true, false, "onselected"`，默认值为`true`，即开启自动匹配和标示相同单词；
+
+- 改进[#28](https://github.com/pandao/editor.md/issues/28)；
+    - 将`jquery.min.js`、`font-awesome.min.css`、`github-markdown.css`移除（这是一个疏忽，它们不是动态加载的依赖模块或者不需要的，避免不必要的硬盘空间占用）；
+
+- 修改了所有相关的示例文件；

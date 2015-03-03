@@ -1,7 +1,7 @@
 /*
  * Editor.md
  * @file        editormd.js 
- * @version     v1.1.7 
+ * @version     v1.1.8 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
@@ -12,7 +12,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 ;(function(factory) {
@@ -55,7 +55,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.7";
+    editormd.version     = "1.1.8";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -69,7 +69,8 @@
         placeholder          : "now coding markdown...",
         readOnly             : false,
         lineNumbers          : true,
-        styleActiveLine      : true,           // 高亮显示当前行
+        matchWordHighlight   : true,           // options: true, false, "onselected"
+        styleActiveLine      : true,           // Highlight the current line
         dialogLockScreen     : true,
         dialogShowMask       : true,
         dialogDraggable      : true,
@@ -86,9 +87,9 @@
         uploadCallbackURL    : "",
         saveHTMLToTextarea   : false,
         toc                  : true,
-        tocStartLevel        : 1,              // 表示从H1开始生成ToC
+        tocStartLevel        : 1,              // Said from H1 to create ToC
         fontSize             : "13px",
-        htmlDecode           : false,          // 是否开启HTML标签识别
+        htmlDecode           : false,          // Open the HTML tag identification
         tex                  : false,
         flowChart            : false,          // flowChart.js only support IE9+
         sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
@@ -107,7 +108,7 @@
             ]
         },   
         toolbarTitles        : {},
-        toolbarHandlers      : {},  // 工具栏按钮的点击后事件处理
+        toolbarHandlers      : {},
         
         toolbarIconsClass    : {
             undo             : "fa-undo",
@@ -442,9 +443,9 @@
                 styleSelectedText         : true,
                 autoCloseBrackets         : true,
                 showTrailingSpace         : true,
-                highlightSelectionMatches : {
-                    showToken: /\w/
-                }
+                highlightSelectionMatches : ( (!settings.matchWordHighlight) ? false : {
+                                                                                showToken: (settings.matchWordHighlight == "onselected") ? false : /\w/
+                                                                            })
             };
             
             this.codeEditor = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
