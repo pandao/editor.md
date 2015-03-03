@@ -16,7 +16,7 @@
 - Support AMD/CMD (Require.js & Sea.js) Module Loader;
 
 
-[README (English)](https://pandao.github.io/editor.md/en.html)
+[README & Examples (English)](https://pandao.github.io/editor.md/en.html)
 
 --------
 
