@@ -12,7 +12,7 @@
 - Compatible with all major browsers (IE8+), compatible Zepto.js and iPad;
 - Support identification and interpretation of the HTML tags;
 - Support TeX (LaTeX expressions, Based on KaTeX);
-- Support flowchart and Sequence Diagram of Markdown extended syntax;
+- Support Flowchart and Sequence Diagram of Markdown extended syntax;
 - Support AMD/CMD (Require.js & Sea.js) Module Loader;
 
 
