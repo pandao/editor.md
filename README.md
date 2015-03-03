@@ -2,9 +2,25 @@
 
 ![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-180x180.png)
 
-A simple online markdown editor.
+**Editor.md** is an online(In-browser) rich markdown editor, based on CodeMirror & jQuery.
 
-**Editor.md** 是一个基于jQuery和CodeMirror构建的在线Markdown编辑器。
+###Features
+
+- Support Standard Markdown and GFM(GitHub Flavored Markdown);
+- Full-featured: Real-time Preview, Image (cross-domain) upload, Multi-languages, Syntax highlighting...;
+- Support ToC (Table of Contents);
+- Compatible with all major browsers (IE8+), compatible Zepto.js and iPad;
+- Support identification and interpretation of the HTML tags;
+- Support TeX (LaTeX expressions, Based on KaTeX);
+- Support flowchart and Sequence Diagram of Markdown extended syntax;
+- Support AMD/CMD (Require.js & Sea.js) Module Loader;
+
+
+[README (English)](https://pandao.github.io/editor.md/en.html)
+
+--------
+
+**Editor.md** 是一个基于CodeMirror和jQuery构建的Markdown在线编辑器。
 
 ![editormd-screenshot](https://pandao.github.io/editor.md/examples/images/editormd-screenshot.png "editormd-screenshot")
 
