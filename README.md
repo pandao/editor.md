@@ -7,7 +7,7 @@
 ###Features
 
 - Support Standard Markdown and GFM(GitHub Flavored Markdown);
-- Full-featured: Real-time Preview, Image (cross-domain) upload, Multi-languages, Syntax highlighting...;
+- Full-featured: Real-time Preview, Image (cross-domain) upload, Multi-languages, L18n, Syntax highlighting...;
 - Support ToC (Table of Contents);
 - Compatible with all major browsers (IE8+), compatible Zepto.js and iPad;
 - Support identification and interpretation of the HTML tags;
