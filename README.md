@@ -2,7 +2,7 @@
 
 ![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-180x180.png)
 
-**Editor.md** is an online(In-browser) rich markdown editor, based on CodeMirror & jQuery.
+**Editor.md** is an online(In-browser) markdown editor, based on CodeMirror & jQuery.
 
 ###Features
 
