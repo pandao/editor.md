@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>Marked heading link Test</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="../examples/css/style.css" />
+    </head>
+    <body>
+        <script src="../examples/js/jquery.min.js"></script>
+        <script src="../lib/marked.min.js"></script>
+        <script type="text/javascript">
+                
+            var linkReg = /\s*\<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)\<\/a\>\s*/;
+            var linkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
+            
+            var testLink = "<a href=\"http://daringfireball.net/projects/markdown/basics\" title=\"Markdown Basics\">Markdown Basics</a> ";
+            var testLink2 = "<a href=\"http://daringfireball.net/projects/markdown/basics\" title=\"Xdfsdf\">Xdfsdf</a> ";
+            var testLink3 = "<a href=\"\" title=\"\"></a> ";
+            var texts = (testLink + testLink2 + testLink3).split(/\<a\s*([^\>]+)\>([^\>]*)\<\/a\>/);
+            
+            console.log(texts);
+            
+            for (var i = 0, len = texts.length; i < len; i++)
+            {
+                if((i+1) % 3 == 0) console.log(texts[i]);
+            }
+            
+            (testLink + testLink2).replace(linkTextReg, function(){
+                //console.log($1, $2);
+                //console.log("linkText =>", $3);
+                console.log(arguments);
+            });
+            
+            testLink.replace(linkTextReg, function($1, $2, $3){
+                console.log($1, $2, $3);
+            });
+            
+            console.log(linkReg.test(" <a name=\"dddd\" class=\"link\" style=\"color:red;\">Markdown Basics</a> "));
+            
+            console.log(linkReg.test("<a name=\"dddd\" href=\"http://daringfireball.com/projects/markdown/basics\" class=\"link\" style=\"color:red;\">Markdown Basics</a> "));
+            
+            console.log(linkReg.test("<a  href=\"http://daringfireball.net/projects/markdown/basics?xx=ddd&fddf&temp=265656565665656526\"   title=\"dddd\" class=\"link\" style=\"color:red;\">Markdown Basics</a> "));
+            
+            console.log(linkReg.test("<a  href=\"http://daringfireball.net/projects/markdown/basics\"   title=\"dddd\"><span>Markdown Basics</span></a> "));
+            
+            console.log(linkReg.test("<a  href=\"http://daringfireball.net/projects/markdown/basics?xx=ddd&fddf&temp=265656565665656526\"   title=\"dddd\"><span class=\"active\">Markdown Basics</span></a> "));
+            console.log(linkReg.test("<a  href=\"http://www.fdasfasdfsdaf.com/projects/markdown/basics\"   title=\"dddd\"><a href=\"#ddd\" class=\"active\">Markdown Basics</a></a> "));
+            console.log(linkReg.test("afdsfasfsadf<a  href=\"http://daringfireball.net/projects/markdown/basics?xx=ddd&fddf&temp=265656565665656526\"   title=\"dddd\"><a href=\"#ddd\" class=\"active\">Markdown Basics</a></a> fdasfasdfadsfsfd <a  href=\"http://daringfireball.net/projects/markdown/basics\"   title=\"dddd\"><span>Markdown Basics</span></a>"));
+            
+            $(function() {
+                var markedRenderer     = new marked.Renderer();
+                var markdownToC        = markdownToC || [];
+
+                markedRenderer.heading = function(text, level, raw) {
+                    
+                    var linkText       = text;
+                    var hasLinkReg     = /\s*\<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)\<\/a\>\s*/;
+                    var getLinkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
+                    
+                    if (hasLinkReg) {
+                        var tempText = [];
+                        text = text.split(/\<a\s*([^\>]+)\>([^\>]*)\<\/a\>/);
+
+                        console.log(text);
+
+                        for (var i = 0, len = text.length; i < len; i++)
+                        {
+                            if((i+1) % 3 == 0) tempText.push(text[i]);
+                        }    
+                        
+                        text = tempText.join(" ");
+                    }         
+                    
+                    var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
+                    var toc = {
+                        text : text,
+                        level : level,
+                        slug  : escapedText
+                    };
+                    
+                    console.log("text =>", text);
+
+                    var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
+                    var id = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
+
+                    markdownToC.push(toc);
+                    
+                    console.log("toc =>", toc);
+                    
+                    var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
+
+                    /*return "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">" +
+                           "<a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a>" +
+                           "<span class=\"header-link\"></span>" + text + "</h" + level + ">";*/
+                    
+                    var anchor = "<a name=\"" + text + "\" class=\"anchor\"></a>";
+                    
+                    headingHTML += anchor;
+                    
+                    headingHTML += "<span class=\"header-link\"></span>";
+                    
+                    headingHTML += (hasLinkReg) ? linkText : text;
+                    
+                    headingHTML += "</h" + level + ">";
+                    
+                    return headingHTML;
+                    
+                };
+            
+                marked.setOptions({
+                    renderer    : markedRenderer,
+                    gfm         : true,
+                    tables      : true,
+                    breaks      : true,
+                    pedantic    : false,
+                    smartLists  : true,
+                    smartypants : true
+                });
+                
+                var md = marked("## [Markdown Basics](http://daringfireball.net/projects/markdown/basics \"Markdown Basics\")");
+                console.log(md);
+                
+                var md2 = marked("## fdasfsd [Markdown Basics](http://daringfireball.net/projects/markdown/basics \"Markdown Basics\") xxx  [Editor.md](http://daringfireball.net/projects/markdown/basics \"Editor.md\") fadsfasdfasdf");
+                console.log(md2);
+                
+                var md3 = marked("### fdasfsd中文链接 [中文链接](http://daringfireball.net/projects/markdown/basics \"中文链接\") xxx 中文链接 [Editor.md 在线Markdown编辑器](http://daringfireball.net/projects/markdown/basics \"Editor.md 在线Markdown编辑器\") fadsfasdfasdf中文链接");
+                console.log(md3);
+                
+                var md4 = marked("#### fdasfsd [Markdown Basics](http://daringfireball.net/projects/markdown/basics?xx=ddd&fddf&temp=265656565665656526 \"Markdown Basics\") xxx  [Editor.md](http://www.ipandao.com/#xxxxx \"Editor.md\") fadsfasdfasdf");
+                console.log(md4);
+                
+                $("body").append(md).append(md2).append(md3).append(md4);
+            });
+        </script>
+    </body>
+</html>

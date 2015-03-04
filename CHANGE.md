@@ -197,3 +197,13 @@
     - 将`jquery.min.js`、`font-awesome.min.css`、`github-markdown.css`移除（这是一个疏忽，它们不是动态加载的依赖模块或者不需要的，避免不必要的硬盘空间占用）；
 
 - 修改了所有相关的示例文件；
+
+#####v1.1.9
+
+- 修复无法解析heading link的Bug[#29](https://github.com/pandao/editor.md/issues/29)；
+
+    - 修改了`editormd.markedRenderer()`方法的内部实现；
+    - 新增了`editormd.trim()`，用于清除字符串两边的空格；
+    - 修改了所有相关的示例文件和测试用例`marked-heading-link-test.html`；
+    
+- 修改了`README.md`，添加了`Shields.io`图标；

@@ -1,12 +1,12 @@
 /*
  * Editor.md
  * @file        languages\en.js 
- * @version     v1.1.8 
+ * @version     v1.1.9 
  * @description A simple online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-03-03
+ * @updateTime  2015-03-04
  */
 
 (function(){

@@ -1,7 +1,7 @@
 /** 
  * @fileOverview Editor.md
  * @author pandao
- * @version 1.1.8
+ * @version 1.1.9
  */
 
 ;(function(factory) {
@@ -44,7 +44,7 @@
     };
     
     editormd.title       = editormd.$name = "Editor.md";
-    editormd.version     = "1.1.8";
+    editormd.version     = "1.1.9";
     editormd.homePage    = "https://pandao.github.io/editor.md/";
     editormd.classPrefix = "editormd-";  
     
@@ -2090,7 +2090,7 @@
         clear : function() {
             this.codeEditor.setValue("");
             
-            return this;            
+            return this;
         },
         
         /**
@@ -2420,6 +2420,18 @@
     editormd.fn.init.prototype = editormd.fn; 
     
     /**
+     * 清除字符串两边的空格
+     * @param   {String}    str            string
+     * @returns {String}                   trim string          
+     */
+    
+    editormd.trim = function(str) {
+        return (!String.prototype.trim) ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '') : str.trim();
+    };
+    
+    var trim = editormd.trim;
+    
+    /**
      * 自定义marked的解析器
      * @param   {Array}    markdownToC     传入用于接收TOC的数组
      * @returns {Renderer} markedRenderer  返回marked的Renderer自定义对象            
@@ -2431,21 +2443,46 @@
         markdownToC            = markdownToC || [];
         
         markedRenderer.heading = function(text, level, raw) {
+                    
+            var linkText       = text;
+            var hasLinkReg     = /\s*\<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)\<\/a\>\s*/;
+            var getLinkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
+
+            if (hasLinkReg.test(text)) 
+            {
+                var tempText = [];
+                text         = text.split(/\<a\s*([^\>]+)\>([^\>]*)\<\/a\>/);
+
+                for (var i = 0, len = text.length; i < len; i++)
+                {
+                    tempText.push(text[i].replace(/\s*href\=\"(.*)\"\s*/g, ""));
+                }
+
+                text = tempText.join(" ");
+            }
+            
+            text = trim(text);
+            
             var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
             var toc = {
-                text : text,
+                text  : text,
                 level : level,
                 slug  : escapedText
             };
             
             var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
-            var id = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
+            var id        = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
 
             markdownToC.push(toc);
+            
+            var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
+            
+            headingHTML    += "<a name=\"" + text + "\" class=\"anchor\"></a>";
+            headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
+            headingHTML    += (hasLinkReg) ? linkText : text;
+            headingHTML    += "</h" + level + ">";
 
-            return "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">" +
-                   "<a href=\"#" + text + "\" name=\"" + text + "\" class=\"anchor\"></a>" +
-                   "<span class=\"header-link\"></span>" + text + "</h" + level + ">";
+            return headingHTML;
         };
 
         markedRenderer.paragraph = function(text) {

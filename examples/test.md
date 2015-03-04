@@ -1,13 +1,25 @@
-**目录**
+# Editor.md
+
+![](https://pandao.github.io/editor.md/dist/images/logos/editormd-logo-180x180.png)
+
+![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
+
+**目录 (Table of Contents)**
 
 [TOC]
 
-#Hello world!
-##Hello world!                
-###Hello world!
-####Hello world!
-#####Hello world!
-######Hello world!
+#Heading 1
+##Heading 2               
+###Heading 3
+####Heading 4
+#####Heading 5
+######Heading 6
+#Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+##Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+###Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+####Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
+#####Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+######Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
 
 ###字符效果和横线等
                 
@@ -189,6 +201,12 @@ Content Cell  | Content Cell
 | ------------- | ------------------------------ |
 | `help()`      | Display the help window.       |
 | `destroy()`   | **Destroy your computer!**     |
+
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
 
 | Item      | Value |
 | --------- | -----:|
