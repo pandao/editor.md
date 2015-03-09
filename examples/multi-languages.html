@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>多语言支持 - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
@@ -30,23 +31,22 @@
 
 &lt;!-- 繁體中文 --&gt;
 &lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
-
-&lt;style&gt;
-body{background:red;}
-&lt;/style&gt;
 ```
 </textarea>
             </div>
         </div>
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>
-        <!--<script src="../src/js/languages/en.js"></script>
-        <script src="../src/js/languages/zh-tw.js"></script> -->
+        <script src="../editormd.js"></script>
+        <!--<script src="../languages/en.js"></script>
+        <script src="../languages/zh-tw.js"></script> -->
         <script type="text/javascript">
+            var testEditor;
+            
             $(function() {
-                var testEditor = editormd("test-editormd", {
+                testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 640,
+                    emoji : true,
                     path : '../lib/'
                 });
                 
@@ -57,7 +57,7 @@ body{background:red;}
                 // Dynamic load language package
                 $("#lang-select").change(function() {
                     var value = $(this).val();
-                    var path  = "../src/js/languages/";
+                    var path  = "../languages/";
                     
                     if (value == "zh-cn") 
                     {
@@ -69,7 +69,7 @@ body{background:red;}
                             testEditor.lang = editormd.defaults.lang;
                             
                             // 只重建涉及语言包的部分，如工具栏、弹出对话框等
-                            testEditor.recreateEditor();                
+                            testEditor.recreate();                
                                     
                             // 整个编辑器重建，预览HTML会重新生成，出现闪动
                             //testEditor = editormd("test-editormd", {

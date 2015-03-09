@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Themes - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Themes</h1>
+                <p>
+                    <select>
+                        <option selected="selected" value="">select themes</option>
+                    </select>
+                </p>
+            </header>
+            <div id="test-editormd">
+                <textarea style="display:none;">###Themes
+
+####Setting
+
+```javascript  
+testEditor = editormd("test-editormd", {
+    theme : "theme-name",
+    path : '../lib/'
+});
+```
+
+####Default theme
+
+- default
+
+####Recommends
+
+- ambiance
+- eclipse
+- mdn-like
+- mbo
+- monokai
+- neat
+- pastel-on-dark
+
+####Optional
+
+- default
+- 3024-day
+- 3024-night
+- ambiance
+- ambiance-mobile
+- base16-dark
+- base16-light
+- blackboard
+- cobalt
+- eclipse
+- elegant
+- erlang-dark
+- lesser-dark
+- mbo
+- mdn-like
+- midnight
+- monokai
+- neat
+- neo
+- night
+- paraiso-dark
+- paraiso-light
+- pastel-on-dark
+- rubyblue
+- solarized
+- the-matrix
+- tomorrow-night-eighties
+- twilight
+- vibrant-ink
+- xq-dark
+- xq-light
+</textarea>
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="../editormd.js"></script>
+        <script type="text/javascript">
+			var testEditor;
+
+            $(function() {                
+                testEditor = editormd("test-editormd", {
+                    width: "90%",
+                    height: 720,
+                    theme : (localStorage.theme) ? localStorage.theme : "default",
+                    path : '../lib/'
+                });
+                
+                var select = $("select");
+                
+                for (var i = 0, len = editormd.themes.length; i < len; i ++)
+                {                    
+                    var theme    = editormd.themes[i];
+                    var selected = (localStorage.theme == theme) ? " selected=\"selected\"" : "";
+                    select.append("<option value=\"" + theme + "\"" + selected + ">" + theme + "</option>");
+                }
+                
+                select.change(function(){
+                    var theme = $(this).val();
+                    
+                    if (theme == "")
+                    {
+                        alert("theme == \"\"");
+                        return false;
+                    }
+                    
+                    localStorage.theme = theme;
+                    testEditor.setTheme(theme);
+                });                
+            });
+        </script>
+    </body>
+</html>

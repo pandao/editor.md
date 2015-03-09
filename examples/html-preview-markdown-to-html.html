@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>HTML Preview(markdown to html) - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.preview.css" />
+        <link rel="stylesheet" href="../css/editormd.preview.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
         <style>
             .editormd-html-preview {
                 width: 90%;
@@ -15,13 +16,41 @@
     <body>
         <div id="layout">
             <header>
-                <h1>非编辑情况下的HTML预览</h1>           
+                <h1>Markdown转HTML的显示处理</h1> 
+                <p>即：非编辑情况下的HTML预览</p>
+                <p>HTML Preview(markdown to html)</p>       
             </header>
             <div id="test-editormd-view">
                <textarea style="display:none;">###Hello world!</textarea>               
             </div>
         </div>
-        
+        <textarea id="append-test" style="display:none;">
+
+#####上标和下标
+
+上标：X&lt;sup&gt;2&lt;/sup&gt;
+
+下标：O&lt;sub&gt;2&lt;/sub&gt;
+
+#####Style
+
+&lt;style&gt;
+body{background:red;}
+&lt;/style&gt;
+
+&lt;style type="text/style"&gt;
+body{background:red;}
+&lt;/style&gt;
+
+#####Script
+
+&lt;script&gt;
+alert("script");
+&lt;/script&gt;
+
+&lt;script type="text/javscript"&gt;
+alert("script");
+&lt;/script&gt;</textarea>
         <!-- <script src="js/zepto.min.js"></script>
 		<script>		
 			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以想支持flowChart/sequenceDiagram就得加上这一句
@@ -36,15 +65,20 @@
         <script src="../lib/flowchart.min.js"></script>
         <script src="../lib/jquery.flowchart.min.js"></script>
 
-        <script src="../src/js/editormd.js"></script>  
+        <script src="../editormd.js"></script>  
         <script type="text/javascript">
 			var testEditormdView;
 
             $(function() {
                 $.get("test.md", function(markdown) {
 				    testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-                        markdown : markdown,     // 不设置时，从<script type="text/markdown">获取markdown文档
-                        htmlDecode : true,       // 开启HTML标签解析，为了安全性，默认不开启
+                        markdown : markdown + $("#append-test").val(),
+                        //htmlDecode : true,       // 开启HTML标签解析，为了安全性，默认不开启
+                        htmlDecode : "style,script,iframe",  // you can filter tags decode
+                        //toc : false,
+                        //gfm : false,
+                        emoji : true,
+                        taskList : true,
                         tex : true,              // 默认不解析
                         flowChart: true,         // 默认不解析
                         sequenceDiagram : true,  // 默认不解析

@@ -4,14 +4,20 @@
         <meta charset="utf-8" />
         <title>识别和解析HTML标签 - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
             <header>
                 <h1>识别和解析HTML标签</h1>
-                <p>注：虽然此功能能极大地扩展Markdown语法，但也面临着安全上的风险，所以默认是不开启的。</p>      
+                <p>HTML tags (filter) decode, You can increase safety by filtering the danger label.</p>
+                <p>注：虽然此功能能极大地扩展Markdown语法，但也面临着安全上的风险，所以默认是不开启的。</p>
+                <p>Update: 可以通过设置`settings.htmlDecode = "style,script,iframe"`来实现过滤指定标签的解析，提高安全性；</p>
             </header>
+            <div class="btns">
+                <button id="filter-btn">Filter style,script,iframe tags decode</button>
+            </div>
             <div id="test-editormd"> 
                 <textarea style="display:none;">####开启识别和解析HTML标签
 
@@ -19,6 +25,7 @@
 
     {
         htmlDecode : true
+        //htmlDecode : "style,script,iframe,sub,sup" // filter html tags
     }
 
 ####示例
@@ -28,6 +35,26 @@
 上标：X&lt;sup&gt;2&lt;/sup&gt;
 
 下标：O&lt;sub&gt;2&lt;/sub&gt;
+
+#####Style
+
+&lt;style&gt;
+body{background:red;}
+&lt;/style&gt;
+
+&lt;style type="text/style"&gt;
+body{background:red;}
+&lt;/style&gt;
+
+#####Script
+
+&lt;script&gt;
+alert("script");
+&lt;/script&gt;
+
+&lt;script type="text/javscript"&gt;
+alert("script");
+&lt;/script&gt;
 
 #####插入Flash
 
@@ -42,14 +69,25 @@
         </div>
         
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>   
+        <script src="../editormd.js"></script>   
         <script type="text/javascript">
+            var testEditor;
+            
             $(function() {
-                var testEditor = editormd("test-editormd", {
+                testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 720,
                     path : '../lib/',
-                    htmlDecode : true
+                    htmlDecode : true,
+                    //htmlDecode : "style,script,iframe,sub,sup",
+                    onload : function(){
+                        //$(".markdown-body style").remove();     
+                        //$(".markdown-body script").remove();
+                    }
+                });
+                
+                $("#filter-btn").click(function(){
+                    testEditor.config("htmlDecode", "style,script,iframe");
                 });
             });
         </script>

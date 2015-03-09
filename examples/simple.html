@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>Simple - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
@@ -13,17 +14,32 @@
             </header>
             <div id="test-editormd">
                 <textarea style="display:none;">###Hello world!
-                
+
 本示例未开启：
 
 - TeX(基于KaTeX)；
 - 智能识别和解析HTML标签；
 - 流程图和时序/序列图支持;
+
+###Editor.md目录结构
+
+    editor.md/
+            css/
+            fonts/
+            docs/
+            images/
+            plugins/
+            scss/
+            lib/
+            tests/
+            examples/
+            editormd.js
+            ...
 </textarea>
             </div>
         </div>
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>
+        <script src="../editormd.js"></script>
         <script type="text/javascript">
 			var testEditor;
 

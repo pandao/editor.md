@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>Marked @ Test</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="../dist/css/editormd.min.css" />
+        <style>
+            body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,
+            article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+                margin:0;
+                padding:0;
+            }
+
+            article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {display: block;}
+            audio, canvas, video {display: inline-block;} 
+
+            body, button, input, select, textarea {font:12px/1.5 Tahoma, "Hiragino Sans GB", "Microsoft Yahei", Arial;}
+            body{font-size:12px;color:#666;background:#fff url(../images/) no-repeat left top;}
+
+            body{font-size:14px;color:#444;font-family:"微软雅黑",Arial;background:#fff;padding: 15px;}
+
+            a{color:blue;text-decoration: none;}
+            a:hover{text-decoration: underline;}
+
+            .clear{zoom:1;}
+            .clear:after{content:"";height:0;visibility:hidden;clear:both;display:block;}
+
+            img{border:none;vertical-align: middle;}
+            
+            ul, ol {margin-left: 18px;}
+            
+            table {
+                margin: 10px 0;
+                border-collapse: collapse;
+            }
+            
+            table th, table td {
+                padding: 5px 8px;
+                border: 1px solid #ddd;
+            }
+            
+            pre {
+                padding:8px;border-radius:3px;border:1px solid #ddd;background:#f6f6f6;margin: 15px 0;display: inline-block;
+            }
+            
+            pre code {
+                
+            }
+            
+            .editormd-logo,
+            .editormd-logo-4x {
+                font-family: editormd-logo;
+                speak: none;
+                font-style: normal;
+                font-weight: 400;
+                font-variant: normal;
+                text-transform: none;
+                font-size: inherit;
+                line-height: 1;
+                display: inline-block;
+                text-rendering: auto;
+                vertical-align: inherit;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            .editormd-logo:before,
+            .editormd-logo-4x:before {
+                content: "\e1987";
+            }
+            .editormd-logo-4x {
+                font-size:4em;
+            }
+        </style>
+    </head>
+    <body>
+        <pre id="test"> ~~@mentions~~, #refs @tylerlong `inline code @tylerlong`, [links](), **formatting**, and <del>tags</del> supported @pandao;
+list syntax required (any unordered or ordered list supported) @pandao;
+this is @pandao a complete item @pandao;
+link [@pandao](https://github.com/pandao "@pandao") &#64;
+link [&#64;pandao](https://github.com/pandao "&#64;pandao") 
+this is an incomplete item **@pandao**;
+*@pandao* this is an incomplete item ___@pandao___;
+# Github: @pandao
+## Github: @pandao
+### Github: @tylerlong
+#### Github: @tylerlong
+##### Github: @tylerlong
+###### Github: @tylerlong
+ 
+- dafssdfsdaf@chjj dfsdfsdf
+- dafssdfsdaf@chjj dfsdfsdf     
+    - dafssdfsdaf@chjj dfsdfsdf
+    - dafss@pandao dfsdaf@chjj dfsdfsdf
+- dafssd:  @pandao fsdaf@chjj dfsdfsdf @codemirror  @pandao
+    + dafssdfsdaf@chjj dfsdfsdf
+    + dafss@pandaodfsdaf@chjj dfsdfsdf
+
+
+1. @chjj 第一行@pandao fsdaf@chjj dfsdfsdf :fa-save::  @pandao
+    - dafssdfsdaf@chjj dfsdfsdf
+    - dafss@pandao dfsdaf@chjj dfsdfsdf
+2. @chjj 第二行@pandao fsdaf@chjj dfsdfsdf @codemirror  @pandao
+3. 第三行@pandao fsdaf@chjj dfsdfsdf :fa-save::  @pandao
+
+&gt; Blockquotes @pandao
+
+&gt; dd@pandao引用文本(Blockquotes @pandao)fdasfad @_pandao fdasfad @xxx454xxx fdasfad @xx_x454xxx454
+
+|@pandao First Header  | Second@pandao Header@pandao |
+| ------------- | ------------- |
+| Content@pandao Cell  | @pandao Content Cell @pandao|
+| Con@pandao tent Cell@pandao  | Content@pan-dao Cell dfsdfsdf @pan_dao |
+
+dsfdf@pandao fasdfsdfsfddffd@pandao
+
+    dfasfasdfasdf:bangbang:
+
+This is an H1 @pandao
+=============
+
+This @pandao an H2 @pandao
+-------------
+</pre>
+        <script src="../examples/js/jquery.min.js"></script>
+        <script src="../lib/marked.min.js"></script>
+        <script type="text/javascript">
+            
+            $(function() {
+                var markedRenderer     = new marked.Renderer();
+                var markdownToC        = markdownToC || [];
+                
+                console.log("markedRenderer =>", markedRenderer);
+                
+                var atReg = /@(\w+)/g;
+                
+                markedRenderer.at = function(text) {
+                    
+                    if (atReg.test(text))
+                    {
+                        text = text.replace(atReg, function($1, $2){
+                            console.log($1, $2);
+                            return "<a href=\"https://github.com/" + $2 + "\">" + $1 + "</a>";
+                        });
+                    }
+                    
+                    return text;
+                };
+                
+                markedRenderer.link = function (href,title,text){
+                    console.log("link =>", href,title,text);
+                    
+                    if(this.options.sanitize) {
+                        try{
+                            var prot=decodeURIComponent(unescape(href)).replace(/[^\w:]/g,"").toLowerCase()
+                        }catch(e){
+                            return""
+                        }
+                        
+                        if(prot.indexOf("javascript:")===0){
+                            return""
+                        }
+                    }
+                    
+                    var out='<a href="'+href+'"';
+                    
+                    if (atReg.test(title) || atReg.test(text))
+                    {
+                        return out + " title=\"" + title.replace(/@/g, "&#64;") + "\">" + text.replace(/@/g, "&#64;") + "</a>";
+                    }
+                    
+                    if(title) {
+                        out+=' title="'+title+'"'
+                    }
+                    
+                    out+=">"+text+"</a>";
+                    
+                    return out;
+                }
+                
+                markedRenderer.paragraph = function(text) {                
+                    console.log("paragraph =>", text, atReg.test(text));
+                    return "<p>" + this.at(text) + "</p>\n";
+                };
+                
+                markedRenderer.heading = function (text,level,raw){
+                    return"<h"+level+' id="'+this.options.headerPrefix+raw.toLowerCase().replace(/[^\w]+/g,"-")+'">'+this.at(text)+"</h"+level+">\n"
+                };
+                
+                markedRenderer.listitem = function (text){
+                    return "<li>" + this.at(text) + "</li>\n";
+                };
+                
+                markedRenderer.tablecell = function (content,flags){
+                    console.log(content);
+                    var type=flags.header?"th":"td";
+                    var tag=flags.align?"<"+type+' style="text-align:'+flags.align+'">':"<"+type+">";
+                    return tag+this.at(content)+"</"+type+">\n";
+                }
+            
+                marked.setOptions({
+                    renderer    : markedRenderer,
+                    gfm         : true,
+                    tables      : true,
+                    breaks      : true,
+                    pedantic    : false,
+                    smartLists  : true,
+                    smartypants : true
+                });
+                
+                var markdown = $("#test").html();
+                
+                var md = marked(markdown);
+                //console.log(markdown);
+                
+                $("body").append(md);
+            });
+        </script>
+    </body>
+</html>

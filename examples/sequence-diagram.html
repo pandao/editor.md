@@ -4,24 +4,25 @@
         <meta charset="utf-8" />
         <title>SequenceDiagram - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.min.css" />
+        <link rel="stylesheet" href="../css/editormd.min.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
             <header>
                 <h1>SequenceDiagram 时序图/序列图</h1>
-				<p>基于SequenceDiagram.js：<a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank">http://bramp.github.io/js-sequence-diagrams/</a></p>            
+				<p>Based on SequenceDiagram.js：<a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank">http://bramp.github.io/js-sequence-diagrams/</a></p>            
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">####开启 SequenceDiagram 时序图/序列图支持
+                <textarea style="display:none;">####Using SequenceDiagram
 
-配置项：
+setting:
 
     {
         sequenceDiagram : true
     }
 
-####示例
+#### Example
 
 ```seq
 A->B: Message
@@ -37,7 +38,7 @@ Andrew->>China: I am good thanks!
         </div>
         
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>   
+        <script src="../editormd.js"></script>   
         <script type="text/javascript">
             $(function() {                
                 var testEditor = editormd("test-editormd", {

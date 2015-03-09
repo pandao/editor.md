@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+@import "lib/variables";
+@import "lib/prefixes";
+
+// github-markdown.css
+@import "github-markdown";  
+
+#{$prefix}preview-container, #{$prefix}html-preview {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px;
+
+    blockquote {
+        color: $color;
+        border-left: 4px solid $borderColor;
+        padding-left: 20px;
+        margin-left: 0;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    p > code {
+        margin-left: 5px;
+    }
+        
+    abbr {
+        background: #ffffdd;
+    }
+
+    hr {
+        height: 1px;
+        border: none;
+        border-top: 1px solid $borderColor;
+        background: none;
+    }
+
+    code {
+        border: 1px solid $borderColor;
+        background: #f6f6f6;
+        padding: 3px;
+        border-radius: 3px;
+        font-size: 13px;
+        font-family: Consolas, 'Monaco', courier, monospace;
+    }
+
+    pre {
+        border: 1px solid $borderColor;
+        background: #f6f6f6;
+        padding: 10px;
+        @include border-radius(3px);
+
+        code {
+            padding: 0;
+        }
+    }
+
+    table thead tr {
+        background-color: #F8F8F8;
+    }
+
+    .markdown-toc {
+    }
+
+    .markdown-toc-list {
+    } 
+    
+    p#{$prefix}tex {
+        text-align: center;
+    }
+    
+    span#{$prefix}tex {
+        margin: 0 5px;
+    }
+    
+    .emoji {
+        width: 24px;
+        height: 24px;
+    }
+
+    .sequence-diagram, .flowchart {
+        text-align: center;
+    }
+
+    .sequence-diagram text, .flowchart text {
+        font-size  : 15px !important;
+        font-family: Arial !important;
+    }
+}
+
+//Pretty printing styles. Used with prettify.js.
+
+@import "prettify";
+
+#{$prefix}preview-container, #{$prefix}html-preview {
+    pre.prettyprint { 
+        padding: 10px; 
+        border: 1px solid $borderColor; 
+    }
+
+    ol.linenums { 
+        color: #999; 
+        padding-left: 2.5em; 
+        
+        code {
+            border: none;
+            background:none;  
+            padding: 0;
+        }
+    }
+    
+    li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 { 
+        list-style-type: decimal;
+    }
+}    
+
+#{$prefix}html-preview {
+    textarea {
+        display : none;
+    }
+}

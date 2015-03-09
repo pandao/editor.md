@@ -4,22 +4,53 @@
         <meta charset="utf-8" />
         <title>图片上传示例 - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout" style="height: 2000px;background: #f6f6f6;">
             <header>
                 <h1>图片上传示例</h1>
+                <p>Image upload example</p>
             </header>
-            <div id="test-editormd"></div>
+            <div id="test-editormd">
+                <textarea style="display:none;">####配置 Settings
+
+```javascript
+$(function() {
+    var testEditor = editormd("test-editormd", {
+        width: "90%",
+        height: 540,
+        markdown : "",
+        path : '../lib/',
+        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+        imageUpload : false,
+        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL : "./php/upload.php",
+
+        /*
+         上传的后台只需要返回一个JSON数据，结构如下：
+         {
+            success : 0 | 1,   // 0表示上传失败，1表示上传成功
+            message : "提示的信息，上传成功或上传失败及错误信息等。"
+         }
+         */
+    });
+});
+```</textarea>   
+        </div>
         </div>        
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>
+        <script src="../editormd.js"></script>
         <script type="text/javascript">
             $(function() {                
                 var testEditor = editormd("test-editormd", {
                     width: "90%",
-                    height: 540,
+                    height: 640,
                     markdown : "",
                     path : '../lib/',
                     //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true

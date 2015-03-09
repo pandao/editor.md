@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>Marked Emoji Test</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="../examples/css/style.css" />
+    </head>
+    <body>
+        <script src="../examples/js/jquery.min.js"></script>
+        <script src="../lib/marked.min.js"></script>
+        <script type="text/javascript">
+            
+            $(function() {
+                var markedRenderer     = new marked.Renderer();
+                var markdownToC        = markdownToC || [];
+                
+                console.log("markedRenderer =>", markedRenderer);
+                
+                markedRenderer.listitem = function(text) {
+                    if (/^\s*\[[x\s]\]\s*/.test(text)) 
+                    {
+                        console.log("is todo list =>", text);
+                        text = text.replace(/^\s*\[\s\]\s*/, '<input type="checkbox" class="task-list-item-checkbox"> ')
+                                   .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked disabled /> ');
+                        
+                        return '<li style="list-style: none">' + text + '</li>';
+                    }
+                    else 
+                    {
+                        return '<li>' + text + '</li>';
+                    }
+                };
+            
+                marked.setOptions({
+                    renderer    : markedRenderer,
+                    gfm         : true,
+                    tables      : true,
+                    breaks      : true,
+                    pedantic    : false,
+                    smartLists  : true,
+                    smartypants : true
+                });
+                
+                var todoListMarkdown = [
+                    "- [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> supported;",
+                    "- [x] list syntax required (any unordered or ordered list supported);",
+                    "- [x] this is a complete item;",
+                    "- [ ] this is an incomplete item;",
+                    "- [ ] this is an incomplete item;"
+                ].join("\n");
+                
+                var md = marked(todoListMarkdown);
+                console.log(md);
+                
+                $("body").append(md);
+            });
+        </script>
+    </body>
+</html>

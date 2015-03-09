@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Onpreviewing / Onpreviewed - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Onpreviewing / Onpreviewed event handle</h1>
+                <p>Plaese press F12, open the develop tools.</p>     
+            </header>
+            <div id="test-editormd">                
+                <textarea style="display:none;">##Onpreviewing / Onpreviewed</textarea>
+            </div>
+        </div>        
+        <script src="js/jquery.min.js"></script>
+        <script src="../editormd.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 720,
+                    path   : '../lib/',
+                    onpreviewing : function() {
+                        console.log("onpreviewing =>", this, this.id, this.settings);
+                    },
+                    onpreviewed : function() {
+                        console.log("onpreviewed =>", this, this.id, this.settings);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

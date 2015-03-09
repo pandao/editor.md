@@ -2,52 +2,73 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Tex科学公式语言 - Editor.md examples</title>
+        <title>Tex科学公式语言 (TeX/LaTeX) - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
             <header>
-                <h1>Tex科学公式语言</h1>
-				<p>基于KaTeX.js：<a href="http://khan.github.io/KaTeX/" target="_blank">http://khan.github.io/KaTeX/</a></p>
-                <p>注：默认使用CloudFlare的CDN，有时加载速度会比较慢，可自定义加载地址。</p>      
+                <h1>Tex科学公式语言 (TeX/LaTeX)</h1>
+				<p>Based on KaTeX.js：<a href="http://khan.github.io/KaTeX/" target="_blank">http://khan.github.io/KaTeX/</a></p>
+                <p>P.S. Default using CloudFlare KaTeX's CDN. (注：默认使用CloudFlare的CDN，有时加载速度会比较慢，可自定义加载地址。)</p>
+                <br/>
+                <p><a href="https://jsperf.com/katex-vs-mathjax" target="_blank">KaTeX vs MathJax</a></p>   
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">####开启科学公式支持
+                <textarea style="display:none;">[TOC]
 
-配置项：
+####Setting
 
     {
         tex  : true
     }
 
-####示例
+####Examples
             
 $$E=mc^2$$
 
-行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
+Inline 行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
+
+$$c = \\pm\\sqrt{a^2 + b^2}$$
+
+$$f(x) = x^2$$
+
+$$\alpha = \sqrt{1-e^2}$$
 
 $$\(\sqrt{3x-1}+(1+x)^2\)$$
              
 $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
 
-####自定义KaTeX的URL
+$$\\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
+
+$$f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi$$
+
+$$\displaystyle \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }$$
+
+$$\displaystyle \left( \sum\_{k=1}^n a\_k b\_k \right)^2 \leq \left( \sum\_{k=1}^n a\_k^2 \right) \left( \sum\_{k=1}^n b\_k^2 \right)$$
+
+####Custom KaTeX source URL
 
 ```javascript
-//默认使用CloudFlare的CDN，有时加载速度会比较慢
-//或者直接修改源码
+// Default using CloudFlare KaTeX's CDN
+// You can custom url
 editormd.katexURL = {
     js  : "your url",
     css : "your url"
 };
 ```
+
+#### KaTeX vs MathJax
+
+[https://jsperf.com/katex-vs-mathjax](https://jsperf.com/katex-vs-mathjax "KaTeX vs MathJax")
 </textarea>
             </div>
         </div>
         
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>   
+        <script src="../editormd.js"></script>   
         <script type="text/javascript">
             $(function() {
                 var testEditor = editormd("test-editormd", {

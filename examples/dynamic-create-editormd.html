@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>动态创建Editor.md - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
@@ -25,13 +26,13 @@
             
             $(function() {                
                 $("#create-btn").click(function(){                    
-					$.getScript("../src/js/editormd.js", function() {
+					$.getScript("../editormd.js", function() {
                         $("#layout").append("<div id=\"test-editormd\"></div>");
                         
                         testEditormd = editormd("test-editormd", {
                             width: "90%",
-                            height: 240,
-                            markdown : "###动态创建Editor.md\n\nDynamic create Editor.md",
+                            height: 640,
+                            markdown : "### 动态创建Editor.md\n\nDynamic create Editor.md",
                             path : '../lib/'
                         });
 					});

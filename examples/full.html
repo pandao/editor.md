@@ -2,32 +2,38 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>完整示例 - Editor.md examples</title>
+        <title>完整示例 Full example - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />        
+        <link rel="stylesheet" href="../css/editormd.css" />   
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />     
     </head>
     <body>
         <div id="layout">
             <header>
                 <h1>完整示例</h1>
-                <p>开启HTML标签识别和解析、TeX(基于KaTeX)、流程图和时序/序列图支持;</p>            
+                <p>Full example</p>
+                <ul style="margin: 10px 0 0 18px;">
+                    <li>Enable HTML tags decode</li>
+                    <li>Enable TeX, Flowchart, Sequence Diagram, Emoji, FontAwesome, Task lists</li>
+                    <li>Enable Image upload</li>
+                </ul>            
             </header>
             <div class="btns">
-                <button id="show-btn">显示编辑器</button>
-                <button id="hide-btn">隐藏编辑器</button>
-                <button id="get-md-btn">获取Markdown(源码)</button>
-                <button id="get-html-btn">获取HTML(源码)</button>
-                <button id="watch-btn">开启实时预览</button>
-                <button id="unwatch-btn">关闭实时预览</button>
-                <button id="preview-btn">预览HTML(按ESC取消)</button>
-                <button id="fullscreen-btn">全屏(按ESC取消)</button>
-                <button id="show-toolbar-btn">显示工具栏</button>
-                <button id="close-toolbar-btn">关闭工具栏</button>
+                <button id="show-btn">Show editor</button>
+                <button id="hide-btn">Hide editor</button>
+                <button id="get-md-btn">Get Markdown</button>
+                <button id="get-html-btn">Get HTML</button>
+                <button id="watch-btn">Watch</button>
+                <button id="unwatch-btn">Unwatch</button>
+                <button id="preview-btn">Preview HTML(Press ESC cancel)</button>
+                <button id="fullscreen-btn">Fullscreen (Press ESC cancel)</button>
+                <button id="show-toolbar-btn">Show toolbar</button>
+                <button id="close-toolbar-btn">Hide toolbar</button>
             </div>
             <div id="test-editormd"></div>
         </div>
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script>   
+        <script src="../editormd.js"></script>   
         <script type="text/javascript">
             var testEditor;
             
@@ -39,11 +45,15 @@
                         height: 740,
                         path : '../lib/',
                         markdown : md,
+                        codeFold : true,
                         saveHTMLToTextarea : true,    // 保存HTML到Textarea
+                        searchReplace : true,
                         //watch : false,                // 关闭实时预览
                         htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启    
                         //toolbar  : false,             //关闭工具栏
                         //previewCodeHighlight : false, // 关闭预览HTML的代码块高亮，默认开启
+                        emoji : true,
+                        taskList : true,
                         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         flowChart : true,             // 开启流程图支持，默认关闭
                         sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
@@ -109,52 +119,6 @@
                     testEditor.hideToolbar();
                 });
             });
-           /* 
-            // IE不支持
-            editormd.printAreaCount = 0;
-            editormd.printArea      = function($obj) {
-                var prefix   = "editormd-print-area-iframe";
-                var iframeId = prefix + editormd.printAreaCount;
-                
-                if (editormd.printAreaCount > 0) 
-                {
-                    document.body.removeChild(document.getElementById(iframeId));
-                }
-                
-                editormd.printAreaCount++;
-                                
-                var iframe = document.createElement("iframe");
-                iframe.id  = prefix + editormd.printAreaCount;
-                iframe.style.cssText = "position:absolute;width:0px;height:0px;top:-999px;left:-999px;";
-                
-                document.body.appendChild(iframe);
-                
-                var iframeDocument = iframe.contentWindow.document;
-                var links          = document.getElementsByTagName("link");
-                
-                for (var i = 0, len = links.length; i < len; i++) 
-                {
-                    var rel = links[i].getAttribute("rel").toLowerCase();
-                    
-                    if (rel === "stylesheet")
-                    {
-                        var css = "<link type=\"text/css\" rel=\"stylesheet\" href=\"" + links[i].getAttribute("href") + "\" >";
-                        iframeDocument.write(css);
-                    }
-                }
-                
-                iframeDocument.write("<div class=\"" + $obj.className + "\">" + $obj.innerHTML + "</div>");
-                iframeDocument.close();
-
-                var iframeWindow = iframe.contentWindow;
-                iframeWindow.close();
-                iframeWindow.focus();
-                iframeWindow.print();
-            };
-            
-            function preview() {
-                editormd.printArea(testEditor.previewContainer[0]);
-            }*/
         </script>
     </body>
 </html>

@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>自定义工具栏 - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
         <div id="layout">
@@ -13,21 +14,28 @@
                 <p>Custom toolbar (icons handler)</p>   
             </header>
             <div id="test-editormd">
-                <textarea style="display:none;">###自定义工具栏
+                <textarea style="display:none;">### Custom toolbar
+
 ```javascript
-$(function() {                
+$(function() {
     var testEditor = editormd("test-editormd", {
         width: "90%",
         height: 640,
         path : '../lib/',
         toolbarIcons : function() {
-            return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2"]
+            return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2", "file", "faicon"]
         },
         toolbarIconsClass : {
             testIcon : "fa-gears"  // 指定一个FontAawsome的图标类
         },
         toolbarIconTexts : {
             testIcon2 : "测试按钮"  // 如果没有图标，则可以这样直接插入内容，可以是字符串或HTML标签
+        },
+
+        // 用于增加自定义工具栏的功能，可以直接插入HTML标签，不使用默认的元素创建图标
+        toolbarCustomIcons : {
+            file   : "&lt;input type="file" accept=".md" /&gt;",
+            faicon : "&lt;i class="fa fa-star" onclick="alert('faicon');"&gt;&lt;/i&gt;"
         },
 
         // 自定义工具栏按钮的事件处理
@@ -63,10 +71,19 @@ $(function() {
 
         lang : {
             toolbar : {
+                file : "上传文件",
                 testIcon : "自定义按钮testIcon",  // 自定义按钮的提示文本，即title属性
                 testIcon2 : "自定义按钮testIcon2",  
                 undo : "撤销 (Ctrl+Z)"
             }
+        },
+
+        onload : function(){
+            $("[type=\"file\"]").bind("change", function(){
+                alert($(this).val());
+                testEditor.cm.replaceSelection($(this).val());
+                console.log($(this).val(), testEditor);
+            });
         }
     });
 });
@@ -76,25 +93,33 @@ $(function() {
         </div>
         
         <script src="js/jquery.min.js"></script>
-        <script src="../src/js/editormd.js"></script> 
+        <script src="../editormd.js"></script> 
         <!-- 多语言和自定义工具栏的整合测试 -->
-        <script src="../src/js/languages/en.js"></script>   
+        <script src="../languages/en.js"></script>   
         <script type="text/javascript">
-            $(function() {                
+            $(function() {
                 var testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 640,
                     path : '../lib/',
                     toolbarIcons : function() {
-                        return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2"]
+                        // Or return editormd.toolbarModes[name]; // full, simple, mini
+                        return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2", "file", "faicon"]
                     },
+                    // toolbarIcons : "full", // You can also use editormd.toolbarModes[name] default list, values: full, simple, mini.
                     toolbarIconsClass : {
                         testIcon : "fa-gears"  // 指定一个FontAawsome的图标类
                     },
                     toolbarIconTexts : {
-                        testIcon2 : "测试按钮"  // 如果没有图标，则可以这样直接插入内容，可以是字符串或HTML标签
+                        testIcon2 : "测试按钮Test button"  // 如果没有图标，则可以这样直接插入内容，可以是字符串或HTML标签
                     },
                     
+                    // 用于增加自定义工具栏的功能，可以直接插入HTML标签，不使用默认的元素创建图标
+                    toolbarCustomIcons : {
+                        file   : "<input type=\"file\" accept=\".md\" />",
+                        faicon : "<i class=\"fa fa-star\" onclick=\"alert('faicon');\"></i>"
+                    },
+
                     // 自定义工具栏按钮的事件处理
                     toolbarHandlers : {
                         /**
@@ -128,10 +153,19 @@ $(function() {
                     
                     lang : {
                         toolbar : {
+                            file : "上传文件",
                             testIcon : "自定义按钮testIcon",  // 自定义按钮的提示文本，即title属性
                             testIcon2 : "自定义按钮testIcon2",  
                             undo : "撤销 (Ctrl+Z)"
                         }
+                    },
+
+                    onload : function(){
+                        $("[type=\"file\"]").bind("change", function(){
+                            alert($(this).val());
+                            testEditor.cm.replaceSelection($(this).val());
+                            console.log($(this).val(), testEditor);
+                        });
                     }
                 });
             });

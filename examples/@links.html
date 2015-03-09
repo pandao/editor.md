@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>@links - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>@links</h1>   
+                <p>Github Flavored Markdown extended syntax</p>
+            </header>
+            <div id="test-editormd">                
+                <textarea style="display:none;">###@links
+
+[TOC]
+
+~~@mentions~~, #refs @tylerlong `inline code @tylerlong`, [links](), **formatting**, and <del>tags</del> supported @pandao;
+list syntax required (any unordered or ordered list supported) @pandao;
+this is @pandao a complete item @pandao;
+
+link [@pandao](https://github.com/pandao "@pandao") &#64;
+link [&#64;pandao](https://github.com/pandao "&#64;pandao") 
+this is an incomplete item **@pandao**;
+
+*@pandao* this is an incomplete item ___@pandao___;
+ 
+# Github: @pandao
+## Github: @pandao
+### Github: @tylerlong
+#### Github: @tylerlong
+##### Github: @tylerlong
+###### Github: @tylerlong
+ 
+- dafssdfsdaf@chjj dfsdfsdf
+- dafssdfsdaf@chjj dfsdfsdf     
+    - dafssdfsdaf@chjj dfsdfsdf
+    - dafss@pandao dfsdaf@chjj dfsdfsdf
+- dafssd:  @pandao fsdaf@chjj dfsdfsdf @codemirror  @pandao
+    + dafssdfsdaf@chjj dfsdfsdf
+    + dafss@pandaodfsdaf@chjj dfsdfsdf
+
+
+1. @chjj 第一行@pandao fsdaf@chjj dfsdfsdf :fa-save::  @pandao
+    - dafssdfsdaf@chjj dfsdfsdf
+    - dafss@pandao dfsdaf@chjj dfsdfsdf
+2. @chjj 第二行@pandao fsdaf@chjj dfsdfsdf @codemirror  @pandao
+3. 第三行@pandao fsdaf@chjj dfsdfsdf :fa-save::  @pandao
+
+&gt; Blockquotes @pandao
+
+&gt; dd@pandao引用文本(Blockquotes @pandao)fdasfad @_pandao fdasfad @xxx454xxx fdasfad @xx_x454xxx454
+
+|@pandao First Header  | Second@pandao Header@pandao |
+| ------------- | ------------- |
+| Content@pandao Cell  | @pandao Content Cell @pandao|
+| Con@pandao tent Cell@pandao  | Content@pan-dao Cell dfsdfsdf @pan_dao |
+
+dsfdf@pandao fasdfsdfsfddffd@pandao
+
+    dfasfasdfasdf:bangbang:
+
+This is an H1 @pandao
+=============
+
+This @pandao an H2 @pandao
+-------------
+</textarea>
+            </div>
+        </div>        
+        <script src="js/jquery.min.js"></script>
+        <script src="../editormd.js"></script>
+        <script type="text/javascript">
+            var testEditor;
+            
+            $(function() {    
+                // You can custom @link base url.
+                editormd.url = {
+                    atLinkBase : "https://github.com/"
+                };     
+                
+                testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 720,
+                    toc : true,
+                    todoList : true,
+                    path   : '../lib/',
+                    onload : function() {
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

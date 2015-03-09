@@ -1,4 +1,6 @@
-####更新日志
+##更新日志
+
+###v1.0.x
 
 #####v1.0.0 beta
 
@@ -33,6 +35,8 @@
 - 更新 `README.md` 等相关文档和示例；
 
 - 解决Sea.js环境下Raphael.js无法运行导致不支持流程图和时序图的问题，即必须先加载Raphael.js，后加载Sea.js；
+
+###v1.1.x
 
 #####v1.1.0
 
@@ -207,3 +211,95 @@
     - 修改了所有相关的示例文件和测试用例`marked-heading-link-test.html`；
     
 - 修改了`README.md`，添加了`Shields.io`图标；
+
+###v1.2
+
+#####v1.2.0
+
+v1.2.0 主要更新：
+
+- 新增代码折叠、搜索替换、自定义样式主题和自定义快捷键等功能；
+- 新增Emoji表情、@Link、GFM Task Lists支持；
+- 新增表格插入、Emoji表情插入、HTML实体字符插入、使用帮助等对话框；
+- 新增插件扩展机制；
+- 新增手动加载依赖模块方式；
+- 改用`Prefixes.css`作CSS前缀预处理；
+- 改进和增强工具栏自定义功能，完善事件监听和处理方法；
+- 部分功能改进（更加方便的预格式文本/代码插入、自动闭合标签等）、新增多个方法、改进Require.js支持和修复多个Bug等等；
+
+**具体更新如下：**
+
+- 新建v1.1.x分支；
+    - v1.2文件结构变动较大；
+
+- 新增代码折叠、自动闭合标签和搜索替换功能；
+    - 搜索快捷键`Ctrl + F / Command + F`；
+    - 替换快捷键`Ctrl + Shift + F / Command + Option + F`；
+    - 折叠快捷键`Ctrl + Q / Command + Q`
+
+- 新增自定义主题支持；
+    - 新增3个成员方法`setTheme()`、`setCodeMirrorOption()`和`getCodeMirrorOption()`；
+
+- 新增@Link支持；
+
+- 新增GFM Task Lists支持；
+
+- 新增Emoji表情支持；
+    - 支持Github emoji`:emoji-name:`、FontAwesome icons（`:fa-xxx:`）、Twitter emoji(twemoji) （`:tw-xxxx:`）、Editor.md logo icons（`:editormd-logo:`）形式的Emoji；
+    - 新增属性`editormd.emoji`、`editormd.twemoji`、`editormd.urls`和`editormd.regex`；
+    
+- 新增HTML实体字符插入、插入表格和使用帮助对话框；
+    - 修改了`createDialog()`等方法；
+    - 新增`mask`成员属性和锁屏方法`editormd.lockScreen()`、`editormd.fn.lockScreen()`；
+
+- 改进插入预格式文本和代码对话框；
+    - 将`<textarea>`改为`CodeMirror`，输入更加方便和直观；
+
+- 新增自定义键盘快捷键功能；
+    - 新增2个方法：`addKeyMap()`和`removeKayMap()`；
+
+- 改用`Prefixes.css`作CSS前缀预处理；
+    - SCSS前缀预处理mixins改用 [Prefixes.scss](https://github.com/pandao/prefixes.scss "Prefixes.scss")；
+
+- 改进和增强工具栏自定义功能；
+	- 新增配置项`toolbarCustomIcons`，用于增加自定义工具栏的功能，可以直接插入HTML标签，不使用默认的元素创建图标；
+    - 新增工具栏列表预设值属性`editormd.toolbarModes`；
+    - 移除成员属性`toolbarIconHandlers`；
+
+- 完善和新增事件处理方法；
+	- 新增事件回调注册方法`on()`；
+	- 新增事件回调移除方法`off()`；
+	- 新增事件回调处理配置项：`onresize`、`onscroll`、`onpreviewscroll`、`onpreviewing`、`onpreviewed`、`onwatch`和`onunwatch`；
+
+- 新增手动加载依赖模块方式，以便可同步使用成员方法；
+    - 新增属性`autoLoadModules`，默认值为`true`；
+
+- 新增插件及扩展机制；
+    
+    - 新增插件自定义机制，改变整体结构(包括文件结构)，以便更加方便地实现插件扩展；
+	- 新增对象扩展方法`extends()`、`set()`；
+
+- 新增成员方法和属性：
+
+    - 新增两个方法：`setValue()`、`getValue()`；
+	- 新增`config()` 方法，用于加载后重新配置；
+	- 增加两个属性`cm`，是`codeEditor`的简写，`cmElement`，是`codeMirror`的别名;
+
+- 成员方法的改进：
+
+	- 改进：`showToolbar()`和`hideToolbar()`方法增加一个`callback`函数，用于直接回调操作；
+	- 改进：修改了`previewCodeHighlight()`方法；
+	- 更名：`recreateEditor()`更名为`recreate()`；
+    - 移除`setMarked()`方法；
+    
+- 新增HTML标签解析过滤机制；
+    - 通过设置`settings.htmlDecode = "style,script,iframe"`来实现过滤指定标签的解析；
+
+- 改进Require.js支持；
+    - 修复Require.js下CodeMirror编辑器的代码无法高亮的问题；
+    - 更新`underscore`版本至`1.8.2`；
+    - 移除`editormd.requirejsInit()`和`editormd.requireModules()`方法；
+    - 新增`Require.js/AMD`专用版本文件`editormd.amd.js`；
+    - 新建Gulp任务`amd`；
+
+- 修改和新增以上改进等相关示例；

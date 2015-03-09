@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>Marked Emoji Test</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="../dist/css/editormd.min.css" />
+        <style>
+            body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,
+            article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+                margin:0;
+                padding:0;
+            }
+
+            article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {display: block;}
+            audio, canvas, video {display: inline-block;} 
+
+            body, button, input, select, textarea {font:12px/1.5 Tahoma, "Hiragino Sans GB", "Microsoft Yahei", Arial;}
+            body{font-size:12px;color:#666;background:#fff url(../images/) no-repeat left top;}
+
+            body{font-size:14px;color:#444;font-family:"微软雅黑",Arial;background:#fff;padding: 15px;}
+
+            a{color:#444;text-decoration: none;}
+            a:hover{color:#065BC2;text-decoration: none;}
+
+            .clear{zoom:1;}
+            .clear:after{content:"";height:0;visibility:hidden;clear:both;display:block;}
+
+            img{border:none;vertical-align: middle;}
+            
+            ul, ol {margin-left: 18px;}
+            
+            table {
+                margin: 10px 0;
+                border-collapse: collapse;
+            }
+            
+            table th, table td {
+                padding: 5px 8px;
+                border: 1px solid #ddd;
+            }
+            
+            pre {
+                padding:8px;border-radius:3px;border:1px solid #ddd;background:#f6f6f6;margin: 15px 0;display: inline-block;
+            }
+            
+            pre code {
+                
+            }
+            
+            .editormd-logo,
+            .editormd-logo-4x {
+                font-family: editormd-logo;
+                speak: none;
+                font-style: normal;
+                font-weight: 400;
+                font-variant: normal;
+                text-transform: none;
+                font-size: inherit;
+                line-height: 1;
+                display: inline-block;
+                text-rendering: auto;
+                vertical-align: inherit;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            .editormd-logo:before,
+            .editormd-logo-4x:before {
+                content: "\e1987";
+            }
+            .editormd-logo-4x {
+                font-size:4em;
+            }
+        </style>
+    </head>
+    <body>
+        <i class="editormd-logo editormd-logo-4x"></i><br/>
+        <pre id="md">&gt; Blockquotes
+dasfsadfasdf:fa-edit: :warning: :smiley:dsafsdfsad\:fdsfdf\:f dfdf:   :fa-save::fa-star:  :fa-truck:
+**fdfasd:smiley:dsfsdfsfd** ~~fsdfds:smiley:dfsdfsdf :fa-info:~~
+*dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf*
+___Emphasis :fa-gear: Italic:smiley:___  __Emphasis:smiley:__
+# H1 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf
+## H2 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf
+### H3 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf
+#### H4 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf
+##### H5 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf
+###### H6 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-star:dsfsdf
+[:smiley:](http://www.emoji-cheat-sheet.com/ "link + emoji") link + emoji
+- dafssdfsdaf:smiley:dfsdfsdf
+- dafssdfsdaf:smiley:dfsdfsdf     
+    - dafssdfsdaf:smiley:dfsdfsdf
+    - dafss:fa-truck:dfsdaf:smiley:dfsdfsdf
+- dafssd:  :fa-truck:fsdaf:smiley:dfsdfsdf :fa-star::  :fa-truck:
+    + dafssdfsdaf:smiley:dfsdfsdf
+    + dafss:fa-truck:dfsdaf:smiley:dfsdfsdf
+
+
+1. :smiley:第一行:fa-truck:fsdaf:smiley:dfsdfsdf :fa-save::  :fa-truck:
+    - dafssdfsdaf:smiley:dfsdfsdf
+    - dafss:fa-truck:dfsdaf:smiley:dfsdfsdf
+2. :smiley:第二行:fa-truck:fsdaf:smiley:dfsdfsdf :fa-star::  :fa-truck:
+3. 第三行:fa-truck:fsdaf:smiley:dfsdfsdf :fa-save::  :fa-truck:
+
+&gt; Blockquotes
+
+&gt; dd:smiley:引用文本(Blockquotes:smiley:)fdasfad :fa-star:: dfd :fa-truck:
+
+|:100: First Header  | Second:smiley: Header:smiley: |
+| ------------- | ------------- |
+| Content:fa-truck: Cell  | :smiley:Content Cell :smiley: |
+| Con:fa-truck:tent Cell:bangbang:  | Content Cell dfsdfsdf :fa-star: :dfdf  :fa-truck: |
+
+:fa-heart:fasdfsdfsfddffd:editormd-logo: :editormd-logo: :editormd-logo-4x:
+
+    dfasfasdfasdf:bangbang:
+
+This is an H1 :editormd-logo-4x:
+=============
+
+This  :fa-save::  :fa-truck:is an H2 :100:
+-------------
+</pre>
+        <script src="../examples/js/jquery.min.js"></script>
+        <script src="../lib/marked.min.js"></script>
+        <script type="text/javascript">
+            
+            $(function() {
+                var markedRenderer     = new marked.Renderer();
+                var markdownToC        = markdownToC || [];
+                    var emojiReg = /:([\-\w]+):/g;
+                    var faIconReg = /:fa-([\w]+):/g;
+                    var editormdLogoReg = /:(editormd-logo\s?-?(\w+)?):/g;
+                
+                console.log("markedRenderer =>", markedRenderer);
+                
+                markedRenderer.emoji = function(text) {      
+                    console.log("emoji.text =>", text);
+                    var matchs = text.match(emojiReg);
+                    console.log(matchs);
+                    
+                    if ( matchs)
+                    {
+                        for (var i = 0, len = matchs.length; i < len; i++)
+                        {
+                            text = text.replace(new RegExp(matchs[i]), function($1, $2){
+                                var faMatchs = $1.match(faIconReg);
+                                //console.log("famatchs =>", faMatchs);
+                                var name = $1.replace(/:/g, ""); // http://www.emoji-cheat-sheet.com/graphics/emojis/smile.png
+                                console.log("replace =>", name, $1, $2);
+                                
+                                if (faMatchs)
+                                {
+                                    for (var fa = 0, len1 = faMatchs.length; fa < len1; fa++)
+                                    {
+                                        return "<i class=\"fa "+faMatchs[fa].replace(/:/g, "")+"\"></i>";
+                                    }
+                                }
+                                else
+                                {
+                                    var emdlogoMathcs = $1.match(editormdLogoReg);
+                                    
+                                    if (emdlogoMathcs)                                        
+                                    {
+                                        for (var x = 0, len2 = emdlogoMathcs.length; x < len2; x++)
+                                        {
+                                            return "<i class=\""+emdlogoMathcs[x].replace(/:/g, "")+"\"></i>";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return "<img src=\"http://www.emoji-cheat-sheet.com/graphics/emojis/"+name+".png\" />";
+                                    }
+                                }
+                                //return (faIconReg.test($1)) ? "<i class=\"fa "+name+"\"></i>" : (editormdLogoReg.test($1)) ? "<i class=\""+name+"\"></i>" : "<img src=\"http://www.emoji-cheat-sheet.com/graphics/emojis/"+name+".png\" />";
+                            });
+                        }
+
+                        console.log(emojiReg.exec(text));
+                        console.log(text, emojiReg.test(text), faIconReg.test(text));
+                    }
+                    
+                    return text;
+                };
+                
+                markedRenderer.blockquote = function (quote){
+                    console.log("quote =>", quote);
+                    return "<blockquote>\n"+quote+"</blockquote>\n";
+                };
+                
+                markedRenderer.tablecell = function (content,flags){
+                    console.log(content);
+                    var type=flags.header?"th":"td";
+                    var tag=flags.align?"<"+type+' style="text-align:'+flags.align+'">':"<"+type+">";
+                    return tag+this.emoji(content)+"</"+type+">\n";
+                }
+                
+                markedRenderer.heading = function (text,level,raw){
+                    return"<h"+level+' id="'+this.options.headerPrefix+raw.toLowerCase().replace(/[^\w]+/g,"-")+'">'+this.emoji(text)+"</h"+level+">\n"
+                };
+                
+                markedRenderer.listitem = function (text){
+                    return "<li>" + this.emoji(text) + "</li>\n";
+                };
+                
+                markedRenderer.paragraph = function(text) {
+                
+                    console.log("paragraph =>", text, text.match(emojiReg));
+                    return "<p>" + this.emoji(text) + "</p>\n";
+                };
+                
+                marked.setOptions({
+                    renderer    : markedRenderer,
+                    gfm         : true,
+                    tables      : true,
+                    breaks      : true,
+                    pedantic    : false,
+                    smartLists  : true,
+                    smartypants : true
+                });
+                
+                var mdsrc = $("#md").html();
+                var md = marked(mdsrc);
+                //console.log(mdsrc);
+                
+                $("body").append(md);
+            });
+        </script>
+    </body>
+</html>

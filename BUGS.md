@@ -18,5 +18,5 @@
 
 ####Require.js
 
-- CodeMirror编辑器的代码无法高亮；
-
+- ~~CodeMirror编辑器的代码无法高亮；~~
+- ~~sequenceDiagram不支持: `Uncaught TypeError: Cannot call method 'isArray' of undefined.`~~

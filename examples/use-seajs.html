@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>Use sea.js - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
-        <link rel="stylesheet" href="../dist/css/editormd.min.css" /> 
+        <link rel="stylesheet" href="../css/editormd.min.css" /> 
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
         <style>
             header p code {
                 padding: 3px;
@@ -25,33 +26,49 @@
                 <p>2、flowChart（流程图）和sequenceDiagram（时序图）基于Raphael.js，由于疑似Sea.js与Raphael.js有冲突，所以必须先加载Raphael.js再加载Sea.js，Editor.md才能在Sea.js下正常进行；</p>      
             </header>
             <div class="btns">
-                <button id="show-btn">显示编辑器</button>
-                <button id="hide-btn">隐藏编辑器</button>
-                <button id="get-md-btn">获取Markdown(源码)</button>
-                <button id="get-html-btn">获取HTML(源码)</button>
-                <button id="watch-btn">开启实时预览</button>
-                <button id="unwatch-btn">关闭实时预览</button>
-                <button id="preview-btn">预览HTML(按ESC取消)</button>
-                <button id="fullscreen-btn">全屏(按ESC取消)</button>
-                <button id="show-toolbar-btn">显示工具栏</button>
-                <button id="close-toolbar-btn">关闭工具栏</button>
+                <button id="show-btn">Show editor</button>
+                <button id="hide-btn">Hide editor</button>
+                <button id="get-md-btn">Get Markdown</button>
+                <button id="get-html-btn">Get HTML</button>
+                <button id="watch-btn">Watch</button>
+                <button id="unwatch-btn">Unwatch</button>
+                <button id="preview-btn">Preview HTML(Press ESC cancel)</button>
+                <button id="fullscreen-btn">Fullscreen (Press ESC cancel)</button>
+                <button id="show-toolbar-btn">Show toolbar</button>
+                <button id="close-toolbar-btn">Hide toolbar</button>
             </div>
             <div id="test-editormd"></div>
         </div>   
+        <!-- Flowchart & Sequence Diagram based on Raphael.js, and must load Raphael.js of Sea.js before. -->
         <script src="../lib/raphael.min.js"></script>
         <script src="js/sea.js"></script>
         <script type="text/javascript">
             seajs.config({
-                //base  : "../lib",
+                base  : "./",
                 alias : {
-                    jquery   : "./js/jquery.min",
-                    editormd : "../src/js/editormd"
+                    jquery   : "js/jquery.min",
+                    editormd : "../editormd"
                 }
             });
                 
-            //seajs.use("./js/seajs-main"); //使用main.js时 editormd 路径要改为 "../../src/js/editormd"
+            //seajs.use("./js/seajs-main"); //使用main.js时 editormd 路径要改为 "../../editormd"
+            
+            var deps = [
+                "jquery", 
+                "editormd", 
+                "../languages/en", 
+                "../plugins/link-dialog/link-dialog",
+                "../plugins/anchor-link-dialog/anchor-link-dialog",
+                "../plugins/image-dialog/image-dialog",
+                "../plugins/code-block-dialog/code-block-dialog",
+                "../plugins/table-dialog/table-dialog",
+                "../plugins/emoji-dialog/emoji-dialog",
+                "../plugins/help-dialog/help-dialog",
+                "../plugins/html-entities-dialog/html-entities-dialog", 
+                "../plugins/preformatted-text-dialog/preformatted-text-dialog"
+            ];
 			
-            seajs.use(["jquery", "editormd", "../src/js/languages/en"], function($, editormd) {
+            seajs.use(deps, function($, editormd) {
                 var testEditor;
                 
                 $.get("./test.md", function(md){
@@ -61,8 +78,12 @@
                         path : '../lib/',
                         markdown : md,
                         //toolbar  : false,             //关闭工具栏
+                        codeFold : true,
+                        searchReplace : true,
                         saveHTMLToTextarea : true,    // 保存HTML到Textarea
                         htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启
+                        emoji : true,
+                        taskList : true,
                         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
                         flowChart : true,              // 疑似Sea.js与Raphael.js有冲突，必须先加载Raphael.js，Editor.md才能在Sea.js下正常进行；
