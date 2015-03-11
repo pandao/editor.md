@@ -303,3 +303,47 @@ v1.2.0 主要更新：
     - 新建Gulp任务`amd`；
 
 - 修改和新增以上改进等相关示例；
+
+### v1.3
+
+#### v1.3.0
+
+主要更新：
+
+- 预设键盘快捷键处理（粗体等），插入Markdown更加方便；
+- 更新CodeMirror版本为`5.0`；
+- 更新Marked版本为`0.3.3`；
+- 新增自动高度和工具栏固定定位功能；
+- 改进表格插入对话框；
+- 工具栏新增三个按钮，分别是将所选文本首字母转成大写、转成小写、转成大写；
+- 修改使用帮助文档；
+- 修复多个Bug；
+
+具体更新如下：
+
+- 新增常用键盘快捷键预设处理；
+    - 新增属性`editormd.keyMaps`，预设一些常用操作，例如插入粗体等；
+    - 新增成员方法`registerKeyMaps()`；
+    - 退出HTML全屏预览快捷键更改为`Shift + ESC`；
+    - 新增配置项`disabledKeyMaps`，用于屏蔽一些快捷键操作；
+- 更新CodeMirror版本为`5.0`；
+    - 修改无法输入`/`的问题；
+- 更新Marked版本为`0.3.3`；
+- 新增自动高度和工具栏固定定位（滚动条拖动时）模式；
+    - 新增配置项`settings.autoHeight`；
+    - 新增配置项`settings.toolbarAutoFixed`；
+    - 新增方法 `setToolbarAutoFixed(true|false)`；
+- 新增邮箱地址自动添加链接功能；
+    - 新增配置项`emailLink`，默认为`true`; 
+- 改进表格插入对话框；
+- 工具栏新增三个按钮，分别是将所选文本首字母转成大写、转成小写、转成大写；
+    - 新增方法`editormd.ucwords()`，别名`editormd.wordsFirstUpperCase()`；
+    - 新增方法`editormd.ucfirst()`，别名`editormd.firstUpperCase()`；
+    - 新增两个成员方法`getSelections()`和`getSelections()`；
+
+- 修复Font awesome 图标 emoji 部分无法解析的Bug，[#39](https://github.com/pandao/editor.md/issues/39)
+- 改进@link功能[#40](https://github.com/pandao/editor.md/issues/40)；
+    - 新增配置项`atLink`，默认为`true`; 
+- 修复无法输入`/`的问题 [#42](https://github.com/pandao/editor.md/issues/42)；
+- 修改使用帮助说明的错误 [#43](https://github.com/pandao/editor.md/issues/43)；
+- 新增配置项`pluginPath`，默认为空时，等于`settings.path + "../plugins/"`；

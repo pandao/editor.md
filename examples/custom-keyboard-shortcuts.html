@@ -13,13 +13,21 @@
                 <h1>Custom keyboard shortcuts</h1>
             </header>
             <div id="test-editormd">
-                <textarea style="display:none;">####Example
+                <textarea style="display:none;">#### Default
+
+> If Editor.md code editor is on focus, you can use keyboard shortcuts.
+> Editor.md have the default keyboard shortcuts handle. Plaese open the help dialog, can see all default keyboard shortcuts.
+
+####Example
 
 ```javascript
 var testEditor = editormd("test-editormd", {
     width: "90%",
     height: 720,
     path : '../lib/',
+    disabledKeyMaps : [
+        "Ctrl-B", "F11", "F10"  // disable some default keyboard shortcuts handle
+    ],
     onload : function() {
         var keyMap = {
             "Ctrl-S": function(cm) {
@@ -58,6 +66,9 @@ var testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 720,
                     path : '../lib/',
+                    disabledKeyMaps : [
+                        "Ctrl-B", "F11", "F10"  // disable some default keyboard shortcuts handle
+                    ],
                     onload : function() {
                         var keyMap = {
                             "Ctrl-S": function(cm) {

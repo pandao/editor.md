@@ -66,7 +66,9 @@ The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is mainta
 
 [anchor-id]: http://www.this-anchor-link.com/
 
-GFM a-tail link @pandao
+[mailto:test.test@gmail.com](mailto:test.test@gmail.com)
+
+GFM a-tail link @pandao  邮箱地址自动链接 test.test@gmail.com  www@vip.qq.com
 
 > @pandao
 

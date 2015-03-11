@@ -23,7 +23,7 @@
 			var cm          = this.cm;
 			var lang        = _this.lang;
 			var settings    = _this.settings;
-			var path        = settings.path + "../plugins/" + pluginName +"/";
+			var path        = settings.pluginPath + pluginName + "/";
 			var editor      = this.editor;
 			var cursor      = cm.getCursor();
 			var selection   = cm.getSelection();

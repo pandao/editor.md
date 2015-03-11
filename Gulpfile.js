@@ -5,7 +5,7 @@ var gulp         = require("gulp");
 var gutil        = require("gulp-util");
 var sass         = require("gulp-ruby-sass");
 var jshint       = require("gulp-jshint");
-var uglify       = require("gulp-uglify");
+var uglify       = require("gulp-uglifyjs");
 var rename       = require("gulp-rename");
 var concat       = require("gulp-concat");
 var notify       = require("gulp-notify");
@@ -83,7 +83,7 @@ gulp.task("js", function() {
             }}))
             .pipe(gulp.dest("./"))
             .pipe(rename({ suffix: ".min" }))
-            .pipe(uglify())
+            .pipe(uglify({outSourceMap: true, sourceRoot: './'}))
             .pipe(gulp.dest("./"))	
             .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
                 var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
@@ -91,18 +91,6 @@ gulp.task("js", function() {
             }}))
             .pipe(gulp.dest("./"))
             .pipe(notify({ message: "editormd.js task complete" }));
-}); 
-
-gulp.task("plugins", function() {
-    var path = "plugins/test-plugin";
-    
-  //return gulp.src([path + "/*.js", "!plugins/plugin-template.js", "!plugins/test-plugin/*.js"])
-  return gulp.src("plugins/test-plugin/test-plugin.js")
-            .pipe(gulp.dest(path))
-            .pipe(rename({ suffix: ".min" }))
-            .pipe(uglify())
-            .pipe(gulp.dest(path))
-            .pipe(notify({ message: "plugins task complete"}));
 }); 
 
 gulp.task("amd", function() {
@@ -197,7 +185,7 @@ gulp.task("amd", function() {
         .pipe(replace("/* Require.js assignment replace */", replaceText2))
         .pipe(gulp.dest('./'))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(uglify())
+        .pipe(uglify({outSourceMap: true, sourceRoot: './'}))
         .pipe(gulp.dest("./"))
         .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
             var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
@@ -287,7 +275,7 @@ gulp.task("cm-mode", function() {
     return gulp.src(modes)
                 .pipe(concat("modes.min.js"))
                 .pipe(gulp.dest(codeMirror.path.dist))
-                .pipe(uglify())
+                .pipe(uglify({outSourceMap: true, sourceRoot: codeMirror.path.dist}))
                 .pipe(gulp.dest(codeMirror.path.dist))	
                 .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
                     var name = file.path.split(file.base + "\\");
@@ -309,7 +297,7 @@ gulp.task("cm-addon", function() {
     return gulp.src(addons)
                 .pipe(concat("addons.min.js"))
                 .pipe(gulp.dest(codeMirror.path.dist))
-                .pipe(uglify())
+                .pipe(uglify({outSourceMap: true, sourceRoot: codeMirror.path.dist}))
                 .pipe(gulp.dest(codeMirror.path.dist))	
                 .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
                     var name = file.path.split(file.base + "\\");
@@ -338,9 +326,9 @@ gulp.task("jsdoc2md", function() {
 });
 
 gulp.task("watch", function() {
-	gulp.watch("src/scss/editormd.scss", ["scss"]);
-	gulp.watch("src/scss/editormd.preview.scss", ["scss", "scss2"]);
-	gulp.watch("src/scss/editormd.logo.scss", ["scss", "scss3"]);
+	gulp.watch("scss/editormd.scss", ["scss"]);
+	gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);
+	gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
 	gulp.watch("src/editormd.js", ["js", "amd"]);
 });
 

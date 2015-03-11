@@ -12,10 +12,18 @@
             <textarea id="test" style="display:none;">###Hello world!</textarea>
         </div>
         <script src="../examples/js/jquery.min.js"></script>
-        <link rel="stylesheet" href="../lib/codemirror/codemirror.min.css" />
-        <script src="../lib/codemirror/codemirror.min.js"></script>
-        <script src="../lib/codemirror/modes.min.js"></script>  
+        <link rel="stylesheet" href="../lib/codemirror/lib/codemirror.min.css" />
+        <script src="../lib/codemirror/lib/codemirror.min.js"></script>
         <script src="../lib/codemirror/addons.min.js"></script>  
+        <script src="../lib/codemirror/modes.min.js"></script>  
+       <!-- <script src="../lib/codemirror-5.0/addon/edit/closetag.js"></script>
+        <script src="../lib/codemirror-5.0/addon/fold/xml-fold.js"></script>
+        <script src="../lib/codemirror-5.0/mode/xml/xml.js"></script>
+        <script src="../lib/codemirror-5.0/mode/javascript/javascript.js"></script>
+        <script src="../lib/codemirror-5.0/mode/css/css.js"></script>
+        <script src="../lib/codemirror-5.0/mode/htmlmixed/htmlmixed.js"></script>-->
+        <!--<script src="../lib/codemirror/addons.min.js"></script>  
+        <script src="../lib/codemirror/modes.min.js"></script>  
 
         <link rel="stylesheet" href="../lib/codemirror/addon/dialog/dialog.css">
         <link rel="stylesheet" href="../lib/codemirror/addon/search/matchesonscrollbar.css">
@@ -24,7 +32,7 @@
         <script src="../lib/codemirror/addon/search/searchcursor.js"></script>
         <script src="../lib/codemirror/addon/search/search.js"></script>
         <script src="../lib/codemirror/addon/scroll/annotatescrollbar.js"></script>
-        <script src="../lib/codemirror/addon/search/matchesonscrollbar.js"></script> 
+        <script src="../lib/codemirror/addon/search/matchesonscrollbar.js"></script>--> 
         <style>
             html, body, #layout, .CodeMirror {
                 width: 100%;
@@ -38,13 +46,14 @@
                 var codeMirrorConfig = {
                     mode: "gfm",
                     theme: "default",
-                    tabSize: 4,
-                    dragDrop: false,
-                    autofocus: true,
-                    indentUnit : 4,
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    matchBrackets: true,
+                    //tabSize: 4,
+                    //dragDrop: false,
+                    autoCloseTags : true,
+                    //autofocus: true,
+                    //indentUnit : 4,
+                    //lineNumbers: true,
+                    //lineWrapping: true,
+                    /*matchBrackets: true,
                     indentWithTabs: true,
                     styleActiveLine: true,
                     styleSelectedText: true,
@@ -52,7 +61,7 @@
                     showTrailingSpace: true,
                     highlightSelectionMatches: {
                         showToken: /\w/
-                    } 
+                    } */
                 };
 
                 $.get("../examples/test.md", function(md){

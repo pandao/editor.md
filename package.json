@@ -1,6 +1,6 @@
 {
   "name": "editor.md",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A simple online markdown editor.",
   "directories": {
     "doc": "docs",
@@ -38,7 +38,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
     "gulp-ruby-sass": "^0.7.1",
-    "gulp-uglify": "^1.0.2",
+    "gulp-uglifyjs": "^0.6.1",
     "gulp-util": "^3.0.1"
   }
 }

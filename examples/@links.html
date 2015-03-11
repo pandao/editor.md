@@ -11,31 +11,57 @@
         <div id="layout">
             <header>
                 <h1>@links</h1>   
-                <p>Github Flavored Markdown extended syntax</p>
+                <p>Github Flavored Markdown extras syntax</p>
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">###@links
+                <textarea style="display:none;">### Disable @link & email address auto link
+
+> Editor.md default enable @link & email address auto link; 
+> Unsupported xxxx@xxxxx, xxxx@localhost  ...
+
+```javascript
+var testEditor;
+
+$(function() {    
+    // You can custom @link base url.
+    editormd.urls.atLinkBase = "https://github.com/";
+
+    testEditor = editormd("test-editormd", {
+        atLink    : false,    // disable @link
+        emailLink : false,    // disable email address auto link
+        path      : '../lib/'
+    });
+});
+```
+
+###@links
 
 [TOC]
 
 ~~@mentions~~, #refs @tylerlong `inline code @tylerlong`, [links](), **formatting**, and <del>tags</del> supported @pandao;
 list syntax required (any unordered or ordered list supported) @pandao;
-this is @pandao a complete item @pandao;
+this is @pandao a complete item @pandao xxx.test@gmail.com;
 
-link [@pandao](https://github.com/pandao "@pandao") &#64;
+link [@pandao](https://github.com/pandao "@pandao") &#64 xxx.test@gmail.com;
 link [&#64;pandao](https://github.com/pandao "&#64;pandao") 
-this is an incomplete item **@pandao**;
+ fsdafds [Gmail](mailto:xxx.test@gmail.com) this is an incomplete item **@pandao**; 
 
 *@pandao* this is an incomplete item ___@pandao___;
+
+<xxx.test@gmail.com>
+
+<mailto:xxx.test@gmail.com>
+
+Email test : [email me](mailto:test@test.com)  [Gmail](mailto:xxx.test@gmail.com)  dsfdfsdfsdfsdf  xxx.test@gmail.com fdfsdfsdf 5956565656565@vip.qq.com
  
 # Github: @pandao
 ## Github: @pandao
 ### Github: @tylerlong
 #### Github: @tylerlong
 ##### Github: @tylerlong
-###### Github: @tylerlong
+###### Github: @tylerlong  [Gmail](mailto:xxx.test@gmail.com)
  
-- dafssdfsdaf@chjj dfsdfsdf
+- dafssdfsdaf@chjj dfsdfsdf  [5956565656565@vip.qq.com](mailto:5956565656565@vip.qq.com)
 - dafssdfsdaf@chjj dfsdfsdf     
     - dafssdfsdaf@chjj dfsdfsdf
     - dafss@pandao dfsdaf@chjj dfsdfsdf
@@ -78,18 +104,16 @@ This @pandao an H2 @pandao
             
             $(function() {    
                 // You can custom @link base url.
-                editormd.url = {
-                    atLinkBase : "https://github.com/"
-                };     
+                editormd.urls.atLinkBase = "https://github.com/";
                 
                 testEditor = editormd("test-editormd", {
-                    width  : "90%",
-                    height : 720,
-                    toc : true,
-                    todoList : true,
-                    path   : '../lib/',
-                    onload : function() {
-                    }
+                    width     : "90%",
+                    height    : 720,
+                    toc       : true,
+                    //atLink    : false,    // disable @link
+                    //emailLink : false,    // disable email address auto link
+                    todoList  : true,
+                    path      : '../lib/'
                 });
             });
         </script>

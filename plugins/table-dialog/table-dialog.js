@@ -137,17 +137,17 @@
 									for (var c = 0, len2 = cols; c < len2; c++) 
 									{
 										if (r === 1) {
-											head.push((len2 === 1) ? "| " + alignSign[align] + " |" : alignSign[align]);
+											head.push(alignSign[align]);
 										}
 
-										row.push((len2 === 1) ? "|  |" : " ");
+										row.push(" ");
 									}
 
 									if (r === 1) {
-										table += head.join(" | ") + "\n";
+										table += "| " + head.join(" | ") + " |" + "\n";
 									}
 									
-									table += row.join(" | ") + "\n";
+									table += "| " + row.join( (cols === 1) ? "" : " | " ) + " |" + "\n";
 								}
 							}
 

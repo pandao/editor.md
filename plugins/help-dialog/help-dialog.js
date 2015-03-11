@@ -21,12 +21,12 @@
 			var lang        = this.lang;
 			var editor      = this.editor;
 			var settings    = this.settings;
-			var path        = settings.path + "../plugins/" + pluginName +"/";
+			var path        = settings.pluginPath + pluginName + "/";
 			var classPrefix = this.classPrefix;
 			var dialogName  = classPrefix + pluginName, dialog;
 			var dialogLang  = lang.dialog.help;
 			
-			var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:330px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding-bottom:20px;\"></div>";
+			var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:390px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding:0 20px 20px 0;\"></div>";
 
 			if (editor.find("." + dialogName).length > 0) 
 			{
@@ -41,8 +41,8 @@
 				dialog = this.createDialog({
 					name       : dialogName,
 					title      : dialogLang.title,
-					width      : 720,
-					height     : 475,
+					width      : 840,
+					height     : 540,
 					mask       : settings.dialogShowMask,
 					drag       : settings.dialogDraggable,
 					content    : dialogContent,

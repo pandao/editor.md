@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Simple - Editor.md examples</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>工具栏自动固定定位的开启与禁用</h1>
+                <p>Enable / disable toolbar auto fixed position.</p>
+            </header>
+            <div class="btns">
+                <button id="enable-btn">Enable</button>
+                <button id="disable-btn">Disable</button>
+            </div>
+            <div id="test-editormd">
+                <textarea style="display:none;">###Hello world!
+
+codemirror
+In-browser code editor
+
+codemirror	6291	3 days ago
+angular-ui-codemirror
+This directive allows you to add CodeMirror to your textarea elements.
+
+angular-ui	174	6 weeks ago
+share-codemirror
+Codemirror bindings for ShareJS
+
+share	24	3 months ago
+requirejs-codemirror
+Load codemirror with needed modes and appending codemirror's css only when needed
+
+tuchk4	14	2 months ago
+codemirror-interactive-numbers
+Drag and update literal numbers inside codemirror
+
+fullstackio	4	17 months ago
+cm-searchbox
+CodeMirror addon for search and replace
+
+coderaiser	3	4 days ago
+ng-codemirror-dictionary-hint
+Angular directive that adds hint support to a Codemirror instance based on a custom dictionary.
+
+amarnus	3	3 months ago
+opentok-editor
+A real time collaborative editor for OpenTok using CodeMirror and ot.js
+
+aullman	3	2 weeks ago
+cirru-mode
+Cirru mode for CodeMorror
+
+Cirru	2	12 months ago
+ckeditor-codemirror
+A bower wrapper for the ckeditor codemirror plugin
+
+friedolinfoerder	1	2 weeks ago
+cm-show-invisibles
+Addon for CodeMirror that helps to show invisibles.
+
+coderaiser	1	6 days ago
+angular-codemirror
+Add CodeMirror to your AngularJS app
+
+chouseknecht	0	12 months ago
+codemirror-chord
+Codemirror mode for guitar chords
+
+zabudipar	0	3 weeks ago
+codemirror-states
+Export and import CodeMirror line classes, line widgets and markers
+
+lusever	0	12 days ago
+ember-cli-codemirror-shim
+ES6 module shim for CodeMirror.
+
+IvyApp	0	3 months ago
+ivy-codemirror
+Shim repository for ivy-codemirror.
+
+IvyApp	0	2 months ago
+ng-codemirror
+Allows you to integrate AngularJS and Codemirror with compatibility for RequireJS 2.x.
+
+VictorQueiroz	0	4 months ago
+sml-codemirror-mode
+Bower Distribution of the Sparqlification Mapping Language (SML) Syntax Highlighting Mode for CodeMirror
+</textarea>
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="../editormd.js"></script>
+        <script type="text/javascript">
+			var testEditor;
+
+            $(function() {
+                testEditor = editormd("test-editormd", {
+                    width  : "90%",
+                    height : 1800,
+                    path   : "../lib/"
+                });
+                
+                $("#enable-btn").bind("click", function() {
+                    testEditor.setToolbarAutoFixed(true);
+                    // or
+                    //testEditor.config("toolbarAutoFixed", true);
+                });
+                
+                $("#disable-btn").bind("click", function() {
+                    testEditor.setToolbarAutoFixed(false);
+                    // or
+                    //testEditor.config("toolbarAutoFixed", false);
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -74,9 +74,9 @@
             {
                 alert("settings.emoji == false");
                 return ;
-            }            
+            }
             
-			var path        = settings.path + "../plugins/" + pluginName +"/";
+			var path        = settings.pluginPath + pluginName + "/";
 			var editor      = this.editor;
 			var cursor      = cm.getCursor();
 			var selection   = cm.getSelection();

@@ -1,9 +1,21 @@
+/*!
+// CodeMirror v5.0, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+// This is CodeMirror (http://codemirror.net), a code editor
+// implemented in JavaScript on top of the browser's DOM.
+//
+// You can find some technical background for some of the code below
+// at http://marijnhaverbeke.nl/blog/#cm-internals .
+*/
+
 /* BASICS */
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
   height: 300px;
+  color: black;
 }
 
 /* PADDING */
@@ -139,11 +151,9 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
    the editor. You probably shouldn't touch them. */
 
 .CodeMirror {
-  line-height: 1;
   position: relative;
   overflow: hidden;
   background: white;
-  color: black;
 }
 
 .CodeMirror-scroll {
@@ -215,6 +225,11 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   cursor: default;
   z-index: 4;
 }
+.CodeMirror-gutter-wrapper {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 
 .CodeMirror-lines {
   cursor: text;
@@ -235,6 +250,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   z-index: 2;
   position: relative;
   overflow: visible;
+  -webkit-tap-highlight-color: transparent;
 }
 .CodeMirror-wrap pre {
   word-wrap: break-word;
@@ -255,6 +271,10 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 }
 
 .CodeMirror-widget {}
+
+.CodeMirror-code {
+  outline: none;
+}
 
 .CodeMirror-measure {
   position: absolute;
@@ -283,6 +303,8 @@ div.CodeMirror-cursors {
 .CodeMirror-selected { background: #d9d9d9; }
 .CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }
 .CodeMirror-crosshair { cursor: crosshair; }
+.CodeMirror ::selection { background: #d7d4f0; }
+.CodeMirror ::-moz-selection { background: #d7d4f0; }
 
 .cm-searching {
   background: #ffa;
