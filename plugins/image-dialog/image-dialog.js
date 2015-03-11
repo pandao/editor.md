@@ -126,57 +126,57 @@
                 });
 
                 dialog.attr("id", classPrefix + "image-dialog-" + guid);
+
+				if (!settings.imageUpload) return ;
+
+				var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
+
+				fileInput.bind("change", function() {
+					var fileName  = fileInput.val();
+					var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+
+					if (fileName === "")
+					{
+						alert(imageLang.uploadFileEmpty);
+					}
+					else if (!isImage.test(fileName))
+					{      
+						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
+					} 
+					else 
+					{
+						if (typeof (dialog.loading) == "function") dialog.loading(true);
+
+						var submitHandler = function() {
+
+							var uploadIframe = document.getElementById(iframeName);
+
+							uploadIframe.onload = function() {
+								if (typeof (dialog.loading) == "function") dialog.loading(false);
+
+								var json = uploadIframe.contentWindow.document.body.innerHTML;
+								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+
+								if (json.success === 1)
+								{
+									dialog.find("[data-url]").val(json.url);
+								}
+								else
+								{
+									alert(json.message);
+								}
+
+								return false;
+							};
+						};
+
+						dialog.find("[type=\"submit\"]").bind(exports.mouseOrTouch("click", "touchend"), submitHandler).trigger("click");
+
+					}        
+
+					return false;
+				});
             }
-
-			if (!settings.imageUpload) return ;
-
-            var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
-
-            fileInput.bind("change", function() {
-                var fileName  = fileInput.val();
-                var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
-
-                if (fileName === "")
-                {
-                    alert(imageLang.uploadFileEmpty);
-                }
-                else if (!isImage.test(fileName))
-                {      
-                    alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
-                } 
-                else 
-                {
-                    if (typeof (dialog.loading) == "function") dialog.loading(true);
-
-                    var submitHandler = function() {
-
-                        var uploadIframe = document.getElementById(iframeName);
-
-                        uploadIframe.onload = function() {
-                            if (typeof (dialog.loading) == "function") dialog.loading(false);
-
-                            var json = uploadIframe.contentWindow.document.body.innerHTML;
-                            json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
-
-                            if (json.success === 1)
-                            {
-                                dialog.find("[data-url]").val(json.url);
-                            }
-                            else
-                            {
-                                alert(json.message);
-                            }
-
-                            return false;
-                        };
-                    };
-
-                    dialog.find("[type=\"submit\"]").bind(exports.mouseOrTouch("click", "touchend"), submitHandler).trigger("click");
-
-                }                    
-
-                return false;
-            });
 
 		};
 
