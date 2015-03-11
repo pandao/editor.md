@@ -59,7 +59,7 @@
     };
     
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.2.0";
+    editormd.version      = "1.3.0";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
     
@@ -95,7 +95,7 @@
         markdown             : "",
         width                : "100%",
         height               : "100%",
-        path                 : "../lib/",       // Dependents module file directory
+        path                 : "./lib/",       // Dependents module file directory
         pluginPath           : "",              // If this empty, default use settings.path + "../plugins/"
         autoLoadModules      : true,            // Automatic load dependent module files
         watch                : true,
