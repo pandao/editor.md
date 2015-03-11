@@ -2774,13 +2774,14 @@
     };
     
     editormd.regexs = {
-        atLink       : /@(\w+)/g,
-        email        : /(\w+)@(\w+)\.(\w+)\.?(\w+)?/g,
-        emailLink    : /(mailto:)?([\w\.\_]+)@(\w+)\.(\w+)\.?(\w+)?/g,
-        emoji        : /:([\-\w]+):/g,
-        twemoji      : /:(tw-([\w]+)-?(\w+)?):/g,
-        fontAwesome  : /:(fa-([\w]+)(-(\w+)){0,}):/g,
-        editormdLogo : /:(editormd-logo-?(\w+)?):/g
+        atLink        : /@(\w+)/g,
+        email         : /(\w+)@(\w+)\.(\w+)\.?(\w+)?/g,
+        emailLink     : /(mailto:)?([\w\.\_]+)@(\w+)\.(\w+)\.?(\w+)?/g,
+        emoji         : /:([\-\w]+):/g,
+        emojiDatetime : /(\d{2}:\d{2}:\d{2})/g,
+        twemoji       : /:(tw-([\w]+)-?(\w+)?):/g,
+        fontAwesome   : /:(fa-([\w]+)(-(\w+)){0,}):/g,
+        editormdLogo  : /:(editormd-logo-?(\w+)?):/g
     };
     
     // Emoji graphics files url path
@@ -2830,6 +2831,11 @@
         var editormdLogoReg = editormd.regexs.editormdLogo;
 
         markedRenderer.emoji = function(text) {
+            
+            text = text.replace(editormd.regexs.emojiDatetime, function($1) {           
+                return $1.replace(/:/g, "&#58;");
+            });
+            
             var matchs = text.match(emojiReg);
 
             if (!matchs || !settings.emoji) {
