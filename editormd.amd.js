@@ -919,7 +919,7 @@
                     return false;
                 }
 
-                if (top - editor.offset().top > 10)
+                if (top - editor.offset().top > 10 && top < editor.height())
                 {
                     toolbar.css({
                         position : "fixed",

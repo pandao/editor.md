@@ -12,3 +12,4 @@ examples/uploads/
 *.sh
 .project
 .url
+css/*.map
