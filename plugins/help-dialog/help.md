@@ -4,7 +4,7 @@
 - [Mastering Markdown](https://guides.github.com/features/mastering-markdown/ "Mastering Markdown")
 - [Markdown Basics](https://help.github.com/articles/markdown-basics/ "Markdown Basics")
 - [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/ "GitHub Flavored Markdown")
-- [Markdown 语法说明（简体中文）](http://www.markdown.cn/, "Markdown 语法说明（简体中文）")
+- [Markdown 语法说明（简体中文）](http://www.markdown.cn/ "Markdown 语法说明（简体中文）")
 - [Markdown 語法說明（繁體中文）](http://markdown.tw/ "Markdown 語法說明（繁體中文）")
 
 ##### 键盘快捷键 (Keyboard shortcuts)
