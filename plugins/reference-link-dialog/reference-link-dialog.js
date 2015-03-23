@@ -1,10 +1,10 @@
 /*!
- * Anchor link dialog plugin for Editor.md
+ * Reference link dialog plugin for Editor.md
  *
- * @file        anchor-link-dialog.js
+ * @file        reference-link-dialog.js
  * @author      pandao
  * @version     1.2.0
- * @updateTime  2015-03-07
+ * @updateTime  2015-03-13
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -13,9 +13,10 @@
 
     var factory = function (exports) {
 
-		var pluginName   = "anchor-link-dialog";
+		var pluginName   = "reference-link-dialog";
+		var ReLinkId     = 1;
 
-		exports.fn.anchorLinkDialog = function() {
+		exports.fn.referenceLinkDialog = function() {
 
             var _this       = this;
             var cm          = this.cm;
@@ -24,45 +25,37 @@
             var settings    = this.settings;
             var cursor      = cm.getCursor();
             var selection   = cm.getSelection();
-            var anchorLang  = lang.dialog.anchor;
+            var dialogLang  = lang.dialog.referenceLink;
             var classPrefix = this.classPrefix;
 			var dialogName  = classPrefix + pluginName, dialog;
 
 			cm.focus();
 
-            if (editor.find("." + dialogName).length > 0)
-            {
-                dialog = editor.find("." + dialogName);
-                dialog.find("[data-name]").val("");
-                dialog.find("[data-url]").val("http://");
-                dialog.find("[data-title]").val(selection);
-
-                this.dialogShowMask(dialog);
-                this.dialogLockScreen();
-                dialog.show();
-            }
-            else 
+            if (editor.find("." + dialogName).length < 1)
             {      
                 var dialogHTML = "<div class=\"" + classPrefix + "form\">" +
-                                        "<label>" + anchorLang.name + "</label>" +
-                                        "<input type=\"text\" data-name />" +  
+                                        "<label>" + dialogLang.name + "</label>" +
+                                        "<input type=\"text\" value=\"[" + ReLinkId + "]\" data-name />" +  
                                         "<br/>" +
-                                        "<label>" + anchorLang.url + "</label>" +
+                                        "<label>" + dialogLang.urlId + "</label>" +
+                                        "<input type=\"text\" data-url-id />" +
+                                        "<br/>" +
+                                        "<label>" + dialogLang.url + "</label>" +
                                         "<input type=\"text\" value=\"http://\" data-url />" + 
                                         "<br/>" +
-                                        "<label>" + anchorLang.urlTitle + "</label>" +
+                                        "<label>" + dialogLang.urlTitle + "</label>" +
                                         "<input type=\"text\" value=\"" + selection + "\" data-title />" +
                                         "<br/>" +
                                     "</div>";
 
                 dialog = this.createDialog({   
-                    name   : dialogName,
-                    title  : anchorLang.title,
-                    width  : 380,
-                    height : 250,
-                    content : dialogHTML,
-                    mask   : settings.dialogShowMask,
-                    drag   : settings.dialogDraggable,
+                    name       : dialogName,
+                    title      : dialogLang.title,
+                    width      : 380,
+                    height     : 290,
+                    content    : dialogHTML,
+                    mask       : settings.dialogShowMask,
+                    drag       : settings.dialogDraggable,
                     lockScreen : settings.dialogLockScreen,
                     maskStyle  : {
                         opacity         : settings.dialogMaskOpacity,
@@ -72,31 +65,37 @@
                         enter  : [lang.buttons.enter, function() {
                             var name  = this.find("[data-name]").val();
                             var url   = this.find("[data-url]").val();
+                            var rid   = this.find("[data-url-id]").val();
                             var title = this.find("[data-title]").val();
 
                             if (name === "")
                             {
-                                alert(anchorLang.nameEmpty);
+                                alert(dialogLang.nameEmpty);
+                                return false;
+                            }
+
+                            if (rid === "")
+                            {
+                                alert(dialogLang.idEmpty);
                                 return false;
                             }
 
                             if (url === "http://" || url === "")
                             {
-                                alert(anchorLang.urlEmpty);
+                                alert(dialogLang.urlEmpty);
                                 return false;
                             }
 
-                            if (title === "")
-                            {
-                                alert(anchorLang.titleEmpty);
-                                return false;
-                            }
-
-                            cm.replaceSelection("[" + title + "][" + name + "]\n[" + name + "]: " + url + "");
+                            //cm.replaceSelection("[" + title + "][" + name + "]\n[" + name + "]: " + url + "");
+                            cm.replaceSelection("[" + name + "][" + rid + "]");
 
                             if (selection === "") {
                                 cm.setCursor(cursor.line, cursor.ch + 1);
                             }
+
+							title = (title === "") ? "" : " \"" + title + "\"";
+
+							cm.setValue(cm.getValue() + "\n[" + rid + "]: " + url + title + "");
 
                             this.hide().lockScreen(false).hideMask();
 
@@ -110,6 +109,18 @@
                     }
                 });
             }
+
+			dialog = editor.find("." + dialogName);
+			dialog.find("[data-name]").val("[" + ReLinkId + "]");
+			dialog.find("[data-url-id]").val("");
+			dialog.find("[data-url]").val("http://");
+			dialog.find("[data-title]").val(selection);
+
+			this.dialogShowMask(dialog);
+			this.dialogLockScreen();
+			dialog.show();
+
+			ReLinkId++;
 		};
 
 	};

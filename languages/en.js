@@ -2,7 +2,8 @@
     var factory = function (exports) {
         var lang = {
             name : "en",
-            description : "A simple markdown doucment online editor.",
+            description : "Open source online Markdown editor.",
+            tocTitle    : "Table of Contents",
             toolbar : {
                 undo             : "Undo(Ctrl+Z)",
                 redo             : "Redo(Ctrl+Y)",
@@ -23,7 +24,7 @@
                 "list-ol"        : "Ordered list",
                 hr               : "Horizontal rule",
                 link             : "Link",
-                anchor           : "Anchor",
+                "reference-link" : "Reference link",
                 image            : "Image",
                 code             : "Code inline",
                 "preformatted-text" : "Preformatted text / Code block (Tab indent)",
@@ -31,12 +32,14 @@
                 table            : "Tables",
                 datetime         : "Datetime",
                 emoji            : "Emoji",
-                htmlEntities     : "HTML Entities",
+                "html-entities"  : "HTML Entities",
+                pagebreak        : "Page break",
                 watch            : "Unwatch",
                 unwatch          : "Watch",
                 preview          : "HTML Preview (Press Shift + ESC exit)",
                 fullscreen       : "Fullscreen (Press ESC exit)",
                 clear            : "Clear",
+                search           : "Search",
                 help             : "Help",
                 info             : "About " + exports.title
             },
@@ -52,14 +55,15 @@
                     urlTitle : "Title",
                     urlEmpty : "Error: Please fill in the link address."
                 },
-                anchor : {
-                    title    : "Anchor link",
+                referenceLink : {
+                    title    : "Reference link",
                     name     : "Name",
                     url      : "Address",
+                    urlId    : "ID",
                     urlTitle : "Title",
-                    nameEmpty: "Error: anchor name can't be empty.",
-                    titleEmpty : "Error: Please fill in anchor link title.",
-                    urlEmpty : "Error: Please fill in anchor link."
+                    nameEmpty: "Error: Reference name can't be empty.",
+                    idEmpty  : "Error: Please fill in reference link id.",
+                    urlEmpty : "Error: Please fill in reference link url address."
                 },
                 image : {
                     title    : "Image",

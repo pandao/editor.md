@@ -6,6 +6,8 @@
 
 **目录 (Table of Contents)**
 
+[TOCM]
+
 [TOC]
 
 #Heading 1
@@ -261,6 +263,8 @@ X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
 
 18&ordm;C  &quot;  &apos;
 
+[========]
+
 ###Emoji表情 :smiley:
 
 > Blockquotes :star:
@@ -278,9 +282,11 @@ X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
 ####反斜杠 Escape
 
 \*literal asterisks\*
+
+[========]
             
 ###科学公式 TeX(KaTeX)
-                    
+
 $$E=mc^2$$
 
 行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
@@ -288,7 +294,13 @@ $$E=mc^2$$
 $$\(\sqrt{3x-1}+(1+x)^2\)$$
                     
 $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
-                
+
+### 分页符 Page break
+
+> Print Test: Ctrl + P
+
+[========]
+
 ###绘制流程图 Flowchart
 
 ```flow
@@ -301,6 +313,8 @@ st->op->cond
 cond(yes)->e
 cond(no)->op
 ```
+
+[========]
                     
 ###绘制序列图 Sequence Diagram
                     

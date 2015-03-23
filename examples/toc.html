@@ -6,16 +6,37 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <style>
+            
+            #custom-toc-container {
+                border: 1px solid #ddd;
+                width: 87%;
+                margin: 15px auto;
+                overflow: visible;
+            }
+            
+            #custom-toc-container > .markdown-toc {
+                padding: 10px;
+            }
+        </style>
     </head>
     <body>
         <div id="layout">
             <header>
-                <h1>TOC(Table of Contents)示例</h1>            
+                <h1>TOC(Table of Contents) example</h1>
             </header>
+            <div class="btns">
+                <button id="insert-btn">ToC insert to custom container</button>
+                <button id="menu-btn">ToC Dropdown menu</button>
+                <button id="menu2-btn">ToC Dropdown menu insert to custom container</button>
+                <button id="default-btn">Default</button>
+                <button id="tocm-btn">Enable [TOCM]</button>
+            </div>
+            <div class="markdown-body editormd-preview-container" id="custom-toc-container">#custom-toc-container</div>
             <div id="test-editormd">                
                 <textarea style="display:none;">#支撑起整个互联网时代的 7 款开源软件
 
-**目录：**
+[TOCM]
 
 [TOC]
 
@@ -85,6 +106,23 @@ Hadoop 是一个能够对大量数据进行分布式处理的软件框架，由A
 
 在“大数据”已经成为潮流的当下，Hadoop已经成为最主要的一项技术。可以毫不夸张的说，没有Hadoop，就没有大多数的大数据应用。可以说对一个不知道Hadoop的程序员而言，你已经out了。
 
+
+#### Test link heading [linux B](https://github.com/pandao/editor.md)  Test link heading
+
+#### Test link heading [linux B](https://github.com/pandao/editor.md)   Test link heading [linux B](https://github.com/pandao/editor.md)  Test link heading, Test link heading, [linux B](https://github.com/pandao/editor.md)  Test link heading
+
+#####linux B-1
+
+######linux B-1-1
+
+######linux B-1-2
+
+#####linux B-2
+
+######linux B-2-1
+
+######linux B-2-2
+
 ###互联网的“排版引擎”WebKit
 
 说是浏览器内核，其实“排版引擎”更容易理解一些。通过服务器传输给浏览器的信息只是一串乱糟糟的文本。要看到我们平时看到精美的网友，需要浏览器内核对这些文本进行解析，将枯燥的描述“画”成美丽的浏览界面。
@@ -104,14 +142,57 @@ WebKit 是一个开源的浏览器引擎，与之相应的引擎有Gecko（Mozil
         
         <script src="js/jquery.min.js"></script>
         <script src="../editormd.js"></script>   
-        <script type="text/javascript">
+        <script type="text/javascript">            
+            var testEditor;
+                
             $(function() {
-                var testEditor = editormd("test-editormd", {
-                    width  : "90%",
-                    height : 720,
-                    //toc    : false,   // diable ToC
-                    tocStartLevel : 2,  // 表示从H2开始解析，默认值为1
-                    path   : '../lib/'
+                testEditor = editormd("test-editormd", {
+                    width         : "90%",
+                    height        : 720,
+                    path          : "../lib/",
+                    //toc           : false,         // diable ToC
+                    tocStartLevel : 2      // Parse beginning of H2, Default value 1
+                });
+                
+                $("#insert-btn").click(function() {
+                    testEditor.config({
+                        tocContainer : "#custom-toc-container",
+                        tocDropdown   : false
+                    });
+                });
+                
+                $("#menu-btn").click(function(){
+                    testEditor.config({
+                        tocContainer  : "",
+                        tocDropdown   : true,
+                        tocTitle      : "目录 Table of Contents dsfsadfsfdsdf",
+                    });
+                });
+                
+                $("#menu2-btn").click(function(){
+                    testEditor.config({
+                        tocContainer  : "#custom-toc-container",
+                        tocDropdown   : true,
+                        tocTitle      : "目录 Table of Contents dsfsadfsfdsdf",
+                    });
+                });
+                
+                $("#default-btn").click(function() {
+                    $("#custom-toc-container").html("#custom-toc-container");
+                    testEditor.config({
+                        tocContainer : "",
+                        tocm : false,
+                        tocDropdown  : false
+                    });
+                });
+                
+                $("#tocm-btn").click(function() {
+                    $("#custom-toc-container").html("#custom-toc-container");
+                    testEditor.config({
+                        tocm : true,
+                        tocContainer : "",
+                        tocDropdown   : false
+                    });
                 });
             });
         </script>

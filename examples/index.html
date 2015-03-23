@@ -7,29 +7,38 @@
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
 		<style>
+            #layout {
+                padding-bottom: 100px;
+            }
+            
             #header {
                 width: 100%;
                 color: #fff;
                 background: #2196F3;
-                padding: 80px 0;
+                padding: 60px 0;
                 text-align: center;
                 margin-bottom: 30px;
             }
             
+            a {
+                color: #2196F3;
+                text-decoration: none;
+            }
+            
             #header h1 {
-                font-size: 48px; 
+                font-size: 45px; 
                 font-weight: normal;
             }
             
 			ul { 
 				width: 90%;
-                padding-bottom: 50px;
+                padding-bottom:30px;
 				margin: 0 auto;
 				list-style: none;
 			}
             
             ul li {
-                width: 33%;
+                width: 24%;
                 margin-bottom: 4px;
                 display: inline-block;
             }
@@ -61,14 +70,74 @@
             ul li a:hover span {
                 color: #fff;
             }
+            
+            .category, .footer {
+				width: 90%;
+                padding: 15px;
+                font-size: 18px;
+				margin: 15px auto 20px;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .footer {
+                border: none;
+                border-top: 1px solid #eee;
+                font-size: 12px;
+                margin-top: 30px;
+                padding-top: 35px;
+                text-align: right;                
+            }
+            
+            .menu {
+                margin-top: 20px;
+                text-align: center;
+            }
+            
+            .menu a {
+                color: #fff;
+                display: inline-block;
+                text-decoration: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                -webkit-transition: background-color 300ms ease-out;
+                transition: background-color 300ms ease-out;
+            }
+            .menu a:hover {
+                background-color: #1A8BE8;
+            }
+            
+            [href="#top"] {
+                color: #999;
+                float: right;
+                padding-top: 10px;
+                display: block;
+                text-decoration: none;
+                font-size: 12px;
+                font-weight: normal;
+            }
+            
+            [href="#top"] .fa {
+                margin-left: 8px;
+                font-size: 1.4em;
+            }
 		</style>
     </head>
     <body>
+        <a name="top"></a>
         <div id="layout">
             <div id="header">
-                <h1><i class="editormd-logo editormd-logo-4x"></i></h1>
-                <h1>Editor.md examples</h1> 
+                <h1><i class="editormd-logo editormd-logo-3x"></i></h1>
+                <h1>Editor.md Examples</h1>
+                <p>Open source online markdown editor.</p>
+                <div class="menu">
+                    <a href="#basic">Basic</a>
+                    <a href="#customs">自定义 Customs</a>
+                    <a href="#markdown-extras">Markdown Extras</a>
+                    <a href="#image-upload">Image Upload</a>
+                    <a href="#events">事件处理 Events handle</a>
+                </div>
             </div>
+			<h1 class="category"><a name="basic"></a>Basic</h1>
 			<ul>
 				<li>
 					<a href="./simple.html">简单示例 <span>Simple example</span></a>
@@ -77,37 +146,31 @@
 					<a href="./full.html">完整示例 <span>Full example</span></a>
 				</li>
 				<li>
-					<a href="./use-requirejs.html">使用Require.js <span>Using Require.js example</span></a>
+					<a href="./use-requirejs.html">使用Require.js <span>Using Require.js</span></a>
 				</li>
 				<li>
-					<a href="./use-seajs.html">使用Sea.js <span>Using Seajs example</span></a>
+					<a href="./use-seajs.html">使用Sea.js <span>Using Seajs</span></a>
 				</li>
 				<li>
 					<a href="./use-zepto.html">使用Zepto.js <span>Using Zepto.js</span></a>
 				</li>
 				<li>
-					<a href="./toc.html">自动生成目录 ToC <span>Table of Contents example</span></a>
-				</li>
-				<li>
 					<a href="./form-get-value.html">表单取值 <span>Get textarea value in form</span></a>
 				</li>
 				<li>
-					<a href="./html-tags-decode.html">识别和解析HTML标签 <span>HTML tags decode</span></a>
+					<a href="./html-preview-markdown-to-html.html">非编辑时Markdown转HTML的显示处理 <span>Markdown to HTML for preview</span></a>
 				</li>
-				<li>
-					<a href="./html-preview-markdown-to-html.html">Markdown转HTML的显示处理 <span>Markdown to HTML for preview</span></a>
-				</li>
-				<li>
-					<a href="./image-upload.html">图片上传 <span>Image upload</span></a>
-				</li>
-				<li>
-					<a href="./image-cross-domain-upload.html">图片跨域上传 <span>Image cross-domain upload</span></a>
-				</li>
+			</ul>
+			<h1 class="category">
+			    <a href="#top">TOP<i class="fa fa-angle-up"></i></a>
+			    <a name="customs"></a>自定义 Customs
+			</h1>
+			<ul>
 				<li>
 					<a href="./custom-toolbar.html">自定义工具栏 <span>Custom toolbar</span></a>
 				</li>
 				<li>
-					<a href="./multi-languages.html">多语言支持 <span>Multi-languages for l18n</span></a>
+					<a href="./multi-languages.html">多语言 <span>Multi-languages for l18n</span></a>
 				</li>
 				<li>
 					<a href="./auto-height.html">自动高度 <span>Auto height</span></a>
@@ -119,10 +182,16 @@
 					<a href="./dynamic-create-editormd.html">动态创建Editor.md <span>Dynamic create Editor.md</span></a>
 				</li>
 				<li>
+					<a href="./delay-renderer-preview.html">延迟解析和预览 <span>Delay Rerender & Preview</span></a>
+				</li>
+				<li>
 					<a href="./multi-editormd.html">多个Editor.md并存 <span>Multi Editor.md</span></a>
 				</li>
 				<li>
-					<a href="./readonly.html">只读模式 <span>Editor.md read only</span></a>
+					<a href="./goto-line.html">跳转到指定的行 <span>Jump/goto line</span></a>
+				</li>
+				<li>
+					<a href="./readonly.html">只读模式 <span>Read only mode</span></a>
 				</li>
 				<li>
 					<a href="./themes.html">自定义编辑器样式主题 <span>Setting/change editor style theme</span></a>
@@ -135,12 +204,6 @@
 				</li>
 				<li>
 					<a href="./custom-keyboard-shortcuts.html">自定义键盘快捷键 <span>Custom keyboard shortcuts</span></a>
-				</li>
-				<li>
-					<a href="./set-get-replace-selection.html">插入字符/设置和获取光标位置/设置、获取和替换选中的文本 <span>Insert value & Set/Get cursor & Set/Get/Replace selection</span></a>
-				</li>
-				<li>
-				    <a href="./extends.html">扩展成员方法和属性 <span>Expanded of member methods and properties</span></a>
 				</li>
 				<li>
 				    <a href="./define-plugin.html">自定义插件 <span>Define extention plugins for Editor.md</span></a>
@@ -158,6 +221,63 @@
 					<a href="./change-mode.html">变身为代码编辑器 <span>Change mode become to the code editor</span></a>
 				</li>
 				<li>
+					<a href="./set-get-replace-selection.html">插入字符/设置和获取光标位置/设置、获取和替换选中的文本 <span>Insert value & Set/Get cursor & Set/Get/Replace selection</span></a>
+				</li>
+				<li>
+				    <a href="./extends.html">扩展成员方法和属性 <span>Expanded of member methods and properties</span></a>
+				</li>
+            </ul>
+			<h1 class="category">
+			    <a href="#top">TOP<i class="fa fa-angle-up"></i></a>
+			    <a name="markdown-extras"></a>Markdown Extras
+			</h1>
+			<ul>
+				<li>
+					<a href="./html-tags-decode.html">识别和（过滤）解析HTML标签 <span>HTML tags (fliter) decode</span></a>
+				</li>
+				<li>
+					<a href="./toc.html">自动生成目录(下拉菜单) ToC/ToCM <span>Table of Contents (ToC)</span></a>
+				</li>
+				<li>
+					<a href="./task-lists.html">GFM 任务列表 <span>Github Flavored Markdown (GFM) Task Lists</span></a>
+				</li>
+				<li>
+					<a href="./@links.html">@链接 <span>@links</span></a>
+				</li>
+				<li>
+					<a href="./emoji.html">Emoji / Twemoji 表情 / Font Awesome 图标 <span>Emoji / Twemoji / Font Awesome icons</span></a>
+				</li>
+				<li>
+					<a href="./katex.html">科学公式 TeX <span>TeX/LaTeX (Based on KaTeX)</span> </a>
+				</li>
+				<li>
+					<a href="./flowchart.html">流程图 <span>FlowChart example</span></a>
+				</li>
+				<li>
+					<a href="./sequence-diagram.html">时序/序列图 <span>Sequence Diagram example</span></a>
+				</li>
+				<li>
+					<a href="./page-break.html">分页符 <span>Page break</span></a>
+				</li>
+            </ul>
+			<h1 class="category">
+			    <a href="#top">TOP<i class="fa fa-angle-up"></i></a>
+			    <a name="image-upload"></a>Image Upload
+			</h1>
+			<ul>
+				<li>
+					<a href="./image-upload.html">图片上传 <span>Image upload</span></a>
+				</li>
+				<li>
+					<a href="./image-cross-domain-upload.html">图片跨域上传 <span>Image cross-domain upload</span></a>
+				</li>
+            </ul>
+			<h1 class="category">
+			    <a href="#top">TOP<i class="fa fa-angle-up"></i></a>
+			    <a name="events"></a>事件处理 Events handle
+			</h1>
+			<ul>
+				<li>
 				    <a href="./on-off.html">事件注册和解除方法 <span>On / Off (bind/unbind) event handle</span></a>
 				</li>
 				<li>
@@ -170,7 +290,7 @@
 					<a href="./onfullscreen.html">全屏事件处理 <span>Onfullscreen / onfullscreenExit event handle example</span></a>
 				</li>
 				<li>
-				    <a href="./onresize.html">Onresize<span>onresize event handle</span></a>
+				    <a href="./onresize.html">Onresize<span>Onresize event handle</span></a>
 				</li>
 				<li>
 				    <a href="./onpreviewing-onpreviewed.html">Onpreviewing / Onpreviewed<span>Onpreviewing / Onpreviewed event handle</span></a>
@@ -181,26 +301,53 @@
 				<li>
 				    <a href="./onscroll-onpreviewscroll.html">Onscroll / Onpreviewscroll<span>Onscroll / Onpreviewscroll event handle</span></a>
 				</li>
-				<li>
-					<a href="./task-lists.html">Github Flavored Markdown任务列表 <span>Github Flavored Markdown (GFM) Task Lists</span></a>
-				</li>
-				<li>
-					<a href="./@links.html">@链接 <span>@links</span></a>
-				</li>
-				<li>
-					<a href="./emoji.html">Emoji表情 <span>Emoji</span></a>
-				</li>
-				<li>
-					<a href="./katex.html">科学公式 TeX <span>Based on KaTeX</span> </a>
-				</li>
-				<li>
-					<a href="./flowchart.html">流程图 <span>FlowChart example</span></a>
-				</li>
-				<li>
-					<a href="./sequence-diagram.html">时序/序列图 <span>Sequence Diagram example</span></a>
-				</li>
 			</ul>
             <div class="clear"></div>
+            <div class="footer">
+                <p>
+                    <a href="https://pandao.github.io/editor.md/" target="_blank" title="Editor.md">
+                        <img src="https://pandao.github.io/editor.md/images/logos/editormd-logo-64x64.png"/>
+                    </a>
+                </p>
+                <p>Copyright &copy; 2015 <a href="https://pandao.github.io/editor.md/" target="_blank" title="Editor.md">Editor.md</a></p>
+                <p>Open source online markdown editor. <a href="https://github.com/pandao/editor.md" class="fa fa-github fa-lg" target="_blank" title="Editor.md in Github"></a></p>
+                <p>The <a href="https://github.com/pandao/editor.md/blob/master/LICENSE" target="_blank">MIT</a> license</p>
+            </div>
         </div>
+        <script src="js/jquery.min.js"></script>
+        <script>
+            var clickOrTouch = function(touchType) {
+                touchType = touchType || "touchend";
+                var eventType = "click";
+
+                try {
+                    document.createEvent("TouchEvent");
+                    eventType = touchType;
+                } catch(e) {}
+
+                return eventType;
+            };
+            
+            $(function() {
+        
+                $("a[href*=#]").bind(clickOrTouch(), function() {
+                    if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) 
+                    {
+                        var hash   = this.hash;
+                        var target = $(hash);
+                        target     = target.length && target || $("[name=" + hash.slice(1) + "]");
+
+                        if (target.length) 
+                        {                            
+                            $("html, body").animate({
+                                scrollTop: target.offset().top
+                            }, 800);
+
+                            return false;
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

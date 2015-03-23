@@ -88,6 +88,28 @@
         top: 10px;
         right: 10px;
     } 
+    
+    p > a, .hover-link:hover {   
+        color: #2196F3;
+    }
+    
+    .hover-link {
+        color: #666;
+    }
+    
+    a {
+        .fa-external-link {
+            display: none;
+        }
+
+        &:hover {    
+            color: #2196F3;
+            
+            .fa-external-link {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 #{$prefix}mask,

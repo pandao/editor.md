@@ -26,28 +26,28 @@
                 <button id="show-toolbar-btn">Show toolbar</button>
                 <button id="close-toolbar-btn">Hide toolbar</button>
             </div>
-            <div id="test-editormd"></div>
-            <pre id="append-code" style="display:none;">####Resettings
+            <div id="test-editormd">
+                <textarea style="display:none;">#### Resetting examples
 
 ```javascript
 this.config("lineNumbers", false);
 
 this.config({
-    toc : false,
-    tex : false,
-    previewCodeHighlight : true, // before set previewCodeHighlight == false, editor not load pretty.js, so now codes can't highlight and line numbers.
-    flowChart : false,
-    sequenceDiagram : false,
-    dialogLockScreen : false,
-    dialogDraggable : false,
-    dialogMaskBgColor : "teal",
-    toolbar : true
+    toc                  : false,
+    tex                  : false,
+    previewCodeHighlight : true, // before set previewCodeHighlight == false, editor not load pretty.js, so now codes can't highlight and display line numbers.
+    flowChart            : false,
+    sequenceDiagram      : false,
+    dialogLockScreen     : false,
+    dialogDraggable      : false,
+    dialogMaskBgColor    : "teal",
+    toolbar              : true
 });
 
 this.config("onresize", function(){
-    console.log("onresize =>", this);
+    console.log("onresize =&gt;", this);
 });
-```</pre>
+```</textarea></div>
         </div>
         <script src="js/jquery.min.js"></script>
         <script src="../editormd.js"></script>   
@@ -56,42 +56,38 @@ this.config("onresize", function(){
             
             $(function() {
                 
-                $.get('test.md', function(md){
+                $.get("test.md", function(md) {
                     testEditor = editormd("test-editormd", {
-                        width: "90%",
-                        height: 740,
-                        path : '../lib/',
-                        markdown : $("#append-code").html() +"\n"+ md,
-                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
-                        watch : false,                // 关闭实时预览
-                        htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启    
-                        toolbar  : false,             //关闭工具栏
-                        previewCodeHighlight : false, // 关闭预览HTML的代码块高亮，默认开启
-                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
-                        flowChart : true,             // 开启流程图支持，默认关闭
-                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
-                        emoji : true,
-                        taskList : true,
-                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-                        onload : function() {
+                        width                : "90%",
+                        height               : 740,
+                        path                 : "../lib/",
+                        appendMarkdown       : "\n" + md,
+                        saveHTMLToTextarea   : true,
+                        watch                : false,
+                        htmlDecode           : true,  
+                        toolbar              : false,
+                        previewCodeHighlight : false,
+                        tex                  : true,
+                        flowChart            : true,
+                        sequenceDiagram      : true,
+                        emoji                : true,
+                        taskList             : true,
+                        onload               : function() {
                             console.log('onload', this);
                             
                             this.config("lineNumbers", false);
                             
                             this.config({
-                                toc : false,
-                                tex : false,
-                                previewCodeHighlight : true, // before set previewCodeHighlight == false, editor not load pretty.js, so now codes can't highlight and line numbers.
-                                flowChart : false,
-                                sequenceDiagram : false,
-                                dialogLockScreen : false,
-                                dialogDraggable : false,
-                                dialogMaskBgColor : "teal",
-                                toolbar : true
+                                toc                  : false,
+                                tex                  : false,
+                                toolbar              : true,
+                                previewCodeHighlight : true, // before set previewCodeHighlight == false, editor not load pretty.js, so now codes can't highlight and display line numbers.
+                                flowChart            : false,
+                                sequenceDiagram      : false,
+                                dialogLockScreen     : false,
+                                dialogMaskOpacity    : 0.5,       // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                                dialogDraggable      : false,
+                                dialogMaskBgColor    : "#000"
                             });
                 
                             this.config("onresize", function(){
@@ -103,43 +99,43 @@ this.config("onresize", function(){
                     });
                 });
                 
-                $("#show-btn").bind('click', function(){
+                $("#show-btn").click(function(){
                     testEditor.show();
                 });
                 
-                $("#hide-btn").bind('click', function(){
+                $("#hide-btn").click(function(){
                     testEditor.hide();
                 });
                 
-                $("#get-md-btn").bind('click', function(){
+                $("#get-md-btn").click(function(){
                     alert(testEditor.getMarkdown());
                 });
                 
-                $("#get-html-btn").bind('click', function() {
+                $("#get-html-btn").click(function() {
                     alert(testEditor.getHTML());
                 });                
                 
-                $("#watch-btn").bind('click', function() {
+                $("#watch-btn").click(function() {
                     testEditor.watch();
                 });                 
                 
-                $("#unwatch-btn").bind('click', function() {
+                $("#unwatch-btn").click(function() {
                     testEditor.unwatch();
                 });              
                 
-                $("#preview-btn").bind('click', function() {
+                $("#preview-btn").click(function() {
                     testEditor.previewing();
                 });
                 
-                $("#fullscreen-btn").bind('click', function() {
+                $("#fullscreen-btn").click(function() {
                     testEditor.fullscreen();
                 });
                 
-                $("#show-toolbar-btn").bind('click', function() {
+                $("#show-toolbar-btn").click(function() {
                     testEditor.showToolbar();
                 });
                 
-                $("#close-toolbar-btn").bind('click', function() {
+                $("#close-toolbar-btn").click(function() {
                     testEditor.hideToolbar();
                 });
             });          

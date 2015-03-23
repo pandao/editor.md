@@ -31,18 +31,7 @@
 
 			cm.focus();
 
-            if (editor.find("." + dialogName).length > 0) 
-            {
-                dialog = editor.find("." + dialogName);
-                dialog.find("[type=\"text\"]").val("");
-                dialog.find("[type=\"file\"]").val("");
-                dialog.find("[data-link]").val("http://");
-
-                this.dialogShowMask(dialog);
-                this.dialogLockScreen();
-                dialog.show();
-            } 
-            else 
+            if (editor.find("." + dialogName).length < 1)
             {    
                 var guid   = (new Date).getTime();
                 var action = settings.imageUploadURL + "?guid=" + guid;
@@ -170,13 +159,22 @@
 							};
 						};
 
-						dialog.find("[type=\"submit\"]").bind(exports.mouseOrTouch("click", "touchend"), submitHandler).trigger("click");
+						dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
 
 					}        
 
 					return false;
 				});
             }
+
+			dialog = editor.find("." + dialogName);
+			dialog.find("[type=\"text\"]").val("");
+			dialog.find("[type=\"file\"]").val("");
+			dialog.find("[data-link]").val("http://");
+
+			this.dialogShowMask(dialog);
+			this.dialogLockScreen();
+			dialog.show();
 
 		};
 

@@ -16,19 +16,23 @@
                     <li>Enable HTML tags decode</li>
                     <li>Enable TeX, Flowchart, Sequence Diagram, Emoji, FontAwesome, Task lists</li>
                     <li>Enable Image upload</li>
+                    <li>Enable [TOCM], Search Replace, Code fold</li>
                 </ul>            
             </header>
             <div class="btns">
+                <button id="goto-line-btn">Goto line 90</button>
                 <button id="show-btn">Show editor</button>
                 <button id="hide-btn">Hide editor</button>
                 <button id="get-md-btn">Get Markdown</button>
                 <button id="get-html-btn">Get HTML</button>
                 <button id="watch-btn">Watch</button>
                 <button id="unwatch-btn">Unwatch</button>
-                <button id="preview-btn">Preview HTML(Press ESC cancel)</button>
+                <button id="preview-btn">Preview HTML (Press Shift + ESC cancel)</button>
                 <button id="fullscreen-btn">Fullscreen (Press ESC cancel)</button>
                 <button id="show-toolbar-btn">Show toolbar</button>
                 <button id="close-toolbar-btn">Hide toolbar</button>
+                <button id="toc-menu-btn">ToC Dropdown menu</button>
+                <button id="toc-default-btn">ToC default</button>
             </div>
             <div id="test-editormd"></div>
         </div>
@@ -49,11 +53,12 @@
                         saveHTMLToTextarea : true,    // 保存HTML到Textarea
                         searchReplace : true,
                         //watch : false,                // 关闭实时预览
-                        htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启    
+                        htmlDecode : "style,script,iframe",            // 开启HTML标签解析，为了安全性，默认不开启    
                         //toolbar  : false,             //关闭工具栏
                         //previewCodeHighlight : false, // 关闭预览HTML的代码块高亮，默认开启
                         emoji : true,
                         taskList : true,
+                        tocm            : true,         // Using [TOCM]
                         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         flowChart : true,             // 开启流程图支持，默认关闭
                         sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
@@ -77,6 +82,10 @@
                             //this.resize("100%", 640);
                         }
                     });
+                });
+                
+                $("#goto-line-btn").bind("click", function(){
+                    testEditor.gotoLine(90);
                 });
                 
                 $("#show-btn").bind('click', function(){
@@ -117,6 +126,17 @@
                 
                 $("#close-toolbar-btn").bind('click', function() {
                     testEditor.hideToolbar();
+                });
+                
+                $("#toc-menu-btn").click(function(){
+                    testEditor.config({
+                        tocDropdown   : true,
+                        tocTitle      : "目录 Table of Contents",
+                    });
+                });
+                
+                $("#toc-default-btn").click(function() {
+                    testEditor.config("tocDropdown", false);
                 });
             });
         </script>

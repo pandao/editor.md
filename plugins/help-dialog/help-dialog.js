@@ -25,19 +25,11 @@
 			var classPrefix = this.classPrefix;
 			var dialogName  = classPrefix + pluginName, dialog;
 			var dialogLang  = lang.dialog.help;
-			
-			var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:390px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding:0 20px 20px 0;\"></div>";
 
-			if (editor.find("." + dialogName).length > 0) 
-			{
-                dialog = editor.find("." + dialogName);
+			if (editor.find("." + dialogName).length < 1)
+			{			
+				var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:390px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding:0 20px 20px 0;\"></div>";
 
-				this.dialogShowMask(dialog);
-				this.dialogLockScreen();
-				dialog.show();
-			} 
-			else
-			{
 				dialog = this.createDialog({
 					name       : dialogName,
 					title      : dialogLang.title,
@@ -60,6 +52,12 @@
 					}
 				});
 			}
+
+			dialog = editor.find("." + dialogName);
+
+			this.dialogShowMask(dialog);
+			this.dialogLockScreen();
+			dialog.show();
 
 			var helpContent = dialog.find(".markdown-body");
 

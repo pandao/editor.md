@@ -2,6 +2,9 @@
 
 @import "lib/variables";
 @import "lib/prefixes";
+@import "font-awesome";
+
+@import "editormd.logo";
 
 // github-markdown.css
 @import "github-markdown";  
@@ -115,8 +118,160 @@
     }
 }    
 
+#{$prefix}preview-container, #{$prefix}html-preview {
+
+    #{$prefix}toc-menu {
+        margin: 8px 0 12px 0;
+        display: inline-block;
+
+        > .markdown-toc {
+            position: relative;
+            @include border-radius(4px);
+            border: 1px solid #ddd;
+            display: inline-block;
+            font-size: 1em;
+
+            > ul {
+                width : 160%;
+                min-width: 180px;
+                position: absolute;
+                left: -1px;
+                top: -2px;
+                z-index: 100;
+                padding: 0 10px 10px;    
+                display: none;
+                background: #fff;
+                border: 1px solid #ddd;
+                @include border-radius(4px);
+                @include box-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+
+                > li ul {
+                    width: 100%;
+                    min-width: 180px;
+                    border: 1px solid #ddd;
+                    display: none;
+                    background: #fff;
+                    @include border-radius(4px);
+                }
+
+                > li a {
+                    color: #666;
+                    padding: 6px 10px;
+                    display: block;
+                    @include transition(background-color 500ms ease-out);  
+
+                    &:hover {
+                        background-color: #f6f6f6;
+                    }       
+                }
+            }
+
+            li {
+                position: relative;
+
+                > ul {
+                    position: absolute;
+                    top: 32px;
+                    left: 10%;
+                    display: none;
+                    @include box-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+
+                    &:before, &:after {
+                        pointer-events: pointer-events;
+                        position: absolute;
+                        left: 15px;
+                        top: -6px;
+                        display: block;
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        border: 6px solid transparent;
+                        border-width: 0 6px 6px; 
+                        z-index: 10; 
+                    }
+
+                    &:before {
+                        border-bottom-color: #ccc; 
+                    }
+
+                    &:after {
+                        border-bottom-color: #ffffff;  
+                        top: -5px;
+                    }
+                }
+            }
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 16px;
+            padding: 5px 0 10px 10px;
+            line-height: 1;
+            border-bottom: 1px solid #eee;
+
+            .fa {
+                padding-left: 10px;
+            }
+        }
+
+        .toc-menu-btn {
+            color: #666;
+            min-width: 180px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            @include transition(background-color 500ms ease-out);
+
+            &:hover {
+                background-color: #f6f6f6;
+            }
+
+            .fa {
+                float: right;
+                padding: 3px 0 0 10px;
+                font-size: 1.3em;
+            }
+        }
+    }
+}
+
+.markdown-body {
+    #{$prefix}toc-menu {
+        ul {
+            padding-left: 0; 
+        }
+    }
+}
+
+hr.editormd-page-break {
+    border: 1px dotted #ccc;
+    font-size: 0;
+    height: 2px;
+}
+
+@media only print {
+    hr.editormd-page-break {
+        background: none;
+        border: none;
+        height: 0;
+    }
+}
+
 #{$prefix}html-preview {
     textarea {
         display : none;
+    }
+
+    hr.editormd-page-break {
+        background: none;
+        border: none;
+        height: 0;
     }
 }

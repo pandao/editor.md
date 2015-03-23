@@ -14,7 +14,16 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">
+                <textarea style="display:none;">#### Settings
+
+```javascript
+{
+    onresize : function() {
+        // console.log("onresize =>", this, this.id, this.settings);
+    }
+}
+```
+
     state.loaded
            > bind onresize event
                > window.onresize, editormd watch/unwatch/fullscreen/fullscreenExit/toolbar show|hide

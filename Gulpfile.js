@@ -41,24 +41,23 @@ var scssTask = function(fileName, path) {
     
     var distPath = "css";
     
-    return gulp.src(path + fileName + ".scss")
-               .pipe(sass({ style: "expanded" }))   //nested,compact,expanded,compressed
-               .pipe(gulp.dest(distPath)) 
-                .pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
-                    var name = file.path.split(file.base);
-                    return name[1].replace("\\", "");
-                }}))
-               .pipe(gulp.dest(distPath)) 
-               .pipe(rename({ suffix: ".min" }))
-               .pipe(gulp.dest(distPath))
-               .pipe(minifycss())
-               .pipe(gulp.dest(distPath)) 
-                .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) { 
-                    var name = file.path.split(file.base);
-                    return name[1].replace("\\", "");
-                }}))
-               .pipe(gulp.dest(distPath)) 
-               .pipe(notify({ message: fileName + ".scss task completed!" }));
+    return sass(path + fileName + ".scss", { style: "expanded", sourcemap: false, noCache : true })
+        .pipe(gulp.dest(distPath))
+        .pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
+            var name = file.path.split(file.base);
+            return name[1].replace("\\", "");
+        }}))
+       .pipe(gulp.dest(distPath)) 
+       .pipe(rename({ suffix: ".min" }))
+       .pipe(gulp.dest(distPath))
+       .pipe(minifycss())
+       .pipe(gulp.dest(distPath)) 
+        .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) { 
+            var name = file.path.split(file.base);
+            return name[1].replace("\\", "");
+        }}))
+       .pipe(gulp.dest(distPath)) 
+       .pipe(notify({ message: fileName + ".scss task completed!" }));
 };
 
 gulp.task("scss", function() { 
@@ -83,7 +82,7 @@ gulp.task("js", function() {
             }}))
             .pipe(gulp.dest("./"))
             .pipe(rename({ suffix: ".min" }))
-            .pipe(uglify({outSourceMap: true, sourceRoot: './'}))
+            .pipe(uglify())  // {outSourceMap: true, sourceRoot: './'}
             .pipe(gulp.dest("./"))	
             .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
                 var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
@@ -185,7 +184,7 @@ gulp.task("amd", function() {
         .pipe(replace("/* Require.js assignment replace */", replaceText2))
         .pipe(gulp.dest('./'))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(uglify({outSourceMap: true, sourceRoot: './'}))
+        .pipe(uglify()) //{outSourceMap: true, sourceRoot: './'}
         .pipe(gulp.dest("./"))
         .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
             var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
@@ -275,11 +274,11 @@ gulp.task("cm-mode", function() {
     return gulp.src(modes)
                 .pipe(concat("modes.min.js"))
                 .pipe(gulp.dest(codeMirror.path.dist))
-                .pipe(uglify({outSourceMap: true, sourceRoot: codeMirror.path.dist}))
+                .pipe(uglify()) // {outSourceMap: true, sourceRoot: codeMirror.path.dist}
                 .pipe(gulp.dest(codeMirror.path.dist))	
                 .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
-                    var name = file.path.split(file.base + "\\");
-                    return name[1].replace("\\", "");
+                    var name = file.path.split(file.base + "\\"); 
+                    return (name[1]?name[1]:name[0]).replace(/\\/g, "");
                 }}))
                 .pipe(gulp.dest(codeMirror.path.dist))
                 .pipe(notify({ message: "codemirror-mode task complete!" }));
@@ -297,11 +296,11 @@ gulp.task("cm-addon", function() {
     return gulp.src(addons)
                 .pipe(concat("addons.min.js"))
                 .pipe(gulp.dest(codeMirror.path.dist))
-                .pipe(uglify({outSourceMap: true, sourceRoot: codeMirror.path.dist}))
+                .pipe(uglify()) //{outSourceMap: true, sourceRoot: codeMirror.path.dist}
                 .pipe(gulp.dest(codeMirror.path.dist))	
                 .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
                     var name = file.path.split(file.base + "\\");
-                    return name[1].replace("\\", "");
+                    return (name[1]?name[1]:name[0]).replace(/\\/g, "");
                 }}))
                 .pipe(gulp.dest(codeMirror.path.dist))
                 .pipe(notify({ message: "codemirror-addon.js task complete" }));

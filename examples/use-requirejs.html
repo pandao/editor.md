@@ -17,6 +17,7 @@
                     <li>Enable HTML tags decode</li>
                     <li>Enable TeX, Flowchart, Sequence Diagram, Emoji, FontAwesome, Task lists</li>
                     <li>Enable Image upload</li>
+                    <li>Enable [TOCM], Search Replace, Code fold</li>
                 </ul>        
             </header>
             <div class="btns">
@@ -26,10 +27,12 @@
                 <button id="get-html-btn">Get HTML</button>
                 <button id="watch-btn">Watch</button>
                 <button id="unwatch-btn">Unwatch</button>
-                <button id="preview-btn">Preview HTML(Press ESC cancel)</button>
+                <button id="preview-btn">Preview HTML (Press Shift + ESC cancel)</button>
                 <button id="fullscreen-btn">Fullscreen (Press ESC cancel)</button>
                 <button id="show-toolbar-btn">Show toolbar</button>
                 <button id="close-toolbar-btn">Hide toolbar</button>
+                <button id="toc-menu-btn">ToC Dropdown menu</button>
+                <button id="toc-default-btn">ToC default</button>
             </div>
             <div id="test-editormd"></div>
         </div>   
@@ -56,11 +59,12 @@
                 "editormd", 
                 "../languages/en", 
                 "../plugins/link-dialog/link-dialog",
-                "../plugins/anchor-link-dialog/anchor-link-dialog",
+                "../plugins/reference-link-dialog/reference-link-dialog",
                 "../plugins/image-dialog/image-dialog",
                 "../plugins/code-block-dialog/code-block-dialog",
                 "../plugins/table-dialog/table-dialog",
                 "../plugins/emoji-dialog/emoji-dialog",
+                "../plugins/goto-line-dialog/goto-line-dialog",
                 "../plugins/help-dialog/help-dialog",
                 "../plugins/html-entities-dialog/html-entities-dialog", 
                 "../plugins/preformatted-text-dialog/preformatted-text-dialog"
@@ -82,11 +86,12 @@
                         markdown : md,
                         codeFold : true,
                         searchReplace : true,
-                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
-                        htmlDecode : true,            // 开启HTML标签解析，为了安全性，默认不开启    
+                        saveHTMLToTextarea : true,                // 保存HTML到Textarea
+                        htmlDecode : "style,script,iframe",       // 开启HTML标签解析，为了安全性，默认不开启    
                         emoji : true,
                         taskList : true,
                         tex : true,
+                        tocm            : true,         // Using [TOCM]
                         autoLoadModules : false,
                         previewCodeHighlight : true,
                         flowChart : true,
@@ -151,6 +156,17 @@
 
                 $("#close-toolbar-btn").bind('click', function() {
                     testEditor.hideToolbar();
+                });
+                
+                $("#toc-menu-btn").click(function(){
+                    testEditor.config({
+                        tocDropdown   : true,
+                        tocTitle      : "目录 Table of Contents",
+                    });
+                });
+                
+                $("#toc-default-btn").click(function() {
+                    testEditor.config("tocDropdown", false);
                 });
             });
         </script>

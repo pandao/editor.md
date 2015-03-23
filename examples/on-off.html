@@ -14,7 +14,45 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">## Onscroll / Onpreviewscroll</textarea>
+                <textarea style="display:none;">#### Example
+```javascript
+{
+    onscroll : function(event) {
+        console.clear();
+        console.log("onscroll =>", this, this.id, this.settings, event);
+    },
+
+    onpreviewscroll : function(event) {
+        console.clear();
+        console.log("onpreviewscroll =>", this, this.id, this.settings, event);
+    },
+
+    onload : function() {
+        this.off("previewscroll"); // unbind before handle
+
+        // Override settings.onpreviewscroll
+        this.on("previewscroll", function(){
+            console.clear();
+            console.log("on() => Override settings.onpreviewscroll =>", this, this.id, event, (new Date).getTime());
+        });
+
+        // defined event bind
+        this.on("resize", function(){
+            console.clear();
+            console.log("onresize =>", this, this.id, event, (new Date).getTime());
+        });
+    }
+}
+
+// Or
+editor.on("resize", function(){
+    // ...
+});
+
+editor.off("resize");
+```
+
+</textarea>
             </div>
         </div>        
         <script src="js/jquery.min.js"></script>
@@ -27,7 +65,7 @@
                     testEditor = editormd("test-editormd", {
                         width    : "90%",
                         height   : 720,
-                        markdown : md,
+                        appendMarkdown : md,
                         path     : '../lib/',
                         onscroll : function(event) {
                             console.clear();
@@ -46,6 +84,7 @@
                                 console.log("on() => Override settings.onpreviewscroll =>", this, this.id, event, (new Date).getTime());
                             });
                             
+                            // defined event bind
                             this.on("resize", function(){
                                 console.clear();
                                 console.log("onresize =>", this, this.id, event, (new Date).getTime());

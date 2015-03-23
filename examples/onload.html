@@ -14,7 +14,18 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">###Hello world!</textarea>
+                <textarea style="display:none;">#### Setting
+
+```javascript
+{
+    onload : function() {
+        // alert("onload");
+        // this.setMarkdown("### onloaded");
+        // console.log("onload =>", this, this.id, this.settings);
+    }
+}
+```
+</textarea>
             </div>
         </div>        
         <script src="js/jquery.min.js"></script>
@@ -30,7 +41,7 @@
                     onload : function() {
                         //this.watch();
                         //this.setMarkdown("###test onloaded");
-                        testEditor.setMarkdown("###Test onloaded");
+                        //testEditor.setMarkdown("###Test onloaded");
                         alert("onloaded");
                         console.log("onloaded =>", this, this.id, this.settings);
                     }

@@ -347,3 +347,74 @@ v1.2.0 主要更新：
 - 修复无法输入`/`的问题 [#42](https://github.com/pandao/editor.md/issues/42)；
 - 修改使用帮助说明的错误 [#43](https://github.com/pandao/editor.md/issues/43)；
 - 新增配置项`pluginPath`，默认为空时，等于`settings.path + "../plugins/"`；
+
+### v1.4
+
+#### v1.4.0
+
+主要更新：
+
+- 新增延迟解析机制，预览更即时；
+- 新增跳转到指定行的功能和对话框；
+- 新增ToC下拉菜单、自定义ToC容器的功能；
+- 新增跳转到行、搜索的工具栏按钮；
+- 新增支持插入和解析（打印）分页符；
+- 改进快捷键功能和自动高度模式等；
+- 改进：将锚点链接改名为引用链接；
+- 改进编辑器重建和重配置功能；
+- 修复多个Bug；
+
+具体更新：
+
+- 新增延迟解析预览的机制，解决输入太多太快出现的 “延迟卡顿” 问题；
+    - 新增配置项`delay`，默认值为 `300`；
+    - 修复当输入速度太快时，解析Flowchart会抛出错误的问题；
+- 修改iPad等移动终端的浏览器无法上传图片的问题[#48](https://github.com/pandao/editor.md/issues/48)；
+- 修复单独引用`editormd.preview.css`时无法显示Font Awesome和Editor.md logo字体的问题；
+- 更新和修改Gulp构建；
+    - 修改了`Gulpfile.js`，并且`gulp-ruby-sass`升级到最新版本`1.0.0-alpha.3`; 
+    - 编辑SCSS时，不再生成CSS的Source map文件；
+- 执行jshint和更正一些JS写法的不规范，精简了代码；
+- 新增配置项`appendMarkdown`和`appendMarkdown()`方法，用于(初始化前后)追加Markdown到Textarea；
+- 改进部分预设快捷键功能，包括F9(watch)、F10(preview)、F11(fullscreen)等;
+- 修复自动高度模式下出现的几个问题；
+    - 全屏退出时高度不正确的问题：修改了`fullscreenExit()`方法的内部实现；
+    - 当解析预览后的HTML内容高度高于Markdown源码编辑器高度时，无法正确预览的问题[#49](https://github.com/pandao/editor.md/issues/49)；
+- 修改`onscroll`和`onpreviewscroll`无法访问`this`的问题；
+- 修改`init()`方法，可以只设置一个参数；
+- 新增插入TeX(KaTeX)公式的快捷键`Ctrl + Shift + K`和插入方法`tex()`；
+- 将锚点链接改为引用链接，引用的链接改为插入到页尾；
+    - 工具栏的名称`anchor`改为`reference-link`；
+    - 工具栏的名称`htmlEntities`改名为`html-entities`；
+- 改进编辑器重建和重配置功能；
+    - 修改了`loadedDisplay()`方法；
+    - 修改了`config()`和`recreate()`方法；
+- 新增跳转到指定行的功能；
+    - 新增方法`gotoLine()`；
+    - 新增跳转到行对话框插件`goto-line-dialog`；
+    - 新增快捷键`Ctrl + Alt + G`；
+    - 改进`executePlugin()`方法；
+    - 修改了`help-dialog/help.md`；
+- 新增搜索工具栏按钮；
+    - 新增方法`search()`、`searchReplace()`和`searchReplaceAll()`；
+    - 原全屏预览HTML按钮的图标改为`fa-desktop`；
+    - 改为默认开启搜索替换功能；
+- 更换了关于Editor.md的标语（slogan）；
+- 标题按钮`h`改为大写的`H`；
+- `saveToTextareas()`方法更名为`save()`；
+- 新增ToC下拉菜单、自定义ToC容器的功能；
+    - 新增Markdown扩展语法`[TOCM]`，自动生成ToC下拉菜单；
+    - 新增配置项`tocm`，默认为`true`，即可以使用`[TOCM]`；
+    - 新增配置项`tocDropdown`和`tocTitle`；
+    - 新增方法`editormd.tocDropdownMenu()`；
+    - 新增配置项`tocContainer`，值为jQuery选择器，默认为空；
+- 修改了配置项`placeholder`的默认值；
+- 改进对IE8的兼容支持；
+- 修复Firefox下因为`Object.watch()`而出现的问题；
+- 新增支持插入和解析（打印）分页符；
+    - 新增配置项`pageBreak`，默认值为`true`；
+    - 新增语法`[========]`，即括号内至少8个等号；
+    - 新增插入分页符的工具栏图标和方法`pagebreak()`；
+    - 新增插入分页符的快捷键`Shift + Alt + P`；
+- 修复一些Bug，包括[#51](https://github.com/pandao/editor.md/issues/51)等；
+- 新增和修改以上更新的相关示例；

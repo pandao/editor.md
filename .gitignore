@@ -7,7 +7,7 @@ node_modules/
 research/
 test/
 backup/
-examples/uploads/
+examples/uploads/**/*
 *.bat
 *.sh
 .project

@@ -2,7 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Simple example - Editor.md examples</title>
+        <title>Page break - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
@@ -10,18 +10,31 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Simple example</h1>
+                <h1>Page break</h1>
             </header>
+            <div class="btns">
+                <button id="print-btn">Print Test</button>
+                <button id="disabled-btn">Disabled</button>
+                <button id="enabled-btn">Enabled</button>
+            </div>
             <div id="test-editormd">
-                <textarea style="display:none;">[TOC]
+                <textarea style="display:none;">#### Syntax
 
-#### Disabled options
+    [At least 8 equals]
 
-- TeX (Based on KaTeX);
-- Emoji;
-- Task lists;
-- HTML tags decode;
-- Flowchart and Sequence Diagram;
+    [========]
+
+#### Disabled
+
+    {
+        pageBreak : false
+    }
+
+#### Examples
+
+[========]
+
+> page start
 
 #### Editor.md directory
 
@@ -38,6 +51,7 @@
             editormd.js
             ...
 
+> page end
 </textarea>
             </div>
         </div>
@@ -49,19 +63,24 @@
             $(function() {
                 testEditor = editormd("test-editormd", {
                     width   : "90%",
-                    height  : 640,
+                    height  : 720,
                     path    : "../lib/"
                 });
                 
-                /*
-                // or
-                testEditor = editormd({
-                    id      : "test-editormd",
-                    width   : "90%",
-                    height  : 640,
-                    path    : "../lib/"
+                $("#print-btn").click(function(){
+                    var html = testEditor.preview.html();
+                    
+                    document.write('<link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="../css/editormd.css" />' + html);
+                    window.print();
                 });
-                */
+                
+                $("#disabled-btn").click(function(){
+                    testEditor.config("pageBreak", false);
+                });
+                
+                $("#enabled-btn").click(function(){
+                    testEditor.config("pageBreak", true);
+                });
             });
         </script>
     </body>

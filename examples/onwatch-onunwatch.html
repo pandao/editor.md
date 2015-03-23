@@ -14,11 +14,19 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">## Onwatch / Onunwatch
+                <textarea style="display:none;">#### Settings
 
-    testEditor.toolbarIcons['watch'] click > 
-        trigger > testEditor.watch() / testEditor.unwatch() > 
-            trigger > onwatch() / onunwatch()
+```javascript
+{
+    onwatch : function() {
+        // console.log("onwatch =>", this, this.id, this.settings);
+    },
+
+    onunwatch : function() {
+        // console.log("onunwatch =>", this, this.id, this.settings);
+    }
+}
+```
 </textarea>
             </div>
         </div>        

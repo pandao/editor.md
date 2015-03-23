@@ -2,7 +2,6 @@
 
 @import "lib/variables";
 @import "lib/prefixes";
-@import "font-awesome";
         
 .editormd {
     width: 90%;
@@ -33,6 +32,11 @@
         outline: 0;
         resize:none;
     }
+    
+    #{$prefix}html-textarea,
+    #{$prefix}markdown-textarea {
+        display : none;
+    }
 
     input[type="text"], 
     input[type="button"], 
@@ -41,8 +45,6 @@
         @include appearance(none);
     }
 }
-
-@import "editormd.logo";
             
 #{$prefix}user-unselect { 
     @include user-select(none); 

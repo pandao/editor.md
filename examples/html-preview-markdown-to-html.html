@@ -21,11 +21,11 @@
                 <p>HTML Preview(markdown to html)</p>       
             </header>
             <div id="test-editormd-view">
-               <textarea style="display:none;">###Hello world!</textarea>               
+               <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>               
             </div>
             <div id="test-editormd-view2">
                 <textarea id="append-test" style="display:none;">
-            
+
 ###科学公式 TeX(KaTeX)
                     
 $$E=mc^2$$
@@ -84,30 +84,34 @@ alert("script");
             $(function() {
                 $.get("test.md", function(markdown) {
 				    testEditormdView = editormd.markdownToHTML("test-editormd-view", {
-                        markdown : markdown + $("#append-test").val(),
-                        //htmlDecode : true,       // 开启HTML标签解析，为了安全性，默认不开启
-                        htmlDecode : "style,script,iframe",  // you can filter tags decode
-                        //toc : false,
-                        //gfm : false,
-                        emoji : true,
-                        taskList : true,
-                        tex : true,              // 默认不解析
-                        flowChart: true,         // 默认不解析
+                        markdown        : markdown + "\r\n" + $("#append-test").val(),
+                        //htmlDecode      : true,       // 开启HTML标签解析，为了安全性，默认不开启
+                        htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                        //toc             : false,
+                        tocm            : true,    // Using [TOCM]
+                        //gfm             : false,
+                        //tocDropdown     : true,
+                        emoji           : true,
+                        taskList        : true,
+                        tex             : true,              // 默认不解析
+                        flowChart       : true,         // 默认不解析
                         sequenceDiagram : true,  // 默认不解析
                     });
                     
                     //console.log("返回一个jQuery实例 =>", testEditormdView);
                     
                     // 获取Markdown源码
-                    //console.log(testEditormdView.getMarkdown());
+                    console.log(testEditormdView.getMarkdown());
+                    
+                    //alert(testEditormdView.getMarkdown());
                 });
                     
                 testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
-                    htmlDecode : "style,script,iframe",  // you can filter tags decode
-                    emoji : true,
-                    taskList : true,
-                    tex : true,              // 默认不解析
-                    flowChart: true,         // 默认不解析
+                    htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                    emoji           : true,
+                    taskList        : true,
+                    tex             : true,              // 默认不解析
+                    flowChart       : true,         // 默认不解析
                     sequenceDiagram : true,  // 默认不解析
                 });
             });

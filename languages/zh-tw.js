@@ -2,7 +2,8 @@
     var factory = function (exports) {
         var lang = {
             name : "zh-tw",
-            description : "開源在線Markdown編輯器<br/>A simple markdown doucment online editor.",
+            description : "開源在線Markdown編輯器<br/>Open source online Markdown editor.",
+            tocTitle    : "目錄",
             toolbar     : {
                 undo             : "撤銷（Ctrl+Z）",
                 redo             : "重做（Ctrl+Y）",
@@ -23,7 +24,7 @@
                 "list-ol"        : "有序列表",
                 hr               : "横线",
                 link             : "链接",
-                anchor           : "錨點",
+                "reference-link" : "引用鏈接",
                 image            : "圖片",
                 code             : "行內代碼",
                 "preformatted-text" : "預格式文本 / 代碼塊（縮進風格）",
@@ -31,12 +32,14 @@
                 table            : "添加表格",
                 datetime         : "日期時間",
                 emoji            : "Emoji 表情",
-                htmlEntities     : "HTML 實體字符",
+                "html-entities"  : "HTML 實體字符",
+                pagebreak        : "插入分頁符",
                 watch            : "關閉實時預覽",
                 unwatch          : "開啟實時預覽",
-                preview          : "全窗口預覽HTML（可按Shift + ESC退出）",
-                fullscreen       : "全屏（可按ESC退出）",
+                preview          : "全窗口預覽HTML（按 Shift + ESC 退出）",
+                fullscreen       : "全屏（按 ESC 退出）",
                 clear            : "清空",
+                search           : "搜尋",
                 help             : "使用幫助",
                 info             : "關於" + exports.title
             },
@@ -52,14 +55,15 @@
                     urlTitle : "鏈接標題",
                     urlEmpty : "錯誤：請填寫鏈接地址。"
                 },
-                anchor : {
-                    title    : "添加錨點鏈接",
-                    name     : "錨點名稱",
+                referenceLink : {
+                    title    : "添加引用鏈接",
+                    name     : "引用名稱",
                     url      : "鏈接地址",
+                    urlId    : "鏈接ID",
                     urlTitle : "鏈接標題",
-                    nameEmpty: "錯誤：錨點名稱不能為空。",
-                    titleEmpty : "錯誤：請填寫錨點鏈接標題。",
-                    urlEmpty : "錯誤：請填寫錨點鏈接地址。"
+                    nameEmpty: "錯誤：引用鏈接的名稱不能為空。",
+                    idEmpty  : "錯誤：請填寫引用鏈接的ID。",
+                    urlEmpty : "錯誤：請填寫引用鏈接的URL地址。"
                 },
                 image  : {
                     title    : "添加圖片",

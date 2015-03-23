@@ -14,7 +14,20 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">##Onpreviewing / Onpreviewed</textarea>
+                <textarea style="display:none;">#### Settings
+
+```javascript
+{
+    onpreviewing : function() {
+        // console.log("onpreviewing =>", this, this.id, this.settings);
+    },
+
+    onpreviewed : function() {
+        // console.log("onpreviewed =>", this, this.id, this.settings);
+    }
+}
+```
+</textarea>
             </div>
         </div>        
         <script src="js/jquery.min.js"></script>

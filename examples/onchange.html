@@ -11,10 +11,21 @@
         <div id="layout">
             <header>
                 <h1>Onchange event</h1>   
-                <p>Plaese press F12, open the develop tools.</p>     
+                <p>Plaese press F12, open the develop tools.</p> 
+                <p id="output"></p>    
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">###Hello world!</textarea>
+                <textarea style="display:none;">#### Settings
+
+```javascript
+{
+    onchange : function() {
+        console.log("onchange =>", this, this.id, this.settings, this.state);
+        // ....
+    }
+}
+```
+</textarea>
             </div>
         </div>        
         <script src="js/jquery.min.js"></script>
@@ -28,6 +39,7 @@
                     height : 720,
                     path   : '../lib/',
                     onchange : function() {
+                        $("#output").html("onchange : this.id =>" + this.id + ", markdown =>" + this.getValue());
                         console.log("onchange =>", this, this.id, this.settings, this.state);
                     }
                 });

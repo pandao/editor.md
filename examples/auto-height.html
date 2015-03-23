@@ -10,16 +10,17 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Auto height</h1>
+                <h1>Auto height test</h1>
             </header>
+            <div class="btns">
+                <button id="append-btn">Append markdown</button>
+            </div>
             <div id="test-editormd">
                 <textarea style="display:none;">### Settings
 
 ```javascript
 var testEditor = editormd("test-editormd", {
-    width      : "90%",
-    autoHeight : true,
-    path       : '../lib/'
+    autoHeight : true
 });
 ```
 </textarea>
@@ -32,9 +33,21 @@ var testEditor = editormd("test-editormd", {
 
             $(function() {
                 testEditor = editormd("test-editormd", {
-                    width      : "90%",
-                    autoHeight : true,
-                    path       : '../lib/'
+                    width           : "90%",
+                    autoHeight      : true,
+                    path            : "../lib/",
+                    htmlDecode      : "style,script,iframe", 
+                    tex             : true,
+                    emoji           : true,
+                    taskList        : true,
+                    flowChart       : true, 
+                    sequenceDiagram : true
+                });
+                
+                $("#append-btn").click(function(){
+                    $.get("./test.md", function(md){
+                        testEditor.appendMarkdown(md);
+                    });
                 });
             });
         </script>

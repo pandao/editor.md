@@ -1,23 +1,16 @@
 /*
  * Editor.md
  *
- * @file        editormd.logo.css 
- * @version     v1.3.0 
- * @description A simple online markdown editor.
+ * @file        /editormd.logo.css 
+ * @version     v1.4.0 
+ * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-03-12
+ * @updateTime  2015-03-23
  */
 
-/*!
- * prefixes.scss
- * @author    Pandao
- * @version   0.1.0
- * @homePage  https://github.com/pandao/prefixes.scss
- * @license   MIT
- * @copyright Copyright (c) 2015
- */
+/*! prefixes.scss v0.1.0 | Author: Pandao | https://github.com/pandao/prefixes.scss | MIT license | Copyright (c) 2015 */
 @font-face {
   font-family: 'editormd-logo';
   src: url("../fonts/editormd-logo.eot?-5y8q6h");
@@ -103,5 +96,3 @@
 .editormd-logo-color {
   color: #2196F3;
 }
-
-/*# sourceMappingURL=editormd.logo.css.map */

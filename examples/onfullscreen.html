@@ -14,14 +14,29 @@
                 <p>Plaese press F12, open the develop tools.</p>     
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">###Hello world!</textarea>
+                <textarea style="display:none;">#### Setting
+
+```javascript
+{
+    onfullscreen : function() {
+        // alert("onfullscreen");
+        // console.log("onfullscreen =>", this, this.id, this.settings);
+    },
+
+    onfullscreenExit : function() {
+        // alert("onfullscreenExit");
+        // console.log("onfullscreenExit =>", this, this.id, this.settings);
+    }
+}
+```
+</textarea>
             </div>
         </div>        
         <script src="js/jquery.min.js"></script>
         <script src="../editormd.js"></script>   
         <script type="text/javascript">
             $(function() {
-                var testEditor = editormd("test-editormd", {
+                var editor = editormd("test-editormd", {
                     width  : "90%",
                     height : 720,
                     path   : '../lib/',

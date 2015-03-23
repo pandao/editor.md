@@ -38,6 +38,7 @@
 | Ctrl + Shift + G / Shift + Command + G          | 切换到上一个搜索结果项            | Find previous search results                       |
 | Ctrl + Shift + H                                | 打开HTML实体字符对话框            | Open HTML Entities dialog                          |
 | Ctrl + Shift + I                                | 插入图片                          | Insert image &#33;[]&#40;&#41;                     |
+| Ctrl + Shift + K                                | 插入TeX(KaTeX)公式符号            | Insert TeX(KaTeX) symbol &#36;&#36;TeX&#36;&#36;   |
 | Ctrl + Shift + L                                | 打开插入链接对话框                | Open link dialog                                   |
 | Ctrl + Shift + O                                | 插入有序列表                      | Insert ordered list                                |
 | Ctrl + Shift + P                                | 打开插入PRE对话框                 | Open Preformatted text dialog                      |
@@ -49,10 +50,13 @@
 | Shift + Alt + C                                 | 插入```代码                       | Insert code blocks (```)                           |
 | Shift + Alt + H                                 | 打开使用帮助对话框                | Open help dialog                                   |
 | Shift + Alt + L                                 | 将所选文本转成小写                | Selection text convert to lowercase                |
+| Shift + Alt + P                                 | 插入分页符                        | Insert page break                                  |
+| Alt + L                                         | 将所选文本转成小写                | Selection text convert to lowercase                |
 | Shift + Alt + U                                 | 将所选的每个单词的首字母转成大写  | Selection words first letter convert to Uppercase  |
 | Ctrl + Shift + Alt + C                          | 打开插入代码块对话框层            | Open code blocks dialog                            |
 | Ctrl + Shift + Alt + I                          | 打开插入图片对话框层              | Open image dialog                                  |
 | Ctrl + Shift + Alt + U                          | 将所选文本的第一个首字母转成大写  | Selection text first letter convert to uppercase   |
+| Ctrl + Alt + G                                  | 跳转到指定的行                    | Goto line                                          |
 
 ##### Emoji表情参考 (Emoji reference)
 
