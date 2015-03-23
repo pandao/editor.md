@@ -1,3 +1,15 @@
+/*
+ * Editor.md
+ *
+ * @file        editormd.js 
+ * @version     v1.4.0 
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2015-03-23
+ */
+
 ;(function(factory) {
     "use strict";
     
@@ -768,7 +780,7 @@
                 {
                     preview.scrollTop(0);
                 } 
-                else if (scrollTop + height >= cmScroll.scrollHeight - 16)
+                else if (scrollTop + height >= preview[0].scrollHeight)
                 { 
                     preview.scrollTop(preview[0].scrollHeight);                    
                 } 
@@ -1535,7 +1547,7 @@
                     {
                         preview.scrollTop(0);
                     } 
-                    else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
+                    else if (scrollTop + height >= $(this)[0].scrollHeight)
                     { 
                         preview.scrollTop(preview[0].scrollHeight);                        
                     } 

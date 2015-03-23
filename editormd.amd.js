@@ -850,7 +850,7 @@
                 {
                     preview.scrollTop(0);
                 } 
-                else if (scrollTop + height >= preview[0].scrollHeight)
+                else if (scrollTop + height >= cmScroll.scrollHeight - 16)
                 { 
                     preview.scrollTop(preview[0].scrollHeight);                    
                 } 
@@ -1617,7 +1617,7 @@
                     {
                         preview.scrollTop(0);
                     } 
-                    else if (scrollTop + height >= $(this)[0].scrollHeight)
+                    else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
                     { 
                         preview.scrollTop(preview[0].scrollHeight);                        
                     } 

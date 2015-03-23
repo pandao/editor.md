@@ -768,7 +768,7 @@
                 {
                     preview.scrollTop(0);
                 } 
-                else if (scrollTop + height >= preview[0].scrollHeight)
+                else if (scrollTop + height >= preview[0].scrollHeight - 16)
                 { 
                     preview.scrollTop(preview[0].scrollHeight);                    
                 } 
@@ -790,7 +790,7 @@
          * @returns {editormd}                  this(editormd instance object.)
          */
         
-        extend : function() {
+        extends : function() {
             if (typeof arguments[1] !== "undefined")
             {
                 if (typeof arguments[1] === "function")
@@ -1535,7 +1535,7 @@
                     {
                         preview.scrollTop(0);
                     } 
-                    else if (scrollTop + height >= $(this)[0].scrollHeight)
+                    else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
                     { 
                         preview.scrollTop(preview[0].scrollHeight);                        
                     } 
