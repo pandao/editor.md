@@ -427,6 +427,5 @@ v1.2.0 主要更新：
     - 新增测试用例`tests/katex-tests.html`；
     - 修改示例文件`examples/katex.html`； 
 - 修复Bug [＃66](https://github.com/pandao/editor.md/issues/66)；
-- 修改`editormd.emoji`和`editormd.twemoji`属性，即去掉`http:`，以匹配`https:`；
 - 修复编辑器工具栏按钮`:hover` CSS3 transition无效的问题； 
 - 修改`README.md`； 
