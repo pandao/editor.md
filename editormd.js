@@ -3137,19 +3137,19 @@
         editormdLogo  : /:(editormd-logo-?(\w+)?):/g,
         pageBreak     : /^\[[=]{8,}\]$/
     };
-    
+
     // Emoji graphics files url path
     editormd.emoji     = {
         path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
         ext   : ".png"
     };
-    
+
     // Twitter Emoji (Twemoji)  graphics files url path    
     editormd.twemoji = {
         path : "http://twemoji.maxcdn.com/36x36/",
         ext  : ".png"
     };
-    
+
     /**
      * 自定义marked的解析器
      * Custom Marked renderer rules
@@ -3157,7 +3157,7 @@
      * @param   {Array}    markdownToC     传入用于接收TOC的数组
      * @returns {Renderer} markedRenderer  返回marked的Renderer自定义对象
      */
-    
+
     editormd.markedRenderer = function(markdownToC, options) {
         var defaults = {
             toc                  : true,           // Table of contents
