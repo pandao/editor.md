@@ -29,11 +29,11 @@
             text-align: center;
             @include border-radius(2px);
             border: 1px solid #fff;
+            @include transition(all 300ms ease-out);
 
             &:hover, &.active {
                 border: 1px solid $borderColor;
                 background: #eee;
-                @include transition(all 300ms ease-out);
             }
 
             > .fa { 

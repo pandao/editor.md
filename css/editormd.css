@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        /editormd.css 
- * @version     v1.4.0 
+ * @version     v1.4.1 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-03-23
+ * @updateTime  2015-04-07
  */
 
 @charset "UTF-8";
@@ -117,16 +117,16 @@
   -o-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid #fff;
-}
-.editormd-menu > li > a:hover, .editormd-menu > li > a.active {
-  border: 1px solid #ddd;
-  background: #eee;
   -webkit-transition: all 300ms ease-out;
   /* Safari, Chrome */
   -moz-transition: all 300ms ease-out;
   /* Firefox 4.0~16.0 */
   transition: all 300ms ease-out;
   /* IE >9, FF >15, Opera >12.0 */
+}
+.editormd-menu > li > a:hover, .editormd-menu > li > a.active {
+  border: 1px solid #ddd;
+  background: #eee;
 }
 .editormd-menu > li > a > .fa {
   text-align: center;
