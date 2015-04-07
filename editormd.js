@@ -1881,7 +1881,7 @@
             
             if (settings.saveHTMLToTextarea) 
             {
-                this.htmlTextarea.html(newMarkdownDoc);
+                this.htmlTextarea.val(newMarkdownDoc);
             }
             
             if(settings.watch || (!settings.watch && state.preview))
