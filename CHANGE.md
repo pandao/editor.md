@@ -422,11 +422,11 @@ v1.2.0 主要更新：
 ####v1.4.1
 
 - 新增配置项`syncScrolling`，即是否开启同步滚动预览，默认值为`false`； 
-- 修复Bug[64](https://github.com/pandao/editor.md/issues/64)；
+- 修复Bug [＃64](https://github.com/pandao/editor.md/issues/64)；
     - 更新`editormd.katexURL`资源地址的默认值，即更新版本为`0.3.0`； 
     - 新增测试用例`tests/katex-tests.html`；
     - 修改示例文件`examples/katex.html`； 
-- 修复Bug[66](https://github.com/pandao/editor.md/issues/66)；
+- 修复Bug [＃66](https://github.com/pandao/editor.md/issues/66)；
 - 修改`editormd.emoji`和`editormd.twemoji`属性，即去掉`http:`，以匹配`https:`；
 - 修复编辑器工具栏按钮`:hover` CSS3 transition无效的问题； 
 - 修改`README.md`； 
