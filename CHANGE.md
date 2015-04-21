@@ -434,3 +434,4 @@ v1.2.0 主要更新：
 
 - 改进和增强自定义工具栏功能，支持图标按钮右对齐[#69](https://github.com/pandao/editor.md/issues/69)；
 - 改进和增强HTML标签的解析过滤功能，支持过滤指定的属性等[#70](https://github.com/pandao/editor.md/issues/70)；
+- 删除分支`mathjax-version`和`v1.1.9`；
