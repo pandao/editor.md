@@ -9,7 +9,7 @@
 ![](https://img.shields.io/github/issues/pandao/editor.md.svg)
 ![](https://img.shields.io/bower/v/editor.md.svg)
 
-**Editor.md** is the open source online markdown editor (component), based on CodeMirror & jQuery & Marked.
+**Editor.md** : The open source online markdown editor (component), based on CodeMirror & jQuery & Marked.
 
 ### Features
 
@@ -73,7 +73,7 @@ javascript:
             });
 
             /*
-            // or             
+            // or
             var editor = editormd({
                 id   : "editormd",
                 path : "../lib/"

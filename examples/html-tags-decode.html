@@ -16,16 +16,22 @@
                 <p>Update: 可以通过设置`settings.htmlDecode = "style,script,iframe"`来实现过滤指定标签的解析，提高安全性；</p>
             </header>
             <div class="btns">
-                <button id="filter-btn">Filter style,script,iframe tags decode</button>
+                <button class="filter-btn" exp="true">Unfilter</button>
+                <button class="filter-btn" exp="style,script,iframe|*">Filter style,script,iframe|*</button>
+                <button class="filter-btn" exp="style,script,iframe|on*">Filter style,script,iframe|on*</button>
+                <button class="filter-btn" exp="style,script,iframe|onclick,title,onmouseover,onmouseout,style">Filter style,script,iframe|onclick,title,onmouseover,onmouseout,style</button>
             </div>
-            <div id="test-editormd"> 
+            <div id="test-editormd">
                 <textarea style="display:none;">####开启识别和解析HTML标签
 
 配置项：
 
     {
-        htmlDecode : true
-        //htmlDecode : "style,script,iframe,sub,sup" // filter html tags
+        htmlDecode : true // Decode all html tags & attributes
+        // Filter tags/attributes expression : tagName,tagName,...|attrName,attrName,...
+        htmlDecode : "style,script,iframe,sub,sup|on*"  // Filter tags, and all on* attributes
+        //htmlDecode : "style,script,iframe,sub,sup|*"    // Filter tags, and all attributes
+        //htmlDecode : "style,script,iframe,sub,sup,embed|onclick,title,onmouseover,onmouseout,style" // Filter tags, and your custom attributes
     }
 
 ####示例
@@ -56,6 +62,11 @@ alert("script");
 alert("script");
 &lt;/script&gt;
 
+#####Events
+
+&lt;div style="color:green;" onclick="alert(1233);" title="div xxxxx"&gt;Events&lt;/div&gt;
+&lt;div style="color:red;" contenteditable onclick="alert(1233);" onmouseover="alert(1233);" onmouseout="alert(1233);" title="div xxxxx"&gt;Events&lt;/div&gt;
+
 #####插入Flash
 
 &lt;embed src="http://player.youku.com/player.php/sid/XMzA0MzIwMDgw/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;
@@ -67,9 +78,9 @@ alert("script");
 &lt;iframe height=498 width=510 src="http://player.youku.com/embed/XMzA0MzIwMDgw" frameborder=0 allowfullscreen&gt;&lt;/iframe&gt;</textarea>
             </div>
         </div>
-        
+
         <script src="js/jquery.min.js"></script>
-        <script src="../editormd.js"></script>   
+        <script src="../editormd.js"></script>
         <script type="text/javascript">
             var testEditor;
             
@@ -78,16 +89,15 @@ alert("script");
                     width: "90%",
                     height: 720,
                     path : '../lib/',
-                    htmlDecode : true,
-                    //htmlDecode : "style,script,iframe,sub,sup",
-                    onload : function(){
-                        //$(".markdown-body style").remove();     
-                        //$(".markdown-body script").remove();
-                    }
+                    htmlDecode : true,   // Decode all html tags & attributes
+                    // Expression : tagName,tagName,...|attrName,attrName,...
+                    //htmlDecode : "style,script,iframe,sub,sup|on*"  // Filter tags, and all on* attributes
+                    //htmlDecode : "style,script,iframe,sub,sup|*"    // Filter tags, and all attributes
+                    //htmlDecode : "style,script,iframe,sub,sup,embed|onclick,title,onmouseover,onmouseout,style" // Filter tags, and your custom attributes
                 });
                 
-                $("#filter-btn").click(function(){
-                    testEditor.config("htmlDecode", "style,script,iframe");
+                $(".filter-btn").click(function(){
+                    testEditor.config("htmlDecode", $(this).attr("exp"));
                 });
             });
         </script>

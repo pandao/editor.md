@@ -428,4 +428,9 @@ v1.2.0 主要更新：
     - 修改示例文件`examples/katex.html`； 
 - 修复Bug [＃66](https://github.com/pandao/editor.md/issues/66)；
 - 修复编辑器工具栏按钮`:hover` CSS3 transition无效的问题； 
-- 修改`README.md`； 
+- 修改`README.md`；
+
+####v1.4.2
+
+- 改进和增强自定义工具栏功能，支持图标按钮右对齐[#69](https://github.com/pandao/editor.md/issues/69)；
+- 改进和增强HTML标签的解析过滤功能，支持过滤指定的属性等[#70](https://github.com/pandao/editor.md/issues/70)；

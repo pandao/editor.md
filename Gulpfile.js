@@ -11,11 +11,11 @@ var concat       = require("gulp-concat");
 var notify       = require("gulp-notify");
 var header       = require("gulp-header");
 var minifycss    = require("gulp-minify-css");
-var jsdoc        = require("gulp-jsdoc");
-var jsdoc2md     = require("gulp-jsdoc-to-markdown");
+//var jsdoc        = require("gulp-jsdoc");
+//var jsdoc2md     = require("gulp-jsdoc-to-markdown");
 var pkg          = require("./package.json");
 var dateFormat   = require("dateformatter").format;
-var replace      = require('gulp-replace');
+var replace      = require("gulp-replace");
 
 pkg.name         = "Editor.md";
 pkg.today        = dateFormat;
@@ -305,7 +305,7 @@ gulp.task("cm-addon", function() {
                 .pipe(gulp.dest(codeMirror.path.dist))
                 .pipe(notify({ message: "codemirror-addon.js task complete" }));
 }); 
-
+/*
 gulp.task("jsdoc", function(){
     return gulp.src(["./src/editormd.js", "README.md"])
                .pipe(jsdoc.parser())
@@ -323,7 +323,7 @@ gulp.task("jsdoc2md", function() {
             }))
             .pipe(gulp.dest("docs/markdown"));
 });
-
+*/
 gulp.task("watch", function() {
 	gulp.watch("scss/editormd.scss", ["scss"]);
 	gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);

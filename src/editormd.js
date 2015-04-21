@@ -47,7 +47,7 @@
     };
     
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.4.1";
+    editormd.version      = "1.4.2";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
     
@@ -1035,7 +1035,7 @@
                 toolbar.hide();
                 
                 return this;
-            } 
+            }
             
             toolbar.show();
             
@@ -1043,12 +1043,21 @@
                             : ((typeof settings.toolbarIcons === "string")  ? editormd.toolbarModes[settings.toolbarIcons] : settings.toolbarIcons);
             
             var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
+            var pullRight   = false;
             
             for (var i = 0, len = icons.length; i < len; i++)
             {
                 var name = icons[i];
-                
-                if (name !== "|")
+
+                if (name === "||") 
+                { 
+                    pullRight = true;
+                } 
+                else if (name === "|")
+                {
+                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+                }
+                else
                 {
                     var isHeader = (/h(\d)/.test(name));
                     var index    = name;
@@ -1064,28 +1073,26 @@
                     title     = (typeof title     === "undefined") ? "" : title;
                     iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
                     iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
-                    
-                    menu += "<li>";
+
+                    var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
                     
                     if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function")
                     {
-                        menu += settings.toolbarCustomIcons[name];
-                    } 
-                    else 
-                    {                    
-                        menu += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">" +
-                                "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name.toUpperCase() : ( (iconClass === "") ? iconTexts : "") ) + "</i>" +
-                                "</a>";
+                        menuItem += settings.toolbarCustomIcons[name];
                     }
-                    
-                    menu += "</li>";
-                }
-                else
-                {
-                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+                    else 
+                    {
+                        menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
+                        menuItem += "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name.toUpperCase() : ( (iconClass === "") ? iconTexts : "") ) + "</i>";
+                        menuItem += "</a>";
+                    }
+
+                    menuItem += "</li>";
+
+                    menu = pullRight ? menuItem + menu : menu + menuItem;
                 }
             }
-            
+
             toolbarMenu.html(menu);
             
             toolbarMenu.find("[title=\"Lowercase\"]").attr("title", settings.lang.toolbar.lowercase);
@@ -3560,15 +3567,66 @@
     
     editormd.filterHTMLTags = function(html, filters) {
             
-        if (typeof filters === "string")
+        if (typeof filters !== "string") {
+            return html;
+        }
+
+        var expression = filters.split("|");
+        var filterTags = expression[0].split(",");
+        var attrs      = expression[1];
+
+        for (var i = 0, len = filterTags.length; i < len; i++)
         {
-            var filterTags = filters.split(",");
+            var tag = filterTags[i];
 
-            for (var i = 0, len = filterTags.length; i < len; i++)
+            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
+        }
+
+        if (typeof attrs !== "undefined")
+        {
+            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+
+            if (attrs === "*")
             {
-                var tag = filterTags[i];
+                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
+                    return "<" + $2 + ">" + $4 + "</" + $5 + ">";
+                });         
+            }
+            else if (attrs === "on*")
+            {
+                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
+                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                    var _attrs = $($1)[0].attributes;
+                    var $attrs = {};
+                    
+                    $.each(_attrs, function(i, e) {
+                        $attrs[e.nodeName] = e.nodeValue;
+                    });
+                    
+                    $.each($attrs, function(i) {                
+                        if (i.indexOf("on") === 0) {
+                            delete $attrs[i];
+                        }
+                    });
+                    
+                    el.attr($attrs);
 
-                html = html.replace(new RegExp("\<\s*"+tag+"\s*([^\>]*)\>", "igm"), "").replace(new RegExp("\<\s*\/"+tag+"\s*\>", "igm"), "");
+                    return el[0].outerHTML;
+                });
+            }
+            else
+            {
+                html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
+                    var filterAttrs = attrs.split(",");
+                    var el = $($1);
+                    el.html($4);
+
+                    $.each(filterAttrs, function(i) {
+                        el.attr(filterAttrs[i], null);
+                    });
+
+                    return el[0].outerHTML;
+                });
             }
         }
         
