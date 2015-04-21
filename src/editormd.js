@@ -1043,13 +1043,17 @@
                             : ((typeof settings.toolbarIcons === "string")  ? editormd.toolbarModes[settings.toolbarIcons] : settings.toolbarIcons);
             
             var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
-            
+
+            var pullRight = false;
             for (var i = 0, len = icons.length; i < len; i++)
             {
                 var name = icons[i];
-                
-                if (name !== "|")
-                {
+
+                if (name === "||") {
+                    pullRight = true;
+                } else if (name === "|") {
+                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+                } else {
                     var isHeader = (/h(\d)/.test(name));
                     var index    = name;
                     
@@ -1065,24 +1069,22 @@
                     iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
                     iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
                     
-                    menu += "<li>";
+                    var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
                     
                     if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function")
                     {
-                        menu += settings.toolbarCustomIcons[name];
+                        menuItem += settings.toolbarCustomIcons[name];
                     } 
                     else 
-                    {                    
-                        menu += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">" +
+                    {
+                        menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">" +
                                 "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name.toUpperCase() : ( (iconClass === "") ? iconTexts : "") ) + "</i>" +
                                 "</a>";
                     }
-                    
-                    menu += "</li>";
-                }
-                else
-                {
-                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+
+                    menuItem += "</li>";
+
+                    menu = pullRight ? menuItem + menu : menu + menuItem;
                 }
             }
             
