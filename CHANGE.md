@@ -428,10 +428,22 @@ v1.2.0 主要更新：
     - 修改示例文件`examples/katex.html`； 
 - 修复Bug [＃66](https://github.com/pandao/editor.md/issues/66)；
 - 修复编辑器工具栏按钮`:hover` CSS3 transition无效的问题； 
-- 修改`README.md`；
+- 修改了 `README.md`；
 
 ####v1.4.2
 
 - 改进和增强自定义工具栏功能，支持图标按钮右对齐[#69](https://github.com/pandao/editor.md/issues/69)；
 - 改进和增强HTML标签的解析过滤功能，支持过滤指定的属性等[#70](https://github.com/pandao/editor.md/issues/70)；
-- 删除分支`mathjax-version`和`v1.1.9`；
+- 删除分支 `mathjax-version` 和 `v1.1.9`；
+
+####v1.4.3
+
+- 改进：可配置是否自动聚焦编辑器 [#74](https://github.com/pandao/editor.md/issues/74)；
+	- 新增配置项 `autoFocus`，默认值为 `true`; 
+- 修改 Bug [#77](https://github.com/pandao/editor.md/issues/77)；
+- 改进和完善编辑器配置项；
+	- 新增配置项 `tabSize`、`indentUnit` 和 `lineWrapping`；
+	- 新增配置项 `autoCloseBrackets` 和 `showTrailingSpace` ；
+	- 新增配置项 `matchBrackets`、`indentWithTabs` 和 `styleSelectedText`；
+- 改进：修改 CSS `font-family`，改进跨平台中英文字体显示；
+- 修改了 `README.md`；

@@ -61,7 +61,9 @@ var testEditor = editormd("test-editormd", {
         <script type="text/javascript">
 			var testEditor;
 
-            $(function() {                
+            $(function() {   
+                var widgets = [];
+                
                 testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 720,
@@ -69,6 +71,16 @@ var testEditor = editormd("test-editormd", {
                     disabledKeyMaps : [
                         "Ctrl-B", "F11", "F10"  // disable some default keyboard shortcuts handle
                     ],
+                    onchange : function() {
+                                $("#test").remove();
+                                var cm = this.cm;
+                                var cursor = cm.getCursor();
+
+                                //cm.replaceSelection("@");
+                                
+                                widgets.push(cm.addWidget({line : cursor.line, ch : cursor.ch}, $("<p style='z-index:100000;background:red;color:#fff;padding:5px;' id='test'>fsdfsdfsdf</p>")[0], true));
+                                console.log(cm.getCursor(), cm.getLine(cursor.line), cm.getLineTokens(cursor.line));   
+                    },
                     onload : function() {
                         var keyMap = {
                             "Ctrl-S": function(cm) {
@@ -79,8 +91,14 @@ var testEditor = editormd("test-editormd", {
                                 // custom
                                 alert("Ctrl+A");
                                 cm.execCommand("selectAll");
-                            }
+                            },
+                            //"Shift-2" : function(cm){
+                            //}
                         };
+                        
+                        this.cm.on("keyup", function(cm){
+                            //$("#test").remove();
+                        });
                         
                         // setting signle key
                         var keyMap2 = {
@@ -93,7 +111,7 @@ var testEditor = editormd("test-editormd", {
                         this.addKeyMap(keyMap2);
                         this.removeKeyMap(keyMap2);  // remove signle key
                     }
-                });             
+                });    
             });
         </script>
     </body>

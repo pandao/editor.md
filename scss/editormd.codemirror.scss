@@ -26,10 +26,14 @@
         z-index: 10;
         float: left;
         border-right: 1px solid $borderColor;
-        font-size: 13px;
+        font-size: 14px;
         font-family: Consolas, 'Monaco', courier, monospace;
         line-height: 1.6;
         margin-top: 35px;
+
+		pre {
+			font-size: 14px;
+		}
     }
 
     .CodeMirror-selected {

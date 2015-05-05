@@ -2,14 +2,15 @@
  * Editor.md
  *
  * @file        editormd.preview.css 
- * @version     v1.4.2 
+ * @version     v1.4.3 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-04-22
+ * @updateTime  2015-05-05
  */
 
+@charset "UTF-8";
 /*! prefixes.scss v0.1.0 | Author: Pandao | https://github.com/pandao/prefixes.scss | MIT license | Copyright (c) 2015 */
 /*!
  *  Font Awesome 4.3.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -2457,7 +2458,7 @@
   -webkit-text-size-adjust: 100%;
   color: #333;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "Segoe UI", Tahoma, STXihei, "华文细黑", STHeiti, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -3140,7 +3141,7 @@
   background: #f6f6f6;
   padding: 3px;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 14px;
   font-family: Consolas, 'Monaco', courier, monospace;
 }
 .editormd-preview-container pre, .editormd-html-preview pre {
@@ -3479,6 +3480,9 @@ li.L9 {
 
 .markdown-body .editormd-toc-menu ul {
   padding-left: 0;
+}
+.markdown-body .highlight pre, .markdown-body pre {
+  line-height: 1.6;
 }
 
 hr.editormd-page-break {

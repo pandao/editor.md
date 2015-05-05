@@ -1,6 +1,6 @@
 {
   "name": "editor.md",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Open source online markdown editor.",
   "directories": {
     "doc": "docs",
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/pandao/editor.md",
   "devDependencies": {
     "dateformatter": "^0.1.0",
-    "gulp": "^3.8.10",
+    "gulp": "^3.8.11",
     "gulp-concat": "^2.4.2",
     "gulp-header": "^1.2.2",
     "gulp-jshint": "^1.9.0",

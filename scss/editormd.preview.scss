@@ -44,7 +44,7 @@
         background: #f6f6f6;
         padding: 3px;
         border-radius: 3px;
-        font-size: 13px;
+        font-size: 14px;
         font-family: Consolas, 'Monaco', courier, monospace;
     }
 
@@ -247,6 +247,10 @@
         ul {
             padding-left: 0; 
         }
+    }
+
+    .highlight pre, pre {
+      line-height: 1.6;
     }
 }
 
