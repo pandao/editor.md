@@ -3,8 +3,8 @@
  *
  * @file        image-dialog.js
  * @author      pandao
- * @version     1.2.0
- * @updateTime  2015-03-07
+ * @version     1.3.0
+ * @updateTime  2015-05-06
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -116,7 +116,9 @@
 
                 dialog.attr("id", classPrefix + "image-dialog-" + guid);
 
-				if (!settings.imageUpload) return ;
+				if (!settings.imageUpload) {
+                    return ;
+                }
 
 				var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
 
@@ -132,16 +134,20 @@
 					{      
 						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
 					} 
-					else 
+					else
 					{
-						if (typeof (dialog.loading) == "function") dialog.loading(true);
+						if (typeof (dialog.loading) == "function") {
+                            dialog.loading(true);
+                        }
 
 						var submitHandler = function() {
 
 							var uploadIframe = document.getElementById(iframeName);
 
 							uploadIframe.onload = function() {
-								if (typeof (dialog.loading) == "function") dialog.loading(false);
+								if (typeof (dialog.loading) == "function") {
+                                    dialog.loading(false);
+                                }
 
 								var json = uploadIframe.contentWindow.document.body.innerHTML;
 								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
@@ -161,7 +167,7 @@
 
 						dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
 
-					}        
+					}
 
 					return false;
 				});

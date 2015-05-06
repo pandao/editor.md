@@ -14,11 +14,23 @@
                 <p>Image cross-domain upload example.</p>
             </header>
             <div id="test-editormd">
-                <textarea style="display:none;">####跨域上传原理
+                <textarea style="display:none;">#### Settings
+
+```javascript
+{
+    imageUpload       : true,
+    imageFormats      : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+    imageUploadURL    : "http://xxxxxxx/editor.md/examples/php/cross-domain-upload.php?test=dfdf",
+    crossDomainUpload : true,
+    uploadCallbackURL : "http://xxxxxx/upload_callback.html?test=dfdf"
+}
+```
+
+#### 跨域上传原理
 
 利用iframe来实现，A站POST到B站，B站处理上传后再跳转回到A站的callback页面，callback页面此时在iframe内（即同域下），再通过window.parent就可以操作父页面的任意元素了。
 
-####跨域上传示例PHP版
+#### 跨域上传示例PHP版
 
 当前域名：blog.xxx.com/post.php
 
@@ -67,7 +79,7 @@ exit;
         <script src="js/jquery.min.js"></script>
         <script src="../editormd.js"></script>
         <script type="text/javascript">
-            $(function() {         
+            $(function() {
                 var testEditor = editormd("test-editormd", {
                     width             : "90%",
                     height            : 640,
@@ -82,10 +94,10 @@ exit;
                     /*
                      跨域时，上传的图片服务器后台只需要返回一个跳转URL并跳转到原页面同域下的callback页面，结构如下：
                      {
-                        success : 0 | 1,   // 0表示上传失败，1表示上传成功
-                        message : "提示的信息，上传成功或上传失败及错误信息等。",
+                        success   : 0 | 1,   // 0表示上传失败，1表示上传成功
+                        message   : "提示的信息，上传成功或上传失败及错误信息等。",
                         dialog_id : $_GET['dialog_id'],
-                        url  : "远程图片地址" // 上传成功时才返回
+                        url       : "远程图片地址"    // 上传成功时才返回
                      }
                      */
                 });

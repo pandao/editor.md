@@ -314,7 +314,7 @@
             {
                 if ($success == 1)
                 {
-                    $array['url']  = $url;
+                    $array['url']    = $url;
                 }
                 else
                 {
