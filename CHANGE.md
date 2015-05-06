@@ -14,7 +14,7 @@
 
 - 新建分支 `mathjax-version`，但不打算继续对此分支进行开发；
 
-- 移除MathJax，改用KaTeX[#2](https://github.com/pandao/editor.md/issues/2)，解析和预览响应速度大幅度提高[#3](https://github.com/pandao/editor.md/issues/3)；
+- 移除MathJax，改用KaTeX [#2](https://github.com/pandao/editor.md/issues/2)，解析和预览响应速度大幅度提高 [#3](https://github.com/pandao/editor.md/issues/3)；
     - 移除 `mathjax` 配置项；
     - 移除 `mathjaxURL` 属性；
     - 移除 `setMathJaxConfig()` 方法；
@@ -136,28 +136,28 @@
 
 #####v1.1.2
 
-- 修复Bug[＃10](https://github.com/pandao/editor.md/issues/10)；
-- 修复Bug[＃12](https://github.com/pandao/editor.md/issues/12)；
+- 修复Bug [＃10](https://github.com/pandao/editor.md/issues/10)；
+- 修复Bug [＃12](https://github.com/pandao/editor.md/issues/12)；
 
 #####v1.1.3
 
-- 修复Bug[＃14](https://github.com/pandao/editor.md/issues/14)；
-- 修复Bug[＃15](https://github.com/pandao/editor.md/issues/15)；
+- 修复Bug [＃14](https://github.com/pandao/editor.md/issues/14)；
+- 修复Bug [＃15](https://github.com/pandao/editor.md/issues/15)；
 
 #####v1.1.4
 
-- 修复Bug[＃17](https://github.com/pandao/editor.md/issues/17)；
+- 修复Bug [＃17](https://github.com/pandao/editor.md/issues/17)；
     - 修改了`getToolbarHandles()`和`setToolbarHandler()`方法；
 - 从`editormd.scss`中分离出`editormd.logo.scss`，并生成`editormd.logo.css`，以便单独使用；
     - 同时修改了`Gulpfile.js`的相应任务；
     
 #####v1.1.5
 
-- 修复Bug[＃18](https://github.com/pandao/editor.md/issues/18)；
+- 修复Bug [＃18](https://github.com/pandao/editor.md/issues/18)；
     - 修改了`showInfoDialog()`和`createInfoDialog()`方法；
     - 新增`infoDialogPosition()`方法；
     
-- 修复Bug[＃20](https://github.com/pandao/editor.md/issues/20)；
+- 修复Bug [＃20](https://github.com/pandao/editor.md/issues/20)；
     - 修改了引用的处理函数；
     - 插入的headers的`#`号后面都加上了一个空格；
 
@@ -165,10 +165,10 @@
 
 修复多处Bug，具体如下：
     
-- 修复Bug[#23](https://github.com/pandao/editor.md/issues/23)，即Headers的id属性的重复及中文问题；
+- 修复Bug [#23](https://github.com/pandao/editor.md/issues/23)，即Headers的id属性的重复及中文问题；
     - 修改了`editormd.markedRenderer()`方法；
 
-- 修复Bug[#24](https://github.com/pandao/editor.md/issues/24)；
+- 修复Bug [#24](https://github.com/pandao/editor.md/issues/24)；
     - 修改了`setMarkdown()`、`clear()`和`loadedDisplay()`方法的内部实现；
     - 新增了`katexRender()`、`flowChartAndSequenceDiagramRender()`、`previewCodeHighlight()`方法；
     
@@ -181,10 +181,10 @@
 
 修复多处Bug，具体如下：
 
-- 修复Bug[#25](https://github.com/pandao/editor.md/issues/25)；
+- 修复Bug [#25](https://github.com/pandao/editor.md/issues/25)；
     - 修改了`loadedDisplay()`方法，将`settings.onload`移动了`CodeMirror.on("change")`事件注册后再触发；
 
-- 修复Bug[#26](https://github.com/pandao/editor.md/issues/26)；
+- 修复Bug [#26](https://github.com/pandao/editor.md/issues/26)；
     - 修改了`saveToTextareas()`方法；
     - 新增`state.loaded`和`state.watching`两个属性；
 
@@ -194,17 +194,17 @@
 
 改进功能，具体如下：
 
-- 改进[#27](https://github.com/pandao/editor.md/issues/27)；
+- 改进 [#27](https://github.com/pandao/editor.md/issues/27)；
     - 新增配置项`matchWordHighlight`，可选值有：`true, false, "onselected"`，默认值为`true`，即开启自动匹配和标示相同单词；
 
-- 改进[#28](https://github.com/pandao/editor.md/issues/28)；
+- 改进 [#28](https://github.com/pandao/editor.md/issues/28)；
     - 将`jquery.min.js`、`font-awesome.min.css`、`github-markdown.css`移除（这是一个疏忽，它们不是动态加载的依赖模块或者不需要的，避免不必要的硬盘空间占用）；
 
 - 修改了所有相关的示例文件；
 
 #####v1.1.9
 
-- 修复无法解析heading link的Bug[#29](https://github.com/pandao/editor.md/issues/29)；
+- 修复无法解析heading link的Bug [#29](https://github.com/pandao/editor.md/issues/29)；
 
     - 修改了`editormd.markedRenderer()`方法的内部实现；
     - 新增了`editormd.trim()`，用于清除字符串两边的空格；
@@ -342,7 +342,7 @@ v1.2.0 主要更新：
     - 新增两个成员方法`getSelections()`和`getSelections()`；
 
 - 修复Font awesome 图标 emoji 部分无法解析的Bug，[#39](https://github.com/pandao/editor.md/issues/39)
-- 改进@link功能[#40](https://github.com/pandao/editor.md/issues/40)；
+- 改进@link功能 [#40](https://github.com/pandao/editor.md/issues/40)；
     - 新增配置项`atLink`，默认为`true`; 
 - 修复无法输入`/`的问题 [#42](https://github.com/pandao/editor.md/issues/42)；
 - 修改使用帮助说明的错误 [#43](https://github.com/pandao/editor.md/issues/43)；
@@ -369,7 +369,7 @@ v1.2.0 主要更新：
 - 新增延迟解析预览的机制，解决输入太多太快出现的 “延迟卡顿” 问题；
     - 新增配置项`delay`，默认值为 `300`；
     - 修复当输入速度太快时，解析Flowchart会抛出错误的问题；
-- 修改iPad等移动终端的浏览器无法上传图片的问题[#48](https://github.com/pandao/editor.md/issues/48)；
+- 修改iPad等移动终端的浏览器无法上传图片的问题 [#48](https://github.com/pandao/editor.md/issues/48)；
 - 修复单独引用`editormd.preview.css`时无法显示Font Awesome和Editor.md logo字体的问题；
 - 更新和修改Gulp构建；
     - 修改了`Gulpfile.js`，并且`gulp-ruby-sass`升级到最新版本`1.0.0-alpha.3`; 
@@ -379,7 +379,7 @@ v1.2.0 主要更新：
 - 改进部分预设快捷键功能，包括F9(watch)、F10(preview)、F11(fullscreen)等;
 - 修复自动高度模式下出现的几个问题；
     - 全屏退出时高度不正确的问题：修改了`fullscreenExit()`方法的内部实现；
-    - 当解析预览后的HTML内容高度高于Markdown源码编辑器高度时，无法正确预览的问题[#49](https://github.com/pandao/editor.md/issues/49)；
+    - 当解析预览后的HTML内容高度高于Markdown源码编辑器高度时，无法正确预览的问题 [#49](https://github.com/pandao/editor.md/issues/49)；
 - 修改`onscroll`和`onpreviewscroll`无法访问`this`的问题；
 - 修改`init()`方法，可以只设置一个参数；
 - 新增插入TeX(KaTeX)公式的快捷键`Ctrl + Shift + K`和插入方法`tex()`；
@@ -416,7 +416,7 @@ v1.2.0 主要更新：
     - 新增语法`[========]`，即括号内至少8个等号；
     - 新增插入分页符的工具栏图标和方法`pagebreak()`；
     - 新增插入分页符的快捷键`Shift + Alt + P`；
-- 修复一些Bug，包括[#51](https://github.com/pandao/editor.md/issues/51)等；
+- 修复一些Bug，包括 [#51](https://github.com/pandao/editor.md/issues/51)等；
 - 新增和修改以上更新的相关示例；
 
 ####v1.4.1
@@ -432,8 +432,8 @@ v1.2.0 主要更新：
 
 ####v1.4.2
 
-- 改进和增强自定义工具栏功能，支持图标按钮右对齐[#69](https://github.com/pandao/editor.md/issues/69)；
-- 改进和增强HTML标签的解析过滤功能，支持过滤指定的属性等[#70](https://github.com/pandao/editor.md/issues/70)；
+- 改进和增强自定义工具栏功能，支持图标按钮右对齐 [#69](https://github.com/pandao/editor.md/issues/69)；
+- 改进和增强HTML标签的解析过滤功能，支持过滤指定的属性等 [#70](https://github.com/pandao/editor.md/issues/70)；
 - 删除分支 `mathjax-version` 和 `v1.1.9`；
 
 ####v1.4.3
