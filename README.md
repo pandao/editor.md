@@ -50,21 +50,26 @@
 
 Bower install :
 
+```shell
 	bower install editor.md
+```
 
 #### Usages
 
 HTML：
 
+```html
     <link rel="stylesheet" href="editormd.min.css" />
     <div id="editormd">
         <textarea style="display:none;">### Hello world!</textarea>
     </div>
+```
 
 > Tip: Editor.md can auto append `<textarea>` tag;
 
 javascript:
 
+```html
     <script src="jquery.min.js"></script>
     <script src="editormd.min.js"></script>
     <script type="text/javascript">
@@ -82,7 +87,8 @@ javascript:
             */
         });
     </script>
-    
+``` 
+   
 Using modular script loader :
 
 - [Using Require.js](https://github.com/pandao/editor.md/tree/master/examples/use-requirejs.html)
