@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-05-05
+ * @updateTime  2015-05-06
  */
 
 ;(function(factory) {
@@ -3657,6 +3657,10 @@
      */
     
     editormd.filterHTMLTags = function(html, filters) {
+        
+        if (typeof html !== "string") {
+            html = new String(html);
+        }
             
         if (typeof filters !== "string") {
             return html;

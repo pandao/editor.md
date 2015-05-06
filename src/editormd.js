@@ -3575,6 +3575,10 @@
      */
     
     editormd.filterHTMLTags = function(html, filters) {
+        
+        if (typeof html !== "string") {
+            html = new String(html);
+        }
             
         if (typeof filters !== "string") {
             return html;
