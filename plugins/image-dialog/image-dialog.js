@@ -3,8 +3,8 @@
  *
  * @file        image-dialog.js
  * @author      pandao
- * @version     1.3.0
- * @updateTime  2015-05-06
+ * @version     1.3.1
+ * @updateTime  2015-05-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -149,7 +149,7 @@
                                     dialog.loading(false);
                                 }
 
-								var json = uploadIframe.contentWindow.document.body.innerHTML;
+								var json = uploadIframe.contentWindow.document.body.innerText;
 								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
 								if (json.success === 1)

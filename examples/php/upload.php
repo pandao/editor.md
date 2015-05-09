@@ -11,7 +11,7 @@
      * Copyright@2015 Editor.md all right reserved.
 	 */
 
-    header("Content-Type:text/html; charset=utf-8");
+    header("Content-Type:application/json; charset=utf-8");
     header("Access-Control-Allow-Origin: *");
 
     require("editormd.uploader.class.php");
@@ -23,7 +23,7 @@
 	$savePath = realpath($path . '../uploads/') . DIRECTORY_SEPARATOR;
 	$saveURL  = $url . '../uploads/';
 
-	$formats  = array(		
+	$formats  = array(
 		'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp')
 	);
 
