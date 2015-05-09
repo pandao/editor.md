@@ -3,7 +3,7 @@
  *
  * @file        image-dialog.js
  * @author      pandao
- * @version     1.3.1
+ * @version     1.3.2
  * @updateTime  2015-05-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
@@ -30,6 +30,11 @@
 			var dialogName  = classPrefix + pluginName, dialog;
 
 			cm.focus();
+
+            var loading = function(show) {           
+                var _loading = dialog.find("." + classPrefix + "dialog-mask");
+                _loading[(show) ? "show" : "hide"]();
+            };
 
             if (editor.find("." + dialogName).length < 1)
             {    
@@ -136,18 +141,14 @@
 					} 
 					else
 					{
-						if (typeof (dialog.loading) == "function") {
-                            dialog.loading(true);
-                        }
+                        loading(true);
 
 						var submitHandler = function() {
 
 							var uploadIframe = document.getElementById(iframeName);
 
 							uploadIframe.onload = function() {
-								if (typeof (dialog.loading) == "function") {
-                                    dialog.loading(false);
-                                }
+                                loading(false);
 
 								var json = uploadIframe.contentWindow.document.body.innerText;
 								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");

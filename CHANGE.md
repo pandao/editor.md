@@ -453,3 +453,4 @@ v1.2.0 主要更新：
 
 - 修复 Bug [#81](https://github.com/pandao/editor.md/issues/81)，即不支持 `:+1:` 的问题；
 - 修复 Bug [#85](https://github.com/pandao/editor.md/issues/85)，即图片上传返回结果不支持 `Content-Type=application/json` 的问题；
+- 修复图片上传无法显示 loading 的问题；
