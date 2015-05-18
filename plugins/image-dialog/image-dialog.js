@@ -31,13 +31,13 @@
 
 			cm.focus();
 
-            var loading = function(show) {           
+            var loading = function(show) {
                 var _loading = dialog.find("." + classPrefix + "dialog-mask");
                 _loading[(show) ? "show" : "hide"]();
             };
 
             if (editor.find("." + dialogName).length < 1)
-            {    
+            {
                 var guid   = (new Date).getTime();
                 var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
 
@@ -57,14 +57,14 @@
                                         })() +
                                         "<br/>" +
                                         "<label>" + imageLang.alt + "</label>" +
-                                        "<input type=\"text\" value=\"" + selection + "\" data-alt />" + 
+                                        "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
                                         "<br/>" +
                                         "<label>" + imageLang.link + "</label>" +
                                         "<input type=\"text\" value=\"http://\" data-link />" +
                                         "<br/>" +
                                     ( (settings.imageUpload) ? "</form>" : "</div>");
 
-                //var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";  
+                //var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";
 
                 dialog = this.createDialog({
                     title      : imageLang.title,
@@ -94,11 +94,11 @@
 							var altAttr = (alt !== "") ? " \"" + alt + "\"" : "";
 
                             if (link === "" || link === "http://")
-                            {                                    
+                            {
                                 cm.replaceSelection("![" + alt + "](" + url + altAttr + ")");
                             }
-                            else 
-                            {                                   
+                            else
+                            {
                                 cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
                             }
 
@@ -111,7 +111,7 @@
                             return false;
                         }],
 
-                        cancel : [lang.buttons.cancel, function() {                                   
+                        cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
                             return false;
@@ -136,9 +136,9 @@
 						alert(imageLang.uploadFileEmpty);
 					}
 					else if (!isImage.test(fileName))
-					{      
+					{
 						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
-					} 
+					}
 					else
 					{
                         loading(true);
@@ -150,7 +150,12 @@
 							uploadIframe.onload = function() {
                                 loading(false);
 
-								var json = uploadIframe.contentWindow.document.body.innerText;
+								var json = "";
+								if (uploadIframe.contentWindow) {
+									json = uploadIframe.contentWindow.document.body ? uploadIframe.contentWindow.document.body.innerHTML : null;
+								} else if (uploadIframe.contentDocument) {
+									json = uploadIframe.contentDocument.document.body ? uploadIframe.contentDocument.document.body.innerHTML : null;
+								}
 								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
 								if (json.success === 1)
@@ -186,10 +191,10 @@
 		};
 
 	};
-    
+
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
 	else if (typeof define === "function")  // AMD/CMD/Sea.js
@@ -206,7 +211,7 @@
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);
