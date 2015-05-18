@@ -403,7 +403,7 @@
                 editor.append("<textarea></textarea>");
                 markdownTextarea = this.markdownTextarea = editor.children("textarea");
             }
-            if(markdownTextarea.attr("name")=="undefined"||markdownTextarea.attr("name")==""){
+            if(markdownTextarea.attr("name")=="undefined" || markdownTextarea.attr("name")==""){
 				markdownTextarea.attr("name", id + "-markdown-doc");
 			}
             markdownTextarea.addClass(classNames.textarea.markdown).attr("placeholder", settings.placeholder);
