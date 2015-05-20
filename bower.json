@@ -1,13 +1,13 @@
 {
-  "name": "editor.md",
-  "version": "1.4.4",
-  "homepage": "https://github.com/pandao/editor.md",
+  "name": "MdEditor",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mfkddcwy/mdeditor",
   "authors": [
-    "Pandao <pandao@vip.qq.com>"
+    "Ochou"
   ],
-  "description": "Open source online markdown editor.",
+  "description": "Open source online markdown editor, fork editor.md.",
   "keywords": [
-    "editor.md",
+    "mdeditor",
     "markdown",
     "editor"
   ],
