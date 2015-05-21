@@ -3248,6 +3248,7 @@
                         {
                             var src = (name === "+1") ? "plus1" : name;
                             src     = (src === "black_large_square") ? "black_square" : src;
+                            src = (src === "moon") ? "waxing_gibbous_moon" : src;
 
                             return "<img src=\"" + editormd.emoji.path + src + editormd.emoji.ext + "\" class=\"emoji\" title=\"&#58;" + name + "&#58;\" alt=\"&#58;" + name + "&#58;\" />";
                         }
