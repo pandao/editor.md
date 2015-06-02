@@ -1,6 +1,6 @@
 {
   "name": "editor.md",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Open source online markdown editor.",
   "directories": {
     "doc": "docs",

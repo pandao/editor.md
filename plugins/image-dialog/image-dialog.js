@@ -3,8 +3,8 @@
  *
  * @file        image-dialog.js
  * @author      pandao
- * @version     1.3.2
- * @updateTime  2015-05-09
+ * @version     1.3.3
+ * @updateTime  2015-06-02
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -134,48 +134,46 @@
 					if (fileName === "")
 					{
 						alert(imageLang.uploadFileEmpty);
+                        
+                        return false;
 					}
-					else if (!isImage.test(fileName))
+					
+                    if (!isImage.test(fileName))
 					{
 						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
-					}
-					else
-					{
-                        loading(true);
-
-						var submitHandler = function() {
-
-							var uploadIframe = document.getElementById(iframeName);
-
-							uploadIframe.onload = function() {
-                                loading(false);
-
-								var json = "";
-								if (uploadIframe.contentWindow) {
-									json = uploadIframe.contentWindow.document.body ? uploadIframe.contentWindow.document.body.innerHTML : null;
-								} else if (uploadIframe.contentDocument) {
-									json = uploadIframe.contentDocument.document.body ? uploadIframe.contentDocument.document.body.innerHTML : null;
-								}
-								json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
-
-								if (json.success === 1)
-								{
-									dialog.find("[data-url]").val(json.url);
-								}
-								else
-								{
-									alert(json.message);
-								}
-
-								return false;
-							};
-						};
-
-						dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
-
+                        
+                        return false;
 					}
 
-					return false;
+                    loading(true);
+
+                    var submitHandler = function() {
+
+                        var uploadIframe = document.getElementById(iframeName);
+
+                        uploadIframe.onload = function() {
+                            
+                            loading(false);
+
+                            var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
+                            var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
+
+                            json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+
+                            if (json.success === 1)
+                            {
+                                dialog.find("[data-url]").val(json.url);
+                            }
+                            else
+                            {
+                                alert(json.message);
+                            }
+
+                            return false;
+                        };
+                    };
+
+                    dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
 				});
             }
 

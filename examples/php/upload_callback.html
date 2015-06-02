@@ -19,9 +19,8 @@
             }
 
             var imageDialog = window.parent.document.getElementById(query['dialog_id']);
-            //console.log(imageDialog, window.parent.document, window.parent, query);
 
-            if (query['success'] === '1')
+            if (parseInt(query['success']) === 1)
             {
                 imageDialog.querySelector("[data-url]").value = query['url'];
             }

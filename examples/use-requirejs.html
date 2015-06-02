@@ -2,7 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Use require.js - Editor.md examples</title>
+        <title>Using require.js - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../lib/codemirror/codemirror.min.css" /> 
         <!-- <link rel="stylesheet" href="../lib/codemirror/addon/fold/foldgutter.css" /> -->
@@ -12,7 +12,7 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Use require.js</h1>
+                <h1>Using require.js</h1>
                 <ul style="margin: 10px 0 0 18px;">
                     <li>Enable HTML tags decode</li>
                     <li>Enable TeX, Flowchart, Sequence Diagram, Emoji, FontAwesome, Task lists</li>
@@ -87,7 +87,7 @@
                         codeFold : true,
                         searchReplace : true,
                         saveHTMLToTextarea : true,                // 保存HTML到Textarea
-                        htmlDecode : "style,script,iframe",       // 开启HTML标签解析，为了安全性，默认不开启    
+                        htmlDecode : "style,script,iframe|on*",       // 开启HTML标签解析，为了安全性，默认不开启    
                         emoji : true,
                         taskList : true,
                         tex : true,

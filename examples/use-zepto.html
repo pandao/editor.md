@@ -2,7 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Use Zepto.js - Editor.md examples</title>
+        <title>Using Zepto.js - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
@@ -10,7 +10,7 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Use Zepto.js</h1>
+                <h1>Using Zepto.js</h1>
                 <ul style="margin: 10px 0 0 18px;">
                     <li>Enable HTML tags decode</li>
                     <li>Enable TeX, Flowchart, Sequence Diagram, Emoji, FontAwesome, Task lists</li>
@@ -34,7 +34,7 @@
             </div>
             <form action="http://editormd.ipandao.com/php/post.php" method="post">
                 <div class="editormd" id="test-editormd">                
-                    <textarea>###Hello world!</textarea>
+                    <textarea>### Hello world!</textarea>
                 </div>
                 <br/><input type="submit" name="submit" value="Submit" class="btn" style="margin-left: 5%;" />
             </form>
@@ -43,7 +43,7 @@
         <script src="../editormd.js"></script>   
         <script type="text/javascript">
 			var testEditor;
-			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以想支持flowChart/sequenceDiagram就得加上这一句
+			var jQuery = Zepto;  // 为了避免修改 flowChart.js 和 sequence-diagram.js 的源码，所以想支持 flowChart / sequenceDiagram 就得加上这一句
 
             $(function() {
                 $.get("./test.md", function(md){
@@ -54,16 +54,16 @@
 						markdown : md,
                         codeFold : true,
                         searchReplace : true,
-                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
+                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
                         //watch : false,
-                        htmlDecode : "style,script,iframe",            // 开启HTML标签解析，为了安全性，默认不开启
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
                         emoji : true,
                         taskList : true,
                         tocm            : true,         // Using [TOCM]
-                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        tex : true,                     // 开启科学公式 TeX 语言支持，默认关闭
                         //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
                         flowChart : true,  
-                        sequenceDiagram : true,        // 同上
+                        sequenceDiagram : true,         // 同上
 						onload : function() {
 							console.log("onload =>", this, this.id, this.settings);
 						}

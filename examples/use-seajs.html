@@ -2,7 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Use sea.js - Editor.md examples</title>
+        <title>Using sea.js - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.min.css" /> 
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
@@ -20,7 +20,7 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Use sea.js</h1>   
+                <h1>Using sea.js</h1>   
                 <p>说明：</p>
                 <p>1、由于Editor.md是依赖jQuery的，所以在使用Sea.js加载Editor.md时，要在jQuery.js文件尾部加上 <code>if(typeof define === "function") { define(function () { return $.noConflict(); }); }</code>，使jQuery支持Sea.js；</p>  
                 <p>2、flowChart（流程图）和sequenceDiagram（时序图）基于Raphael.js，由于疑似Sea.js与Raphael.js有冲突，所以必须先加载Raphael.js再加载Sea.js，Editor.md才能在Sea.js下正常进行；</p>      
@@ -86,23 +86,23 @@
                         height: 640,
                         path : '../lib/',
                         markdown : md,
-                        //toolbar  : false,             //关闭工具栏
+                        //toolbar  : false,             // 关闭工具栏
                         codeFold : true,
                         searchReplace : true,
-                        saveHTMLToTextarea : true,    // 保存HTML到Textarea
-                        htmlDecode : "style,script,iframe",            // 开启HTML标签解析，为了安全性，默认不开启
+                        saveHTMLToTextarea : true,      // 保存 HTML 到 Textarea
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
                         emoji : true,
                         taskList : true,
-                        tocm            : true,         // Using [TOCM]
-                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        tocm            : true,          // Using [TOCM]
+                        tex : true,                      // 开启科学公式 TeX 语言支持，默认关闭
                         //previewCodeHighlight : false,  // 关闭预览窗口的代码高亮，默认开启
-                        flowChart : true,              // 疑似Sea.js与Raphael.js有冲突，必须先加载Raphael.js，Editor.md才能在Sea.js下正常进行；
-                        sequenceDiagram : true,        // 同上
-                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                        flowChart : true,                // 疑似 Sea.js与 Raphael.js 有冲突，必须先加载 Raphael.js ，Editor.md 才能在 Sea.js 下正常进行；
+                        sequenceDiagram : true,          // 同上
+                        //dialogLockScreen : false,      // 设置弹出层对话框不锁屏，全局通用，默认为 true
+                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为 true
+                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为 true
+                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为 0.1
+                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为 #fff
                         imageUpload : true,
                         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                         imageUploadURL : "./php/upload.php",

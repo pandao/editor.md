@@ -23,16 +23,12 @@
 	$savePath = realpath($path . '../uploads/') . DIRECTORY_SEPARATOR;
 	$saveURL  = '//'. $_SERVER['SERVER_NAME'] . $url . '../uploads/';   // 本例是演示跨域上传所以加上$_SERVER['SERVER_NAME']
     
-    /*echo "<pre>";
-    print_r($_SERVER);
-    echo $saveURL;
-    echo "</pre>";*/
-
 	$formats  = array(		
 		'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp')
 	);
 
-    $name = 'editormd-image-file'; // file input name
+    $name        = 'editormd-image-file'; // file input name
+    $callbackUrl = $_GET['callback'];
 
     if (isset($_FILES[$name]))
     {        
@@ -44,11 +40,15 @@
         ));
         
         $imageUploader->redirect    = true;
-        $imageUploader->redirectURL = $_GET['callback'] . '?dialog_id=' . $_GET['dialog_id'] . '&temp=' . date('ymdhis');
+        $imageUploader->redirectURL = $callbackUrl . (empty(parse_url($callbackUrl)['query']) ? '?' : '&') . 'dialog_id=' . $_GET['dialog_id'] . '&temp=' . date('ymdhis');
         
         if ($imageUploader->upload($name))
         {
             $imageUploader->message('上传成功！', 1);
+        }
+        else
+        {
+            $imageUploader->message('上传失败！', 0);
         }
     }
 ?>

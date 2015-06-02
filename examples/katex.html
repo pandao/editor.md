@@ -2,7 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="utf-8" />
-        <title>Tex科学公式语言 (TeX/LaTeX) - Editor.md examples</title>
+        <title>Tex 科学公式语言 (TeX/LaTeX) - Editor.md examples</title>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
@@ -10,22 +10,22 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Tex科学公式语言 (TeX/LaTeX)</h1>
+                <h1>Tex 科学公式语言 (TeX/LaTeX)</h1>
 				<p>Based on KaTeX.js：<a href="http://khan.github.io/KaTeX/" target="_blank">http://khan.github.io/KaTeX/</a></p>
-                <p>P.S. Default using CloudFlare KaTeX's CDN. (注：默认使用CloudFlare的CDN，有时加载速度会比较慢，可自定义加载地址。)</p>
+                <p>P.S. Default using CloudFlare KaTeX's CDN. (注：默认使用 CloudFlare 的 CDN，有时加载速度会比较慢，可自定义加载地址。)</p>
                 <br/>
                 <p><a href="https://jsperf.com/katex-vs-mathjax" target="_blank">KaTeX vs MathJax</a></p>   
             </header>
             <div id="test-editormd">                
                 <textarea style="display:none;">[TOC]
 
-####Setting
+#### Setting
 
     {
         tex  : true
     }
 
-####Custom KaTeX source URL
+#### Custom KaTeX source URL
 
 ```javascript
 // Default using CloudFlare KaTeX's CDN
@@ -36,15 +36,15 @@ editormd.katexURL = {
 };
 ```
 
-####Examples
+#### Examples
             
 $$E=mc^2$$
 
-Inline 行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
+Inline 行内的公式 $$E=mc^2$$ 行内的公式，行内的$$E=mc^2$$公式。
 
 $$c = \\pm\\sqrt{a^2 + b^2}$$
 
-$$x > y$$
+$$x &gt; y$$
 
 $$f(x) = x^2$$
 
@@ -124,11 +124,10 @@ $$\int_C x^3\, dx + 4y^2\, dy$$
 
 $${}_1^2\!\Omega_3^4$$
 
-$$x', y'', f', f''$$
-
 #### KaTeX vs MathJax
 
 [https://jsperf.com/katex-vs-mathjax](https://jsperf.com/katex-vs-mathjax "KaTeX vs MathJax")
+
 </textarea>
             </div>
         </div>

@@ -14,30 +14,30 @@
                 <p>Expanded of member methods and properties</p>
             </header>
             <div id="test-editormd">                
-                <textarea style="display:none;">###Expanded Editor.md
+                <textarea style="display:none;">### Expanded Editor.md
 
 ```javascript
 var testEditor;
 
 function EditormdExtend() {
 
-    this.extends("methodC", function() {
+    this.extend("methodC", function() {
         console.log("methodC");
     });
 
     // or
-    testEditor.extends("methodA", function() {
+    testEditor.extend("methodA", function() {
         console.log("methodA");
     });
 
     // one by one setting
     this.set("propertyA", "propertyA");
-    this.set("methodE", function(){
+    this.set("methodE", function() {
         console.log("mothodE", this);
     });
 
     // mutil
-    this.extends({
+    this.extend({
         propertyA : "propertyAAAA", // override, you can override other default method.
         propertyB : "propertyB",
         methodD : function() {
@@ -90,23 +90,23 @@ $(function() {
             
             function EditormdExtend() {
 
-                this.extends("methodC", function() {
+                this.extend("methodC", function() {
                     console.log("methodC");
                 });
 
                 // or
-                testEditor.extends("methodA", function() {
+                testEditor.extend("methodA", function() {
                     console.log("methodA");
                 });
 
                 // one by one setting
                 this.set("propertyA", "propertyA");
-                this.set("methodE", function(){
+                this.set("methodE", function() {
                     console.log("mothodE", this);
                 });
 
                 // mutil
-                this.extends({
+                this.extend({
                     propertyA : "propertyAAAA", // override, you can override other default method.
                     propertyB : "propertyB",
                     methodD : function() {
@@ -127,12 +127,12 @@ $(function() {
                 console.log(this, this.propertyA);
             }
             
-            editormd.fn.customMethod = function(){
+            editormd.fn.customMethod = function() {
                 console.log("customMethod", this);
             };
             
             $(function() {
-                editormd.methodOne = function(){
+                editormd.methodOne = function() {
                     console.log("editormd.methodOne");
                 };
                 

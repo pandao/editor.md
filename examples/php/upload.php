@@ -11,7 +11,8 @@
      * Copyright@2015 Editor.md all right reserved.
 	 */
 
-    header("Content-Type:application/json; charset=utf-8");
+    //header("Content-Type:application/json; charset=utf-8"); // Unsupport IE
+    header("Content-Type:text/html; charset=utf-8");
     header("Access-Control-Allow-Origin: *");
 
     require("editormd.uploader.class.php");
@@ -41,6 +42,10 @@
         if ($imageUploader->upload($name))
         {
             $imageUploader->message('上传成功！', 1);
+        }
+        else
+        {
+            $imageUploader->message('上传失败！', 0);
         }
     }
 ?>

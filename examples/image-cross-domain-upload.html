@@ -28,9 +28,9 @@
 
 #### 跨域上传原理
 
-利用iframe来实现，A站POST到B站，B站处理上传后再跳转回到A站的callback页面，callback页面此时在iframe内（即同域下），再通过window.parent就可以操作父页面的任意元素了。
+利用 iframe 来实现，A 站 POST 到 B 站，B 站处理上传后再跳转回到 A 站的 callback 页面，callback 页面此时在 iframe 内（即同域下），再通过 window.parent 就可以操作父页面的任意元素了。
 
-#### 跨域上传示例PHP版
+#### 跨域上传示例 PHP 版
 
 当前域名：blog.xxx.com/post.php
 
@@ -46,6 +46,8 @@
 
 ```php
 &lt;?php
+header("Access-Control-Allow-Origin: *"); // Setting allow domian name
+
 $file = 'uploads/' . $_FILES['file']['name'];
 // 详细过程略
 move_uploaded_file($_FILES['file']['tmp_name'], $file);
@@ -92,9 +94,9 @@ exit;
                     uploadCallbackURL : "http://localhost/editor.md/examples/php/upload_callback.html?test=dfdf"
                     
                     /*
-                     跨域时，上传的图片服务器后台只需要返回一个跳转URL并跳转到原页面同域下的callback页面，结构如下：
+                     跨域时，上传的图片服务器后台只需要返回一个跳转 URL 并跳转到原页面同域下的 callback 页面，结构如下：
                      {
-                        success   : 0 | 1,   // 0表示上传失败，1表示上传成功
+                        success   : 0 | 1,   // 0 表示上传失败，1 表示上传成功
                         message   : "提示的信息，上传成功或上传失败及错误信息等。",
                         dialog_id : $_GET['dialog_id'],
                         url       : "远程图片地址"    // 上传成功时才返回

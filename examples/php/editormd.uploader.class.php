@@ -8,7 +8,7 @@
     * @Auther: Pandao
     * @E-mail: pandao@vip.qq.com
     * @CreateTime: 2015-02-13 23:31:32
-    * @UpdateTime: 2015-02-15 20:49:52
+    * @UpdateTime: 2015-06-02 15:36:23
     * Copyright@2015 Editor.md all right reserved.
     */
 
@@ -91,18 +91,24 @@
             if(empty($_FILES[$name]['name'])) //上传文件为空时
             {
                $this->message($this->errors['empty']);
+                
+                return false;
             }
             
             $this->files = $_FILES[$name];
             
             if(!file_exists($this->savePath)) //目录不存在
             {
-               $this->message($this->errors['not_exist']);
+                $this->message($this->errors['not_exist']);
+                
+                return false;
             }
 
             if(!is_writable($this->savePath)) //目录不可写
             {
-               $this->message($this->errors['unwritable']);
+                $this->message($this->errors['unwritable']);
+                
+                return false;
             }
 
             $this->fileExt  = $this->getFileExt($this->files["name"]); //取得扩展名
@@ -128,19 +134,25 @@
                 $formats = implode(',', $this->formats);
                 $message = "您上传的文件" . $files["name"] . "是" . $this->fileExt . "格式的，系统不允许上传，您只能上传" . $formats . "格式的文件。";
                 $this->message($message);
+                
+                return false;
             }
 
             if ($files["size"] / 1024 > $this->maxSize)
             {
                 $message = "您上传的 " . $files["name"] . "，文件大小超出了系统限定值" . $this->maxSize . " KB，不能上传。";
                 $this->message($message);
+                
+                return false;
             }
 
             if (!$this->cover) //当不能覆盖时
             {
                 if(file_exists($this->savePath.$this->saveName)) //有相同的文件存在
                 {
-                   $this->message($this->saveName . $this->errors['same_file']);
+                    $this->message($this->saveName . $this->errors['same_file']);
+                    
+                    return false;
                 }
             }
 
@@ -187,6 +199,8 @@
                 }
 
                 $this->message($message);
+                
+                return false;
             }
             
             @unlink($files["tmp_name"]); //删除临时文件
@@ -323,7 +337,5 @@
                 
                 echo json_encode($array);
             }
-                
-            exit;
         }
     }

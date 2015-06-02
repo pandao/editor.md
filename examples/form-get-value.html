@@ -15,15 +15,16 @@
             </header>
             <form method="post" action="http://editormd.ipandao.com/php/post.php">
                 <div id="test-editormd">
+                    <!-- Custom textarea name attribute <textarea style="display:none;" name="test-textarea-name"> -->
                     <textarea style="display:none;">#### Get value
 
-每个Editor.md的ID元素下都包含两个Textarea，一个保存Markdown源码，一个保存HTML源码，可以按需要获取相应的值，如下：
+每个 Editor.md 的 ID 元素下都有一个保存 Markdown 源码的 Textarea，你也可以通过设置开启另一个保存 HTML 源码的 Textarea，可以按需要获取相应的值，如下：
 
 ```html
 &lt;div class="editormd" id="$id"&gt;
     &lt;textarea class="editormd-markdown-textarea" name="$id-markdown-doc"&gt;&lt;/textarea&gt;
 
-    &lt;!-- html textarea需要开启配置项 saveHTMLToTextarea == true --&gt;
+    &lt;!-- html textarea 需要开启配置项 saveHTMLToTextarea == true --&gt;
     &lt;textarea class="editormd-html-textarea" name="$id-html-code"&gt;&lt;/textarea&gt;
 &lt;/div&gt;
 ```
@@ -38,14 +39,14 @@ var testEditor = editormd("test-editormd", {
     saveHTMLToTextarea : true
 });
 
-testEditor.getMarkdown();       // 获取Markdown源码
-testEditor.getHTML();           // 获取Textarea保存的HTML源码
-testEditor.getPreviewedHTML();  // 获取预览窗口里的HTML，在开启watch且没有开启saveHTMLToTextarea时使用
+testEditor.getMarkdown();       // 获取 Markdown 源码
+testEditor.getHTML();           // 获取 Textarea 保存的 HTML 源码
+testEditor.getPreviewedHTML();  // 获取预览窗口里的 HTML，在开启 watch 且没有开启 saveHTMLToTextarea 时使用
 ```
 
 #### Backend get form value
 
-假设编辑器ID为`test-editormd`，以PHP为例：
+假设编辑器 ID 为 `test-editormd`，以 PHP 为例：
 
 ```php
 <?php
@@ -82,9 +83,9 @@ testEditor.getPreviewedHTML();  // 获取预览窗口里的HTML，在开启watch
                     });
                 });
 
-                //testEditor.getMarkdown();       // 获取Markdown源码
-                //testEditor.getHTML();           // 获取Textarea保存的HTML源码
-                //testEditor.getPreviewedHTML();  // 获取预览窗口里的HTML，在开启watch且没有开启saveHTMLToTextarea时使用
+                //testEditor.getMarkdown();       // 获取 Markdown 源码
+                //testEditor.getHTML();           // 获取 Textarea 保存的 HTML 源码
+                //testEditor.getPreviewedHTML();  // 获取预览窗口里的 HTML，在开启 watch 且没有开启 saveHTMLToTextarea 时使用
             });
         </script>
     </body>
