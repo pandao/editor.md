@@ -464,6 +464,6 @@ v1.2.0 主要更新：
 - 修复 Bug，即火狐上传图片后无法返回值的问题 [#96](https://github.com/pandao/editor.md/issues/96);
     - 修改了图片上传插件；
     - 修改 PHP 上传类及示例；
-- 方法更名：`extends()` 更名为 `extend()`，与兼容 IE8；
+- 方法更名：`extends()` 更名为 `extend()`，以兼容 IE8；
 - 修复 IE8 下 Emoji 正则表达式字符集越界的问题；
 - 更新了 `README.md` 和 `CHANGE.md` 等相关文档文件；
