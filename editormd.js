@@ -2772,44 +2772,82 @@
 
         h1 : function() {
             var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("# " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("# ");
+	    	cm.setCursor(cursor.line, cursor.ch+2);
+	    } else {
+	    	cm.replaceSelection("# ");
+	    }
+	    
+            
         },
 
         h2 : function() {
             var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("## " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("## ");
+	    	cm.setCursor(cursor.line, cursor.ch+3);
+	    } else {
+	    	cm.replaceSelection("## ");
+	    }
         },
 
         h3 : function() {
-            var cm        = this.cm;
+             var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("### " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("### ");
+	    	cm.setCursor(cursor.line, cursor.ch+4);
+	    } else {
+	    	cm.replaceSelection("### ");
+	    }
         },
 
         h4 : function() {
-            var cm        = this.cm;
+         var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("#### " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("#### ");
+	    	cm.setCursor(cursor.line, cursor.ch+5);
+	    } else {
+	    	cm.replaceSelection("#### ");
+	    }
         },
 
         h5 : function() {
-            var cm        = this.cm;
+         var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("##### " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("##### ");
+	    	cm.setCursor(cursor.line, cursor.ch+6);
+	    } else {
+	    	cm.replaceSelection("##### ");
+	    }
         },
 
         h6 : function() {
-            var cm        = this.cm;
+         var cm        = this.cm;
+            var cursor	  = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("###### " + selection);
+	    if (cursor.ch !== 0){
+	    	cm.setCursor(cursor.line, 0);
+	    	cm.replaceSelection("###### ");
+	    	cm.setCursor(cursor.line, cursor.ch+7);
+	    } else {
+	    	cm.replaceSelection("###### ");
+	    }
         },
 
         "list-ul" : function() {
@@ -2860,8 +2898,13 @@
             var cm        = this.cm;
             var cursor    = cm.getCursor();
             var selection = cm.getSelection();
-
-            cm.replaceSelection("------------");
+	    if(cursor.ch!==0){
+		cm.setCursor(cursor.line+1,0);
+		cm.replaceSelection("\n---\n");
+		}
+		else {
+			cm.replaceSelection("\n---\n");	
+		}
         },
 
         tex : function() {
