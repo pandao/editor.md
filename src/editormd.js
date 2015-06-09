@@ -47,7 +47,7 @@
     };
     
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.4.5";
+    editormd.version      = "1.5.0";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
     
@@ -78,10 +78,12 @@
     
     editormd.defaults     = {
         mode                 : "gfm",          //gfm or markdown
-        theme                : "default",
-        name                 : "",
+        name                 : "",             // Form element name
         value                : "",             // value for CodeMirror, if mode not gfm/markdown
-        markdown             : "",
+        theme                : "",             // Editor.md self themes, before v1.5.0 is CodeMirror theme, default empty
+        editorTheme          : "default",      // Editor area, this is CodeMirror theme at v1.5.0
+        previewTheme         : "",             // Preview area theme, default empty
+        markdown             : "",             // Markdown source code
         appendMarkdown       : "",             // if in init textarea value not empty, append markdown to textarea
         width                : "100%",
         height               : "100%",
@@ -97,7 +99,7 @@
 		autoFocus            : true,
         autoCloseTags        : true,
         searchReplace        : true,
-        syncScrolling        : true,
+        syncScrolling        : true,           // true | false | "single", default true
         readOnly             : false,
         tabSize              : 4,
 		indentUnit           : 4,
@@ -410,6 +412,11 @@
             
             editor.append(appendElements).addClass(classPrefix + "vertical");
             
+            if (settings.theme !== "") 
+            {
+                editor.addClass(classPrefix + "theme-" + settings.theme);
+            }
+            
             this.mask          = editor.children("." + classPrefix + "mask");    
             this.containerMask = editor.children("." + classPrefix  + "container-mask");
             
@@ -426,6 +433,11 @@
             this.htmlTextarea     = editor.children("." + classNames.textarea.html);            
             this.preview          = editor.children("." + classPrefix + "preview");
             this.previewContainer = this.preview.children("." + classPrefix + "preview-container");
+            
+            if (settings.previewTheme !== "") 
+            {
+                this.preview.addClass(classPrefix + "preview-theme-" + settings.previewTheme);
+            }
             
             if (typeof define === "function" && define.amd)
             {
@@ -579,22 +591,73 @@
         },
         
         /**
-         * 设置CodeMirror的主题
-         * Setting CodeMirror theme
+         * 设置 Editor.md 的整体主题，主要是工具栏
+         * Setting Editor.md theme
          * 
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        setTheme : function(theme) {  
+        setTheme : function(theme) {
+            var editor      = this.editor;
+            var oldTheme    = this.settings.theme;
+            var themePrefix = this.classPrefix + "theme-";
+            
+            editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+            
+            this.settings.theme = theme;
+            
+            return this;
+        },
+        
+        /**
+         * 设置 CodeMirror（编辑区）的主题
+         * Setting CodeMirror (Editor area) theme
+         * 
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        setEditorTheme : function(theme) {  
             var settings   = this.settings;  
-            settings.theme = theme;  
+            settings.editorTheme = theme;  
             
             if (theme !== "default")
             {
-                editormd.loadCSS(settings.path + "codemirror/theme/" + settings.theme);
+                editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
             
             this.cm.setOption("theme", theme);
+            
+            return this;
+        },
+        
+        /**
+         * setEditorTheme() 的别名
+         * setEditorTheme() alias
+         * 
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        setCodeMirrorTheme : function (theme) {            
+            this.setEditorTheme(theme);
+            
+            return this;
+        },
+        
+        /**
+         * 设置 Editor.md 的主题
+         * Setting Editor.md theme
+         * 
+         * @returns {editormd}  返回editormd的实例对象
+         */
+        
+        setPreviewTheme : function(theme) {  
+            var preview     = this.preview;
+            var oldTheme    = this.settings.previewTheme;
+            var themePrefix = this.classPrefix + "preview-theme-";
+            
+            preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
+            
+            this.settings.previewTheme = theme;
             
             return this;
         },
@@ -610,14 +673,14 @@
             var settings         = this.settings;
             var editor           = this.editor;
             
-            if (settings.theme !== "default")
+            if (settings.editorTheme !== "default")
             {
-                editormd.loadCSS(settings.path + "codemirror/theme/" + settings.theme);
+                editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
             
             var codeMirrorConfig = {
                 mode                      : settings.mode,
-                theme                     : settings.theme,
+                theme                     : settings.editorTheme,
                 tabSize                   : settings.tabSize,
                 dragDrop                  : false,
                 autofocus                 : settings.autoFocus,
@@ -659,6 +722,11 @@
             {
                 this.codeMirror.css("height", "auto");
                 this.cm.setOption("viewportMargin", Infinity);
+            }
+            
+            if (!settings.lineNumbers)
+            {
+                this.codeMirror.find(".CodeMirror-gutters").css("border-right", "none");
             }
 
             return this;
@@ -1341,6 +1409,7 @@
         
         lockScreen : function(lock) {
             editormd.lockScreen(lock);
+            this.resize();
 
             return this;
         },
@@ -1420,6 +1489,8 @@
             this.previewContainer.find("." + editormd.classNames.tex).each(function(){
                 var tex  = $(this);
                 editormd.$katex.render(tex.text(), tex[0]);
+                
+                tex.find(".katex").css("font-size", "1.6em");
             });   
 
             return this;
@@ -1433,7 +1504,7 @@
          */
         
         flowChartAndSequenceDiagramRender : function() {
-            
+            var $this            = this;
             var settings         = this.settings;
             var previewContainer = this.previewContainer;
             
@@ -1451,6 +1522,35 @@
 
             if (settings.sequenceDiagram) {
                 previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+            }
+                    
+            var preview    = $this.preview;
+            var codeMirror = $this.codeMirror;
+            var codeView   = codeMirror.find(".CodeMirror-scroll");
+
+            var height    = codeView.height();
+            var scrollTop = codeView.scrollTop();                    
+            var percent   = (scrollTop / codeView[0].scrollHeight);
+            var tocHeight = 0;
+
+            preview.find(".markdown-toc-list").each(function(){
+                tocHeight += $(this).height();
+            });
+
+            var tocMenuHeight = preview.find(".editormd-toc-menu").height(); 
+            tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
+
+            if (scrollTop === 0) 
+            {
+                preview.scrollTop(0);
+            } 
+            else if (scrollTop + height >= codeView[0].scrollHeight - 16)
+            { 
+                preview.scrollTop(preview[0].scrollHeight);                        
+            } 
+            else
+            {                  
+                preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
             }
 
             return this;
@@ -1540,6 +1640,12 @@
             return this;
         },
         
+        /**
+         * 绑定同步滚动
+         * 
+         * @returns {editormd} return this
+         */
+        
         bindScrollEvent : function() {
             
             var _this            = this;
@@ -1557,6 +1663,15 @@
                     var height    = $(this).height();
                     var scrollTop = $(this).scrollTop();                    
                     var percent   = (scrollTop / $(this)[0].scrollHeight);
+                    
+                    var tocHeight = 0;
+                    
+                    preview.find(".markdown-toc-list").each(function(){
+                        tocHeight += $(this).height();
+                    });
+                    
+                    var tocMenuHeight = preview.find(".editormd-toc-menu").height();
+                    tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
 
                     if (scrollTop === 0) 
                     {
@@ -1567,8 +1682,8 @@
                         preview.scrollTop(preview[0].scrollHeight);                        
                     } 
                     else
-                    {                    
-                        preview.scrollTop(preview[0].scrollHeight * percent);
+                    {
+                        preview.scrollTop((preview[0].scrollHeight  + tocHeight + tocMenuHeight) * percent);
                     }
                     
                     $.proxy(settings.onscroll, _this)(event);
@@ -1616,6 +1731,10 @@
 				touchend   : cmUnbindScroll
 			});
             
+            if (settings.syncScrolling === "single") {
+                return this;
+            }
+            
 			preview.bind({
 				mouseover  : previewBindScroll,
 				mouseout   : previewUnbindScroll,
@@ -1639,7 +1758,7 @@
             cm.on("change", function(_cm, changeObj) {
                 
                 if (settings.watch)
-                {           
+                {
                     _this.previewContainer.css("padding", settings.autoHeight ? "20px 20px 50px 40px" : "20px");
                 }
                 
@@ -1793,7 +1912,7 @@
                 
                 if (settings.toolbar && !settings.readOnly) 
                 {
-                    preview.css("top", toolbar.height());
+                    preview.css("top", toolbar.height() + 1);
                 } 
                 else 
                 {
@@ -1806,7 +1925,9 @@
                 }
                 else
                 {                
-                    preview.height((settings.toolbar && !settings.readOnly) ? editor.height() - toolbar.height() : editor.height());
+                    var previewHeight = (settings.toolbar && !settings.readOnly) ? editor.height() - toolbar.height() : editor.height();
+                    
+                    preview.height(previewHeight);
                 }
             } 
             else 
@@ -1880,12 +2001,14 @@
             };
             
             marked.setOptions(markedOptions);
-        
-            cmValue            = editormd.filterHTMLTags(cmValue, settings.htmlDecode);
-            
+                    
             var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
             
-            //console.log("cmValue", cmValue, this.markdownTextarea, this.htmlTextarea);
+            //console.info("cmValue", cmValue, newMarkdownDoc);
+            
+            newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
+            
+            //console.error("cmValue", cmValue, newMarkdownDoc);
             
             this.markdownTextarea.text(cmValue);
             
@@ -2343,6 +2466,7 @@
             var toolbar          = this.toolbar;
             var settings         = this.settings;
             var codeMirror       = this.codeMirror;
+            var previewContainer = this.previewContainer;
             
             if ($.inArray(settings.mode, ["gfm", "markdown"]) < 0) {
                 return this;
@@ -2376,10 +2500,16 @@
                 if (!settings.watch)
                 {
                     this.save();
+                } 
+                else 
+                {
+                    previewContainer.css("padding", "");
                 }
+                
+                previewContainer.addClass(this.classPrefix + "preview-active");
 
                 preview.show().css({
-                    position  : "static",
+                    position  : "",
                     top       : 0,
                     width     : editor.width(),
                     height    : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height()
@@ -2412,6 +2542,7 @@
             var preview          = this.preview;
             var toolbar          = this.toolbar;
             var settings         = this.settings;
+            var previewContainer = this.previewContainer;
             var previewCloseBtn  = editor.find("." + this.classPrefix + "preview-close-btn");
 
             this.state.preview   = false;
@@ -2425,6 +2556,13 @@
             preview[(settings.watch) ? "show" : "hide"]();
             
             previewCloseBtn.hide().unbind(editormd.mouseOrTouch("click", "touchend"));
+                
+            previewContainer.removeClass(this.classPrefix + "preview-active");
+                
+            if (settings.watch)
+            {
+                previewContainer.css("padding", "20px");
+            }
             
             preview.css({ 
                 background : null,
@@ -2480,11 +2618,6 @@
                 $("html,body").css("overflow", "hidden");
                 
                 editor.css({
-                    position : "fixed", 
-                    top      : 0, 
-                    left     : 0, 
-                    margin   : 0, 
-                    border   : "none",
                     width    : $(window).width(),
                     height   : $(window).height()
                 }).addClass(fullscreenClass);
@@ -2527,13 +2660,8 @@
             $("html,body").css("overflow", "");
 
             editor.css({
-                position : "", 
-                top      : "",
-                left     : "", 
-                margin   : "0 auto 15px", 
                 width    : editor.data("oldWidth"),
-                height   : editor.data("oldHeight"),
-                border   : "1px solid #ddd"
+                height   : editor.data("oldHeight")
             }).removeClass(fullscreenClass);
 
             this.resize();
@@ -2640,8 +2768,9 @@
         var settings = this.settings || {dialogLockScreen : true};
         
         if (settings.dialogLockScreen) 
-        {
+        {            
             $("html,body").css("overflow", "hidden");
+            this.resize();
         }
     };
    
@@ -2717,8 +2846,19 @@
             var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("> " + selection);
-            cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("> " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 2);
+            }
+            else
+            {
+                cm.replaceSelection("> " + selection);
+            }
+
+            //cm.replaceSelection("> " + selection);
+            //cm.setCursor(cursor.line, (selection === "") ? cursor.ch + 2 : cursor.ch + selection.length + 2);
         },
         
         ucfirst : function() {
@@ -2760,44 +2900,104 @@
 
         h1 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("# " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("# " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 2);
+            }
+            else
+            {
+                cm.replaceSelection("# " + selection);
+            }
         },
 
         h2 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("## " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("## " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 3);
+            }
+            else
+            {
+                cm.replaceSelection("## " + selection);
+            }
         },
 
         h3 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("### " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("### " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 4);
+            }
+            else
+            {
+                cm.replaceSelection("### " + selection);
+            }
         },
 
         h4 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("#### " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("#### " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 5);
+            }
+            else
+            {
+                cm.replaceSelection("#### " + selection);
+            }
         },
 
         h5 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("##### " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("##### " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 6);
+            }
+            else
+            {
+                cm.replaceSelection("##### " + selection);
+            }
         },
 
         h6 : function() {
             var cm        = this.cm;
+            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("###### " + selection);
+            if (cursor.ch !== 0)
+            {
+                cm.setCursor(cursor.line, 0);
+                cm.replaceSelection("###### " + selection);
+                cm.setCursor(cursor.line, cursor.ch + 7);
+            }
+            else
+            {
+                cm.replaceSelection("###### " + selection);
+            }
         },
 
         "list-ul" : function() {
@@ -2849,7 +3049,7 @@
             var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
-            cm.replaceSelection("------------");
+            cm.replaceSelection(((cursor.ch !== 0) ? "\n\n" : "\n") + "------------\n\n");
         },
 
         tex : function() {
@@ -3256,6 +3456,7 @@
                         {
                             var src = (name === "+1") ? "plus1" : name;
                             src     = (src === "black_large_square") ? "black_square" : src;
+                            src     = (src === "moon") ? "waxing_gibbous_moon" : src;
 
                             return "<img src=\"" + editormd.emoji.path + src + editormd.emoji.ext + "\" class=\"emoji\" title=\"&#58;" + name + "&#58;\" alt=\"&#58;" + name + "&#58;\" />";
                         }
@@ -3415,6 +3616,10 @@
             {
                 return "<div class=\"flowchart\">" + code + "</div>";
             } 
+            else if ( lang === "math" || lang === "latex" || lang === "katex")
+            {
+                return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
+            } 
             else 
             {
 
@@ -3493,7 +3698,7 @@
         
         var tocContainer = container.find(".markdown-toc");
         
-        if (tocContainer.length < 1 && container.attr("previewContainer") === "false")
+        if ((tocContainer.length < 1 && container.attr("previewContainer") === "false"))
         {
             var tocHTML = "<div class=\"markdown-toc " + classPrefix + "markdown-toc\"></div>";
             
@@ -3609,6 +3814,8 @@
 
             html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
         }
+        
+        //return html;
 
         if (typeof attrs !== "undefined")
         {
@@ -3628,18 +3835,20 @@
                     var $attrs = {};
                     
                     $.each(_attrs, function(i, e) {
-                        $attrs[e.nodeName] = e.nodeValue;
+                        if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
                     });
                     
-                    $.each($attrs, function(i) {                
+                    $.each($attrs, function(i) {                        
                         if (i.indexOf("on") === 0) {
                             delete $attrs[i];
                         }
                     });
                     
                     el.attr($attrs);
+                    
+                    var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
 
-                    return el[0].outerHTML;
+                    return el[0].outerHTML + text;
                 });
             }
             else
@@ -3678,7 +3887,9 @@
             tocStartLevel        : 1,
             tocTitle             : "目录",
             tocDropdown          : false,
+            tocContainer         : "",
             markdown             : "",
+            markdownSourceCode   : false,
             htmlDecode           : false,
             autoLoadKaTeX        : true,
             pageBreak            : true,
@@ -3734,21 +3945,38 @@
         };
         
 		markdownDoc = new String(markdownDoc);
-        markdownDoc = editormd.filterHTMLTags(markdownDoc, settings.htmlDecode);
         
         var markdownParsed = marked(markdownDoc, markedOptions);
         
-        saveTo.val(markdownDoc);
+        markdownParsed = editormd.filterHTMLTags(markdownParsed, settings.htmlDecode);
+        
+        if (settings.markdownSourceCode) {
+            saveTo.text(markdownDoc);
+        } else {
+            saveTo.remove();
+        }
         
         div.addClass("markdown-body " + this.classPrefix + "html-preview").append(markdownParsed);
+        
+        var tocContainer = (settings.tocContainer !== "") ? $(settings.tocContainer) : div;
+        
+        if (settings.tocContainer !== "")
+        {
+            tocContainer.attr("previewContainer", false);
+        }
          
         if (settings.toc) 
         {
-            div.tocContainer = this.markdownToCRenderer(markdownToC, div, settings.tocDropdown, settings.tocStartLevel);
+            div.tocContainer = this.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel);
             
             if (settings.tocDropdown || div.find("." + this.classPrefix + "toc-menu").length > 0)
             {
                 this.tocDropdownMenu(div, settings.tocTitle);
+            }
+            
+            if (settings.tocContainer !== "")
+            {
+                div.find(".editormd-toc-menu, .editormd-markdown-toc").remove();
             }
         }
             
@@ -3773,8 +4001,9 @@
         {
             var katexHandle = function() {
                 div.find("." + editormd.classNames.tex).each(function(){
-                    var tex  = $(this);
-                    katex.render(tex.html().replace(/&lt;/g, "<").replace(/&gt;/g, ">"), tex[0]);
+                    var tex  = $(this);                    
+                    katex.render(tex.html().replace(/&lt;/g, "<").replace(/&gt;/g, ">"), tex[0]);                    
+                    tex.find(".katex").css("font-size", "1.6em");
                 });
             };
             
@@ -3799,7 +4028,17 @@
         return div;
     };
     
-    editormd.themes = [
+    // Editor.md themes, change toolbar themes etc.
+    // added @1.5.0
+    editormd.themes        = ["default", "dark"];
+    
+    // Preview area themes
+    // added @1.5.0
+    editormd.previewThemes = ["default", "dark"];
+    
+    // CodeMirror / editor area themes
+    // @1.5.0 rename -> editorThemes, old version -> themes
+    editormd.editorThemes = [
         "default", "3024-day", "3024-night",
         "ambiance", "ambiance-mobile",
         "base16-dark", "base16-light", "blackboard",
@@ -3986,7 +4225,8 @@
         };
 
         options          = $.extend(true, defaults, options);
-
+        
+        var $this        = this;
         var editor       = this.editor;
         var classPrefix  = editormd.classPrefix;
         var guid         = (new Date()).getTime();
@@ -4028,6 +4268,7 @@
             if (options.lockScreen)
             {                
                 $("html,body").css("overflow", (lock) ? "hidden" : "");
+                $this.resize();
             }
 
             return dialog;

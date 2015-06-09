@@ -6,6 +6,9 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <style>
+            .editormd-preview-active {width: 80%;margin: 0 auto;}
+        </style>
     </head>
     <body>
         <div id="layout">
@@ -20,6 +23,7 @@
 {
     onpreviewing : function() {
         // console.log("onpreviewing =>", this, this.id, this.settings);
+        // on previewing you can custom css .editormd-preview-active
     },
 
     onpreviewed : function() {

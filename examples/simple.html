@@ -38,11 +38,18 @@
             editormd.js
             ...
 
+```html
+&lt;!-- English --&gt;
+&lt;script src="../dist/js/languages/en.js"&gt;&lt;/script&gt;
+
+&lt;!-- 繁體中文 --&gt;
+&lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
+```
 </textarea>
             </div>
         </div>
         <script src="js/jquery.min.js"></script>
-        <script src="../editormd.js"></script>
+        <script src="../editormd.min.js"></script>
         <script type="text/javascript">
 			var testEditor;
 
@@ -50,6 +57,7 @@
                 testEditor = editormd("test-editormd", {
                     width   : "90%",
                     height  : 640,
+                    syncScrolling : "single",
                     path    : "../lib/"
                 });
                 

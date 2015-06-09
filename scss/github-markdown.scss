@@ -12,7 +12,7 @@
   color: #333;
   overflow: hidden;
   //font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
-  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "Segoe UI", Tahoma, STXihei, "华文细黑", STHeiti, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -53,7 +53,7 @@
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
-  font-family: monospace, monospace;
+  font-family: "Meiryo UI", "YaHei Consolas Hybrid", Consolas, "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
   font-size: 1em;
 }
 

@@ -67,6 +67,11 @@ editor.off("resize");
                         height   : 720,
                         appendMarkdown : md,
                         path     : '../lib/',
+                        tex      : true,
+                        htmlDecode : true,
+                        flowChart : true,
+                        taskList  : true,
+                        sequenceDiagram : true,
                         onscroll : function(event) {
                             console.clear();
                             console.log("onscroll =>", this, this.id, this.settings, event);

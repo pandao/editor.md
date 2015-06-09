@@ -6,34 +6,91 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <style>
+            /* Custom Editor.md theme css example */
+            /*
+            .editormd-theme-dark {
+                border-color: #1a1a17;
+                
+            }
+            
+            .editormd-theme-dark .editormd-toolbar {
+                background: #1A1A17;
+                border-color: #1a1a17;
+            }
+            
+            .editormd-theme-dark .editormd-menu > li > a {
+                color: #777;
+                border-color: #1a1a17;
+            }
+            
+            .editormd-theme-dark .editormd-menu > li.divider {
+                border-right: 1px solid #111;
+            }
+            
+            .editormd-theme-dark .editormd-menu > li > a:hover, .editormd-menu > li > a.active {
+                border-color: #333;
+                background: #333;
+            }*/
+        </style>
     </head>
     <body>
         <div id="layout">
             <header>
                 <h1>Themes</h1>
                 <p>
-                    <select>
-                        <option selected="selected" value="">select themes</option>
+                    <select id="editormd-theme-select">
+                        <option selected="selected" value="">select Editor.md themes</option>
+                    </select>
+                    <select id="editor-area-theme-select">
+                        <option selected="selected" value="">select editor area themes</option>
+                    </select>
+                    <select id="preview-area-theme-select">
+                        <option selected="selected" value="">select preview area themes</option>
                     </select>
                 </p>
             </header>
             <div id="test-editormd">
-                <textarea style="display:none;">### Themes
+                <textarea style="display:none;">[TOC]
+
+### Themes
 
 #### Setting
 
-```javascript  
-testEditor = editormd("test-editormd", {
-    theme : "theme-name",
-    path : '../lib/'
-});
+configs:
+
+```javascript
+{
+    // Editor.md theme, default or dark, change at v1.5.0
+    // You can also custom css class .editormd-theme-xxxx
+    theme : "default | dark",
+
+    // Preview container theme, added v1.5.0
+    // You can also custom css class .editormd-preview-theme-xxxx
+    previewTheme : "default | dark",
+
+    // Added @v1.5.0 & after version this is CodeMirror (editor area) theme
+    editorTheme : editormd.editorThemes['theme-name']
+}
+```
+
+functions:
+
+```javascript
+editor.setTheme('theme-name');
+editor.setEditorTheme('theme-name');
+editor.setPreviewTheme('theme-name');
 ```
 
 #### Default theme
 
-- default
+- Editor.md theme : `default`
+- Preview area theme : `default`
+- Editor area theme : `default`
 
-#### Recommends
+> Recommend `dark` theme.
+
+#### Recommend editor area themes
 
 - ambiance
 - eclipse
@@ -43,7 +100,7 @@ testEditor = editormd("test-editormd", {
 - neat
 - pastel-on-dark
 
-#### Optionals
+#### Editor area themes
 
 - default
 - 3024-day
@@ -83,36 +140,67 @@ testEditor = editormd("test-editormd", {
         <script src="../editormd.js"></script>
         <script type="text/javascript">
 			var testEditor;
-
-            $(function() {                
-                testEditor = editormd("test-editormd", {
-                    width: "90%",
-                    height: 720,
-                    theme : (localStorage.theme) ? localStorage.theme : "default",
-                    path : '../lib/'
-                });
+            
+            function themeSelect(id, themes, lsKey, callback)
+            {
+                var select = $("#" + id);
                 
-                var select = $("select");
-                
-                for (var i = 0, len = editormd.themes.length; i < len; i ++)
+                for (var i = 0, len = themes.length; i < len; i ++)
                 {                    
-                    var theme    = editormd.themes[i];
-                    var selected = (localStorage.theme == theme) ? " selected=\"selected\"" : "";
+                    var theme    = themes[i];
+                    var selected = (localStorage[lsKey] == theme) ? " selected=\"selected\"" : "";
+                    
                     select.append("<option value=\"" + theme + "\"" + selected + ">" + theme + "</option>");
                 }
                 
-                select.change(function(){
+                select.bind("change", function(){
                     var theme = $(this).val();
                     
-                    if (theme == "")
+                    if (theme === "")
                     {
                         alert("theme == \"\"");
                         return false;
                     }
                     
-                    localStorage.theme = theme;
+                    console.log("lsKey =>", lsKey, theme);
+                    
+                    localStorage[lsKey] = theme;
+                    callback(select, theme);
+                }); 
+                
+                return select;
+            }
+
+            $(function() {                
+                testEditor = editormd("test-editormd", {
+                    width        : "90%",
+                    height       : 720,
+                    
+                    // Editor.md theme, default or dark, change at v1.5.0
+                    // You can also custom css class .editormd-preview-theme-xxxx
+                    theme        : (localStorage.theme) ? localStorage.theme : "dark",
+                    
+                    // Preview container theme, added v1.5.0
+                    // You can also custom css class .editormd-preview-theme-xxxx
+                    previewTheme : (localStorage.previewTheme) ? localStorage.previewTheme : "dark", 
+                    
+                    // Added @v1.5.0 & after version is CodeMirror (editor area) theme
+                    editorTheme  : (localStorage.editorTheme) ? localStorage.editorTheme : "pastel-on-dark", 
+                    path         : '../lib/'
+                });
+                
+                themeSelect("editormd-theme-select", editormd.themes, "theme", function($this, theme) {
                     testEditor.setTheme(theme);
-                });                
+                });
+                
+                themeSelect("editor-area-theme-select", editormd.editorThemes, "editorTheme", function($this, theme) {
+                    testEditor.setCodeMirrorTheme(theme); 
+                    // or testEditor.setEditorTheme(theme);
+                });
+                
+                themeSelect("preview-area-theme-select", editormd.previewThemes, "previewTheme", function($this, theme) {
+                    testEditor.setPreviewTheme(theme);
+                });          
             });
         </script>
     </body>

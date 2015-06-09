@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Bootstrap 兼容测试 - Editor.md tests</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <style>
+            header {width: 90%;margin: 0 auto 20px;}
+        </style>
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Bootstrap 兼容测试</h1>
+            </header>
+            <div id="test-editormd">
+                <textarea style="display:none;">### Bootstrap 兼容测试</textarea>
+            </div>
+        </div>
+        <script src="../examples/js/jquery.min.js"></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="../editormd.js"></script>
+        <script type="text/javascript">
+			var testEditor;
+
+            $(function() {     
+                
+                $.get("../examples/test.md", function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 740,
+                        path : '../lib/',
+                        markdown : md,
+                        codeFold : true,
+                        saveHTMLToTextarea : true, 
+                        searchReplace : true,
+                        htmlDecode : "style,script,iframe|on*", 
+                        emoji : true,
+                        taskList : true,
+                        tocm            : true,         // Using [TOCM]
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             // 开启流程图支持，默认关闭
+                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "../examples/php/upload.php",
+                        onload : function() {
+                            console.log('onload', this);
+                        }
+                    });
+                });  
+            });
+        </script>
+    </body>
+</html>

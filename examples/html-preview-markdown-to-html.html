@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.preview.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
-        <style>
+        <style>            
             .editormd-html-preview {
                 width: 90%;
                 margin: 0 auto;
@@ -20,6 +20,9 @@
                 <p>即：非编辑情况下的HTML预览</p>
                 <p>HTML Preview(markdown to html)</p>       
             </header>
+            <div class="btns">
+                <button onclick="location.href='./html-preview-markdown-to-html-custom-toc-container.html';">将 ToC 移到自定义容器层</button>
+            </div>
             <div id="test-editormd-view">
                <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>               
             </div>
@@ -43,6 +46,20 @@ $$X^2 > Y$$
 上标：X&lt;sup&gt;2&lt;/sup&gt;
 
 下标：O&lt;sub&gt;2&lt;/sub&gt;
+
+##### 代码块里包含的过滤标签及属性不会被过滤
+
+```html
+&lt;style type="text/style"&gt;
+body{background:red;}
+&lt;/style&gt;
+
+&lt;script type="text/javscript"&gt;
+alert("script");
+&lt;/script&gt;
+
+&lt;iframe height=498 width=510 src="http://player.youku.com/embed/XMzA0MzIwMDgw" frameborder=0 allowfullscreen&gt;&lt;/iframe&gt;
+```
 
 #####Style
 
@@ -85,14 +102,17 @@ alert("script");
                 var testEditormdView, testEditormdView2;
                 
                 $.get("test.md", function(markdown) {
+                    
 				    testEditormdView = editormd.markdownToHTML("test-editormd-view", {
                         markdown        : markdown ,//+ "\r\n" + $("#append-test").text(),
                         //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
                         htmlDecode      : "style,script,iframe",  // you can filter tags decode
                         //toc             : false,
                         tocm            : true,    // Using [TOCM]
+                        //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
                         //gfm             : false,
                         //tocDropdown     : true,
+                        // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
                         emoji           : true,
                         taskList        : true,
                         tex             : true,  // 默认不解析

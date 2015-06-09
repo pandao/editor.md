@@ -467,3 +467,68 @@ v1.2.0 主要更新：
 - 方法更名：`extends()` 更名为 `extend()`，以兼容 IE8；
 - 修复 IE8 下 Emoji 正则表达式字符集越界的问题；
 - 更新了 `README.md` 和 `CHANGE.md` 等相关文档文件；
+
+
+### v1.5
+
+#### v1.5.0
+
+主要更新：
+
+- 新增：编辑器黑色主题 Dark，改进自定义主题功能（即工具栏、编辑区、预览区可分别设置主题样式）；
+- 新增：多行公式支持；
+- 新增：支持非编辑状态下的 ToC 自定义容器；
+- 新增：支持设置为单向同步滚动；
+- 改进：编辑器样式美化，更换了滚动条样式; 
+- 改进：提高同步滚动定位的精确度；
+- 改进：修复和改进 HTML 标签及属性过滤功能；
+- 改进：修复在 Bootstrap 下的兼容性问题；
+- 修复多处 Bug；
+
+具体更新：
+
+- 新增：解析后的代码块自动换行；
+
+- 新增：支持多行公式；
+    - 新增：新增语法：\`\`\`math | latex | katex；
+    - 改进：美化 KaTeX 公式，即加大字号等；
+
+- 新增：支持设置为单向同步滚动，即只是编辑区单向同步滚动，配置项 `syncScrolling : "single"`；
+    - 新增：配置同步滚动示例文件 `sync-scrolling.html`；
+
+- 新增：增加了编辑器样式主题 Dark，即工具栏和预览区各自有一个暗黑色主题；
+    - 变更：自 `v1.5.0` 开始，配置项 `theme` 改为指定 Editor.md 本身的主题；
+    - 新增配置项 `editorTheme` ，用于指定编辑区的主题，即 CodeMirror 的主题；
+    - 新增配置项 `previewTheme` ，用于指定预览区的主题；
+    - 新增方法 `setEditorTheme()`，别名： `setCodeMirror()`；
+    - 新增方法 `setPreviewTheme()`；
+    - 修改了方法 `setTheme()` ；
+    - 更换了滚动条样式，Only Webkit；
+    - 改进全屏状态下的样式显示，去掉 JS 操作的部分，改为通过 CSS 样式类 `.editormd-fullscreen` 控制；
+    - 修改和增加相关的方法、SCSS 文件及示例文件 `themes.html`；
+
+- 新增：非编辑状态下 ToC 自定义容器支持；
+    - 新增配置项 `markdownSourceCode`，即解析后是否保留源码，默认为不保留 `false`；
+    - 新增配置项 `tocContainer`，值为自定义 ToC 容器的 ID 选择器 `#xxxxx`，默认为空；
+    - 新增和修改了相关示例文件；
+
+- 新增：新增加了 CSS 样式类 `editormd-preview-active`，可以控制全屏HTML预览时的内容层样式；
+    - 修改了 `previewing()` 和 `previewed()` 方法；
+    - 相关 issues [#103](https://github.com/pandao/editor.md/issues/103)；
+    - 另外也调整了关闭按钮的位置；
+
+- 改进：修复插入 Emoji `:moon:` 无法显示的问题，修改为其是 `:waxing_gibbous_moon:` 的别名 [#94](https://github.com/pandao/editor.md/pull/94)；
+
+- 改进：修改了 CodeMirror 代码行的左右内间距，使其不会挨着左边的行号层；
+    - 相关 issues [#97](https://github.com/pandao/editor.md/issues/97)；
+
+- 改进：修改了同步滚动的定位算法，提高精确度；
+    - 修正问题 [#99](https://github.com/pandao/editor.md/issues/99)；
+    - 修改了 `bindScrollEvent()` 方法；
+
+- 改进：完善 HTML 标签过滤功能，即代码块、`<pre>` 预格式文本和行内代码里的标签及属性不会被过滤；
+    - 修复 Bug [#105](https://github.com/pandao/editor.md/issues/105)；
+- 改进：当不显示行号时 `settings.lineNumbers == false`，CodeMirror 行号层去掉右边框； 
+- 改进：根据指针在当前行的位置更合理插入标题和水平线 [#104](https://github.com/pandao/editor.md/pull/104)；
+- 改进：调整了字体，优先显示 `"YaHei Consolas Hybrid", Consolas`；
+- 改进：修复在 Bootstrap 下的兼容性问题，即因为 box-sizing 写错位置导致的弹出层宽度等错位问题 [#107](https://github.com/pandao/editor.md/issues/107)；

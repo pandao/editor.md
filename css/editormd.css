@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.css 
- * @version     v1.4.5 
+ * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-02
+ * @updateTime  2015-06-09
  */
 
 @charset "UTF-8";
@@ -21,10 +21,12 @@
   position: relative;
   margin-bottom: 15px;
   border: 1px solid #ddd;
+  font-family: "Meiryo UI", "Microsoft YaHei", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+}
+.editormd *, .editormd *:before, .editormd *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
 }
 .editormd a {
   text-decoration: none;
@@ -54,6 +56,35 @@
   -ms-appearance: none;
   appearance: none;
 }
+.editormd ::-webkit-scrollbar {
+  height: 10px;
+  width: 7px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.editormd ::-webkit-scrollbar:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+.editormd ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  border-radius: 6px;
+}
+.editormd ::-webkit-scrollbar-thumb:hover {
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+  /* Webkit browsers */
+  -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+  /* Firefox */
+  -ms-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+  /* IE9 */
+  -o-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+  /* Opera(Old) */
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+  /* IE9+, News */
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
 .editormd-user-unselect {
   -webkit-user-select: none;
@@ -65,7 +96,7 @@
 
 .editormd-toolbar {
   width: 100%;
-  min-height: 35px;
+  min-height: 37px;
   background: #fff;
   display: none;
   position: absolute;
@@ -92,7 +123,7 @@
 }
 .editormd-menu > li {
   margin: 0;
-  padding: 4px 0 5px;
+  padding: 5px 1px;
   display: inline-block;
   position: relative;
 }
@@ -108,7 +139,7 @@
   color: #666;
   display: inline-block;
   min-width: 24px;
-  font-size: 14px;
+  font-size: 16px;
   text-decoration: none;
   text-align: center;
   -webkit-border-radius: 2px;
@@ -134,7 +165,7 @@
   padding: 5px;
 }
 .editormd-menu > li > a > .editormd-bold {
-  padding: 5px 0;
+  padding: 5px 2px;
   display: inline-block;
   font-weight: bold;
 }
@@ -242,7 +273,7 @@
 .editormd-dialog-container {
   position: relative;
   padding: 20px;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 .editormd-dialog-container h1 {
   font-size: 24px;
@@ -407,7 +438,7 @@
 .editormd-code-toolbar {
   color: #999;
   font-size: 14px;
-  margin: -5px 0 12px;
+  margin: -5px 0 10px;
 }
 
 .editormd-grid-table {
@@ -505,7 +536,9 @@
   display: block;
   width: 75px;
   text-align: left;
-  padding: 5px 0 15px 5px;
+  padding: 7px 0 15px 5px;
+  margin: 0 0 2px;
+  font-weight: normal;
 }
 .editormd-form br {
   clear: both;
@@ -518,17 +551,17 @@
 }
 .editormd-form input[type="text"], .editormd-form input[type="number"] {
   color: #999;
-  padding: 7px 8px;
+  padding: 8px;
   border: 1px solid #ddd;
 }
 .editormd-form input[type="number"] {
   width: 40px;
   display: inline-block;
-  padding: 5px 8px;
+  padding: 6px 8px;
 }
 .editormd-form input[type="text"] {
   display: inline-block;
-  width: 242px;
+  width: 264px;
 }
 .editormd-form .fa-btns {
   display: inline-block;
@@ -649,12 +682,16 @@
   float: left;
   border-right: 1px solid #ddd;
   font-size: 14px;
-  font-family: Consolas, 'Monaco', courier, monospace;
+  font-family: "YaHei Consolas Hybrid", Consolas, "微软雅黑", "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", courier, monospace;
   line-height: 1.6;
   margin-top: 35px;
 }
 .editormd .CodeMirror pre {
   font-size: 14px;
+  padding: 0 12px;
+}
+.editormd .CodeMirror-linenumbers {
+  padding: 0 5px;
 }
 .editormd .CodeMirror-selected {
   background: #70B7FF;
@@ -3137,7 +3174,7 @@
   -webkit-text-size-adjust: 100%;
   color: #333;
   overflow: hidden;
-  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "Segoe UI", Tahoma, STXihei, "华文细黑", STHeiti, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -3178,7 +3215,7 @@
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
-  font-family: monospace, monospace;
+  font-family: "Meiryo UI", "YaHei Consolas Hybrid", Consolas, "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
   font-size: 1em;
 }
 
@@ -3794,6 +3831,9 @@
   font-size: 14px;
   line-height: 1.6;
   padding: 20px;
+  overflow: auto;
+  width: 100%;
+  background-color: #fff;
 }
 .editormd-preview-container blockquote, .editormd-html-preview blockquote {
   color: #666;
@@ -3803,8 +3843,9 @@
   font-size: 14px;
   font-style: italic;
 }
-.editormd-preview-container p > code, .editormd-html-preview p > code {
+.editormd-preview-container p code, .editormd-html-preview p code {
   margin-left: 5px;
+  margin-right: 4px;
 }
 .editormd-preview-container abbr, .editormd-html-preview abbr {
   background: #ffffdd;
@@ -3821,7 +3862,6 @@
   padding: 3px;
   border-radius: 3px;
   font-size: 14px;
-  font-family: Consolas, 'Monaco', courier, monospace;
 }
 .editormd-preview-container pre, .editormd-html-preview pre {
   border: 1px solid #ddd;
@@ -3836,6 +3876,9 @@
 .editormd-preview-container pre code, .editormd-html-preview pre code {
   padding: 0;
 }
+.editormd-preview-container pre, .editormd-preview-container code, .editormd-preview-container kbd, .editormd-html-preview pre, .editormd-html-preview code, .editormd-html-preview kbd {
+  font-family: "YaHei Consolas Hybrid", Consolas, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
+}
 .editormd-preview-container table thead tr, .editormd-html-preview table thead tr {
   background-color: #F8F8F8;
 }
@@ -3849,12 +3892,19 @@
   width: 24px;
   height: 24px;
 }
+.editormd-preview-container .katex, .editormd-html-preview .katex {
+  font-size: 1.4em;
+}
 .editormd-preview-container .sequence-diagram, .editormd-preview-container .flowchart, .editormd-html-preview .sequence-diagram, .editormd-html-preview .flowchart {
+  margin: 0 auto;
   text-align: center;
+}
+.editormd-preview-container .sequence-diagram svg, .editormd-preview-container .flowchart svg, .editormd-html-preview .sequence-diagram svg, .editormd-html-preview .flowchart svg {
+  margin: 0 auto;
 }
 .editormd-preview-container .sequence-diagram text, .editormd-preview-container .flowchart text, .editormd-html-preview .sequence-diagram text, .editormd-html-preview .flowchart text {
   font-size: 15px !important;
-  font-family: Arial !important;
+  font-family: "YaHei Consolas Hybrid", Consolas, "Microsoft YaHei", "Malgun Gothic", "Segoe UI", Helvetica, Arial !important;
 }
 
 /*! Pretty printing styles. Used with prettify.js. */
@@ -3999,18 +4049,20 @@ li.L9 {
 .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint {
   padding: 10px;
   border: 1px solid #ddd;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .editormd-preview-container ol.linenums, .editormd-html-preview ol.linenums {
   color: #999;
   padding-left: 2.5em;
 }
-.editormd-preview-container ol.linenums code, .editormd-html-preview ol.linenums code {
+.editormd-preview-container ol.linenums li, .editormd-html-preview ol.linenums li {
+  list-style-type: decimal;
+}
+.editormd-preview-container ol.linenums li code, .editormd-html-preview ol.linenums li code {
   border: none;
   background: none;
   padding: 0;
-}
-.editormd-preview-container li.L0, .editormd-preview-container li.L1, .editormd-preview-container li.L2, .editormd-preview-container li.L3, .editormd-preview-container li.L5, .editormd-preview-container li.L6, .editormd-preview-container li.L7, .editormd-preview-container li.L8, .editormd-html-preview li.L0, .editormd-html-preview li.L1, .editormd-html-preview li.L2, .editormd-html-preview li.L3, .editormd-html-preview li.L5, .editormd-html-preview li.L6, .editormd-html-preview li.L7, .editormd-html-preview li.L8 {
-  list-style-type: decimal;
 }
 
 .editormd-preview-container .editormd-toc-menu, .editormd-html-preview .editormd-toc-menu {
@@ -4198,8 +4250,8 @@ hr.editormd-page-break {
   display: none;
   background-color: #ccc;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 25px;
+  right: 35px;
   z-index: 19;
   -webkit-transition: background-color 300ms ease-out;
   /* Safari, Chrome */
@@ -4208,11 +4260,154 @@ hr.editormd-page-break {
   transition: background-color 300ms ease-out;
   /* IE >9, FF >15, Opera >12.0 */
 }
-
 .editormd-preview-close-btn:hover {
   background-color: #999;
 }
 
+.editormd-preview-active {
+  width: 100%;
+  padding: 40px;
+}
+
+/* Preview dark theme */
+.editormd-preview-theme-dark {
+  color: #777;
+  background: #2C2827;
+}
+.editormd-preview-theme-dark .editormd-preview-container {
+  color: #888;
+  background-color: #2C2827;
+}
+.editormd-preview-theme-dark .editormd-preview-container pre.prettyprint {
+  border: none;
+}
+.editormd-preview-theme-dark .editormd-preview-container blockquote {
+  color: #555;
+  padding: 0.5em;
+  background: #222;
+  border-color: #333;
+}
+.editormd-preview-theme-dark .editormd-preview-container abbr {
+  color: #fff;
+  padding: 1px 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background: #ff9900;
+}
+.editormd-preview-theme-dark .editormd-preview-container code {
+  color: #fff;
+  border: none;
+  padding: 1px 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background: #5A9600;
+}
+.editormd-preview-theme-dark .editormd-preview-container table {
+  border: none;
+}
+.editormd-preview-theme-dark .editormd-preview-container .fa-emoji {
+  color: #B4BF42;
+}
+.editormd-preview-theme-dark .editormd-preview-container .katex {
+  color: #FEC93F;
+}
+.editormd-preview-theme-dark .editormd-toc-menu > .markdown-toc {
+  background: #fff;
+  border: none;
+}
+.editormd-preview-theme-dark .editormd-toc-menu > .markdown-toc h1 {
+  border-color: #ddd;
+}
+.editormd-preview-theme-dark .markdown-body h1, .editormd-preview-theme-dark .markdown-body h2, .editormd-preview-theme-dark .markdown-body hr {
+  border-color: #222;
+}
+.editormd-preview-theme-dark pre {
+  color: #999;
+  background-color: #111;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* plain text */
+}
+.editormd-preview-theme-dark pre .pln {
+  color: #999;
+}
+.editormd-preview-theme-dark li.L1, .editormd-preview-theme-dark li.L3, .editormd-preview-theme-dark li.L5, .editormd-preview-theme-dark li.L7, .editormd-preview-theme-dark li.L9 {
+  background: none;
+}
+.editormd-preview-theme-dark [class*=editormd-logo] {
+  color: #2196F3;
+}
+.editormd-preview-theme-dark .sequence-diagram text {
+  fill: #fff;
+}
+.editormd-preview-theme-dark .sequence-diagram rect, .editormd-preview-theme-dark .sequence-diagram path {
+  color: #fff;
+  fill: #64D1CB;
+  stroke: #64D1CB;
+}
+.editormd-preview-theme-dark .flowchart rect, .editormd-preview-theme-dark .flowchart path {
+  stroke: #A6C6FF;
+}
+.editormd-preview-theme-dark .flowchart rect {
+  fill: #A6C6FF;
+}
+.editormd-preview-theme-dark .flowchart text {
+  fill: #5879B4;
+}
+
+@media screen {
+  .editormd-preview-theme-dark {
+    /* string content */
+    /* a keyword */
+    /* a comment */
+    /* a type name */
+    /* a literal value */
+    /* punctuation, lisp open bracket, lisp close bracket */
+    /* a markup tag name */
+    /* a markup attribute name */
+    /* a markup attribute value */
+    /* a declaration; a variable name */
+    /* a function name */
+  }
+  .editormd-preview-theme-dark .str {
+    color: #080;
+  }
+  .editormd-preview-theme-dark .kwd {
+    color: #ff9900;
+  }
+  .editormd-preview-theme-dark .com {
+    color: #444444;
+  }
+  .editormd-preview-theme-dark .typ {
+    color: #606;
+  }
+  .editormd-preview-theme-dark .lit {
+    color: #066;
+  }
+  .editormd-preview-theme-dark .pun, .editormd-preview-theme-dark .opn, .editormd-preview-theme-dark .clo {
+    color: #660;
+  }
+  .editormd-preview-theme-dark .tag {
+    color: #ff9900;
+  }
+  .editormd-preview-theme-dark .atn {
+    color: #6C95F5;
+  }
+  .editormd-preview-theme-dark .atv {
+    color: #080;
+  }
+  .editormd-preview-theme-dark .dec, .editormd-preview-theme-dark .var {
+    color: #008BA7;
+  }
+  .editormd-preview-theme-dark .fun {
+    color: red;
+  }
+}
 .editormd-onlyread .editormd-toolbar {
   display: none;
 }
@@ -4221,4 +4416,35 @@ hr.editormd-page-break {
 }
 .editormd-onlyread .editormd-preview {
   top: 0;
+}
+
+.editormd-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border: none;
+  margin: 0 auto;
+}
+
+/* Editor.md Dark theme */
+.editormd-theme-dark {
+  border-color: #1a1a17;
+}
+.editormd-theme-dark .editormd-toolbar {
+  background: #1A1A17;
+  border-color: #1a1a17;
+}
+.editormd-theme-dark .editormd-menu > li > a {
+  color: #777;
+  border-color: #1a1a17;
+}
+.editormd-theme-dark .editormd-menu > li > a:hover, .editormd-theme-dark .editormd-menu > li > a.active {
+  border-color: #333;
+  background: #333;
+}
+.editormd-theme-dark .editormd-menu > li.divider {
+  border-right: 1px solid #111;
+}
+.editormd-theme-dark .CodeMirror {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }

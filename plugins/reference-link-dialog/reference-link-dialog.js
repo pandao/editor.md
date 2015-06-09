@@ -3,8 +3,8 @@
  *
  * @file        reference-link-dialog.js
  * @author      pandao
- * @version     1.2.0
- * @updateTime  2015-03-13
+ * @version     1.2.1
+ * @updateTime  2015-06-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -52,7 +52,7 @@
                     name       : dialogName,
                     title      : dialogLang.title,
                     width      : 380,
-                    height     : 290,
+                    height     : 296,
                     content    : dialogHTML,
                     mask       : settings.dialogShowMask,
                     drag       : settings.dialogDraggable,

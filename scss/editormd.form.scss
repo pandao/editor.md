@@ -10,7 +10,9 @@
         display: block;
         width: 75px;
         text-align: left;
-        padding: 5px 0 15px 5px;
+        padding: 7px 0 15px 5px;
+        margin: 0 0 2px;
+        font-weight: normal;
     }
 
     br {
@@ -27,19 +29,19 @@
 
     input[type="text"], input[type="number"] {
         color: #999;
-        padding: 7px 8px;
+        padding: 8px;
         border: 1px solid $borderColor;
     }
             
     input[type="number"] {
         width: 40px;
         display: inline-block;
-        padding: 5px 8px;
+        padding: 6px 8px;
     }
 
     input[type="text"] {
         display: inline-block;
-        width: 242px;
+        width: 264px;
     }
     
     .fa-btns {

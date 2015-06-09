@@ -3,8 +3,8 @@
  *
  * @file        link-dialog.js
  * @author      pandao
- * @version     1.2.0
- * @updateTime  2015-03-07
+ * @version     1.2.1
+ * @updateTime  2015-06-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -53,7 +53,7 @@
                 dialog = this.createDialog({
                     title      : linkLang.title,
                     width      : 380,
-                    height     : 210,
+                    height     : 211,
                     content    : dialogHTML,
                     mask       : settings.dialogShowMask,
                     drag       : settings.dialogDraggable,

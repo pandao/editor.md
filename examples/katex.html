@@ -37,7 +37,9 @@ editormd.katexURL = {
 ```
 
 #### Examples
-            
+
+##### 行内的公式 Inline
+ 
 $$E=mc^2$$
 
 Inline 行内的公式 $$E=mc^2$$ 行内的公式，行内的$$E=mc^2$$公式。
@@ -123,6 +125,48 @@ $$\int_{1}^{3}\frac{e^3/x}{x^2}\, dx$$
 $$\int_C x^3\, dx + 4y^2\, dy$$
 
 $${}_1^2\!\Omega_3^4$$
+
+##### 多行公式 Multi line
+
+> \`\`\`math or \`\`\`latex or \`\`\`katex
+
+```math
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+```
+
+```math
+\displaystyle
+\left( \sum\_{k=1}^n a\_k b\_k \right)^2
+\leq
+\left( \sum\_{k=1}^n a\_k^2 \right)
+\left( \sum\_{k=1}^n b\_k^2 \right)
+```
+
+```math
+\dfrac{ 
+    \tfrac{1}{2}[1-(\tfrac{1}{2})^n] }
+    { 1-\tfrac{1}{2} } = s_n
+```
+
+```katex
+\displaystyle 
+    \frac{1}{
+        \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
+        \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
+        1+\frac{e^{-6\pi}}
+        {1+\frac{e^{-8\pi}}
+         {1+\cdots} }
+        } 
+    }
+```
+
+```latex
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+```
 
 #### KaTeX vs MathJax
 

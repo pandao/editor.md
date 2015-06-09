@@ -27,13 +27,18 @@
         float: left;
         border-right: 1px solid $borderColor;
         font-size: 14px;
-        font-family: Consolas, 'Monaco', courier, monospace;
+        font-family: "YaHei Consolas Hybrid", Consolas, "微软雅黑", "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", courier, monospace;
         line-height: 1.6;
         margin-top: 35px;
 
 		pre {
 			font-size: 14px;
+            padding: 0 12px;
 		}
+    }
+    
+    .CodeMirror-linenumbers {
+        padding: 0 5px;
     }
 
     .CodeMirror-selected {

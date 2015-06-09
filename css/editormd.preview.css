@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.preview.css 
- * @version     v1.4.5 
+ * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-02
+ * @updateTime  2015-06-09
  */
 
 @charset "UTF-8";
@@ -2458,7 +2458,7 @@
   -webkit-text-size-adjust: 100%;
   color: #333;
   overflow: hidden;
-  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "Segoe UI", Tahoma, STXihei, "华文细黑", STHeiti, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -2499,7 +2499,7 @@
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
-  font-family: monospace, monospace;
+  font-family: "Meiryo UI", "YaHei Consolas Hybrid", Consolas, "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
   font-size: 1em;
 }
 
@@ -3115,6 +3115,9 @@
   font-size: 14px;
   line-height: 1.6;
   padding: 20px;
+  overflow: auto;
+  width: 100%;
+  background-color: #fff;
 }
 .editormd-preview-container blockquote, .editormd-html-preview blockquote {
   color: #666;
@@ -3124,8 +3127,9 @@
   font-size: 14px;
   font-style: italic;
 }
-.editormd-preview-container p > code, .editormd-html-preview p > code {
+.editormd-preview-container p code, .editormd-html-preview p code {
   margin-left: 5px;
+  margin-right: 4px;
 }
 .editormd-preview-container abbr, .editormd-html-preview abbr {
   background: #ffffdd;
@@ -3142,7 +3146,6 @@
   padding: 3px;
   border-radius: 3px;
   font-size: 14px;
-  font-family: Consolas, 'Monaco', courier, monospace;
 }
 .editormd-preview-container pre, .editormd-html-preview pre {
   border: 1px solid #ddd;
@@ -3157,6 +3160,9 @@
 .editormd-preview-container pre code, .editormd-html-preview pre code {
   padding: 0;
 }
+.editormd-preview-container pre, .editormd-preview-container code, .editormd-preview-container kbd, .editormd-html-preview pre, .editormd-html-preview code, .editormd-html-preview kbd {
+  font-family: "YaHei Consolas Hybrid", Consolas, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
+}
 .editormd-preview-container table thead tr, .editormd-html-preview table thead tr {
   background-color: #F8F8F8;
 }
@@ -3170,12 +3176,19 @@
   width: 24px;
   height: 24px;
 }
+.editormd-preview-container .katex, .editormd-html-preview .katex {
+  font-size: 1.4em;
+}
 .editormd-preview-container .sequence-diagram, .editormd-preview-container .flowchart, .editormd-html-preview .sequence-diagram, .editormd-html-preview .flowchart {
+  margin: 0 auto;
   text-align: center;
+}
+.editormd-preview-container .sequence-diagram svg, .editormd-preview-container .flowchart svg, .editormd-html-preview .sequence-diagram svg, .editormd-html-preview .flowchart svg {
+  margin: 0 auto;
 }
 .editormd-preview-container .sequence-diagram text, .editormd-preview-container .flowchart text, .editormd-html-preview .sequence-diagram text, .editormd-html-preview .flowchart text {
   font-size: 15px !important;
-  font-family: Arial !important;
+  font-family: "YaHei Consolas Hybrid", Consolas, "Microsoft YaHei", "Malgun Gothic", "Segoe UI", Helvetica, Arial !important;
 }
 
 /*! Pretty printing styles. Used with prettify.js. */
@@ -3320,18 +3333,20 @@ li.L9 {
 .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint {
   padding: 10px;
   border: 1px solid #ddd;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .editormd-preview-container ol.linenums, .editormd-html-preview ol.linenums {
   color: #999;
   padding-left: 2.5em;
 }
-.editormd-preview-container ol.linenums code, .editormd-html-preview ol.linenums code {
+.editormd-preview-container ol.linenums li, .editormd-html-preview ol.linenums li {
+  list-style-type: decimal;
+}
+.editormd-preview-container ol.linenums li code, .editormd-html-preview ol.linenums li code {
   border: none;
   background: none;
   padding: 0;
-}
-.editormd-preview-container li.L0, .editormd-preview-container li.L1, .editormd-preview-container li.L2, .editormd-preview-container li.L3, .editormd-preview-container li.L5, .editormd-preview-container li.L6, .editormd-preview-container li.L7, .editormd-preview-container li.L8, .editormd-html-preview li.L0, .editormd-html-preview li.L1, .editormd-html-preview li.L2, .editormd-html-preview li.L3, .editormd-html-preview li.L5, .editormd-html-preview li.L6, .editormd-html-preview li.L7, .editormd-html-preview li.L8 {
-  list-style-type: decimal;
 }
 
 .editormd-preview-container .editormd-toc-menu, .editormd-html-preview .editormd-toc-menu {
@@ -3505,4 +3520,35 @@ hr.editormd-page-break {
   background: none;
   border: none;
   height: 0;
+}
+
+.editormd-preview-close-btn {
+  color: #fff;
+  padding: 4px 6px;
+  font-size: 18px;
+  -webkit-border-radius: 500px;
+  -moz-border-radius: 500px;
+  -ms-border-radius: 500px;
+  -o-border-radius: 500px;
+  border-radius: 500px;
+  display: none;
+  background-color: #ccc;
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  z-index: 19;
+  -webkit-transition: background-color 300ms ease-out;
+  /* Safari, Chrome */
+  -moz-transition: background-color 300ms ease-out;
+  /* Firefox 4.0~16.0 */
+  transition: background-color 300ms ease-out;
+  /* IE >9, FF >15, Opera >12.0 */
+}
+.editormd-preview-close-btn:hover {
+  background-color: #999;
+}
+
+.editormd-preview-active {
+  width: 100%;
+  padding: 40px;
 }

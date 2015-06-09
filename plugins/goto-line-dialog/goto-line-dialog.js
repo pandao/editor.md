@@ -3,8 +3,8 @@
  *
  * @file        goto-line-dialog.js
  * @author      pandao
- * @version     1.2.0
- * @updateTime  2015-03-14
+ * @version     1.2.1
+ * @updateTime  2015-06-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -76,8 +76,8 @@
 			if (editor.find("." + dialogName).length < 1) 
 			{			
 				var dialogContent = [
-					"<div class=\"editormd-form\" style=\"padding: 15px 0;\">",
-					"<p>" + dialogLang.label + " 1-" + lineCount +"&nbsp;&nbsp;&nbsp;<input type=\"number\" class=\"number-input\" style=\"width: 60px;\" value=\"1\" max=\"" + lineCount + "\" min=\"1\" data-line-number /></p>",
+					"<div class=\"editormd-form\" style=\"padding: 10px 0;\">",
+					"<p style=\"margin: 0;\">" + dialogLang.label + " 1-" + lineCount +"&nbsp;&nbsp;&nbsp;<input type=\"number\" class=\"number-input\" style=\"width: 60px;\" value=\"1\" max=\"" + lineCount + "\" min=\"1\" data-line-number /></p>",
 					"</div>"
 				].join("\n");
 

@@ -10,20 +10,20 @@
 
 [TOC]
 
-#Heading 1
-##Heading 2               
-###Heading 3
-####Heading 4
-#####Heading 5
-######Heading 6
-#Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-##Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-###Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-####Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
-#####Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-######Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+# Heading 1
+## Heading 2               
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+# Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+## Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+### Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+#### Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
+##### Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+###### Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
 
-####标题（用底线的形式）Heading (underline)
+#### 标题（用底线的形式）Heading (underline)
 
 This is an H1
 =============
@@ -31,7 +31,7 @@ This is an H1
 This is an H2
 -------------
 
-###字符效果和横线等
+### 字符效果和横线等
                 
 ----
 
@@ -48,7 +48,7 @@ This is an H2
 
 The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
 
-###引用 Blockquotes
+### 引用 Blockquotes
 
 > 引用文本 Blockquotes
 
@@ -56,7 +56,7 @@ The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is mainta
                     
 > 引用：如果想要插入空白换行`即<br />标签`，在插入处先键入两个以上的空格然后回车即可，[普通链接](http://localhost/)。
 
-###锚点与链接 Links
+### 锚点与链接 Links
 
 [普通链接](http://localhost/)
 
@@ -74,15 +74,15 @@ GFM a-tail link @pandao  邮箱地址自动链接 test.test@gmail.com  www@vip.q
 
 > @pandao
 
-###多语言代码高亮 Codes
+### 多语言代码高亮 Codes
 
-####行内代码 Inline code
+#### 行内代码 Inline code
 
 执行命令：`npm install marked`
 
-####缩进风格
+#### 缩进风格
 
-即缩进四个空格，也做为实现类似`<pre>`预格式化文本(Preformatted Text)的功能。
+即缩进四个空格，也做为实现类似 `<pre>` 预格式化文本 ( Preformatted Text ) 的功能。
 
     <?php
         echo "Hello world!";
@@ -95,15 +95,15 @@ GFM a-tail link @pandao  邮箱地址自动链接 test.test@gmail.com  www@vip.q
     | Content Cell  | Content Cell  |
     | Content Cell  | Content Cell  |
 
-####JS代码　
+#### JS代码　
 
 ```javascript
-function test(){
+function test() {
 	console.log("Hello world!");
 }
  
 (function(){
-    var box = function(){
+    var box = function() {
         return box.fn.init();
     };
 
@@ -114,13 +114,13 @@ function test(){
 			return this;
         },
 
-		add : function(str){
+		add : function(str) {
 			alert("add", str);
 
 			return this;
 		},
 
-		remove : function(str){
+		remove : function(str) {
 			alert("remove", str);
 
 			return this;
@@ -136,22 +136,29 @@ var testBox = box();
 testBox.add("jQuery").remove("jQuery");
 ```
 
-####HTML代码 HTML codes
+#### HTML 代码 HTML codes
 
 ```html
 <!DOCTYPE html>
 <html>
     <head>
         <mate charest="utf-8" />
+        <meta name="keywords" content="Editor.md, Markdown, Editor" />
         <title>Hello world!</title>
+        <style type="text/css">
+            body{font-size:14px;color:#444;font-family: "Microsoft Yahei", Tahoma, "Hiragino Sans GB", Arial;background:#fff;}
+            ul{list-style: none;}
+            img{border:none;vertical-align: middle;}
+        </style>
     </head>
     <body>
-        <h1>Hello world!</h1>
+        <h1 class="text-xxl">Hello world!</h1>
+        <p class="text-green">Plain text</p>
     </body>
 </html>
 ```
 
-###图片 Images
+### 图片 Images
 
 Image:
 
@@ -171,21 +178,21 @@ Image:
                 
 ----
 
-###列表 Lists
+### 列表 Lists
 
-####无序列表（减号）Unordered Lists (-)
+#### 无序列表（减号）Unordered Lists (-)
                 
 - 列表一
 - 列表二
 - 列表三
      
-####无序列表（星号）Unordered Lists (*)
+#### 无序列表（星号）Unordered Lists (*)
 
 * 列表一
 * 列表二
 * 列表三
 
-####无序列表（加号和嵌套）Unordered Lists (+)
+#### 无序列表（加号和嵌套）Unordered Lists (+)
                 
 + 列表一
 + 列表二
@@ -197,13 +204,13 @@ Image:
     * 列表二
     * 列表三
 
-####有序列表 Ordered Lists (-)
+#### 有序列表 Ordered Lists (-)
                 
 1. 第一行
 2. 第二行
 3. 第三行
 
-####GFM task list
+#### GFM task list
 
 - [x] GFM task list 1
 - [x] GFM task list 2
@@ -217,7 +224,7 @@ Image:
                 
 ----
                     
-###绘制表格 Tables
+### 绘制表格 Tables
 
 | 项目        | 价格   |  数量  |
 | --------   | -----:  | :----:  |
@@ -254,7 +261,7 @@ Content Cell  | Content Cell
                 
 ----
 
-####特殊符号 HTML Entities Codes
+#### 特殊符号 HTML Entities Codes
 
 &copy; &  &uml; &trade; &iexcl; &pound;
 &amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot; 
@@ -265,11 +272,11 @@ X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
 
 [========]
 
-###Emoji表情 :smiley:
+### Emoji表情 :smiley:
 
 > Blockquotes :star:
 
-####GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
+#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
 
 - [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
 - [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
@@ -279,13 +286,13 @@ X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
     - [ ] :smiley: this is an incomplete item [test link](#) :fa-star: :fa-gear:;
     - [ ] :smiley: this is  :fa-star: :fa-gear: an incomplete item [test link](#);
  
-####反斜杠 Escape
+#### 反斜杠 Escape
 
 \*literal asterisks\*
 
 [========]
             
-###科学公式 TeX(KaTeX)
+### 科学公式 TeX(KaTeX)
 
 $$E=mc^2$$
 
@@ -297,13 +304,41 @@ $$\(\sqrt{3x-1}+(1+x)^2\)$$
                     
 $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
 
+多行公式：
+
+```math
+\displaystyle
+\left( \sum\_{k=1}^n a\_k b\_k \right)^2
+\leq
+\left( \sum\_{k=1}^n a\_k^2 \right)
+\left( \sum\_{k=1}^n b\_k^2 \right)
+```
+
+```katex
+\displaystyle 
+    \frac{1}{
+        \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
+        \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
+        1+\frac{e^{-6\pi}}
+        {1+\frac{e^{-8\pi}}
+         {1+\cdots} }
+        } 
+    }
+```
+
+```latex
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+```
+
 ### 分页符 Page break
 
 > Print Test: Ctrl + P
 
 [========]
 
-###绘制流程图 Flowchart
+### 绘制流程图 Flowchart
 
 ```flow
 st=>start: 用户登陆
@@ -318,7 +353,7 @@ cond(no)->op
 
 [========]
                     
-###绘制序列图 Sequence Diagram
+### 绘制序列图 Sequence Diagram
                     
 ```seq
 Andrew->China: Says Hello 
@@ -327,4 +362,4 @@ China-->Andrew: How are you?
 Andrew->>China: I am good thanks!
 ```
 
-###结束 End
+### End

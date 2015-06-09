@@ -3,8 +3,8 @@
  *
  * @file        image-dialog.js
  * @author      pandao
- * @version     1.3.3
- * @updateTime  2015-06-02
+ * @version     1.3.4
+ * @updateTime  2015-06-09
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -69,7 +69,7 @@
                 dialog = this.createDialog({
                     title      : imageLang.title,
                     width      : (settings.imageUpload) ? 465 : 380,
-                    height     : 250,
+                    height     : 254,
                     name       : dialogName,
                     content    : dialogContent,
                     mask       : settings.dialogShowMask,

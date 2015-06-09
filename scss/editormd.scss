@@ -12,8 +12,11 @@
     position: relative;
     margin-bottom: 15px;
     border: 1px solid $borderColor;
-    @include box-sizing(border-box);
-    font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif; 
+    font-family: "Meiryo UI", "Microsoft YaHei", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+
+    *, *:before, *:after {
+        @include box-sizing(border-box);
+    }
     
     a {
         text-decoration: none;
@@ -44,6 +47,26 @@
     select, textarea, button {
         @include appearance(none);
     }
+            
+    ::-webkit-scrollbar {
+        height: 10px;
+        width: 7px;
+        background: rgba(0, 0, 0, .1);
+
+        &:hover {
+            background: rgba(0, 0, 0, .2);
+        }
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.3);
+        @include border-radius(6px);
+
+        &:hover {
+            @include box-shadow(inset 1px 1px 1px rgba(0, 0, 0, .25));
+            background-color: rgba(0, 0, 0, .4);
+        }
+    }
 }
             
 #{$prefix}user-unselect { 
@@ -52,7 +75,7 @@
 
 #{$prefix}toolbar {
     width: 100%;
-    min-height: 35px;
+    min-height: 37px;
     background: #fff;
     display: none;
     position: absolute;
@@ -87,24 +110,7 @@
 @import "editormd.form"; 
 @import "editormd.codemirror"; 
 @import "editormd.preview";
-
-#{$prefix}preview-close-btn {
-    color: #fff;
-    padding: 4px 6px;
-    font-size: 18px;
-    @include border-radius(500px);
-    display: none;
-    background-color: #ccc;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 19;
-    @include transition(background-color 300ms ease-out);
-}
-
-#{$prefix}preview-close-btn:hover {
-    background-color: #999;
-}
+@import "editormd.preview.themes";
 
 #{$prefix}onlyread {
     #{$prefix}toolbar {
@@ -119,3 +125,13 @@
         top: 0;
     }
 }
+
+#{$prefix}fullscreen {
+    position: fixed; 
+    top   : 0; 
+    left  : 0; 
+    border: none;
+    margin: 0 auto;
+}
+
+@import "editormd.themes";
