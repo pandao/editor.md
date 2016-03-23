@@ -252,7 +252,7 @@
         
          private function setSeveName()
          {             
-            $this->saveName = $this->randomFileName();
+            $this->saveName = $this->randomFileName().".".$this->fileExt;
              
             if($this->saveName == '') //如果没生成随机文件名，就保留原文件名
             {
