@@ -22,14 +22,14 @@
 	{
         if (define.amd) // for Require.js
         {
-            var cmModePath  = "codemirror/mode/";
-            var cmAddonPath = "codemirror/addon/";
+            var cmModePath  = "./lib/codemirror/mode/";
+            var cmAddonPath = "./lib/codemirror/addon/";
 
             var codeMirrorModules = [
                 "jquery", "marked", "prettify",
                 "katex", "raphael", "underscore", "flowchart",  "jqueryflowchart",  "sequenceDiagram",
 
-                "codemirror/lib/codemirror",
+                "./lib/codemirror/lib/codemirror",
                 cmModePath + "css/css",
                 cmModePath + "sass/sass",
                 cmModePath + "shell/shell",
