@@ -1071,12 +1071,12 @@
                     return false;
                 }
 
-                if (top - editor.offset().top > 10 && top < editor.height())
+                if (top - editor.offset().top > 10 && top - editor.offset().top < editor.height() - toolbar.height())
                 {
                     toolbar.css({
                         position : "fixed",
                         width    : editor.width() + "px",
-                        left     : ($window.width() - editor.width()) / 2 + "px"
+                        left     : editor.offset().left + "px"
                     });
                 }
                 else
