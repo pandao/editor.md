@@ -1,26 +1,26 @@
 ;(function(factory) {
     "use strict";
     
-	// CommonJS/Node.js
-	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
+  // CommonJS/Node.js
+  if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
     { 
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
-	{
+  else if (typeof define === "function")  // AMD/CMD/Sea.js
+  {
         if (define.amd) // for Require.js
         {
             /* Require.js define replace */
         } 
         else 
         {
-		    define(["jquery"], factory);  // for Sea.js
+        define(["jquery"], factory);  // for Sea.js
         }
-	} 
-	else
-	{ 
+  } 
+  else
+  { 
         window.editormd = factory();
-	}
+  }
     
 }(function() {    
 
@@ -30,9 +30,9 @@
     
     var $ = (typeof (jQuery) !== "undefined") ? jQuery : Zepto;
 
-	if (typeof ($) === "undefined") {
-		return ;
-	}
+  if (typeof ($) === "undefined") {
+    return ;
+  }
     
     /**
      * editormd
@@ -42,8 +42,10 @@
      * @returns {Object} editormd     返回editormd对象
      */
     
-    var editormd         = function (id, options) {
-        return new editormd.fn.init(id, options);
+    var editormd         = function (selector, options) {
+        $(selector).each(function() {
+            return new editormd.fn.init(this, options);
+        })
     };
     
     editormd.title        = editormd.$name = "Editor.md";
@@ -96,20 +98,20 @@
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,
-		autoFocus            : true,
+    autoFocus            : false,
         autoCloseTags        : true,
         searchReplace        : true,
         syncScrolling        : true,           // true | false | "single", default true
         readOnly             : false,
         tabSize              : 4,
-		indentUnit           : 4,
+    indentUnit           : 4,
         lineNumbers          : true,
-		lineWrapping         : true,
-		autoCloseBrackets    : true,
-		showTrailingSpace    : true,
-		matchBrackets        : true,
-		indentWithTabs       : true,
-		styleSelectedText    : true,
+    lineWrapping         : true,
+    autoCloseBrackets    : true,
+    showTrailingSpace    : true,
+    matchBrackets        : true,
+    indentWithTabs       : true,
+    styleSelectedText    : true,
         matchWordHighlight   : true,           // options: true, false, "onselected"
         styleActiveLine      : true,           // Highlight the current line
         dialogLockScreen     : true,
@@ -342,22 +344,18 @@
          * @returns {editormd}               返回editormd的实例对象
          */
         
-        init : function (id, options) {
+        init : function (selector, options) {
             
             options              = options || {};
             
-            if (typeof id === "object")
-            {
-                options = id;
-            }
             
             var _this            = this;
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
             var settings         = this.settings     = $.extend(true, editormd.defaults, options);
             
-            id                   = (typeof id === "object") ? settings.id : id;
+            var id                   = $(selector).attr('id');
             
-            var editor           = this.editor       = $("#" + id);
+            var editor           = this.editor       = $(selector);
             
             this.id              = id;
             this.lang            = settings.lang;
@@ -1294,7 +1292,7 @@
         
         createInfoDialog : function() {
             var _this        = this;
-			var editor       = this.editor;
+      var editor       = this.editor;
             var classPrefix  = this.classPrefix;  
             
             var infoDialogHTML = [
@@ -1334,16 +1332,16 @@
         infoDialogPosition : function() {
             var infoDialog = this.infoDialog;
             
-			var _infoDialogPosition = function() {
-				infoDialog.css({
-					top  : ($(window).height() - infoDialog.height()) / 2 + "px",
-					left : ($(window).width()  - infoDialog.width()) / 2  + "px"
-				});
-			};
+      var _infoDialogPosition = function() {
+        infoDialog.css({
+          top  : ($(window).height() - infoDialog.height()) / 2 + "px",
+          left : ($(window).width()  - infoDialog.width()) / 2  + "px"
+        });
+      };
 
-			_infoDialogPosition();
+      _infoDialogPosition();
 
-			$(window).resize(_infoDialogPosition);
+      $(window).resize(_infoDialogPosition);
             
             return this;
         },
@@ -1360,9 +1358,9 @@
             $("html,body").css("overflow-x", "hidden");
             
             var _this       = this;
-			var editor      = this.editor;
+      var editor      = this.editor;
             var settings    = this.settings;         
-			var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
+      var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
             
             if (infoDialog.length < 1)
             {
@@ -1372,13 +1370,13 @@
             this.lockScreen(true);
             
             this.mask.css({
-						opacity         : settings.dialogMaskOpacity,
-						backgroundColor : settings.dialogMaskBgColor
-					}).show();
+            opacity         : settings.dialogMaskOpacity,
+            backgroundColor : settings.dialogMaskBgColor
+          }).show();
 
-			infoDialog.css("z-index", editormd.dialogZindex).show();
+      infoDialog.css("z-index", editormd.dialogZindex).show();
 
-			this.infoDialogPosition();
+      this.infoDialogPosition();
 
             return this;
         },
@@ -1724,23 +1722,23 @@
                 preview.unbind(mouseOrTouch("scroll", "touchmove"));
             }; 
 
-			codeMirror.bind({
-				mouseover  : cmBindScroll,
-				mouseout   : cmUnbindScroll,
-				touchstart : cmBindScroll,
-				touchend   : cmUnbindScroll
-			});
+      codeMirror.bind({
+        mouseover  : cmBindScroll,
+        mouseout   : cmUnbindScroll,
+        touchstart : cmBindScroll,
+        touchend   : cmUnbindScroll
+      });
             
             if (settings.syncScrolling === "single") {
                 return this;
             }
             
-			preview.bind({
-				mouseover  : previewBindScroll,
-				mouseout   : previewUnbindScroll,
-				touchstart : previewBindScroll,
-				touchend   : previewUnbindScroll
-			});
+      preview.bind({
+        mouseover  : previewBindScroll,
+        mouseout   : previewUnbindScroll,
+        touchstart : previewBindScroll,
+        touchend   : previewUnbindScroll
+      });
 
             return this;
         },
@@ -3173,121 +3171,112 @@
     var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
     var key = isMac ? "Cmd" : "Ctrl";
     
-    editormd.keyMaps = {
-        [key + "-1"]       : "h1",
-        [key + "-2"]       : "h2",
-        [key + "-3"]       : "h3",
-        [key + "-4"]       : "h4",
-        [key + "-5"]       : "h5",
-        [key + "-6"]       : "h6",
-        [key + "-B"]       : "bold",  // if this is string ==  editormd.toolbarHandlers.xxxx
-        [key + "-D"]       : "datetime",
-        
-        [key + "Ctrl-E"]       : function() { // emoji
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            if (!this.settings.emoji)
-            {
-                alert("Error: settings.emoji == false");
-                return ;
-            }
+    var _kms = {};
+    _kms[key + "-1"] = 'h1';
+    _kms[key + "-2"] = "h2";
+    _kms[key + "-3"] = "h3";
+    _kms[key + "-4"] = "h4";
+    _kms[key + "-5"] = "h5";
+    _kms[key + "-6"] = "h6";
+    _kms[key + "-B"] = "bold"; // if this is string ==  editormd.toolbarHandlers.xxxx
+    _kms[key + "-D"] = "datetime";
+    _kms[key + "Ctrl-E"] = function() { // emoji
+      var cm = this.cm;
+      var cursor = cm.getCursor();
+      var selection = cm.getSelection();
 
-            cm.replaceSelection(":" + selection + ":");
+      if (!this.settings.emoji) {
+        alert("Error: settings.emoji == false");
+        return;
+      }
 
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        [key + "-Alt-G"]   : "goto-line",
-        [key + "-H"]       : "hr",
-        [key + "-I"]       : "italic",
-        [key + "-K"]       : "code",
-        
-        "Ctrl-L"        : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            var title = (selection === "") ? "" : " \""+selection+"\"";
+      cm.replaceSelection(":" + selection + ":");
 
-            cm.replaceSelection("[" + selection + "]("+title+")");
+      if (selection === "") {
+        cm.setCursor(cursor.line, cursor.ch + 1);
+      }
+    }
+    _kms[key + "-Alt-G"] = "goto-line";
+    _kms[key + "-H"] = "hr";
+    _kms[key + "-I"] = "italic";
+    _kms[key + "-K"] = "code";
+    _kms["Ctrl-L"] = function() {
+      var cm = this.cm;
+      var cursor = cm.getCursor();
+      var selection = cm.getSelection();
 
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        [key + "-U"]         : "list-ul",
-        
-        "Shift-Ctrl-A"   : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            if (!this.settings.atLink)
-            {
-                alert("Error: settings.atLink == false");
-                return ;
-            }
+      var title = (selection === "") ? "" : " \"" + selection + "\"";
 
-            cm.replaceSelection("@" + selection);
+      cm.replaceSelection("[" + selection + "](" + title + ")");
 
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        
-        ["Shift" + key + "-C"]     : "code",
-        ["Shift" + key + "Q"]     : "quote",
-        ["Shift" + key + "S"]     : "del",
-        ["Shift" + key + "K"]     : "tex",  // KaTeX
-        
-        "Shift-Alt-C"      : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            cm.replaceSelection(["```", selection, "```"].join("\n"));
+      if (selection === "") {
+        cm.setCursor(cursor.line, cursor.ch + 1);
+      }
+    }
+    _kms[key + "-U"] = "list-ul";
+    _kms["Shift-Ctrl-A"] = function() {
+      var cm = this.cm;
+      var cursor = cm.getCursor();
+      var selection = cm.getSelection();
 
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 3);
-            } 
-        },
-        
-        ["Shift-" + key + "-Alt-C"]      : "code-block",
-        ["Shift-" + key + "-H"]          : "html-entities",
-        "Shift-Alt-H"                    : "help",
-        ["Shift-" + key + "-E"]          : "emoji",
-        ["Shift-" + key + "-U"]          : "uppercase",
-        "Shift-Alt-U"                    : "ucwords",
-        ["Shift-" + key + "-Alt-U"]      : "ucfirst",
-        "Shift-Alt-L"                    : "lowercase",
-        
-        ["Shift-" + key + "-I"]          : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            var title = (selection === "") ? "" : " \""+selection+"\"";
+      if (!this.settings.atLink) {
+        alert("Error: settings.atLink == false");
+        return;
+      }
 
-            cm.replaceSelection("![" + selection + "]("+title+")");
+      cm.replaceSelection("@" + selection);
 
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 4);
-            }
-        },
-        
-        ["Shift-" + key + "-Alt-I"]     : "image",
-        ["Shift-" + key + "-L"]         : "link",
-        ["Shift-" + key + "-O"]         : "list-ol",
-        ["Shift-" + key + "-P"]         : "preformatted-text",
-        ["Shift-" + key + "-T"]         : "table",
-        "Shift-Alt-P"                   : "pagebreak",
-        "F9"                            : "watch",
-        "F10"                           : "preview",
-        "F11"                           : "fullscreen",
-    };
+      if (selection === "") {
+        cm.setCursor(cursor.line, cursor.ch + 1);
+      }
+    }
+    _kms["Shift" + key + "-C"] = "code";
+    _kms["Shift" + key + "Q"] = "quote";
+    _kms["Shift" + key + "S"] = "del";
+    _kms["Shift" + key + "K"] = "tex";
+    _kms["Shift-Alt-C"] = function() {
+      var cm = this.cm;
+      var cursor = cm.getCursor();
+      var selection = cm.getSelection();
+
+      cm.replaceSelection(["```", selection, "```"].join("\n"));
+
+      if (selection === "") {
+        cm.setCursor(cursor.line, cursor.ch + 3);
+      }
+    }
+    _kms["Shift-" + key + "-Alt-C"] = "code-block";
+    _kms["Shift-" + key + "-H"] = "html-entities";
+    _kms["Shift-Alt-H"] = "help";
+    _kms["Shift-" + key + "-E"] = "emoji";
+    _kms["Shift-" + key + "-U"] = "uppercase";
+    _kms["Shift-Alt-U"] = "ucwords";
+    _kms["Shift-" + key + "-Alt-U"] = "ucfirst";
+    _kms["Shift-Alt-L"] = "lowercase";
+    _kms["Shift-" + key + "-I"] = function() {
+      var cm = this.cm;
+      var cursor = cm.getCursor();
+      var selection = cm.getSelection();
+
+      var title = (selection === "") ? "" : " \"" + selection + "\"";
+
+      cm.replaceSelection("![" + selection + "](" + title + ")");
+
+      if (selection === "") {
+        cm.setCursor(cursor.line, cursor.ch + 4);
+      }
+    }
+    _kms["Shift-" + key + "-Alt-I"] = "image";
+    _kms["Shift-" + key + "-L"] = "link";
+    _kms["Shift-" + key + "-O"] = "list-ol";
+    _kms["Shift-" + key + "-P"] = "preformatted-text";
+    _kms["Shift-" + key + "-T"] = "table";
+    _kms["Shift-Alt-P"] = "pagebreak";
+    _kms["F9"] = "watch";
+    _kms["F10"] = "preview";
+    _kms["F11"] = "fullscreen";
+
+    editormd.keyMaps = _kms;
     
     /**
      * 清除字符串两边的空格
@@ -3947,7 +3936,7 @@
             smartypants : true
         };
         
-		markdownDoc = new String(markdownDoc);
+    markdownDoc = new String(markdownDoc);
         
         var markdownParsed = marked(markdownDoc, markedOptions);
         
@@ -4378,7 +4367,7 @@
                 if( nowLeft >= 0 ) {
                     if( nowLeft + dialog.width() <= $(window).width()) {
                         left = e.clientX - posX;
-                    } else {	
+                    } else {  
                         left = $(window).width() - dialog.width();
                         document.onmousemove = null;
                     }
@@ -4508,11 +4497,11 @@
 
             case "UTC" :
                     datefmt = date.toUTCString();
-                break;	
+                break;  
 
             case "yy" :
                     datefmt = year2;
-                break;	
+                break;  
 
             case "year" :
             case "yyyy" :
