@@ -4193,8 +4193,8 @@
      */
     
     editormd.loadKaTeX = function (callback) {
-        editormd.loadCSS(editormd.katexURL.css, function(){
-            editormd.loadScript(editormd.katexURL.js, callback || function(){});
+        editormd.loadCSS(editormd.defaults.katexURL.css, function(){
+            editormd.loadScript(editormd.defaults.katexURL.js, callback || function(){});
         });
     };
         
