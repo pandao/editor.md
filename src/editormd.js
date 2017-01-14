@@ -2076,10 +2076,11 @@
                     }, 10);
                 }
 
-                if (state.loaded) 
-                {
-                    $.proxy(settings.onchange, this)();
-                }
+            }
+		
+            if (state.loaded) 
+            {
+                $.proxy(settings.onchange, this)();
             }
 
             return this;
