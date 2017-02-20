@@ -1529,11 +1529,15 @@
                     return this;
                 }
                 
-                previewContainer.find(".flowchart").flowChart(); 
+                previewContainer.find(".flowchart")
+                   && previewContainer.find(".flowchart").length > 0
+                   && previewContainer.find(".flowchart").flowChart();
             }
 
             if (settings.sequenceDiagram) {
-                previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+                previewContainer.find(".sequence-diagram")
+                    && previewContainer.find(".sequence-diagram").length > 0
+                    && previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
             }
                     
             var preview    = $this.preview;
