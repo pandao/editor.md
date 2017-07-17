@@ -2619,7 +2619,8 @@
                 
                 editor.css({
                     width    : $(window).width(),
-                    height   : $(window).height()
+                    height   : $(window).height(),
+                    zIndex  : 9995
                 }).addClass(fullscreenClass);
 
                 this.resize();
@@ -3355,7 +3356,7 @@
 
     // Emoji graphics files url path
     editormd.emoji     = {
-        path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+        path  : "https://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/",
         ext   : ".png"
     };
 
