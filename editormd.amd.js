@@ -12,7 +12,8 @@
 
 ;(function(factory) {
     "use strict";
-    
+
+
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
     { 
@@ -141,7 +142,7 @@
             "list-ul", "list-ol", "hr", "|",
             "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
             "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
-            "help", "info"
+            "help", "info","linkselect"
         ],
         simple : [
             "undo", "redo", "|", 
@@ -220,6 +221,8 @@
         imageUploadURL       : "",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
+        linkSelectFlag       : false, //资料库引用按钮开关
+        linkSelectPreFlag    : false,//预览开关
         
         toc                  : true,           // Table of contents
         tocm                 : false,           // Using [TOCM], auto create ToC dropdown menu
@@ -276,6 +279,7 @@
             link             : "fa-link",
             "reference-link" : "fa-anchor",
             image            : "fa-picture-o",
+            linkselect       : "fa-link-select",
             code             : "fa-code",
             "preformatted-text" : "fa-file-code-o",
             "code-block"     : "fa-file-code-o",
@@ -322,6 +326,7 @@
                 link             : "链接",
                 "reference-link" : "引用链接",
                 image            : "添加图片",
+                linkselect        : "添加引用",
                 code             : "行内代码",
                 "preformatted-text" : "预格式文本 / 代码块（缩进风格）",
                 "code-block"     : "代码块（多语言风格）",
@@ -371,6 +376,9 @@
                     imageURLEmpty    : "错误：图片地址不能为空。",
                     uploadFileEmpty  : "错误：上传的图片不能为空。",
                     formatNotAllowed : "错误：只允许上传图片文件，允许上传的图片文件格式有："
+                },
+                linkselect :{
+
                 },
                 preformattedText : {
                     title             : "添加预格式文本或代码块", 
@@ -1213,7 +1221,8 @@
             for (var i = 0, len = icons.length; i < len; i++)
             {
                 var name = icons[i];
-
+                //判断是否开启
+                if(name == "linkselect" && !settings.linkSelectFlag) continue ;
                 if (name === "||") 
                 { 
                     pullRight = true;
@@ -2083,7 +2092,44 @@
             };
             
             marked.setOptions(markedOptions);
-                    
+
+
+            //此处配合引用插件使用
+            var zlkreg= /<ZLK>(\d+)<\/ZLK>/;
+            var zcap = null;
+            var zyki = 1;       //控制死循环
+            while((zcap = zlkreg.exec(cmValue)) && zyki < 20) {
+                if(editormd.linkdata['s'+zcap[1]]){
+                    var reg=new RegExp("<ZLK>"+zcap[1]+"<\/ZLK>");
+                    cmValue=cmValue.replace(reg,editormd.linkdata['s'+zcap[1]]);
+                }else{
+                    $.ajax({
+                        url:'/test.php',
+                        type: "post",
+                        data: {
+                            'id':zcap[1]
+                        },
+                        async:false,
+                        dataType:'json',
+                        success: function(data){
+                            if(data.content){
+                                var reg=new RegExp("<ZLK>"+zcap[1]+"<\/ZLK>");
+                                cmValue=cmValue.replace(reg,data.content);
+                                editormd.linkdata['s'+zcap[1]] = data.content;
+                            }else{
+                                var reg=new RegExp("<ZLK>"+zcap[1]+"<\/ZLK>");
+                                cmValue=cmValue.replace(reg,'');
+                                editormd.linkdata['s'+zcap[1]] = '';
+                            }
+                        }
+                    })
+                }
+                zyki++;
+            }
+            /***************修改部分结束***************/
+
+
+
             var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
             
             //console.info("cmValue", cmValue, newMarkdownDoc);
@@ -2767,7 +2813,8 @@
             var _this    = this;
             var cm       = this.cm;
             var settings = this.settings;
-            
+            this.editormd = editormd;//将对象存入this用于之后调用适用requir加载
+
             path = settings.pluginPath + path;
             
             if (typeof define === "function") 
@@ -3176,7 +3223,9 @@
         image : function() {
             this.executePlugin("imageDialog", "image-dialog/image-dialog");
         },
-        
+        linkselect : function() {
+            this.executePlugin("linkselectDialog", "linkselect-dialog/linkselect-dialog");
+        },
         code : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
