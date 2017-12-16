@@ -335,7 +335,7 @@
     editormd.$CodeMirror  = null;
     editormd.$prettyPrint = null;
     
-    var timer, flowchartTimer;
+    var timer, flowchartTimer, mindTimer;
 
     editormd.prototype    = editormd.fn = {
         state : {
@@ -1507,6 +1507,23 @@
 
             return this;
         },
+        /**
+         * 解析和渲染思维导图
+         * mindmap Renderer
+         * 
+         * @returns {editormd}             返回editormd的实例对象
+         */
+
+        mindRender: function() {
+            if (mindTimer === null) {
+                return this;
+            }
+            this.previewContainer.find(".mind").each(function() {
+                var mind = $(this);
+                mind.drawMind();
+            });
+            return this;
+        },
         
         /**
          * 解析和渲染流程图及时序图
@@ -2087,6 +2104,16 @@
                         _this.flowChartAndSequenceDiagramRender();
                         flowchartTimer = null;
                     }, 10);
+                }
+                var loadPath = settings.path;
+                if (settings.mind) {
+                    if (!editormd.mindLoaded && settings.autoLoadModules) {
+                        editormd.loadScript(loadPath + "mindMap", function() {
+                            _this.mindRender();
+                        });
+                    } else {
+                        this.mindRender();
+                    }
                 }
 
                 if (state.loaded) 
@@ -3619,22 +3646,20 @@
                            : ( (pageBreakReg.test(text)) ? this.pageBreak(text) : "<p" + isTeXAddClass + ">" + this.atLink(this.emoji(text)) + "</p>\n" );
         };
 
-        markedRenderer.code = function (code, lang, escaped) { 
+        markedRenderer.code = function(code, lang, escaped) {
 
-            if (lang === "seq" || lang === "sequence")
-            {
+            if (lang === "seq" || lang === "sequence") {
                 return "<div class=\"sequence-diagram\">" + code + "</div>";
-            } 
-            else if ( lang === "flow")
-            {
+            } else if (lang === "flow") {
                 return "<div class=\"flowchart\">" + code + "</div>";
-            } 
-            else if ( lang === "math" || lang === "latex" || lang === "katex")
-            {
+            } else if (lang === "tlog") {
+                return "<div class=\"tlog\">" + code + "</div>";
+            } else if (lang === "mind") {
+                // console.log("mind\n", parseList(code));
+                return '<div class=\"mind\" style="width: 100%;overflow-x: auto;"><canvas id="canvas"></canvas><div class="mindTxt">' + code + "</div></div>";
+            } else if (lang === "math" || lang === "latex" || lang === "katex") {
                 return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
-            } 
-            else 
-            {
+            } else {
 
                 return marked.Renderer.prototype.code.apply(this, arguments);
             }
@@ -4008,6 +4033,10 @@
             if (settings.sequenceDiagram) {
                 div.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
             }
+        }
+		
+        if (settings.mind) {
+            //console.log("mind not done.test in from 7dtime.com!");
         }
 
         if (settings.tex)

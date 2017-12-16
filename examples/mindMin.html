@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <title>思维导字-thinkido</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <div id="layout">
+        <header>
+            <h1>思维导字</h1>
+        </header>
+		
+        <div id="mdshow"></div>
+        <div id="test-editormd">
+            <textarea style="display:none;">
+```mind
+       -editor插件开发
+         -思维导字
+         -构思如何开发 3m
+         -查看新插件的提交代码修改量
+         -查看修改文件列表
+           -比对单个文件主要修改位置
+           -插件开发格式要求
+         -测试 6m
+        ```
+```mind
+- 7dtime.com
+	- 时间管理
+		- thinkido;
+		- Task lists;
+	- 时间日志
+		-日总结
+		-每日成长
+	- 7天时间看一生
+		- Task l ists;
+		- time manager;
+		- 兼职市场
+```
+            </textarea>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="../editormd.js"></script>
+    <script type="text/javascript">
+    var testEditor;
+
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width: "90%",
+            height: 640,
+            syncScrolling: "single",
+            emoji: true,
+            mind: true,
+            path: "../lib/"
+        });
+		//$("#layout").hide();
+		
+		showPreview();		
+		function showPreview(){
+			try{
+				testEditor.previewing();
+				//$(".markdown-body").appendTo("body");
+				//$("#layout").hide();
+				//$("#test-editormd").hide();
+			}catch(e){
+				setTimeout( function(){showPreview();},5)
+			};		
+		}
+        /*
+        // or
+        testEditor = editormd({
+            id      : "test-editormd",
+            width   : "90%",
+            height  : 640,
+            path    : "../lib/"
+        });
+        */
+    });
+    </script>
+</body>
+
+</html>
