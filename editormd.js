@@ -3656,9 +3656,12 @@
                 return "<div class=\"tlog\">" + code + "</div>";
             } else if (lang === "mind") {
                 // console.log("mind\n", parseList(code));
+                console.log(code);
                 return '<div class=\"mind\" style="width: 100%;overflow-x: auto;"><canvas id="canvas"></canvas><div class="mindTxt">' + code + "</div></div>";
             } else if (lang === "math" || lang === "latex" || lang === "katex") {
                 return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
+            } else if (lang === 'video') {
+                return '<div class="video">' + code + '</div>';
             } else {
 
                 return marked.Renderer.prototype.code.apply(this, arguments);
