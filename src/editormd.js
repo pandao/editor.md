@@ -96,6 +96,8 @@
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,
+        minHeight            : "150px",
+        maxHeight            : "none",         // default "none"
 		autoFocus            : true,
         autoCloseTags        : true,
         searchReplace        : true,
@@ -384,7 +386,10 @@
             
             if (settings.autoHeight)
             {
-                editor.css("height", "auto");
+                editor.css({
+                    height: "auto",
+                    minHeight: settings.minHeight
+                });
             }
                         
             var markdownTextarea = this.markdownTextarea = editor.children("textarea");
@@ -720,7 +725,18 @@
             
             if (settings.autoHeight)
             {
-                this.codeMirror.css("height", "auto");
+                this.codeMirror.css({
+                    height: "auto",
+                    minHeight: settings.minHeight,
+                    maxHeight: settings.maxHeight
+                });
+                this.codeMirror.find(".CodeMirror-gutters").css({
+                    minHeight: settings.minHeight
+                })
+                this.codeMirror.find(".CodeMirror-scroll").css({
+                    minHeight: settings.minHeight,
+                    maxHeight: settings.maxHeight
+                })
                 this.cm.setOption("viewportMargin", Infinity);
             }
             
@@ -1878,8 +1894,15 @@
             
             if (settings.autoHeight && !state.fullscreen && !state.preview)
             {
-                editor.css("height", "auto");
-                codeMirror.css("height", "auto");
+                editor.css({
+                    height: "auto",
+                    minHeight: settings.minHeight
+                });
+                codeMirror.css({
+                    height: "auto",
+                    minHeight: settings.minHeight,
+                    maxHeight: settings.maxHeight
+                });
             } 
             else 
             {
