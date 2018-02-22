@@ -3851,6 +3851,12 @@
                     
                     var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
 
+                    // FIXED 使用 on* 过滤标签的属性，图片加链接的语法会出错的问题
+
+                    if ($2 && $2 !== $5) {
+                        text += '</' + $5 + '>'
+                    }
+
                     return el[0].outerHTML + text;
                 });
             }
