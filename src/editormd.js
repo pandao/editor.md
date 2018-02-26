@@ -3876,11 +3876,14 @@
 
                     // FIXED 使用 on* 过滤标签的属性，图片加链接的语法会出错的问题
 
-                    if ($2 && $2 !== $5) {
+                    if ($2 && !isNaN($2) && $2 !== $5) {
+                        text += '<' + $2 + '>' + $4 + '</' + $5 + '>';
+                    } else if ($2 && isNaN($2) && $2 !== $5) {
                         text += '</' + $5 + '>'
+                        return el[0].outerHTML + text
+                    } else {
+                        return el[0].outerHTML + text;
                     }
-
-                    return el[0].outerHTML + text;
                 });
             }
             else
