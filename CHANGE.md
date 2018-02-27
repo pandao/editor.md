@@ -423,7 +423,7 @@ v1.2.0 主要更新：
 
 - 新增配置项 `syncScrolling`，即是否开启同步滚动预览，默认值为 `false` ； 
 - 修复 Bug [＃64](https://github.com/pandao/editor.md/issues/64)；
-    - 更新 `editormd.katexURL` 资源地址的默认值，即更新版本为 `0.3.0` ； 
+    - 更新 `editormd.katexURL` 资源地址的默认值，即更新版本为 `0.9.0` ； 
     - 新增测试用例`tests/katex-tests.html`；
     - 修改示例文件`examples/katex.html`； 
 - 修复 Bug [＃66](https://github.com/pandao/editor.md/issues/66)；
