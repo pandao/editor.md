@@ -1767,9 +1767,9 @@
             var cm               = this.cm;
             var settings         = this.settings;
 
-            if (!settings.syncScrolling) {
-                return this;
-            }
+            // if (!settings.syncScrolling) {
+            //     return this;
+            // }
 
             cm.on("change", function(_cm, changeObj) {
 
