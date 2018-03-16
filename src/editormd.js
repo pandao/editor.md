@@ -1556,7 +1556,7 @@
             var tocMenuHeight = preview.find(".editormd-toc-menu").height();
             tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
 
-            if (scrollTop === 0)
+            if (settings.syncScrolling)
             {
                 preview.scrollTop(0);
             }
