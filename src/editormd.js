@@ -1556,17 +1556,19 @@
             var tocMenuHeight = preview.find(".editormd-toc-menu").height();
             tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
 
-            if (settings.syncScrolling)
-            {
-                preview.scrollTop(0);
-            }
-            else if (scrollTop + height >= codeView[0].scrollHeight - 16)
-            {
-                preview.scrollTop(preview[0].scrollHeight);
-            }
-            else
-            {
-                preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
+            if (settings.syncScrolling) {
+                if (scrollTop === 0)
+                {
+                    preview.scrollTop(0);
+                }
+                else if (scrollTop + height >= codeView[0].scrollHeight - 16)
+                {
+                    preview.scrollTop(preview[0].scrollHeight);
+                }
+                else
+                {
+                    preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
+                }
             }
 
             return this;
