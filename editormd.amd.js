@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2018-03-16
+ * @updateTime  2018-03-19
  */
 
 ;(function(factory) {
