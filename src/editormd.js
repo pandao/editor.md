@@ -3522,6 +3522,10 @@
           $.each(_attrs, function(i, e) {
             if (e.nodeName !== '"') {
               $attrs[e.nodeName] = e.nodeValue
+              //   fixed <a href="javascript:alert('xss')"> will cause xss problem
+              if (e.nodeName == "href" && e.nodeValue.toLowerCase().indexOf('javascript:') >= 0) {
+                  $attrs[e.nodeName] = 'javascript:;';
+              }
             }
           })
           $.each($attrs, function(i) {
