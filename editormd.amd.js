@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.amd.js 
- * @version     v1.5.0 
+ * @version     v2.0.1 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2018-03-19
+ * @updateTime  2018-03-29
  */
 
 ;(function(factory) {
@@ -3435,19 +3435,33 @@
     startLevel
   ) {
     var html = ""
-    var lastLevel = 0
+    var lastLevelArr = [0]
+    // var lastLevel = 0
     var classPrefix = this.classPrefix
     startLevel = startLevel || 1
     for (var i = 0, len = toc.length; i < len; i++) {
       var text = toc[i].text
       var level = toc[i].level
+      var stageLen = lastLevelArr.length
+      var lastLevel = lastLevelArr[stageLen - 1]
+      var goBack = 0
       if (level < startLevel) {
         continue
       }
       if (level > lastLevel) {
         html += ""
+        lastLevelArr.push(level)
       } else if (level < lastLevel) {
-        html += new Array(lastLevel - level + 2).join("</ul></li>")
+        for (var j = stageLen - 1; j >= 0; j--) {
+            if (level <= lastLevelArr[j]) {
+                goBack ++
+                lastLevelArr.pop()
+            } else {
+                lastLevelArr.push(level)
+                break
+            }
+        }
+        html += new Array(goBack + 1).join("</ul></li>")
       } else {
         html += "</ul></li>"
       }
@@ -3461,7 +3475,6 @@
         '">' +
         text +
         "</a><ul>"
-      lastLevel = level
     }
 
     var tocContainer = container.find(".markdown-toc")
@@ -3591,6 +3604,10 @@
           $.each(_attrs, function(i, e) {
             if (e.nodeName !== '"') {
               $attrs[e.nodeName] = e.nodeValue
+              //   fixed <a href="javascript:alert('xss')"> will cause xss problem
+              if (e.nodeName === "href" && e.nodeValue.toLowerCase().indexOf('javascript:') >= 0) {
+                  $attrs[e.nodeName] = 'javascript:;';
+              }
             }
           })
           $.each($attrs, function(i) {
