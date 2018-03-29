@@ -543,3 +543,11 @@ v1.2.0 主要更新：
 - 改进：删除多余的空格
 - 改进：修复关闭同步滚动后输入内容右侧不更新的问题
 - 改进：修复关闭同步滚动后输入内容右侧滚动条跳转的问题
+
+#### v2.0.1
+
+- 新增： 增加 TODO 文件，欢迎大家来此提需求/ update TODO file, welcome your issues
+
+- 改进： 修复 toc 列表节点标识错误的问题 / fixed toc list have a wrong sign
+- 改进： 更新 marked 的版本用以修复有序列表初始序号错误的问题 / update markded.js to fix order list got a wrong start number #543
+- 改进： 修复 on* 过滤条件下，`<a href="javascript:alert('xss')">xss</a>` 会引发 XSS 的问题 / fixed xss problem
