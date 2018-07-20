@@ -3270,8 +3270,7 @@
       return text
     }
     markedRenderer.paragraph = function(text) {
-      var isTeXInline = /\$\$(.*)\$\$/g.test(text)
-      var isTeXLine = /^\$\$(.*)\$\$$/.test(text)
+      var isTeXLine = /^(?:\$\$|\$|\[|\()(.*)(?:\$\$|\$|\]|\))$/.test(text)
       var isTeXAddClass = isTeXLine
         ? ' class="' + editormd.classNames.tex + '"'
         : ""
@@ -3279,19 +3278,6 @@
         ? /^(\[TOC\]|\[TOCM\])$/.test(text)
         : /^\[TOC\]$/.test(text)
       var isToCMenu = /^\[TOCM\]$/.test(text)
-      if (!isTeXLine && isTeXInline) {
-        text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function($1, $2) {
-          return (
-            '<span class="' +
-            editormd.classNames.tex +
-            '">' +
-            $2.replace(/\$/g, "") +
-            "</span>"
-          )
-        })
-      } else {
-        text = isTeXLine ? text.replace(/\$/g, "") : text
-      }
       var tocHTML =
         '<div class="markdown-toc editormd-markdown-toc">' + text + "</div>"
       return isToC
@@ -3864,8 +3850,9 @@
   // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
   // You can custom KaTeX load url.
   editormd.katexURL = {
-    css: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-    js: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
+    css: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min",
+    jsmain: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min",
+    jsauto: "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min"
   }
   editormd.kaTeXLoaded = false
   /**
@@ -3876,7 +3863,9 @@
    */
   editormd.loadKaTeX = function(callback) {
     editormd.loadCSS(editormd.katexURL.css, function() {
-      editormd.loadScript(editormd.katexURL.js, callback || function() {})
+      editormd.loadScript(editormd.katexURL.jsmain, function() {
+        editormd.loadScript(editormd.katexURL.jsauto, callback || function() {})
+      })
     })
   }
 
