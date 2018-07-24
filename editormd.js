@@ -1508,6 +1508,22 @@
             return this;
         },
         /**
+         * 解析碎片图
+         * fragment Renderer
+         * 
+         * @returns {editormd}             返回editormd的实例对象
+         */
+        fragmentRender: function(){
+            var self = this;
+            var code;
+            this.previewContainer.find("._7dtime").each(function() {
+                var obj = $(this);
+                code = obj.draw7dtime(self.getMarkdown(), code);
+            });
+            
+        },
+
+        /**
          * 解析和渲染思维导图
          * mindmap Renderer
          * 
@@ -2035,7 +2051,7 @@
             var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
             
             //console.info("cmValue", cmValue, newMarkdownDoc);
-            
+
             newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
             
             //console.error("cmValue", cmValue, newMarkdownDoc);
@@ -2113,6 +2129,20 @@
                         });
                     } else {
                         this.mindRender();
+                    }
+                }
+
+
+                if (settings.fragment) {
+                    if (!editormd.fragmentLoaded && settings.autoLoadModules) {
+                        editormd.loadCSS(loadPath + "7dtime",function(){
+                            editormd.loadScript(loadPath + "7dtime", function() {
+                                _this.fragmentRender();
+                            });
+                        });
+                        
+                    } else {
+                        this.fragmentRender();
                     }
                 }
 
@@ -3647,7 +3677,7 @@
         };
 
         markedRenderer.code = function(code, lang, escaped) {
-
+            
             if (lang === "seq" || lang === "sequence") {
                 return "<div class=\"sequence-diagram\">" + code + "</div>";
             } else if (lang === "flow") {
@@ -3658,6 +3688,8 @@
                 // console.log("mind\n", parseList(code));
                 console.log(code);
                 return '<div class=\"mind\" style="width: 100%;overflow-x: auto;"><canvas id="canvas"></canvas><div class="mindTxt">' + code + "</div></div>";
+            } else if (lang === "7dtime") {
+                return '<div class="_7dtime">' + code + '</div>';
             } else if (lang === "math" || lang === "latex" || lang === "katex") {
                 return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
             } else if (lang === 'video') {
