@@ -2136,8 +2136,10 @@
                 if (settings.fragment) {
                     if (!editormd.fragmentLoaded && settings.autoLoadModules) {
                         editormd.loadCSS(loadPath + "7dtime",function(){
-                            editormd.loadScript(loadPath + "7dtime", function() {
-                                _this.fragmentRender();
+                            editormd.loadScript(loadPath + "moment.min",function(){
+                                editormd.loadScript(loadPath + "7dtime", function() {
+                                    _this.fragmentRender();
+                                });
                             });
                         });
                         
