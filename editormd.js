@@ -1515,10 +1515,8 @@
          */
         fragmentRender: function(){
             var self = this;
-            var code;
             this.previewContainer.find("._7dtime").each(function() {
-                var obj = $(this);
-                code = obj.draw7dtime(self.getMarkdown(), code);
+                $(this).draw7dtime();
             });
             
         },
