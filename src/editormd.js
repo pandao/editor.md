@@ -3586,10 +3586,10 @@
         };
 
         markedRenderer.paragraph = function(text) {
-            var isTeXInline     = /\$\$(.*)\$\$/g.test(text);
-            var isTeXLine       = /^\$\$(.*)\$\$$/.test(text);
+            var isTeXInline = settings.tex && /\$\$(.*)\$\$/g.test(text);
+            var isTeXLine       = settings.tex && /^\$\$(.*)\$\$$/.test(text);
             var isTeXAddClass   = (isTeXLine)     ? " class=\"" + editormd.classNames.tex + "\"" : "";
-            var isToC           = (settings.tocm) ? /^(\[TOC\]|\[TOCM\])$/.test(text) : /^\[TOC\]$/.test(text);
+            var isToC           = settings.toc && ((settings.tocm) ? /^(\[TOC\]|\[TOCM\])$/.test(text) : /^\[TOC\]$/.test(text);
             var isToCMenu       = /^\[TOCM\]$/.test(text);
             
             if (!isTeXLine && isTeXInline) 
@@ -3611,21 +3611,20 @@
 
         markedRenderer.code = function (code, lang, escaped) { 
 
-            if (lang === "seq" || lang === "sequence")
+            if (settings.sequenceDiagram && (lang === "seq" || lang === "sequence"))
             {
                 return "<div class=\"sequence-diagram\">" + code + "</div>";
             } 
-            else if ( lang === "flow")
+            else if (settings.flowChart && lang === "flow")
             {
                 return "<div class=\"flowchart\">" + code + "</div>";
             } 
-            else if ( lang === "math" || lang === "latex" || lang === "katex")
+            else if (settings.tex && (lang === "math" || lang === "latex" || lang === "katex"))
             {
                 return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
             } 
             else 
             {
-
                 return marked.Renderer.prototype.code.apply(this, arguments);
             }
         };
