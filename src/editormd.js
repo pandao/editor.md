@@ -321,7 +321,6 @@
     editormd.$katex       = null;
     editormd.$marked      = null;
     editormd.$CodeMirror  = null;
-    editormd.$prettyPrint = null;
     
     var timer, flowchartTimer;
 
@@ -571,7 +570,8 @@
                                 
                             if (settings.previewCodeHighlight) 
                             {
-                                editormd.loadScript(loadPath + "prettify.min", function() {
+                                editormd.loadScript(loadPath + "highlight/highlight.min", function () {
+                                    editormd.loadCSS(loadPath + "highlight/styles/github");
                                     loadFlowChartOrSequenceDiagram();
                                 });
                             } 
@@ -1461,11 +1461,11 @@
             
             if (settings.previewCodeHighlight) 
             {
-                previewContainer.find("pre").addClass("prettyprint linenums");
-                
-                if (typeof prettyPrint !== "undefined")
+                if (typeof hljs !== "undefined")
                 {                    
-                    prettyPrint();
+                    $('pre code').each(function (i, block) {
+                        hljs.highlightBlock(block);
+                    });
                 }
             }
 
@@ -3984,8 +3984,11 @@
             
         if (settings.previewCodeHighlight) 
         {
-            div.find("pre").addClass("prettyprint linenums");
-            prettyPrint();
+            if (typeof hljs !== "undefined") {
+                $('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
+            }
         }
         
         if (!editormd.isIE8) 
