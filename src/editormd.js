@@ -3342,7 +3342,7 @@
     };
     
     editormd.regexs = {
-        atLink        : /@(\w+)/g,
+        atLink        : /@([a-zA-Z0-9]+$)/,
         email         : /(\w+)@(\w+)\.(\w+)\.?(\w+)?/g,
         emailLink     : /(mailto:)?([\w\.\_]+)@(\w+)\.(\w+)\.?(\w+)?/g,
         emoji         : /:([\w\+-]+):/g,
