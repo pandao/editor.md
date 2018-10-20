@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
 // Global Variables
+$emd-path       : ".." !default;
+$emd-font-path: "#{$emd-path}/fonts" !default;
+$emd-image-path: "#{$emd-path}/images" !default;
 
 $prefix       : ".editormd-";
 $color        : #666;

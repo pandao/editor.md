@@ -139,7 +139,7 @@
 
 #{$prefix}container-mask, 
 #{$prefix}dialog-mask-con {
-    background: url(../images/loading.gif) no-repeat center center;
+    background: url(#{$emd-image-path}/loading.gif) no-repeat center center;
     @include background-size(32px 32px);
 }
 
@@ -152,14 +152,14 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
     #{$prefix}container-mask, 
     #{$prefix}dialog-mask-con {
-        background-image: url(../images/loading@2x.gif);
+        background-image: url(#{$emd-image-path}/loading@2x.gif);
     }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min-device-pixel-ratio: 3) {
     #{$prefix}container-mask,
     #{$prefix}dialog-mask-con {
-        background-image: url(../images/loading@3x.gif);
+        background-image: url(#{$emd-image-path}/loading@3x.gif);
     }
 }
 

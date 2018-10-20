@@ -13,3 +13,4 @@ examples/uploads/**/*
 .project
 .url
 css/*.map
+package-lock.json
