@@ -97,7 +97,7 @@ Using modular script loader :
 #### Dependents
 
 - [CodeMirror](http://codemirror.net/ "CodeMirror")
-- [marked](https://github.com/chjj/marked "marked")
+- [marked](https://github.com/markedjs/marked "marked")
 - [jQuery](http://jquery.com/ "jQuery")
 - [FontAwesome](http://fontawesome.io/ "FontAwesome")
 - [github-markdown.css](https://github.com/sindresorhus/github-markdown-css "github-markdown.css")
