@@ -3081,7 +3081,7 @@
 @font-face {
   font-family: 'editormd-logo';
   src: url("../fonts/editormd-logo.eot?-5y8q6h");
-  src: url(".../fonts/editormd-logo.eot?#iefix-5y8q6h") format("embedded-opentype"), url("../fonts/editormd-logo.woff?-5y8q6h") format("woff"), url("../fonts/editormd-logo.ttf?-5y8q6h") format("truetype"), url("../fonts/editormd-logo.svg?-5y8q6h#icomoon") format("svg");
+  src: url("../fonts/editormd-logo.eot?#iefix-5y8q6h") format("embedded-opentype"), url("../fonts/editormd-logo.woff?-5y8q6h") format("woff"), url("../fonts/editormd-logo.ttf?-5y8q6h") format("truetype"), url("../fonts/editormd-logo.svg?-5y8q6h#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
