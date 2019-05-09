@@ -108,12 +108,18 @@
 
                             this.hide().lockScreen(false).hideMask();
 
+                            //删除对话框
+                            this.remove();
+
                             return false;
                         }],
 
                         cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
+                            //删除对话框
+                            this.remove();
+                            
                             return false;
                         }]
                     }
