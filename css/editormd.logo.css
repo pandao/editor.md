@@ -1,20 +1,20 @@
 /*
  * Editor.md
  *
- * @file        editormd.logo.css 
+ * @file        /editormd.logo.css 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-09
+ * @updateTime  2019-05-11
  */
 
 /*! prefixes.scss v0.1.0 | Author: Pandao | https://github.com/pandao/prefixes.scss | MIT license | Copyright (c) 2015 */
 @font-face {
   font-family: 'editormd-logo';
   src: url("../fonts/editormd-logo.eot?-5y8q6h");
-  src: url(".../fonts/editormd-logo.eot?#iefix-5y8q6h") format("embedded-opentype"), url("../fonts/editormd-logo.woff?-5y8q6h") format("woff"), url("../fonts/editormd-logo.ttf?-5y8q6h") format("truetype"), url("../fonts/editormd-logo.svg?-5y8q6h#icomoon") format("svg");
+  src: url("../fonts/editormd-logo.eot?#iefix-5y8q6h") format("embedded-opentype"), url("../fonts/editormd-logo.woff?-5y8q6h") format("woff"), url("../fonts/editormd-logo.ttf?-5y8q6h") format("truetype"), url("../fonts/editormd-logo.svg?-5y8q6h#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }

@@ -31,8 +31,8 @@
 // Default using CloudFlare KaTeX's CDN
 // You can custom url
 editormd.katexURL = {
-    js  : "your url",  // default: //cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min
-    css : "your url"   // default: //cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min
+    js  : "your url",  // default: //cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min
+    css : "your url"   // default: //cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min
 };
 ```
 
@@ -180,6 +180,12 @@ f(x) = \int_{-\infty}^\infty
         <script src="../editormd.js"></script>   
         <script type="text/javascript">
             $(function() {
+                // custom Katex version
+                // editormd.katexURL  = {
+                //     css : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min",
+                //     js  : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min"
+                // };
+
                 var testEditor = editormd("test-editormd", {
                     width: "90%",
                     height: 640,

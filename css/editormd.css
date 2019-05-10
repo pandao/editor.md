@@ -1,13 +1,13 @@
 /*
  * Editor.md
  *
- * @file        editormd.css 
+ * @file        /editormd.css 
  * @version     v1.5.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-09
+ * @updateTime  2019-05-11
  */
 
 @charset "UTF-8";
@@ -675,6 +675,7 @@
   line-height: 1.6;
   display: none;
   background: #fff;
+  z-index: 10;
 }
 
 .editormd .CodeMirror {

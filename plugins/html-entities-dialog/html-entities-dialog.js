@@ -71,11 +71,15 @@
 						enter  : [lang.buttons.enter, function() {							
 							cm.replaceSelection(selecteds.join(" "));
 							this.hide().lockScreen(false).hideMask();
+
+                            this.remove();
 							
 							return false;
 						}],
 						cancel : [lang.buttons.cancel, function() {                           
 							this.hide().lockScreen(false).hideMask();
+
+                            this.remove();
 							
 							return false;
 						}]

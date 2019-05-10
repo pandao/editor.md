@@ -35,28 +35,29 @@
         <script src="js/jquery.min.js"></script> 
         <script src="../editormd.js"></script> 
         <script type="text/javascript">
-            var testEditormd, testEditormd2;
-            
             $(function() {                        
-                testEditormd = editormd("test-editormd", {
+                var testEditormd = editormd("test-editormd", {
                     width: "90%",
                     height: 480,
                     markdown : "#### Editor.md A",
                     path : '../lib/'
                 });
 
-                testEditormd2 = editormd("test-editormd2", {
-                    width: "90%",
-                    height: 480,
-                    markdown : "#### Editor.md B",
-                    path : '../lib/'
+                var testEditormd2 = editormd("test-editormd2", {
+                    width: "50%",
+                    height: 280,
+                    markdown : "#### Editor.md B\n\n多个 Editor.md 并存",
+                    path : '../lib/',
+                    toolbarIcons: 'mini'
                 });
 
-                testEditormd3 = editormd("test-editormd3", {
-                    width: "90%",
-                    height: 480,
+                var testEditormd3 = editormd("test-editormd3", {
+                    width: "60%",
+                    height: 380,
                     markdown : "#### Editor.md C",
-                    path : '../lib/'
+                    path : '../lib/',
+                    toolbarIcons: 'simple',
+                    watch: false
                 });
             });
         </script>

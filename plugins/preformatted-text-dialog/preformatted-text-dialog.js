@@ -82,11 +82,13 @@
                             cm.replaceSelection(codeTexts);
 
                             this.hide().lockScreen(false).hideMask();
+                            this.remove();
 
                             return false;
                         }],
                         cancel : [lang.buttons.cancel, function() {                                  
                             this.hide().lockScreen(false).hideMask();
+                            this.remove();
 
                             return false;
                         }]

@@ -7,45 +7,45 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-09
+ * @updateTime  2019-05-11
  */
 
 ;(function(factory) {
     "use strict";
-    
+
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
-        module.exports = factory;
+    {
+        module.exports = factory();
     }
 	else if (typeof define === "function")  // AMD/CMD/Sea.js
 	{
         if (define.amd) // for Require.js
         {
             /* Require.js define replace */
-        } 
+        }
         else 
         {
 		    define(["jquery"], factory);  // for Sea.js
         }
-	} 
+	}
 	else
-	{ 
+	{
         window.editormd = factory();
 	}
-    
-}(function() {    
+
+}(function() {  
 
     /* Require.js assignment replace */
-    
+
     "use strict";
-    
-    var $ = (typeof (jQuery) !== "undefined") ? jQuery : Zepto;
+
+    var $ = (typeof (window.jQuery) !== "undefined") ? window.jQuery : window.Zepto;
 
 	if (typeof ($) === "undefined") {
 		return ;
 	}
-    
+
     /**
      * editormd
      * 
@@ -124,7 +124,7 @@
 		styleSelectedText    : true,
         matchWordHighlight   : true,           // options: true, false, "onselected"
         styleActiveLine      : true,           // Highlight the current line
-        dialogLockScreen     : true,
+        dialogLockScreen     : false,
         dialogShowMask       : true,
         dialogDraggable      : true,
         dialogMaskBgColor    : "#fff",
@@ -304,7 +304,8 @@
                 },
                 preformattedText : {
                     title             : "添加预格式文本或代码块", 
-                    emptyAlert        : "错误：请填写预格式文本或代码的内容。"
+                    emptyAlert        : "错误：请填写预格式文本或代码的内容。",
+                    placeholder       : "Coding now...."
                 },
                 codeBlock : {
                     title             : "添加代码块",                    
@@ -312,7 +313,8 @@
                     selectDefaultText : "请选择代码语言",
                     otherLanguage     : "其他语言",
                     unselectedLanguageAlert : "错误：请选择代码所属的语言类型。",
-                    codeEmptyAlert    : "错误：请填写代码内容。"
+                    codeEmptyAlert    : "错误：请填写代码内容。",
+                    placeholder       : "Coding now...."
                 },
                 htmlEntities : {
                     title : "HTML 实体字符"
@@ -362,8 +364,7 @@
             {
                 options = id;
             }
-            
-            var _this            = this;
+
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
             var settings         = this.settings     = $.extend(true, {}, editormd.defaults, options);
             
@@ -453,9 +454,9 @@
             
             if (typeof define === "function" && define.amd)
             {
-                if (typeof katex !== "undefined") 
+                if (typeof window.katex !== "undefined") 
                 {
-                    editormd.$katex = katex;
+                    editormd.$katex = window.katex;
                 }
                 
                 if (settings.searchReplace && !settings.readOnly) 
@@ -464,20 +465,20 @@
                     editormd.loadCSS(settings.path + "codemirror/addon/search/matchesonscrollbar");
                 }
             }
-            
+
             if ((typeof define === "function" && define.amd) || !settings.autoLoadModules)
             {
-                if (typeof CodeMirror !== "undefined") {
-                    editormd.$CodeMirror = CodeMirror;
+                if (typeof window.CodeMirror !== "undefined") {
+                    editormd.$CodeMirror = window.CodeMirror;
                 }
-                
-                if (typeof marked     !== "undefined") {
-                    editormd.$marked     = marked;
+
+                if (typeof window.marked !== "undefined") {
+                    editormd.$marked = window.marked;
                 }
-                
+
                 this.setCodeMirror().setToolbar().loadedDisplay();
             } 
-            else 
+            else
             {
                 this.loadQueues();
             }
@@ -813,7 +814,6 @@
             }
             
             var cm       = this.cm;
-            var editor   = this.editor;
             var count    = cm.lineCount();
             var preview  = this.preview;
             
@@ -1112,7 +1112,6 @@
             }
             
             var editor      = this.editor;
-            var preview     = this.preview;
             var classPrefix = this.classPrefix;
             
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
@@ -1247,7 +1246,7 @@
             var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");  
             var toolbarIconHandlers = this.getToolbarHandles();  
                 
-            toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
+            toolbarIcons.bind("click", function() {
 
                 var icon                = $(this).children(".fa");
                 var name                = icon.attr("name");
@@ -1325,7 +1324,7 @@
             
             var infoDialog  = this.infoDialog = editor.children("." + classPrefix + "dialog-info");
 
-            infoDialog.find("." + classPrefix + "dialog-close").bind(editormd.mouseOrTouch("click", "touchend"), function() {
+            infoDialog.find("." + classPrefix + "dialog-close").bind("click", function() {
                 _this.hideInfoDialog();
             });
             
@@ -1370,8 +1369,7 @@
         showInfoDialog : function() {
 
             $("html,body").css("overflow-x", "hidden");
-            
-            var _this       = this;
+
 			var editor      = this.editor;
             var settings    = this.settings;         
 			var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
@@ -1434,7 +1432,6 @@
          */
         
         recreate : function() {
-            var _this            = this;
             var editor           = this.editor;
             var settings         = this.settings;
             
@@ -1575,17 +1572,17 @@
          * @param   {Object}    keyMap      KeyMap key/value {"(Ctrl/Shift/Alt)-Key" : function(){}}
          * @returns {editormd}              return this
          */
-        
+
         registerKeyMaps : function(keyMap) {
-            
+
             var _this           = this;
             var cm              = this.cm;
             var settings        = this.settings;
             var toolbarHandlers = editormd.toolbarHandlers;
             var disabledKeyMaps = settings.disabledKeyMaps;
-            
+
             keyMap              = keyMap || null;
-            
+
             if (keyMap)
             {
                 for (var i in keyMap)
@@ -1614,34 +1611,34 @@
                         cm.addKeyMap(_map);
                     }
                 }
-                
+
                 $(window).keydown(function(event) {
-                    
+
                     var keymaps = {
                         "120" : "F9",
                         "121" : "F10",
                         "122" : "F11"
                     };
-                    
+
                     if ( $.inArray(keymaps[event.keyCode], disabledKeyMaps) < 0 )
                     {
                         switch (event.keyCode)
                         {
                             case 120:
                                     $.proxy(toolbarHandlers["watch"], _this)();
-                                    return false;
+                                    event.stopPropagation();
                                 break;
-                                
+
                             case 121:
                                     $.proxy(toolbarHandlers["preview"], _this)();
-                                    return false;
+                                    event.stopPropagation();
                                 break;
-                                
+
                             case 122:
-                                    $.proxy(toolbarHandlers["fullscreen"], _this)();                        
-                                    return false;
+                                    $.proxy(toolbarHandlers["fullscreen"], _this)();
+                                    event.stopPropagation();
                                 break;
-                                
+
                             default:
                                 break;
                         }
@@ -1651,7 +1648,7 @@
 
             return this;
         },
-        
+
         /**
          * 绑定同步滚动
          * 
@@ -1767,8 +1764,7 @@
                 return this;
             }
             
-            cm.on("change", function(_cm, changeObj) {
-                
+            cm.on("change", function() {
                 if (settings.watch)
                 {
                     _this.previewContainer.css("padding", settings.autoHeight ? "20px 20px 50px 40px" : "20px");
@@ -1917,7 +1913,7 @@
             
             if(settings.watch) 
             {
-                codeMirror.width(editor.width() / 2);
+                codeMirror.width((editor.width() / 2) - 1);
                 preview.width((!state.preview) ? editor.width() / 2 : editor.width());
                 
                 this.previewContainer.css("padding", settings.autoHeight ? "20px 20px 50px 40px" : "20px");
@@ -1965,15 +1961,14 @@
         
         save : function() {
             
-            var _this            = this;
-            var state            = this.state;
-            var settings         = this.settings;
-
-            if (timer === null && !(!settings.watch && state.preview))
+            if (timer === null)
             {
                 return this;
             }
             
+            var _this            = this;
+            var state            = this.state;
+            var settings         = this.settings;
             var cm               = this.cm;            
             var cmValue          = cm.getValue();
             var previewContainer = this.previewContainer;
@@ -2012,21 +2007,16 @@
                 smartLists  : true,
                 smartypants : true
             };
-            
+
             marked.setOptions(markedOptions);
-                    
+
             var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
-            
-            //console.info("cmValue", cmValue, newMarkdownDoc);
-            
-            newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
-            
-            //console.error("cmValue", cmValue, newMarkdownDoc);
-            
+            newMarkdownDoc     = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
+
             this.markdownTextarea.text(cmValue);
-            
+
             cm.save();
-            
+
             if (settings.saveHTMLToTextarea) 
             {
                 this.htmlTextarea.text(newMarkdownDoc);
@@ -2228,8 +2218,7 @@
          */
         
         appendMarkdown : function(md) {
-            var settings = this.settings;
-            var cm       = this.cm;
+            var cm = this.cm;
             
             cm.setValue(cm.getValue() + md);
             
@@ -2463,7 +2452,20 @@
             
             return this;
         },
-        
+
+        /**
+         * 消毁并移除编辑器实例
+         * 
+         * destroy & remove editor
+         *
+         * @returns {void}    void    无返回值
+         */
+
+        destroy : function () {
+            this.hide();
+            this.editor.remove();
+        },
+
         /**
          * 隐藏编辑器部分，只预览HTML
          * Enter preview html state
@@ -2484,7 +2486,9 @@
             if ($.inArray(settings.mode, ["gfm", "markdown"]) < 0) {
                 return this;
             }
-            
+
+            var editorHeight = this.editor.outerHeight();
+
             if (settings.toolbar && toolbar) {
                 toolbar.toggle();
                 toolbar.find(".fa[name=preview]").toggleClass("active");
@@ -2502,11 +2506,15 @@
             {
                 this.state.preview = true;
 
+                if (this.settings.autoHeight) {
+                    this.editor.css("height", editorHeight);
+                }
+
                 if (this.state.fullscreen) {
                     preview.css("background", "#fff");
                 }
                 
-                editor.find("." + this.classPrefix + "preview-close-btn").show().bind(editormd.mouseOrTouch("click", "touchend"), function(){
+                editor.find("." + this.classPrefix + "preview-close-btn").show().bind("click", function(){
                     _this.previewed();
                 });
             
@@ -2568,7 +2576,7 @@
             
             preview[(settings.watch) ? "show" : "hide"]();
             
-            previewCloseBtn.hide().unbind(editormd.mouseOrTouch("click", "touchend"));
+            previewCloseBtn.hide().unbind("click");
                 
             previewContainer.removeClass(this.classPrefix + "preview-active");
                 
@@ -2576,7 +2584,11 @@
             {
                 previewContainer.css("padding", "20px");
             }
-            
+
+            if (this.settings.autoHeight) {
+                this.editor.css("height", "auto");
+            }
+
             preview.css({ 
                 background : null,
                 position   : "absolute",
@@ -2605,7 +2617,6 @@
             var _this            = this;
             var state            = this.state;
             var editor           = this.editor;
-            var preview          = this.preview;
             var toolbar          = this.toolbar;
             var settings         = this.settings;
             var fullscreenClass  = this.classPrefix + "fullscreen";
@@ -2903,7 +2914,6 @@
         
         lowercase : function() {
             var cm         = this.cm;
-            var cursor     = cm.getCursor();
             var selection  = cm.getSelection();
             var selections = cm.listSelections();
             
@@ -3015,7 +3025,6 @@
 
         "list-ul" : function() {
             var cm        = this.cm;
-            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
             if (selection === "") 
@@ -3037,7 +3046,6 @@
 
         "list-ol" : function() {
             var cm        = this.cm;
-            var cursor    = cm.getCursor();
             var selection = cm.getSelection();
 
             if(selection === "") 
@@ -3060,7 +3068,6 @@
         hr : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
 
             cm.replaceSelection(((cursor.ch !== 0) ? "\n\n" : "\n") + "------------\n\n");
         },
@@ -3098,8 +3105,7 @@
                 return this;
             }
             
-            var cm        = this.cm;
-            var selection = cm.getSelection();
+            var cm = this.cm;
 
             cm.replaceSelection("\r\n[========]\r\n");
         },
@@ -3134,8 +3140,6 @@
         
         datetime : function() {
             var cm        = this.cm;
-            var selection = cm.getSelection();
-            var date      = new Date();
             var langName  = this.settings.lang.name;
             var datefmt   = editormd.dateFormat() + " " + editormd.dateFormat((langName === "zh-cn" || langName === "zh-tw") ? "cn-week-day" : "week-day");
 
@@ -3183,6 +3187,9 @@
         }
     };
     
+    // var isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+    // var key = isMac ? "Cmd" : "Ctrl";
+
     editormd.keyMaps = {
         "Ctrl-1"       : "h1",
         "Ctrl-2"       : "h2",
@@ -3192,8 +3199,7 @@
         "Ctrl-6"       : "h6",
         "Ctrl-B"       : "bold",  // if this is string ==  editormd.toolbarHandlers.xxxx
         "Ctrl-D"       : "datetime",
-        
-        "Ctrl-E"       : function() { // emoji
+        "Ctrl-E"   : function() { // emoji
             var cm        = this.cm;
             var cursor    = cm.getCursor();
             var selection = cm.getSelection();
@@ -3214,7 +3220,6 @@
         "Ctrl-H"       : "hr",
         "Ctrl-I"       : "italic",
         "Ctrl-K"       : "code",
-        
         "Ctrl-L"        : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
@@ -3229,7 +3234,6 @@
             }
         },
         "Ctrl-U"         : "list-ul",
-        
         "Shift-Ctrl-A"   : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
@@ -3247,12 +3251,10 @@
                 cm.setCursor(cursor.line, cursor.ch + 1);
             }
         },
-        
         "Shift-Ctrl-C"     : "code",
         "Shift-Ctrl-Q"     : "quote",
         "Shift-Ctrl-S"     : "del",
         "Shift-Ctrl-K"     : "tex",  // KaTeX
-        
         "Shift-Alt-C"      : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
@@ -3264,39 +3266,36 @@
                 cm.setCursor(cursor.line, cursor.ch + 3);
             } 
         },
-        
-        "Shift-Ctrl-Alt-C" : "code-block",
-        "Shift-Ctrl-H"     : "html-entities",
-        "Shift-Alt-H"      : "help",
-        "Shift-Ctrl-E"     : "emoji",
-        "Shift-Ctrl-U"     : "uppercase",
-        "Shift-Alt-U"      : "ucwords",
-        "Shift-Ctrl-Alt-U" : "ucfirst",
-        "Shift-Alt-L"      : "lowercase",
-        
-        "Shift-Ctrl-I"     : function() {
+        "Shift-Ctrl-Alt-C"      : "code-block",
+        "Shift-Ctrl-H"          : "html-entities",
+        "Shift-Alt-H"           : "help",
+        "Shift-Ctrl-E"          : "emoji",
+        "Shift-Ctrl-U"          : "uppercase",
+        "Shift-Alt-U"           : "ucwords",
+        "Shift-Ctrl-Alt-U"      : "ucfirst",
+        "Shift-Alt-L"           : "lowercase",
+        "Shift-Ctrl-I"          : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
             var selection = cm.getSelection();
             
-            var title = (selection === "") ? "" : " \""+selection+"\"";
+            var title = (selection === "") ? "" : " \"" + selection + "\"";
 
-            cm.replaceSelection("![" + selection + "]("+title+")");
+            cm.replaceSelection("![" + selection + "](" + title + ")");
 
             if (selection === "") {
                 cm.setCursor(cursor.line, cursor.ch + 4);
             }
         },
-        
-        "Shift-Ctrl-Alt-I" : "image",
-        "Shift-Ctrl-L"     : "link",
-        "Shift-Ctrl-O"     : "list-ol",
-        "Shift-Ctrl-P"     : "preformatted-text",
-        "Shift-Ctrl-T"     : "table",
-        "Shift-Alt-P"      : "pagebreak",
-        "F9"               : "watch",
-        "F10"              : "preview",
-        "F11"              : "fullscreen",
+        "Shift-Ctrl-Alt-I"     : "image",
+        "Shift-Ctrl-L"         : "link",
+        "Shift-Ctrl-O"         : "list-ol",
+        "Shift-Ctrl-P"         : "preformatted-text",
+        "Shift-Ctrl-T"         : "table",
+        "Shift-Alt-P"          : "pagebreak",
+        "F9"                   : "watch",
+        "F10"                  : "preview",
+        "F11"                  : "fullscreen",
     };
     
     /**
@@ -3342,21 +3341,19 @@
             return $1.toUpperCase();
         });
     };
-    
-    var ucfirst = firstUpperCase;
-    
+
     editormd.firstUpperCase = editormd.ucfirst = firstUpperCase;
-    
+
     editormd.urls = {
         atLinkBase : "https://github.com/"
     };
-    
+
     editormd.regexs = {
         atLink        : /@(\w+)/g,
         email         : /(\w+)@(\w+)\.(\w+)\.?(\w+)?/g,
         emailLink     : /(mailto:)?([\w\.\_]+)@(\w+)\.(\w+)\.?(\w+)?/g,
         emoji         : /:([\w\+-]+):/g,
-        emojiDatetime : /(\d{2}:\d{2}:\d{2})/g,
+        emojiDatetime : /(\d{1,2}:\d{1,2}:\d{1,2})/g,
         twemoji       : /:(tw-([\w]+)-?(\w+)?):/g,
         fontAwesome   : /:(fa-([\w]+)(-(\w+)){0,}):/g,
         editormdLogo  : /:(editormd-logo-?(\w+)?):/g,
@@ -3431,7 +3428,7 @@
                     matchs[i] = ":\\+1:";
                 }
 
-                text = text.replace(new RegExp(matchs[i]), function($1, $2){
+                text = text.replace(new RegExp(matchs[i]), function($1) {
                     var faMatchs = $1.match(faIconReg);
                     var name     = $1.replace(/:/g, "");
 
@@ -3512,12 +3509,12 @@
 
             if (this.options.sanitize) {
                 try {
-                    var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g,"").toLowerCase();
-                } catch(e) {
-                    return "";
-                }
+                    var prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, "").toLowerCase();
 
-                if (prot.indexOf("javascript:") === 0) {
+                    if (prot.indexOf("javascript:") === 0) {
+                        return "";
+                    }
+                } catch(e) {
                     return "";
                 }
             }
@@ -3542,12 +3539,12 @@
 
             return out;
         };
-        
-        markedRenderer.heading = function(text, level, raw) {
-                    
+
+        markedRenderer.heading = function(text, level) {
+
             var linkText       = text;
             var hasLinkReg     = /\s*\<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)\<\/a\>\s*/;
-            var getLinkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
+            // var getLinkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
 
             if (hasLinkReg.test(text)) 
             {
@@ -3619,7 +3616,7 @@
                            : ( (pageBreakReg.test(text)) ? this.pageBreak(text) : "<p" + isTeXAddClass + ">" + this.atLink(this.emoji(text)) + "</p>\n" );
         };
 
-        markedRenderer.code = function (code, lang, escaped) { 
+        markedRenderer.code = function (code, lang) {
 
             if (lang === "seq" || lang === "sequence")
             {
@@ -3810,7 +3807,7 @@
     editormd.filterHTMLTags = function(html, filters) {
         
         if (typeof html !== "string") {
-            html = new String(html);
+            html = html.toString();
         }
             
         if (typeof filters !== "string") {
@@ -3848,7 +3845,9 @@
                     var $attrs = {};
                     
                     $.each(_attrs, function(i, e) {
-                        if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
+                        if (e.nodeName !== "\"") {
+                            $attrs[e.nodeName] = e.nodeValue;
+                        }
                     });
                     
                     $.each($attrs, function(i) {                        
@@ -3919,9 +3918,9 @@
         editormd.$marked  = marked;
 
         var div           = $("#" + id);
-        var settings      = div.settings = $.extend(true, defaults, options || {});
+        var settings      = div.settings = $.extend(true, {}, defaults, options || {});
         var saveTo        = div.find("textarea");
-        
+
         if (saveTo.length < 1)
         {
             div.append("<textarea></textarea>");
@@ -3956,13 +3955,13 @@
             smartLists  : true,
             smartypants : true
         };
-        
-		markdownDoc = new String(markdownDoc);
-        
+
+        markdownDoc = markdownDoc.toString();
+
         var markdownParsed = marked(markdownDoc, markedOptions);
-        
+
         markdownParsed = editormd.filterHTMLTags(markdownParsed, settings.htmlDecode);
-        
+
         if (settings.markdownSourceCode) {
             saveTo.text(markdownDoc);
         } else {
@@ -4123,9 +4122,9 @@
             document.body.appendChild(css);
         }
     };
-    
-    editormd.isIE    = (navigator.appName == "Microsoft Internet Explorer");
-    editormd.isIE8   = (editormd.isIE && navigator.appVersion.match(/8./i) == "8.");
+
+    editormd.isIE    = (navigator.appName === "Microsoft Internet Explorer");
+    editormd.isIE8   = (editormd.isIE && navigator.appVersion.match(/8./i) === "8.");
 
     /**
      * 动态加载JS文件的方法
@@ -4179,10 +4178,10 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     // You can custom KaTeX load url.
     editormd.katexURL  = {
-        css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
+        css : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min",
+        js  : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min"
     };
-    
+
     editormd.kaTeXLoaded = false;
     
     /**
@@ -4226,6 +4225,7 @@
             title : "",
             drag  : true,
             closed : true,
+            cached : false,
             content : "",
             mask : true,
             maskStyle : {
@@ -4244,8 +4244,6 @@
         var classPrefix  = editormd.classPrefix;
         var guid         = (new Date()).getTime();
         var dialogName   = ( (options.name === "") ? classPrefix + "dialog-" + guid : options.name);
-        var mouseOrTouch = editormd.mouseOrTouch;
-
         var html         = "<div class=\"" + classPrefix + "dialog " + dialogName + "\">";
 
         if (options.title !== "")
@@ -4268,7 +4266,6 @@
         }
 
         html += "</div>";
-
         html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-bg\"></div>";
         html += "<div class=\"" + classPrefix + "dialog-mask " + classPrefix + "dialog-mask-con\"></div>";
         html += "</div>";
@@ -4331,8 +4328,12 @@
 
         $(window).resize(dialogPosition);
 
-        dialog.children("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
+        dialog.children("." + classPrefix + "dialog-close").bind("click", function() {
             dialog.hide().lockScreen(false).hideMask();
+
+            if (!options.cached) {
+                dialog.remove();
+            }
         });
 
         if (typeof options.buttons === "object")
@@ -4346,7 +4347,7 @@
 
                 footer.append("<button class=\"" + classPrefix + "btn " + btnClassName + "\">" + btn[0] + "</button>");
                 btn[1] = $.proxy(btn[1], dialog);
-                footer.children("." + btnClassName).bind(mouseOrTouch("click", "touchend"), btn[1]);
+                footer.children("." + btnClassName).bind("click", btn[1]);
             }
         }
 
@@ -4356,26 +4357,18 @@
             var dialogHeader = dialog.children("." + classPrefix + "dialog-header");
 
             if (!options.mask) {
-                dialogHeader.bind(mouseOrTouch("click", "touchend"), function(){
+                dialogHeader.bind("click", function(){
                     editormd.dialogZindex += 2;
                     dialog.css("z-index", editormd.dialogZindex);
                 });
             }
-
-            dialogHeader.mousedown(function(e) {
-                e = e || window.event;  //IE
-                posX = e.clientX - parseInt(dialog[0].style.left);
-                posY = e.clientY - parseInt(dialog[0].style.top);
-
-                document.onmousemove = moveAction;                   
-            });
 
             var userCanSelect = function (obj) {
                 obj.removeClass(classPrefix + "user-unselect").off("selectstart");
             };
 
             var userUnselect = function (obj) {
-                obj.addClass(classPrefix + "user-unselect").on("selectstart", function(event) { // selectstart for IE                        
+                obj.addClass(classPrefix + "user-unselect").on("selectstart", function() { // selectstart for IE                        
                     return false;
                 });
             };
@@ -4414,6 +4407,14 @@
                 dialog[0].style.left = left + "px";
                 dialog[0].style.top  = top + "px";
             };
+
+            dialogHeader.mousedown(function(e) {
+                e = e || window.event;  //IE
+                posX = e.clientX - parseInt(dialog[0].style.left);
+                posY = e.clientY - parseInt(dialog[0].style.top);
+
+                document.onmousemove = moveAction;                   
+            });
 
             document.onmouseup = function() {                            
                 userCanSelect($("body"));

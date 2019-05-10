@@ -16,6 +16,7 @@
                 <div class="btns" style="margin:0;">
                     <button id="create-btn">动态创建一个 Editor.md</button>
                     <button id="remove-btn">移除 Editor.md</button>
+                    <button id="destroy-btn">消毁 Editor.md</button>
                 </div>
             </header>
         </div>
@@ -23,12 +24,12 @@
         <script src="js/jquery.min.js"></script> 
         <script type="text/javascript">
             var testEditormd;
-            
+
             $(function() {                
                 $("#create-btn").click(function(){                    
-					$.getScript("../editormd.js", function() {
+					$.getScript("../editormd.js?v=20190511", function() {
                         $("#layout").append("<div id=\"test-editormd\"></div>");
-                        
+
                         testEditormd = editormd("test-editormd", {
                             width: "90%",
                             height: 640,
@@ -37,9 +38,14 @@
                         });
 					});
                 });  
-                
+
                 $("#remove-btn").click(function() {
                     testEditormd.editor.remove();
+                });
+
+                $("#destroy-btn").click(function() {
+                    testEditormd.destroy();
+                    testEditormd = null;
                 });
             });
         </script>

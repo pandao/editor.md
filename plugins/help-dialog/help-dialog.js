@@ -46,6 +46,8 @@
 					buttons    : {
 						close : [lang.buttons.close, function() {      
 							this.hide().lockScreen(false).hideMask();
+
+                            this.remove();
 							
 							return false;
 						}]
