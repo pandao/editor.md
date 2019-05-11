@@ -8,7 +8,7 @@
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     </head>
     <body>
-        <div id="layout" style="height:3000px;">
+        <div id="layout" style="height: 4000px;">
             <header>
                 <h1>工具栏自动固定定位的开启与禁用</h1>
                 <p>Enable / disable toolbar auto fixed position.</p>
@@ -16,6 +16,8 @@
             <div class="btns">
                 <button id="enable-btn">Enable</button>
                 <button id="disable-btn">Disable</button>
+                <button id="set-offset-btn">Set editor offset(random)</button>
+                <button id="reset-offset-btn">Reset editor offset</button>
             </div>
             <div id="test-editormd">
                 <textarea style="display:none;">### Hello world!
@@ -104,17 +106,28 @@ Bower Distribution of the Sparqlification Mapping Language (SML) Syntax Highligh
                     height : 1600,
                     path   : "../lib/"
                 });
-                
+
                 $("#enable-btn").bind("click", function() {
                     testEditor.setToolbarAutoFixed(true);
                     // or
                     //testEditor.config("toolbarAutoFixed", true);
                 });
-                
+
                 $("#disable-btn").bind("click", function() {
                     testEditor.setToolbarAutoFixed(false);
                     // or
                     //testEditor.config("toolbarAutoFixed", false);
+                });
+
+                $("#set-offset-btn").click(function () {
+                    testEditor.editor.css({
+                        marginLeft: editormd.rand(0, 200) + "px",
+                        marginTop: editormd.rand(0, 1000) + "px"
+                    })
+                });
+
+                $("#reset-offset-btn").click(function () {
+                    testEditor.editor.css("margin", "0 auto");
                 });
             });
         </script>

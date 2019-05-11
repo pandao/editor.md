@@ -1085,11 +1085,12 @@
                     return false;
                 }
 
-                if (top - editor.offset().top > 10 && top < editor.height()) {
+                // Fixed #292
+                if (top - editor.offset().top > 10 && top - editor.offset().top < editor.height() - toolbar.height()) {
                     toolbar.css({
                         position : "fixed",
                         width    : editor.width() + "px",
-                        left     : ($window.width() - editor.width()) / 2 + "px"
+                        left     : editor.offset().left + 1 + "px"
                     });
                 } else {
                     toolbar.css({
@@ -1102,6 +1103,7 @@
 
             if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed) {
                 $(window).bind("scroll", autoFixedHandle);
+                $(window).bind("resize", autoFixedHandle);
             }
 
             return this;
