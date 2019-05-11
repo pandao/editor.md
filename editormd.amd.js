@@ -2105,6 +2105,10 @@
             {
                 previewContainer.html(newMarkdownDoc);
 
+                previewContainer.find(".task-list-item").each(function () {
+                    $(this).parent().addClass("task-list");
+                });
+
                 this.previewCodeHighlight();
                 
                 if (settings.toc) 
@@ -3723,16 +3727,12 @@
             return tag + this.atLink(this.emoji(content)) + "</" + type + ">\n";
         };
 
-        markedRenderer.listitem = function(text) {
-            if (settings.taskList && /^\s*\[[x\s]\]\s*/.test(text)) 
-            {
-                text = text.replace(/^\s*\[\s\]\s*/, "<input type=\"checkbox\" class=\"task-list-item-checkbox\" /> ")
-                           .replace(/^\s*\[x\]\s*/,  "<input type=\"checkbox\" class=\"task-list-item-checkbox\" checked disabled /> ");
+        markedRenderer.listitem = function(text, task) {
+            if (settings.taskList && task) {
+                text = text.replace("<input ", "<input class='task-list-item-checkbox' ");
 
-                return "<li style=\"list-style: none;\">" + this.atLink(this.emoji(text)) + "</li>";
-            }
-            else 
-            {
+                return "<li class=\"task-list-item\">" + this.atLink(this.emoji(text)) + "</li>";
+            } else {
                 return "<li>" + this.atLink(this.emoji(text)) + "</li>";
             }
         };
@@ -4048,6 +4048,10 @@
         }
         
         div.addClass("markdown-body " + this.classPrefix + "html-preview").append(markdownParsed);
+
+        div.find(".task-list-item").each(function () {
+            $(this).parent().addClass("task-list");
+        });
         
         var tocContainer = (settings.tocContainer !== "") ? $(settings.tocContainer) : div;
         
