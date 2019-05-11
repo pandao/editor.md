@@ -1454,11 +1454,19 @@
                     return this;
                 }
 
-                previewContainer.find(".flowchart").flowChart();
+                var $flowchart = previewContainer.find(".flowchart");
+
+                if ($flowchart.length > 0) {
+                    $flowchart.flowChart();
+                }
             }
 
             if (settings.sequenceDiagram) {
-                previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+                var $sequenceDiagram = previewContainer.find(".sequence-diagram");
+
+                if ($sequenceDiagram.length > 0) {
+                    $sequenceDiagram.sequenceDiagram({theme: "simple"});
+                }
             }
 
             var preview    = $this.preview;
@@ -3797,11 +3805,19 @@
 
         if (!editormd.isIE8) {
             if (settings.flowChart) {
-                div.find(".flowchart").flowChart();
+                var $flowChart = div.find(".flowchart");
+
+                if ($flowChart.length > 0) {
+                    $flowChart.flowChart();
+                }
             }
 
             if (settings.sequenceDiagram) {
-                div.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
+                var $sequenceDiagram = div.find(".sequence-diagram");
+
+                if ($sequenceDiagram.length > 0) {
+                    $sequenceDiagram.sequenceDiagram({theme: "simple"});
+                }
             }
         }
 
