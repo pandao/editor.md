@@ -4340,7 +4340,7 @@ li.L3,
 li.L5,
 li.L7,
 li.L9 {
-  background: #eee;
+  background: #fff;
 }
 
 .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint {
@@ -4348,15 +4348,41 @@ li.L9 {
   border: 1px solid #ddd;
   white-space: pre-wrap;
   word-wrap: break-word;
+  background: #fff;
+  -webkit-transition: border-color 0.3s ease, background-color 0.3s ease;
+  /* Safari, Chrome */
+  -moz-transition: border-color 0.3s ease, background-color 0.3s ease;
+  /* Firefox 4.0~16.0 */
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  /* IE >9, FF >15, Opera >12.0 */
 }
-.editormd-preview-container ol.linenums, .editormd-html-preview ol.linenums {
+.editormd-preview-container pre.prettyprint li, .editormd-html-preview pre.prettyprint li {
+  border-left: 1px solid #ddd;
+  padding-left: 0.8em;
+  -webkit-transition: background-color 0.3s ease;
+  /* Safari, Chrome */
+  -moz-transition: background-color 0.3s ease;
+  /* Firefox 4.0~16.0 */
+  transition: background-color 0.3s ease;
+  /* IE >9, FF >15, Opera >12.0 */
+}
+.editormd-preview-container pre.prettyprint li:hover, .editormd-html-preview pre.prettyprint li:hover {
+  background-color: #fafafa;
+}
+.editormd-preview-container pre.prettyprint li + li, .editormd-html-preview pre.prettyprint li + li {
+  margin-top: 0;
+}
+.editormd-preview-container pre.prettyprint:hover, .editormd-html-preview pre.prettyprint:hover {
+  border: 1px solid #d5d5d5;
+}
+.editormd-preview-container pre.prettyprint ol.linenums, .editormd-html-preview pre.prettyprint ol.linenums {
   color: #999;
-  padding-left: 2.5em;
+  padding-left: 2.7em;
 }
-.editormd-preview-container ol.linenums li, .editormd-html-preview ol.linenums li {
+.editormd-preview-container pre.prettyprint ol.linenums li, .editormd-html-preview pre.prettyprint ol.linenums li {
   list-style-type: decimal;
 }
-.editormd-preview-container ol.linenums li code, .editormd-html-preview ol.linenums li code {
+.editormd-preview-container pre.prettyprint ol.linenums li code, .editormd-html-preview pre.prettyprint ol.linenums li code {
   border: none;
   background: none;
   padding: 0;
@@ -4632,6 +4658,20 @@ hr.editormd-page-break {
 }
 .editormd-preview-theme-dark pre .pln {
   color: #999;
+}
+.editormd-preview-theme-dark pre.prettyprint {
+  border: none;
+  background-color: #111;
+}
+.editormd-preview-theme-dark pre.prettyprint li {
+  border-left: 1px solid #222;
+}
+.editormd-preview-theme-dark pre.prettyprint:hover {
+  border: none;
+  background-color: #000;
+}
+.editormd-preview-theme-dark pre.prettyprint:hover li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 .editormd-preview-theme-dark li.L1, .editormd-preview-theme-dark li.L3, .editormd-preview-theme-dark li.L5, .editormd-preview-theme-dark li.L7, .editormd-preview-theme-dark li.L9 {
   background: none;

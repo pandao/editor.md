@@ -1,12 +1,12 @@
 /* Preview dark theme */
-            
+
 #{$prefix}preview-theme-dark {
     color: #777;
     background:#2C2827;
-    
+
     #{$prefix}preview-container {
         color: #888;
-        background-color: #2C2827;  
+        background-color: #2C2827;
         //font-family: "Meiryo UI", "Helvetica Neue", "Microsoft YaHei";
 
         pre.prettyprint {
@@ -23,7 +23,7 @@
         abbr {
             color: #fff;
             padding: 1px 3px;
-            @include border-radius(3px); 
+            @include border-radius(3px);
             background:#ff9900;
         }
 
@@ -31,7 +31,7 @@
             color: #fff;
             border: none;
             padding: 1px 3px;
-            @include border-radius(3px); 
+            @include border-radius(3px);
             background: #5A9600;
         }
 
@@ -58,25 +58,45 @@
             }
         }
     }
-    
+
     .markdown-body {
         h1, h2, hr {
-            border-color: #222;      
-        }    
+            border-color: #222;
+        }
     }
-    
+
     pre {
         color: #999;
         background-color: #111;
         background-color: rgba(0,0,0,.4);
 
         /* plain text */
-        .pln { 
+        .pln {
             color: #999;
-        } 
+        }
+
+        &.prettyprint {
+            border: none;
+            background-color: #111;
+
+            li {
+                border-left: 1px solid #222;
+            }
+
+            &:hover {
+                border: none;
+                background-color: #000;
+
+                li {
+                    &:hover {
+                        background-color: rgba(#fff, .1);
+                    }
+                }
+            }
+        }
     }
 
-    li.L1, li.L3, li.L5, li.L7, li.L9 { 
+    li.L1, li.L3, li.L5, li.L7, li.L9 {
         background: none;
     }
 
@@ -95,7 +115,7 @@
             stroke : #64D1CB;
         }
     }
-    
+
     .flowchart {
         rect, path {
             stroke : #A6C6FF;
@@ -112,7 +132,7 @@
 }
 
 @media screen {
-    
+
     #{$prefix}preview-theme-dark {
         .str { color: #080 }  /* string content */
         .kwd { color: #ff9900; }  /* a keyword */
@@ -127,5 +147,5 @@
         .dec, .var { color: #008BA7; }  /* a declaration; a variable name */
         .fun { color: red }  /* a function name */
     }
-    
+
 }

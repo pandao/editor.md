@@ -7,7 +7,7 @@
 @import "editormd.logo";
 
 // github-markdown.css
-@import "github-markdown";  
+@import "github-markdown";
 
 #{$prefix}preview-container, #{$prefix}html-preview {
     text-align: left;
@@ -31,7 +31,7 @@
         margin-left: 5px;
         margin-right: 4px;
     }
-        
+
     abbr {
         background: #ffffdd;
     }
@@ -61,8 +61,8 @@
             padding: 0;
         }
     }
-    
-    pre, code, kbd {        
+
+    pre, code, kbd {
         font-family:  "YaHei Consolas Hybrid", Consolas, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, monospace, monospace;
     }
 
@@ -74,21 +74,21 @@
     }
 
     .markdown-toc-list {
-    } 
-    
+    }
+
     p#{$prefix}tex {
         text-align: center;
     }
-    
+
     span#{$prefix}tex {
         margin: 0 5px;
     }
-    
+
     .emoji {
         width: 24px;
         height: 24px;
     }
-    
+
     .katex {
         font-size: 1.4em;
     }
@@ -96,7 +96,7 @@
     .sequence-diagram, .flowchart {
         margin: 0 auto;
         text-align: center;
-        
+
         svg {
             margin: 0 auto;
         }
@@ -113,28 +113,50 @@
 @import "prettify";
 
 #{$prefix}preview-container, #{$prefix}html-preview {
-    pre.prettyprint { 
-        padding: 10px; 
-        border: 1px solid $borderColor; 
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
+    pre {
+        &.prettyprint {
+            padding: 10px;
+            border: 1px solid $borderColor;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #fff;
+            @include transition(border-color .3s ease, background-color .3s ease);
 
-    ol.linenums { 
-        color: #999; 
-        padding-left: 2.5em; 
-    
-        li { 
-            list-style-type: decimal; 
-        
-            code {
-                border: none;
-                background:none;  
-                padding: 0;
+            li {
+                border-left: 1px solid #ddd;
+                padding-left: 0.8em;
+                @include transition(background-color .3s ease);
+
+                &:hover {
+                    background-color: #fafafa;
+                }
+            }
+
+            li + li {
+                margin-top: 0;
+            }
+
+            &:hover {
+                border: 1px solid darken($borderColor, 3%);
+            }
+
+            ol.linenums {
+                color: #999;
+                padding-left: 2.7em;
+
+                li {
+                    list-style-type: decimal;
+
+                    code {
+                        border: none;
+                        background:none;
+                        padding: 0;
+                    }
+                }
             }
         }
     }
-}    
+}
 
 #{$prefix}preview-container, #{$prefix}html-preview {
 
@@ -156,7 +178,7 @@
                 left: -1px;
                 top: -2px;
                 z-index: 100;
-                padding: 0 10px 10px;    
+                padding: 0 10px 10px;
                 display: none;
                 background: #fff;
                 border: 1px solid #ddd;
@@ -176,11 +198,11 @@
                     color: #666;
                     padding: 6px 10px;
                     display: block;
-                    @include transition(background-color 500ms ease-out);  
+                    @include transition(background-color 500ms ease-out);
 
                     &:hover {
                         background-color: #f6f6f6;
-                    }       
+                    }
                 }
             }
 
@@ -204,16 +226,16 @@
                         width: 0;
                         height: 0;
                         border: 6px solid transparent;
-                        border-width: 0 6px 6px; 
-                        z-index: 10; 
+                        border-width: 0 6px 6px;
+                        z-index: 10;
                     }
 
                     &:before {
-                        border-bottom-color: #ccc; 
+                        border-bottom-color: #ccc;
                     }
 
                     &:after {
-                        border-bottom-color: #ffffff;  
+                        border-bottom-color: #ffffff;
                         top: -5px;
                     }
                 }
@@ -263,7 +285,7 @@
 .markdown-body {
     #{$prefix}toc-menu {
         ul {
-            padding-left: 0; 
+            padding-left: 0;
         }
     }
 
