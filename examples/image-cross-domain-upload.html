@@ -21,8 +21,12 @@
     imageUpload       : true,
     imageFormats      : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
     imageUploadURL    : "http://xxxxxxx/editor.md/examples/php/cross-domain-upload.php?test=dfdf",
+    imageUploadFields : "&lt;input type=\"hidden\" name=\"token\" value=\"d3sE3fc87\"/&gt;", // v1.5.1+
     crossDomainUpload : true,
-    uploadCallbackURL : "http://xxxxxx/upload_callback.html?test=dfdf"
+    uploadCallbackURL : "http://xxxxxx/upload_callback.html?test=dfdf",
+    imageUploadCallback : function (result, dialog) { // v1.5.1+
+        console.log('imageUploadCallback: ', this, result, dialog);
+    }
 }
 ```
 
@@ -74,6 +78,14 @@ exit;
 
     var imageDialog = window.parent.document.getElementById(query['dialog_id']);
     //console.log(imageDialog, window.parent.document, window.parent, query);
+
+    if (query['callback_handler']) {
+        try {
+            window.parent[query['callback_handler']](query, imageDialog);
+        } catch (e) {
+            console.error('upload_callback: callback_handler =>', e);
+        }
+    }
 &lt;/script&gt;
 ```</textarea>
             </div>
@@ -89,9 +101,13 @@ exit;
                     path              : '../lib/',
                     imageUpload       : true,
                     imageFormats      : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL    : "http://www.ipandao.com/editor.md/examples/php/cross-domain-upload.php?test=dfdf",
+                    imageUploadURL    : "http://127.0.0.1/editor.md/examples/php/cross-domain-upload.php?test=dfdf",
+                    imageUploadFields : "<input type=\"hidden\" name=\"token\" value=\"d3sE3fc87\"/>", // append upload form fields for CRSF etc. Server-side receives the POST parameters. v1.5.1+
                     crossDomainUpload : true,
-                    uploadCallbackURL : "http://localhost/editor.md/examples/php/upload_callback.html?test=dfdf"
+                    uploadCallbackURL : "http://localhost/editor.md/examples/php/upload_callback.html?test=dfdf",
+                    imageUploadCallback : function (result, dialog) { // v1.5.1+
+                        console.log('imageUploadCallback: ', this, result, dialog);
+                    }
                     
                     /*
                      跨域时，上传的图片服务器后台只需要返回一个跳转 URL 并跳转到原页面同域下的 callback 页面，结构如下：

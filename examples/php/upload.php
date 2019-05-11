@@ -38,6 +38,10 @@
             'maxSize' => 1024,        // 允许上传的最大文件大小，以KB为单位，默认值为1024
             'cover'   => true         // 是否覆盖同名文件，默认为true
         ));
+
+        $imageUploader->appendResult = array(
+            'meta' => $_POST
+        );
         
         if ($imageUploader->upload($name))
         {

@@ -38,7 +38,12 @@
             'maxSize' => 1024,        // 允许上传的最大文件大小，以KB为单位，默认值为1024
             'cover'   => true         // 是否覆盖同名文件，默认为true
         ));
-        
+
+        $imageUploader->appendResult = array(
+            'callback_handler' => $_GET['callback_handler'],
+            'meta' => $_POST
+        );
+
         $imageUploader->redirect    = true;
         $imageUploader->redirectURL = $callbackUrl . (empty(parse_url($callbackUrl)['query']) ? '?' : '&') . 'dialog_id=' . $_GET['dialog_id'] . '&temp=' . date('ymdhis');
         

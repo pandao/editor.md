@@ -185,6 +185,9 @@ Editor.md options and default values:
     imageUpload          : false,          // Enable/disable upload
     imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
     imageUploadURL       : "",             // Upload url
+    imageUploadFields    : "",             // append upload form fields for CRSF etc. Server-side receives the POST parameters. v1.5.1+
+    imageUploadCallback  : function() {},  // set image upload finish (success or failure) callback handler v1.5.1+
+    imageUploadCallbackName : '__Editor_md_ImageUploadCallback', // upload callback name for cross-domain upload v1.5.1+
     crossDomainUpload    : false,          // Enable/disable Cross-domain upload
     uploadCallbackURL    : "",             // Cross-domain upload callback url
 

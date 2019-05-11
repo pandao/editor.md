@@ -2,7 +2,7 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.5.0 
+ * @version     v1.5.1 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
@@ -59,7 +59,7 @@
     };
     
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.5.0";
+    editormd.version      = "1.5.1";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
     
@@ -148,6 +148,9 @@
         imageUpload          : false,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         imageUploadURL       : "",
+        imageUploadFields    : "", // append upload form fields for CRSF etc. Server-side receives the POST parameters. v1.5.1+
+        imageUploadCallback  : function() {}, // set image upload finish (success or failure) callback handler v1.5.1+
+        imageUploadCallbackName : '__Editor_md_ImageUploadCallback', // upload callback name for cross-domain upload v1.5.1+
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
         
@@ -228,7 +231,7 @@
         
         lang : {
             name        : "zh-cn",
-            description : "开源在线Markdown编辑器<br/>Open source online Markdown editor.",
+            description : "开源在线 Markdown 编辑器<br/>Open source online Markdown editor.",
             tocTitle    : "目录",
             toolbar     : {
                 undo             : "撤销（Ctrl+Z）",
@@ -366,8 +369,14 @@
             }
 
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
-            var settings         = this.settings     = $.extend(true, {}, editormd.defaults, options);
-            
+            var settings         = $.extend(true, {}, editormd.defaults, options);
+
+            if (options.imageFormats) {
+                settings.imageFormats = options.imageFormats;
+            }
+
+            this.settings        = settings;
+
             id                   = (typeof id === "object") ? settings.id : id;
             
             var editor           = this.editor       = $("#" + id);
@@ -1314,7 +1323,7 @@
                 "<h1><i class=\"editormd-logo editormd-logo-lg editormd-logo-color\"></i> " + editormd.title + "<small>v" + editormd.version + "</small></h1>",
                 "<p>" + this.lang.description + "</p>",
                 "<p style=\"margin: 10px 0 20px 0;\"><a href=\"" + editormd.homePage + "\" target=\"_blank\">" + editormd.homePage + " <i class=\"fa fa-external-link\"></i></a></p>",
-                "<p style=\"font-size: 0.85em;\">Copyright &copy; 2015 <a href=\"https://github.com/pandao\" target=\"_blank\" class=\"hover-link\">Pandao</a>, The <a href=\"https://github.com/pandao/editor.md/blob/master/LICENSE\" target=\"_blank\" class=\"hover-link\">MIT</a> License.</p>",
+                "<p style=\"font-size: 0.85em;\">Copyright &copy; 2015-" + editormd.dateFormat('yyyy') + " <a href=\"https://github.com/pandao\" target=\"_blank\" class=\"hover-link\">Pandao</a>, The <a href=\"https://github.com/pandao/editor.md/blob/master/LICENSE\" target=\"_blank\" class=\"hover-link\">MIT</a> License.</p>",
                 "</div>",
                 "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>",
                 "</div>"
@@ -1472,9 +1481,9 @@
             {
                 previewContainer.find("pre").addClass("prettyprint linenums");
                 
-                if (typeof prettyPrint !== "undefined")
+                if (typeof window.prettyPrint !== "undefined")
                 {                    
-                    prettyPrint();
+                    window.prettyPrint();
                 }
             }
 
@@ -2454,7 +2463,7 @@
         },
 
         /**
-         * 消毁并移除编辑器实例
+         * 消毁并移除编辑器实例 v1.5.1+
          * 
          * destroy & remove editor
          *
@@ -3995,7 +4004,7 @@
         if (settings.previewCodeHighlight) 
         {
             div.find("pre").addClass("prettyprint linenums");
-            prettyPrint();
+            window.prettyPrint();
         }
         
         if (!editormd.isIE8) 

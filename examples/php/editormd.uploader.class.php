@@ -19,6 +19,7 @@
         public $saveName;                       // 最终保存的文件名
         public $saveURL;                        // 最终保存URL地址
         public $savePath;                       // 保存本地文件路径
+        public $appendResult   = [];            // 追加到输出结果的数据
         public $randomLength   = '';            // 生成随机文件名的长度，当为日期时为日期的格式
         public $randomNameType = 1;             // 生成随机的形式, NULL为保留原文件名, 1生成随机字符串, 2生成日期文件名
         public $formats = array(                // 允许上传的文件格式
@@ -252,7 +253,7 @@
         
          private function setSeveName()
          {             
-            $this->saveName = $this->randomFileName().".".$this->fileExt;
+            $this->saveName = $this->randomFileName();
              
             if($this->saveName == '') //如果没生成随机文件名，就保留原文件名
             {
@@ -307,21 +308,29 @@
         public function message($message, $success = 0)
         {
             $array = array(
-                'success' => $success
+                'success' => $success,
+                'message' => $message
             );
-            
-            $url = $this->saveURL . $this->saveName;
+
+            $array = array_merge($array, $this->appendResult);
+            $url   = $this->saveURL . $this->saveName;
 
             // 适用于跨域上传时，跳转到中介页面等
             if ($this->redirect) 
             {
-                $this->redirectURL .= "&success=" . $success . "&message=" . $message;
+                foreach ($array as $key => $value) {
+                    if (is_array($value)) {
+                        $this->redirectURL .= '&' . $key . '=' . urlencode(json_encode($value));
+                    } else {
+                        $this->redirectURL .= '&' . $key . '=' . $value;
+                    }
+                }
                 
                 if ($success == 1)
                 {
                     $this->redirectURL .= '&url=' . $url;
                 }
-                
+
                 $this->redirect();
             }
             else
@@ -329,10 +338,6 @@
                 if ($success == 1)
                 {
                     $array['url']    = $url;
-                }
-                else
-                {
-                    $array['message'] = $message; 
                 }
                 
                 echo json_encode($array);

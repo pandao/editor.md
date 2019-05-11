@@ -15,8 +15,10 @@
             for (var i = 0; i< urlParams.length; i++) 
             {
                 var param       = urlParams[i].split("="); 
-                query[param[0]] = param[1]; 
+                query[param[0]] = param[0] === "meta" ? JSON.parse(decodeURIComponent(param[1])) : param[1]; 
             }
+
+            console.log('upload_callback: result =>', JSON.stringify(query, null, '   '));
 
             var imageDialog = window.parent.document.getElementById(query['dialog_id']);
 
@@ -26,10 +28,18 @@
             }
             else
             {
-                alert(query['message']);
+                alert(decodeURIComponent(query['message']));
             }
 
-            location.href = "about:blank";
+            if (query['callback_handler']) {
+                try {
+                    window.parent[query['callback_handler']](query, imageDialog);
+                } catch (e) {
+                    console.error('upload_callback: callback_handler =>', e);
+                }
+            }
+
+            location.replace("about:blank");
         </script>        
     </body>   
 </html>
