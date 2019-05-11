@@ -205,6 +205,12 @@ Editor.md options and default values:
     emoji                : false,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
                                            // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
                                            // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
+    emojiCategories      : [               // Custom Emoji categories
+        "github-emoji",
+        "twemoji",
+        "font-awesome",
+        "editormd-logo"
+    ],
     tex                  : false,          // TeX(LaTeX), based on KaTeX
     flowChart            : false,          // flowChart.js only support IE9+
     sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+

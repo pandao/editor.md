@@ -21,7 +21,7 @@
                     <li>Editor.md logo icon font emoji</li>
                 </ul>
             </header>
-            <div id="test-editormd">                
+            <div id="test-editormd">
                 <textarea style="display:none;">### Emoji 表情 :smiley:
 
 [TOC]
@@ -35,7 +35,7 @@ Emoji cheat sheet for Campfire and GitHub.
 **Usage:**
 
     :emoji-name:
-    
+
 **Examples:**
 
 :heart: :smiley: :+1: :-1: :black_large_square: :waxing_gibbous_moon: :moon: :crescent_moon:
@@ -45,7 +45,7 @@ Emoji cheat sheet for Campfire and GitHub.
 **Usage:**
 
     :tw-xxxx:
-    
+
 **Examples:**
 
 :tw-1f504: :tw-30-20e3: :tw-31-20e3: :tw-32-20e3: :tw-33-20e3: :tw-34-20e3: :tw-35-20e3: :tw-36-20e3: :tw-37-20e3: :tw-38-20e3: :tw-39-20e3: :tw-1f51f:
@@ -59,7 +59,7 @@ Emoji cheat sheet for Campfire and GitHub.
 **Usage:**
 
     :fa-xxxx:
-    
+
 **Examples:**
 
 :fa-wifi: :fa-twitter: :fa-google-plus: :fa-git-square: :fa-github-alt: :fa-external-link-square:
@@ -72,7 +72,7 @@ Emoji cheat sheet for Campfire and GitHub.
     :editormd-logo-1x:
     ...
     :editormd-logo-8x:
-    
+
 **Examples:**
 
 :editormd-logo: :editormd-logo-1x: :editormd-logo-2x: :editormd-logo-3x: :editormd-logo-4x: :editormd-logo-5x: :editormd-logo-6x: :editormd-logo-7x: :editormd-logo-8x:
@@ -89,7 +89,7 @@ Emoji cheat sheet for Campfire and GitHub.
 *dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf*
 
 ___Emphasis :fa-gear: Italic:smiley:___  __Emphasis:smiley:__
- 
+
 # H1 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-star:
 ## H2 dsfd:fa-star:fsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-star:
 ### H3 dsfdfsfd@pandao :smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf @pandao
@@ -98,9 +98,9 @@ ___Emphasis :fa-gear: Italic:smiley:___  __Emphasis:smiley:__
 ###### H6 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-star:dsfsdf
 
 [:smiley:](http://www.emoji-cheat-sheet.com/ "link + emoji") link + emoji
- 
+
 - dafs@pandao sdfsdaf:smiley:dfsdfsdf
-- dafssdfsdaf:smiley:dfsdfsdf    @pandao  
+- dafssdfsdaf:smiley:dfsdfsdf    @pandao
     - dafssdfsdaf:smiley:dfsdfsdf
     - dafss:fa-truck:dfsdaf:smiley:dfsd @pandao fsdf
 - dafssd:  :fa-truck:fsdaf:smiley:dfsdfsdf :fa-star::  :fa-truck:
@@ -120,9 +120,9 @@ ___Emphasis :fa-gear: Italic:smiley:___  __Emphasis:smiley:__
 
 #### Datetime test
 
-02:21:47  
+02:21:47
 
-2015-03-12 02:21:47  
+2015-03-12 02:21:47
 
 ### In table
 
@@ -148,42 +148,46 @@ This is an H1 :editormd-logo-4x: @pandao
 - [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
 - [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
 - [x] [ ] :smiley: this is a complete item :smiley:;
-- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao; 
+- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao;
 - [ ] [ ]this is an incomplete item;
     - [ ] :smiley: this is an incomplete item [test link](#);
     - [ ] :smiley: this is an incomplete item [test link](#);
 
 </textarea>
             </div>
-        </div>        
+        </div>
         <script src="js/jquery.min.js"></script>
         <script src="../editormd.js"></script>
         <script type="text/javascript">
             var testEditor;
-            
+
             $(function() {
 
                 // You can custom Emoji's graphics files url path
                 editormd.emoji     = {
-                    path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+                    path  : "https://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/",
                     ext   : ".png"
                 };
-    
-                // Twitter Emoji (Twemoji)  graphics files url path    
+
+                // Twitter Emoji (Twemoji)  graphics files url path
                 editormd.twemoji = {
                     path : "http://twemoji.maxcdn.com/72x72/",
                     ext  : ".png"
                 };
-                
+
                 testEditor = editormd("test-editormd", {
                     width  : "90%",
                     height : 720,
-                    toc : true,
-                    
-                    emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
-                    
+                    toc    : true,
+
+                    emoji  : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
+                    // emojiCategories : ["github-emoji", "twemoji"], // Custom Emoji categories
+                    // emojiCategories : ["twemoji"], // Custom Emoji categories
+                    // emojiCategories : ["font-awesome"], // Custom Emoji categories
+                    // emojiCategories : ["editormd-logo"], // Custom Emoji categories
+
                     taskList : true,
-                    path   : '../lib/'
+                    path     : '../lib/'
                 });
             });
         </script>

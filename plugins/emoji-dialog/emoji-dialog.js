@@ -69,26 +69,34 @@
 			var _this       = this;
 			var cm          = this.cm;
 			var settings    = _this.settings;
-            
-            if (!settings.emoji)
-            {
+
+            if (!settings.emoji) {
                 alert("settings.emoji == false");
-                return ;
+
+                return false;
             }
-            
+
 			var path        = settings.pluginPath + pluginName + "/";
 			var editor      = this.editor;
 			var cursor      = cm.getCursor();
 			var selection   = cm.getSelection();
 			var classPrefix = this.classPrefix;
 
-			$.extend(true, this.lang, langs[this.lang.name]);
+            $.extend(true, this.lang, langs[this.lang.name]);
+
 			this.setToolbar();
 
 			var lang        = this.lang;
 			var dialogName  = classPrefix + pluginName, dialog;
 			var dialogLang  = lang.dialog.emoji;
-			
+
+			var categoryNames = {
+                "github-emoji"  : "Github emoji",
+                "twemoji"       : "Twemoji",
+                "font-awesome"  : "Font Awesome",
+                "editormd-logo" : "Editor.md logo"
+            };
+
 			var dialogContent = [
 				"<div class=\"" + classPrefix + "emoji-dialog-box\" style=\"width: 760px;height: 334px;margin-bottom: 8px;overflow: hidden;\">",
 				"<div class=\"" + classPrefix + "tab\"></div>",
@@ -97,8 +105,7 @@
 
 			cm.focus();
 
-			if (editor.find("." + dialogName).length > 0) 
-			{
+			if (editor.find("." + dialogName).length > 0) {
                 dialog = editor.find("." + dialogName);
 
 				selecteds = [];
@@ -107,16 +114,15 @@
 				this.dialogShowMask(dialog);
 				this.dialogLockScreen();
 				dialog.show();
-			} 
-			else
-			{
+			} else {
 				dialog = this.createDialog({
 					name       : dialogName,
-					title      : dialogLang.title,
+                    title      : dialogLang.title,
 					width      : 800,
-					height     : 475,
+					height     : 480,
 					mask       : settings.dialogShowMask,
 					drag       : settings.dialogDraggable,
+                    cached     : true,
 					content    : dialogContent,
 					lockScreen : settings.dialogLockScreen,
 					maskStyle  : {
@@ -124,35 +130,40 @@
 						backgroundColor : settings.dialogMaskBgColor
 					},
 					buttons    : {
-						enter  : [lang.buttons.enter, function() {							
+						enter  : [lang.buttons.enter, function() {
 							cm.replaceSelection(selecteds.join(" "));
 							this.hide().lockScreen(false).hideMask();
 
-                            this.remove();
-							
 							return false;
 						}],
-						cancel : [lang.buttons.cancel, function() {                           
+						cancel : [lang.buttons.cancel, function() {
 							this.hide().lockScreen(false).hideMask();
 
-                            this.remove();
-							
 							return false;
 						}]
 					}
 				});
 			}
-			
-			var category = ["Github emoji", "Twemoji", "Font awesome", "Editor.md logo"];
-			var tab      = dialog.find("." + classPrefix + "tab");
 
-			if (tab.html() === "") 
-			{
-				var head = "<ul class=\"" + classPrefix + "tab-head\">";
+            var tab             = dialog.find("." + classPrefix + "tab");
+            var tabTitles       = [];
+            var emojiCategories = [];
 
-				for (var i = 0; i<4; i++) {
+            if (settings.emojiCategories) {
+                $.each(settings.emojiCategories, function (key, value) {
+                    emojiCategories.push(value);
+
+                    tabTitles.push(categoryNames[value]);
+                });
+            }
+
+			if (tab.html() === "") {
+                var head = "<ul class=\"" + classPrefix + "tab-head\">";
+                var tabTotal = tabTitles.length;
+
+				for (var i = 0; i < tabTotal; i++) {
 					var active = (i === 0) ? " class=\"active\"" : "";
-					head += "<li" + active + "><a href=\"javascript:;\">" + category[i] + "</a></li>";
+					head += "<li" + active + "><a href=\"javascript:;\">" + tabTitles[i] + "</a></li>";
 				}
 
 				head += "</ul>";
@@ -161,19 +172,18 @@
 
 				var container = "<div class=\"" + classPrefix + "tab-container\">";
 
-				for (var x = 0; x < 4; x++) 
-                {
-					var display = (x === 0) ? "" : "display:none;";
-					container += "<div class=\"" + classPrefix + "tab-box\" style=\"height: 260px;overflow: hidden;overflow-y: auto;" + display + "\"></div>";
+				for (var x = 0; x < tabTotal; x++) {
+                    var display = (x === 0) ? "" : "display:none;";
+
+					container += "<div class=\"" + classPrefix + "tab-box\" style=\"height: 320px;overflow: hidden;overflow-y: auto;" + display + "\"></div>";
 				}
 
 				container += "</div>";
 
-				tab.append(container);  
+				tab.append(container);
 			}
-            
+
 			var tabBoxs = tab.find("." + classPrefix + "tab-box");
-            var emojiCategories = ["github-emoji", "twemoji", "font-awesome", logoPrefix];
 
 			var drawTable = function() {
                 var cname = emojiCategories[emojiTabIndex];
@@ -181,102 +191,81 @@
                 var $tab  = tabBoxs.eq(emojiTabIndex);
 
 				if ($tab.html() !== "") {
-                    //console.log("break =>", cname);
                     return ;
                 }
-                
+
                 var pagination = function(data, type) {
                     var rowNumber = (type === "editormd-logo") ? "5" : 20;
                     var pageTotal = Math.ceil(data.length / rowNumber);
                     var table     = "<div class=\"" + classPrefix + "grid-table\">";
 
-                    for (var i = 0; i < pageTotal; i++)
-                    {
+                    for (var i = 0; i < pageTotal; i++) {
                         var row = "<div class=\"" + classPrefix + "grid-table-row\">";
 
-                        for (var x = 0; x < rowNumber; x++)
-                        {
+                        for (var x = 0; x < rowNumber; x++) {
                             var emoji = $.trim(data[(i * rowNumber) + x]);
-                            
-                            if (typeof emoji !== "undefined" && emoji !== "")
-                            {
+
+                            if (typeof emoji !== "undefined" && emoji !== "") {
                                 var img = "", icon = "";
-                                
-                                if (type === "github-emoji")
-                                {
+
+                                if (type === "github-emoji") {
                                     var src = (emoji === "+1") ? "plus1" : emoji;
                                     src     = (src === "black_large_square") ? "black_square" : src;
                                     src     = (src === "moon") ? "waxing_gibbous_moon" : src;
-                                    
+
                                     src     = exports.emoji.path + src + exports.emoji.ext;
                                     img     = "<img src=\"" + src + "\" width=\"24\" class=\"emoji\" title=\"&#58;" + emoji + "&#58;\" alt=\"&#58;" + emoji + "&#58;\" />";
                                     row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + img + "</a>";
-                                }
-                                else if (type === "twemoji")
-                                {
+                                } else if (type === "twemoji") {
                                     var twemojiSrc = exports.twemoji.path + emoji + exports.twemoji.ext;
                                     img = "<img src=\"" + twemojiSrc + "\" width=\"24\" title=\"twemoji-" + emoji + "\" alt=\"twemoji-" + emoji + "\" class=\"emoji twemoji\" />";
                                     row += "<a href=\"javascript:;\" value=\":tw-" + emoji + ":\" title=\":tw-" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + img + "</a>";
-                                }
-                                else if (type === "font-awesome")
-                                {
+                                } else if (type === "font-awesome") {
                                     icon = "<i class=\"fa fa-" + emoji + " fa-emoji\" title=\"" + emoji + "\"></i>";
                                     row += "<a href=\"javascript:;\" value=\":fa-" + emoji + ":\" title=\":fa-" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
-                                }
-                                else if (type === "editormd-logo")
-                                {
+                                } else if (type === "editormd-logo") {
                                     icon = "<i class=\"" + emoji + "\" title=\"Editor.md logo (" + emoji + ")\"></i>";
                                     row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" style=\"width:20%;\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
                                 }
-                            }
-                            else
-                            {
-                                row += "<a href=\"javascript:;\" value=\"\"></a>";                        
+                            } else {
+                                row += "<a href=\"javascript:;\" value=\"\"></a>";
                             }
                         }
 
-                        row += "</div>";
-
+                        row   += "</div>";
                         table += row;
                     }
 
                     table += "</div>";
-                    
+
                     return table;
                 };
-                
-                if (emojiTabIndex === 0)
-                {
-                    for (var i = 0, len = $data.length; i < len; i++)
-                    {
+
+                if (cname === "github-emoji") {
+                    for (var i = 0, len = $data.length; i < len; i++) {
                         var h4Style = (i === 0) ? " style=\"margin: 0 0 10px;\"" : " style=\"margin: 10px 0;\"";
                         $tab.append("<h4" + h4Style + ">" + $data[i].category + "</h4>");
                         $tab.append(pagination($data[i].list, cname));
                     }
-                }
-                else
-                {
+                } else {
                     $tab.append(pagination($data, cname));
                 }
 
-				$tab.find("." + classPrefix + "emoji-btn").bind(exports.mouseOrTouch("click", "touchend"), function() {
+				$tab.find("." + classPrefix + "emoji-btn").bind("click", function() {
 					$(this).toggleClass("selected");
 
-					if ($(this).hasClass("selected")) 
-					{
+					if ($(this).hasClass("selected")) {
 						selecteds.push($(this).attr("value"));
 					}
 				});
 			};
-			
-			if (emojiData.length < 1) 
-			{            
+
+			if (emojiData.length < 1) {
 				if (typeof dialog.loading === "function") {
                     dialog.loading(true);
                 }
 
 				$.getJSON(path + "emoji.json?temp=" + Math.random(), function(json) {
-
 					if (typeof dialog.loading === "function") {
                         dialog.loading(false);
                     }
@@ -285,13 +274,11 @@
                     emojiData[logoPrefix] = logos;
 					drawTable();
 				});
-			} 
-			else 
-			{
+			} else {
 				drawTable();
 			}
 
-			tab.find("li").bind(exports.mouseOrTouch("click", "touchend"), function() {
+			tab.find("li").bind("click", function() {
 				var $this     = $(this);
 				emojiTabIndex = $this.index();
 
@@ -300,16 +287,12 @@
 				drawTable();
 			});
 		};
-
 	};
-    
+
 	// CommonJS/Node.js
-	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+	if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         module.exports = factory;
-    }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
-    {
+    } else if (typeof define === "function")  { // AMD/CMD/Sea.js
 		if (define.amd) { // for Require.js
 
 			define(["editormd"], function(editormd) {
@@ -322,9 +305,7 @@
                 factory(editormd);
             });
 		}
-	} 
-	else
-	{
+	} else {
         factory(window.editormd);
 	}
 
