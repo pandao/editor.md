@@ -64,7 +64,7 @@ The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is mainta
 
 直接链接：<https://github.com>
 
-[锚点链接][anchor-id] 
+[锚点链接][anchor-id]
 
 [anchor-id]: http://www.this-anchor-link.com/
 
@@ -235,7 +235,7 @@ Image:
 First Header  | Second Header
 ------------- | -------------
 Content Cell  | Content Cell
-Content Cell  | Content Cell 
+Content Cell  | Content Cell
 
 | First Header  | Second Header |
 | ------------- | ------------- |
@@ -264,11 +264,13 @@ Content Cell  | Content Cell
 #### 特殊符号 HTML Entities Codes
 
 &copy; &  &uml; &trade; &iexcl; &pound;
-&amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot; 
+&amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot;
 
 X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
 
 18&ordm;C  &quot;  &apos;
+
+#### **简要描述**
 
 [========]
 
@@ -276,12 +278,12 @@ X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
 
 > Blockquotes :star:
 
-#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
+#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-2x:
 
 - [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
 - [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
 - [x] [ ] :smiley: this is a complete item :smiley:;
-- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao; 
+- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao;
 - [ ] [ ]this is an incomplete item :fa-star: :fa-gear:;
     - [ ] :smiley: this is an incomplete item [test link](#) :fa-star: :fa-gear:;
     - [ ] :smiley: this is  :fa-star: :fa-gear: an incomplete item [test link](#);
@@ -315,14 +317,14 @@ $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
 ```
 
 ```katex
-\displaystyle 
+\displaystyle
     \frac{1}{
         \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
         \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
         1+\frac{e^{-6\pi}}
         {1+\frac{e^{-8\pi}}
          {1+\cdots} }
-        } 
+        }
     }
 ```
 
@@ -356,9 +358,9 @@ cond(no)->op
 ### 绘制序列图 Sequence Diagram
 
 ```seq
-Andrew->China: Says Hello 
-Note right of China: China thinks\nabout it 
-China-->Andrew: How are you? 
+Andrew->China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
 Andrew->>China: I am good thanks!
 ```
 

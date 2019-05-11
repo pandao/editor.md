@@ -152,7 +152,7 @@
         tocDropdown          : false,
         tocContainer         : "",
         tocStartLevel        : 1,              // Said from H1 to create ToC
-        htmlDecode           : false,          // Open the HTML tag identification
+        htmlDecode           : false,          // Open the HTML tag identification, If set String value expression : tagName,tagName,...|attrName,attrName,...
         pageBreak            : true,           // Enable parse page break [========]
         atLink               : true,           // for @link
         emailLink            : true,           // for email address auto link
@@ -1926,7 +1926,7 @@
                         tocMenu.remove();
                     }
 
-                    editormd.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel);
+                    editormd.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel, markedOptions.renderer);
 
                     if (settings.tocDropdown || tocContainer.find("." + this.classPrefix + "toc-menu").length > 0) {
                         editormd.tocDropdownMenu(tocContainer, (settings.tocTitle !== "") ? settings.tocTitle : this.lang.tocTitle);
@@ -3389,6 +3389,10 @@
 
             var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
 
+            // fixed https://github.com/pandao/editor.md/issues/476
+            // fixed https://github.com/pandao/editor.md/issues/649
+            text = text.replace(/(<([^>]+)>)/ig, ""); // /<[^>]*>/g
+
             headingHTML    += "<a name=\"" + text + "\" class=\"reference-link\"></a>";
             headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
             headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkText)) : this.atLink(this.emoji(text));
@@ -3467,10 +3471,12 @@
      * @param   {Array}    toc             从marked获取的TOC数组列表
      * @param   {Element}  container       插入TOC的容器元素
      * @param   {Integer}  startLevel      Hx 起始层级
+     * @param   {object}   markedRenderer  Marked Renderer
      * @returns {Object}   tocContainer    返回ToC列表容器层的jQuery对象元素
      */
 
-    editormd.markdownToCRenderer = function(toc, container, tocDropdown, startLevel) {
+    editormd.markdownToCRenderer = function(toc, container, tocDropdown, startLevel, markedRenderer) {
+        markedRenderer = markedRenderer || null;
 
         var html        = "";
         var lastLevel   = 0;
@@ -3494,7 +3500,15 @@
                 html += "</ul></li>";
             }
 
-            html += "<li><a class=\"toc-level-" + level + "\" href=\"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            // fixed https://github.com/pandao/editor.md/issues/476
+            // fixed https://github.com/pandao/editor.md/issues/649
+            var href = text.replace(/(<([^>]+)>)/ig, ""); // /<[^>]*>/g
+
+            if (markedRenderer) {
+                text = markedRenderer.emoji(text); // Fixed Heading can't has emoji code
+            }
+
+            html += "<li><a class=\"toc-level-" + level + "\" href=\"#" + href + "\" level=\"" + level + "\">" + text + "</a><ul>";
             lastLevel = level;
         }
 
@@ -3612,7 +3626,7 @@
         }
 
         if (typeof attrs !== "undefined") {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+            var htmlTagRegex = /\<(\w+)\s*([^\/\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
 
             if (attrs === "*") {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
@@ -3627,6 +3641,11 @@
                     $.each(_attrs, function(i, e) {
                         if (e.nodeName !== "\"") {
                             $attrs[e.nodeName] = e.nodeValue;
+
+                            // Fixed like <a href="javascript:alert('xss')"></a> XSS problem, Copy from pull request #532
+                            if (e.nodeName === "href" && e.nodeValue.toLowerCase().indexOf("javascript:") >= 0) {
+                                $attrs[e.nodeName] = "javascript:;";
+                            }
                         }
                     });
 
@@ -3758,7 +3777,7 @@
         }
 
         if (settings.toc) {
-            div.tocContainer = this.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel);
+            div.tocContainer = this.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel, markedOptions.renderer);
 
             if (settings.tocDropdown || div.find("." + this.classPrefix + "toc-menu").length > 0) {
                 this.tocDropdownMenu(div, settings.tocTitle);

@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="../css/editormd.preview.css" />
         <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
-        <style>            
+        <style>
             .editormd-html-preview {
                 width: 90%;
                 margin: 0 auto;
@@ -16,27 +16,27 @@
     <body>
         <div id="layout">
             <header>
-                <h1>Markdown转HTML的显示处理</h1> 
+                <h1>Markdown转HTML的显示处理</h1>
                 <p>即：非编辑情况下的HTML预览</p>
-                <p>HTML Preview(markdown to html)</p>       
+                <p>HTML Preview(markdown to html)</p>
             </header>
             <div class="btns">
                 <button onclick="location.href='./html-preview-markdown-to-html-custom-toc-container.html';">将 ToC 移到自定义容器层</button>
             </div>
             <div id="test-editormd-view">
-               <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>               
+               <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>
             </div>
             <div id="test-editormd-view2">
                 <textarea id="append-test" style="display:none;">
 
 ### 科学公式 TeX(KaTeX)
-                    
+
 $$E=mc^2$$
 
 行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
 
 $$\(\sqrt{3x-1}+(1+x)^2\)$$
-                    
+
 $$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$
 
 $$X^2 > Y$$
@@ -79,17 +79,17 @@ alert("script");
 
 &lt;script type="text/javscript"&gt;
 alert("script");
-&lt;/script&gt;</textarea>          
+&lt;/script&gt;</textarea>
             </div>
         </div>
         <!-- <script src="js/zepto.min.js"></script>
-		<script>		
+		<script>
 			var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
 		</script> -->
         <script src="js/jquery.min.js"></script>
         <script src="../lib/marked.min.js"></script>
         <script src="../lib/prettify.min.js"></script>
-        
+
         <script src="../lib/raphael.min.js"></script>
         <script src="../lib/underscore.min.js"></script>
         <script src="../lib/sequence-diagram.min.js"></script>
@@ -100,9 +100,9 @@ alert("script");
         <script type="text/javascript">
             $(function() {
                 var testEditormdView, testEditormdView2;
-                
+
                 $.get("test.md", function(markdown) {
-                    
+
 				    testEditormdView = editormd.markdownToHTML("test-editormd-view", {
                         markdown        : markdown ,//+ "\r\n" + $("#append-test").text(),
                         //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
@@ -119,15 +119,15 @@ alert("script");
                         flowChart       : true,  // 默认不解析
                         sequenceDiagram : true,  // 默认不解析
                     });
-                    
+
                     //console.log("返回一个 jQuery 实例 =>", testEditormdView);
-                    
+
                     // 获取Markdown源码
                     //console.log(testEditormdView.getMarkdown());
-                    
+
                     //alert(testEditormdView.getMarkdown());
                 });
-                    
+
                 testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
                     htmlDecode      : "style,script,iframe",  // you can filter tags decode
                     emoji           : true,
