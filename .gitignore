@@ -8,6 +8,7 @@ research/
 test/
 backup/
 examples/uploads/**/*
+!.gitkeep
 *.bat
 *.sh
 .project
