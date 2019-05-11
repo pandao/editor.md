@@ -3477,7 +3477,8 @@
             flowChart            : false,          // flowChart.js only support IE9+
             sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
         };
-        
+
+        var _headingIds     = [];
         var settings        = $.extend(defaults, options || {});    
         var marked          = editormd.$marked;
         var markedRenderer  = new marked.Renderer();
@@ -3644,7 +3645,8 @@
             
             text = trim(text);
             
-            var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
+            var escapedText = text.toLowerCase().replace(/[^\w]+/g, "-");
+
             var toc = {
                 text  : text,
                 level : level,
@@ -3653,6 +3655,14 @@
             
             var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
             var id        = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
+
+            if (_headingIds.indexOf(id) >= 0) {
+                id += editormd.rand(100, 999999);
+            }
+
+            _headingIds.push(id);
+
+            toc.id = id;
 
             markdownToC.push(toc);
             
@@ -4562,7 +4572,19 @@
 
         return eventType;
     };
-    
+
+    /**
+     * 获取指定区间的随机整数
+     *
+     * @return {Int}   int    返回随机生成的整数
+     */
+
+    editormd.rand = function (n, m) {
+        var c = m - n + 1;
+
+        return Math.floor(Math.random() * c + n);
+    };
+
     /**
      * 日期时间的格式化方法
      * Datetime format method
