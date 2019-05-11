@@ -11,9 +11,11 @@
         <div id="layout">
             <header>
                 <h1>SequenceDiagram 时序图/序列图</h1>
-				<p>Based on SequenceDiagram.js：<a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank">http://bramp.github.io/js-sequence-diagrams/</a></p>            
+                <p>Based on SequenceDiagram.js：<a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank">http://bramp.github.io/js-sequence-diagrams/</a></p>
+                <br/>
+                <p>Web Sequence Diagrams Syntax Examples: <a href="https://www.websequencediagrams.com/" target="_blank">https://www.websequencediagrams.com/</a></p>
             </header>
-            <div id="test-editormd">                
+            <div id="test-editormd">
                 <textarea style="display:none;">#### Setting
 
     {
@@ -32,7 +34,7 @@
     .........
     ```
 
-#### Example
+#### Examples
 
 ```seq
 A->B: Message
@@ -40,19 +42,62 @@ B->C: Message
 C->A: Message
 ```
 
+```seq
+Title: Here is a title
+A->B: Normal line
+B-->C: Dashed line
+C->>D: Open arrow
+D-->>A: Dashed open arrow
+```
+
+```seq
+D->A: text xxxx
+A->B: text xxxx
+B->A: Wow!
+A->D: Hi~
+```
+
+```seq
+A->A: text
+A-->B: text
+note right of A: Note Text
+```
+
+```seq
+# Example of a comment.
+Note left of A: Note to the\n left of A
+Note right of A: Note to the\n right of A
+Note over A: Note over A
+Note over A,B: Note over both A and B
+```
+
+```seq
+participant C
+participant B
+participant A
+Note right of A: By listing the participants\n you can change their order
+```
+
+```seq
+A->+B: text
+B-->A: text
+Note right of A: Note A
+note over A,B: Note over A-B
+```
+
 ```sequence
-Andrew->China: Says Hello 
-Note right of China: China thinks\nabout it 
-China-->Andrew: How are you? 
+Andrew->China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
 Andrew->>China: I am good thanks!
 ```</textarea>
             </div>
         </div>
-        
+
         <script src="js/jquery.min.js"></script>
-        <script src="../editormd.js"></script>   
+        <script src="../editormd.js"></script>
         <script type="text/javascript">
-            $(function() {                
+            $(function() {
                 var testEditor = editormd("test-editormd", {
 					width: "90%",
 					height: 640,
