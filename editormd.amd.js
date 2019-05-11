@@ -395,7 +395,7 @@
         tex : editormd.classPrefix + "tex"
     };
 
-    editormd.dialogZindex = 99999;
+    editormd.dialogZindex = 9999;
 
     editormd.$katex       = null;
     editormd.$marked      = null;
@@ -1861,11 +1861,18 @@
                     editor.css("height", (typeof height === "number") ? height + "px" : height);
                 }
 
+                var hasToolbar = settings.toolbar && !settings.readOnly;
+                var toolbarHeight = hasToolbar && toolbar ? toolbar.height() : 0;
+                var $codeMirrorGutters = codeMirror.find('.CodeMirror-gutters');
+
                 if (state.fullscreen) {
                     editor.height($(window).height());
+                    $codeMirrorGutters.height($(window).height() - toolbarHeight);
+                } else {
+                    $codeMirrorGutters.height(editor.height() - toolbarHeight);
                 }
 
-                if (settings.toolbar && !settings.readOnly) {
+                if (hasToolbar) {
                     codeMirror.css("margin-top", toolbar.height() + 1).height(editor.height() - toolbar.height());
                 } else {
                     codeMirror.css("margin-top", 0).height(editor.height());
@@ -2566,8 +2573,9 @@
                 $("html,body").css("overflow", "hidden");
 
                 editor.css({
-                    width    : $(window).width(),
-                    height   : $(window).height()
+                    width  : $(window).width(),
+                    height : $(window).height(),
+                    zIndex : editormd.dialogZindex,
                 }).addClass(fullscreenClass);
 
                 this.resize();
@@ -2606,8 +2614,9 @@
             $("html,body").css("overflow", "");
 
             editor.css({
-                width    : editor.data("oldWidth"),
-                height   : editor.data("oldHeight")
+                width  : editor.data("oldWidth"),
+                height : editor.data("oldHeight"),
+                zIndex : ''
             }).removeClass(fullscreenClass);
 
             this.resize();
@@ -4064,7 +4073,7 @@
             buttons : false
         };
 
-        options          = $.extend(true, defaults, options);
+        options          = $.extend(true, {}, defaults, options);
 
         var $this        = this;
         var editor       = this.editor;

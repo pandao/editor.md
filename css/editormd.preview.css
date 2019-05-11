@@ -3817,6 +3817,9 @@ li.L9 {
 .markdown-body .editormd-toc-menu ul {
   padding-left: 0;
 }
+.markdown-body img {
+  background: none;
+}
 .markdown-body .highlight pre, .markdown-body pre {
   line-height: 1.6;
 }
