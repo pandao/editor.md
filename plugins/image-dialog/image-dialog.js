@@ -102,9 +102,9 @@
                                 cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
                             }
 
-                            if (alt === "") {
-                                cm.setCursor(cursor.line, cursor.ch + 2);
-                            }
+                            // if (alt === "") {
+                            //     cm.setCursor(cursor.line, cursor.ch + 2);
+                            // }
 
                             this.hide().lockScreen(false).hideMask();
 
