@@ -3957,7 +3957,7 @@
             smartypants : true
         };
         
-		markdownDoc = new String(markdownDoc);
+	markdownDoc = new String(markdownDoc).toString();
         
         var markdownParsed = marked(markdownDoc, markedOptions);
         
