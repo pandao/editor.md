@@ -251,7 +251,7 @@ Editor.md options and default values:
 - [FontAwesome](http://fontawesome.io/ "FontAwesome")
 - [github-markdown.css](https://github.com/sindresorhus/github-markdown-css "github-markdown.css")
 - [KaTeX](http://khan.github.io/KaTeX/ "KaTeX")
-- [prettify.js](http://code.google.com/p/google-code-prettify/ "prettify.js")
+- [prettify.js](https://github.com/google/code-prettify "prettify.js")
 - [Rephael.js](http://raphaeljs.com/ "Rephael.js")
 - [flowchart.js](http://adrai.github.io/flowchart.js/ "flowchart.js")
 - [sequence-diagram.js](http://bramp.github.io/js-sequence-diagrams/ "sequence-diagram.js")
