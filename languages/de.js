@@ -29,11 +29,12 @@
                 code             : "Text ohne Formatierung einfügen",
                 "preformatted-text" : "Vorvormatierter Text",
                 "code-block"     : "Quelltext (Programmiersprachen)",
-                table            : "Tabelle einfügen",
                 datetime         : "Datum/Uhrzeit einfügen",
                 emoji            : "Emoji hinzufügen",
                 "html-entities"  : "HTML Sonderzeichen hinzufügen",
                 pagebreak        : "Seitenumbruch",
+                "goto-line"      : "Gehe zu Zeile",
+                table            : "Tabelle einfügen",
                 watch            : "Vorschau ausschalten",
                 unwatch          : "Vorschau einschalten",
                 preview          : "HTML Vorschau (Drücke Shift + ESC um zu beenden)",
@@ -50,7 +51,7 @@
             },
             dialog : {
                 link : {
-                    title    : "Verknüpfung",
+                    title    : "Verknüpfung anlegen",
                     url      : "Adresse",
                     urlTitle : "Titel",
                     urlEmpty : "Fehler: Bitte gebe eine gültige URL Adresse an."
@@ -94,7 +95,23 @@
                 },
                 help : {
                     title : "Hilfe"
-                }
+                },
+                table : {
+                    title      : "Tabelle",
+                    cellsLabel : "Zellen",
+                    alignLabel : "Ausrichtung",
+                    rows       : "Reihen",
+                    cols       : "Spalten",
+                    aligns     : ["Default", "Linksbündig", "Mittig ausgerichtet", "Rechtsbündig"]
+               },
+               emoji : {
+                    title : "Emoji"
+               },
+               "goto-line" : {
+                   title  : "Gehe zu Zeile",
+                   label  : "Gebe eine Zeilennummer ein.",
+                   error  : "Fehler: keine Zeilennummer angegeben"
+               }
             }
         };
 
