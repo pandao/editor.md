@@ -252,7 +252,7 @@ Editor.md options and default values:
 - [github-markdown.css](https://github.com/sindresorhus/github-markdown-css "github-markdown.css")
 - [KaTeX](http://khan.github.io/KaTeX/ "KaTeX")
 - [prettify.js](http://code.google.com/p/google-code-prettify/ "prettify.js")
-- [Rephael.js](http://raphaeljs.com/ "Rephael.js")
+- [Raphael.js](http://raphaeljs.com/ "Raphael.js")
 - [flowchart.js](http://adrai.github.io/flowchart.js/ "flowchart.js")
 - [sequence-diagram.js](http://bramp.github.io/js-sequence-diagrams/ "sequence-diagram.js")
 - [Prefixes.scss](https://github.com/pandao/prefixes.scss "Prefixes.scss")
