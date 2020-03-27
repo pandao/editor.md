@@ -245,16 +245,20 @@ Editor.md options and default values:
 
 #### Avoid XSS
 
-If you enable htmlDecode be sure to avoid code injection by restricting dangerous elements, instead of setting it to true, you should define wich elements to avoid as well as wich attributes
+Script and events are disabled by default to avoid XSS
+
+If you want to enable you need to pass in htmlDecode:
+
+allowScript as FilterTag
+allowOn as FilterAttribute
 
 ```
-htmlDecode : "style,script,iframe,sub,sup|on*"
+htmlDecode : "allowScript|allowOn"
 ```
 
-specifying:
-> coma separated list of filtered elements
-     |       
-> coma separated list of filtered attributes
+extra filters can be set in coma separated list format
+
+Be warned that enabled scripting can be dangerous and lead to [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting)
 
 #### Dependents
 

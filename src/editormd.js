@@ -3804,12 +3804,19 @@
         }
             
         if (typeof filters !== "string") {
-            return html;
+            // If no filters set use "script|on*" by default to avoid XSS
+            filters = "script|on*";
         }
 
         var expression = filters.split("|");
         var filterTags = expression[0].split(",");
         var attrs      = expression[1];
+
+        if(!filterTags.includes('allowScript') && !filterTags.includes('script'))
+        {
+            // Only allow script if requested specifically
+            filterTags.push('script');
+        }
 
         for (var i = 0, len = filterTags.length; i < len; i++)
         {
@@ -3820,9 +3827,24 @@
         
         //return html;
 
+        if (typeof attrs === "undefined")
+        {
+            // If no attrs set block "on*" to avoid XSS
+            attrs = "on*"
+        }
+
         if (typeof attrs !== "undefined")
         {
             var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+
+            var filterAttrs = attrs.split(",");
+            var filterOn = true;
+
+            if(filterAttrs.includes('allowOn'))
+            {
+                // Only allow on* if requested specifically
+                filterOn = false;
+            }
 
             if (attrs === "*")
             {
@@ -3830,8 +3852,9 @@
                     return "<" + $2 + ">" + $4 + "</" + $5 + ">";
                 });         
             }
-            else if (attrs === "on*")
+            else if ((attrs === "on*") || filterOn)
             {
+
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
                     var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
                     var _attrs = $($1)[0].attributes;
@@ -3854,10 +3877,9 @@
                     return el[0].outerHTML + text;
                 });
             }
-            else
+            if(filterAttrs.length > 1 || (filterAttrs[0]!=="*" && filterAttrs[0]!=="on*"))
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
-                    var filterAttrs = attrs.split(",");
                     var el = $($1);
                     el.html($4);
 
