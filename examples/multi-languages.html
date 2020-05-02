@@ -15,6 +15,7 @@
                     <select id="lang-select">
                         <option selected="selected">Languages</option>
                         <option value="en">English (en)</option>
+                        <option value="it">Italiano (it)</option>
                         <option value="zh-tw">繁體中文 (zh-tw)</option>
                         <option value="zh-cn">简体中文 (zh-cn)</option>
                     </select>
@@ -28,6 +29,9 @@
 ```html
 &lt;!-- English --&gt;
 &lt;script src="../dist/js/languages/en.js"&gt;&lt;/script&gt;
+
+&lt;!-- Italiano --&gt;
+&lt;script src="../dist/js/languages/it.js"&gt;&lt;/script&gt;
 
 &lt;!-- 繁體中文 --&gt;
 &lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
@@ -72,11 +76,11 @@
                             testEditor.recreate();                
                                     
                             // 整个编辑器重建，预览HTML会重新生成，出现闪动
-                            //testEditor = editormd("test-editormd", {
-                                //width: "90%",
-                                //height: 640,
-                                //path : '../lib/'
-                            //});
+                            testEditor = editormd("test-editormd", {
+                                width: "90%",
+                                height: 640,
+                                path : '../lib/'
+                            });
 
                             lang = value;
                             console.log(lang, value, editormd.defaults.lang);                        

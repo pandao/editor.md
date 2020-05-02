@@ -13,3 +13,5 @@ examples/uploads/**/*
 .project
 .url
 css/*.map
+*.DS_Store
+/.idea/
