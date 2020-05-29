@@ -51,8 +51,13 @@
                     //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为 #fff
                     imageUpload : true,
                     imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL : "./php/upload.php?test=dfdf",
-                    
+                    imageUploadURL : "./php/upload.php",
+                    onload: function() {
+                            // 引入插件 执行监听方法
+                            editormd.loadPlugin("../plugins/image-handle-paste/image-handle-paste", function(){
+                                testEditor.imagePaste();
+                            });
+                        }
                     /*
                      上传的后台只需要返回一个 JSON 数据，结构如下：
                      {
