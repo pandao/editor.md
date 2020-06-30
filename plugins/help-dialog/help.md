@@ -60,7 +60,7 @@
 
 ##### Emoji表情参考 (Emoji reference)
 
-- [Github emoji](http://www.emoji-cheat-sheet.com/ "Github emoji")
+- [Github emoji](https://www.webfx.com/tools/emoji-cheat-sheet/ "Github emoji")
 - [Twitter Emoji \(Twemoji\)](http://twitter.github.io/twemoji/preview.html "Twitter Emoji \(Twemoji\)")
 - [FontAwesome icons emoji](http://fortawesome.github.io/Font-Awesome/icons/ "FontAwesome icons emoji")
 
