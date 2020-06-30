@@ -87,7 +87,7 @@ ___Emphasis :fa-gear: Italic:smiley:___  __Emphasis:smiley:__
 #### H4 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf
 ##### H5 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-save:dsfsdf
 ###### H6 dsfdfsfd:smiley:dsfsfdsfd:smiley:dsfdf:fa-edit: fdsfsdf:fa-star:dsfsdf
-[:smiley:](http://www.emoji-cheat-sheet.com/ "link + emoji") link + emoji
+[:smiley:](https://www.webfx.com/tools/emoji-cheat-sheet/ "link + emoji") link + emoji
 - dafssdfsdaf:smiley:dfsdfsdf
 - dafssdfsdaf:smiley:dfsdfsdf     
     - dafssdfsdaf:smiley:dfsdfsdf
@@ -147,7 +147,7 @@ This  :fa-save::  :fa-truck:is an H2 :100:
                             text = text.replace(new RegExp(matchs[i]), function($1, $2){
                                 var faMatchs = $1.match(faIconReg);
                                 //console.log("famatchs =>", faMatchs);
-                                var name = $1.replace(/:/g, ""); // http://www.emoji-cheat-sheet.com/graphics/emojis/smile.png
+                                var name = $1.replace(/:/g, ""); // https://www.webfx.com/tools/emoji-cheat-sheet/graphics/emojis/smile.png
                                 console.log("replace =>", name, $1, $2);
                                 
                                 if (faMatchs)
@@ -170,10 +170,10 @@ This  :fa-save::  :fa-truck:is an H2 :100:
                                     }
                                     else
                                     {
-                                        return "<img src=\"http://www.emoji-cheat-sheet.com/graphics/emojis/"+name+".png\" />";
+                                        return "<img src=\"https://www.webfx.com/tools/emoji-cheat-sheet/graphics/emojis/"+name+".png\" />";
                                     }
                                 }
-                                //return (faIconReg.test($1)) ? "<i class=\"fa "+name+"\"></i>" : (editormdLogoReg.test($1)) ? "<i class=\""+name+"\"></i>" : "<img src=\"http://www.emoji-cheat-sheet.com/graphics/emojis/"+name+".png\" />";
+                                //return (faIconReg.test($1)) ? "<i class=\"fa "+name+"\"></i>" : (editormdLogoReg.test($1)) ? "<i class=\""+name+"\"></i>" : "<img src=\"https://www.webfx.com/tools/emoji-cheat-sheet/graphics/emojis/"+name+".png\" />";
                             });
                         }
 
