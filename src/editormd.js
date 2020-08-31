@@ -351,7 +351,6 @@
                 options = id;
             }
             
-            var _this            = this;
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
             var settings         = this.settings     = $.extend(true, editormd.defaults, options);
             
@@ -469,7 +468,7 @@
             {
                 this.loadQueues();
             }
-
+            // editorTheme.call(this);
             return this;
         },
         
@@ -590,45 +589,6 @@
             return this;
         },
         
-        /**
-         * 设置 Editor.md 的整体主题，主要是工具栏
-         * Setting Editor.md theme
-         * 
-         * @returns {editormd}  返回editormd的实例对象
-         */
-        
-        setTheme : function(theme) {
-            var editor      = this.editor;
-            var oldTheme    = this.settings.theme;
-            var themePrefix = this.classPrefix + "theme-";
-            
-            editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
-            
-            this.settings.theme = theme;
-            
-            return this;
-        },
-        
-        /**
-         * 设置 CodeMirror（编辑区）的主题
-         * Setting CodeMirror (Editor area) theme
-         * 
-         * @returns {editormd}  返回editormd的实例对象
-         */
-        
-        setEditorTheme : function(theme) {  
-            var settings   = this.settings;  
-            settings.editorTheme = theme;  
-            
-            if (theme !== "default")
-            {
-                editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
-            }
-            
-            this.cm.setOption("theme", theme);
-            
-            return this;
-        },
         
         /**
          * setEditorTheme() 的别名
@@ -2755,8 +2715,14 @@
         }
     };
     
+    
+
     editormd.fn.init.prototype = editormd.fn; 
-   
+    
+    editormd.fn.init.prototype = Object.assign(editormd.fn.init.prototype, editorTheme.prototype);
+    
+
+    console.log(`=== test setTheme 1:${typeof editorTheme.setTheme}| 2:${typeof editormd.setTheme}`,{editorTheme, editormd})
     /**
      * 锁屏
      * lock screen when dialog opening
@@ -2890,7 +2856,7 @@
         
         lowercase : function() {
             var cm         = this.cm;
-            var cursor     = cm.getCursor();
+            // var cursor     = cm.getCursor();
             var selection  = cm.getSelection();
             var selections = cm.listSelections();
             
@@ -3170,173 +3136,9 @@
         }
     };
     
-    var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
-    var key = isMac ? "Cmd" : "Ctrl";
-    
-    editormd.keyMaps = {
-        [key + "-1"]       : "h1",
-        [key + "-2"]       : "h2",
-        [key + "-3"]       : "h3",
-        [key + "-4"]       : "h4",
-        [key + "-5"]       : "h5",
-        [key + "-6"]       : "h6",
-        [key + "-B"]       : "bold",  // if this is string ==  editormd.toolbarHandlers.xxxx
-        [key + "-D"]       : "datetime",
-        
-        [key + "Ctrl-E"]       : function() { // emoji
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            if (!this.settings.emoji)
-            {
-                alert("Error: settings.emoji == false");
-                return ;
-            }
+    editormd = Object.assign(editormd, editorKeyMaps);
+    editormd = Object.assign(editormd, editorString);
 
-            cm.replaceSelection(":" + selection + ":");
-
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        [key + "-Alt-G"]   : "goto-line",
-        [key + "-H"]       : "hr",
-        [key + "-I"]       : "italic",
-        [key + "-K"]       : "code",
-        
-        "Ctrl-L"        : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            var title = (selection === "") ? "" : " \""+selection+"\"";
-
-            cm.replaceSelection("[" + selection + "]("+title+")");
-
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        [key + "-U"]         : "list-ul",
-        
-        "Shift-Ctrl-A"   : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            if (!this.settings.atLink)
-            {
-                alert("Error: settings.atLink == false");
-                return ;
-            }
-
-            cm.replaceSelection("@" + selection);
-
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 1);
-            }
-        },
-        
-        ["Shift" + key + "-C"]     : "code",
-        ["Shift" + key + "Q"]     : "quote",
-        ["Shift" + key + "S"]     : "del",
-        ["Shift" + key + "K"]     : "tex",  // KaTeX
-        
-        "Shift-Alt-C"      : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            cm.replaceSelection(["```", selection, "```"].join("\n"));
-
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 3);
-            } 
-        },
-        
-        ["Shift-" + key + "-Alt-C"]      : "code-block",
-        ["Shift-" + key + "-H"]          : "html-entities",
-        "Shift-Alt-H"                    : "help",
-        ["Shift-" + key + "-E"]          : "emoji",
-        ["Shift-" + key + "-U"]          : "uppercase",
-        "Shift-Alt-U"                    : "ucwords",
-        ["Shift-" + key + "-Alt-U"]      : "ucfirst",
-        "Shift-Alt-L"                    : "lowercase",
-        
-        ["Shift-" + key + "-I"]          : function() {
-            var cm        = this.cm;
-            var cursor    = cm.getCursor();
-            var selection = cm.getSelection();
-            
-            var title = (selection === "") ? "" : " \""+selection+"\"";
-
-            cm.replaceSelection("![" + selection + "]("+title+")");
-
-            if (selection === "") {
-                cm.setCursor(cursor.line, cursor.ch + 4);
-            }
-        },
-        
-        ["Shift-" + key + "-Alt-I"]     : "image",
-        ["Shift-" + key + "-L"]         : "link",
-        ["Shift-" + key + "-O"]         : "list-ol",
-        ["Shift-" + key + "-P"]         : "preformatted-text",
-        ["Shift-" + key + "-T"]         : "table",
-        "Shift-Alt-P"                   : "pagebreak",
-        "F9"                            : "watch",
-        "F10"                           : "preview",
-        "F11"                           : "fullscreen",
-    };
-    
-    /**
-     * 清除字符串两边的空格
-     * Clear the space of strings both sides.
-     * 
-     * @param   {String}    str            string
-     * @returns {String}                   trimed string    
-     */
-    
-    var trim = function(str) {
-        return (!String.prototype.trim) ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") : str.trim();
-    };
-    
-    editormd.trim = trim;
-    
-    /**
-     * 所有单词首字母大写
-     * Words first to uppercase
-     * 
-     * @param   {String}    str            string
-     * @returns {String}                   string
-     */
-    
-    var ucwords = function (str) {
-        return str.toLowerCase().replace(/\b(\w)|\s(\w)/g, function($1) {  
-            return $1.toUpperCase();
-        });
-    };
-    
-    editormd.ucwords = editormd.wordsFirstUpperCase = ucwords;
-    
-    /**
-     * 字符串首字母大写
-     * Only string first char to uppercase
-     * 
-     * @param   {String}    str            string
-     * @returns {String}                   string
-     */
-    
-    var firstUpperCase = function(str) {        
-        return str.toLowerCase().replace(/\b(\w)/, function($1){
-            return $1.toUpperCase();
-        });
-    };
-    
-    var ucfirst = firstUpperCase;
-    
-    editormd.firstUpperCase = editormd.ucfirst = firstUpperCase;
-    
     editormd.urls = {
         atLinkBase : "https://github.com/"
     };
@@ -3552,7 +3354,7 @@
                 text = tempText.join(" ");
             }
             
-            text = trim(text);
+            text = editormd.trim(text);
             
             var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
             var toc = {
@@ -4058,136 +3860,13 @@
         "xq-dark", "xq-light"
     ];
 
-    editormd.loadPlugins = {};
-    
-    editormd.loadFiles = {
-        js     : [],
-        css    : [],
-        plugin : []
-    };
-    
-    /**
-     * 动态加载Editor.md插件，但不立即执行
-     * Load editor.md plugins
-     * 
-     * @param {String}   fileName              插件文件路径
-     * @param {Function} [callback=function()] 加载成功后执行的回调函数
-     * @param {String}   [into="head"]         嵌入页面的位置
-     */
-    
-    editormd.loadPlugin = function(fileName, callback, into) {
-        callback   = callback || function() {};
-        
-        this.loadScript(fileName, function() {
-            editormd.loadFiles.plugin.push(fileName);
-            callback();
-        }, into);
-    };
-    
-    /**
-     * 动态加载CSS文件的方法
-     * Load css file method
-     * 
-     * @param {String}   fileName              CSS文件名
-     * @param {Function} [callback=function()] 加载成功后执行的回调函数
-     * @param {String}   [into="head"]         嵌入页面的位置
-     */
-    
-    editormd.loadCSS   = function(fileName, callback, into) {
-        into       = into     || "head";        
-        callback   = callback || function() {};
-        
-        var css    = document.createElement("link");
-        css.type   = "text/css";
-        css.rel    = "stylesheet";
-        css.onload = css.onreadystatechange = function() {
-            editormd.loadFiles.css.push(fileName);
-            callback();
-        };
-
-        css.href   = fileName + ".css";
-
-        if(into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(css);
-        } else {
-            document.body.appendChild(css);
-        }
-    };
-    
     editormd.isIE    = (navigator.appName == "Microsoft Internet Explorer");
     editormd.isIE8   = (editormd.isIE && navigator.appVersion.match(/8./i) == "8.");
 
-    /**
-     * 动态加载JS文件的方法
-     * Load javascript file method
-     * 
-     * @param {String}   fileName              JS文件名
-     * @param {Function} [callback=function()] 加载成功后执行的回调函数
-     * @param {String}   [into="head"]         嵌入页面的位置
-     */
 
-    editormd.loadScript = function(fileName, callback, into) {
-        
-        into          = into     || "head";
-        callback      = callback || function() {};
-        
-        var script    = null; 
-        script        = document.createElement("script");
-        script.id     = fileName.replace(/[\./]+/g, "-");
-        script.type   = "text/javascript";        
-        script.src    = fileName + ".js";
-        
-        if (editormd.isIE8) 
-        {            
-            script.onreadystatechange = function() {
-                if(script.readyState) 
-                {
-                    if (script.readyState === "loaded" || script.readyState === "complete") 
-                    {
-                        script.onreadystatechange = null; 
-                        editormd.loadFiles.js.push(fileName);
-                        callback();
-                    }
-                } 
-            };
-        }
-        else
-        {
-            script.onload = function() {
-                editormd.loadFiles.js.push(fileName);
-                callback();
-            };
-        }
+    editormd = Object.assign(editormd, editorLoader);
+    editormd = Object.assign(editormd, editorKatex);
 
-        if (into === "head") {
-            document.getElementsByTagName("head")[0].appendChild(script);
-        } else {
-            document.body.appendChild(script);
-        }
-    };
-    
-    // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
-    // You can custom KaTeX load url.
-    editormd.katexURL  = {
-        css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
-    };
-    
-    editormd.kaTeXLoaded = false;
-    
-    /**
-     * 加载KaTeX文件
-     * load KaTeX files
-     * 
-     * @param {Function} [callback=function()]  加载成功后执行的回调函数
-     */
-    
-    editormd.loadKaTeX = function (callback) {
-        editormd.loadCSS(editormd.katexURL.css, function(){
-            editormd.loadScript(editormd.katexURL.js, callback || function(){});
-        });
-    };
-        
     /**
      * 锁屏
      * lock screen

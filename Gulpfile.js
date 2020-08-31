@@ -11,6 +11,9 @@ var concat       = require("gulp-concat");
 var notify       = require("gulp-notify");
 var header       = require("gulp-header");
 var minifycss    = require("gulp-minify-css");
+var minify = require('gulp-minify');
+const javascriptObfuscator = require('gulp-javascript-obfuscator');
+
 //var jsdoc        = require("gulp-jsdoc");
 //var jsdoc2md     = require("gulp-jsdoc-to-markdown");
 var pkg          = require("./package.json");
@@ -60,6 +63,12 @@ var scssTask = function(fileName, path) {
        .pipe(notify({ message: fileName + ".scss task completed!" }));
 };
 
+const jsFiles = [
+    './src/utils/*.js',
+    './src/editormd.js'
+];
+const distJsPath = './dist/js/';
+
 gulp.task("scss", function() { 
 	return scssTask("editormd");
 }); 
@@ -73,23 +82,49 @@ gulp.task("scss3", function() {
 }); 
 
 gulp.task("js", function() { 
-  return gulp.src("./src/editormd.js")
-            .pipe(jshint("./.jshintrc"))
-            .pipe(jshint.reporter("default"))
-            .pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
-                var name = file.path.split(file.base);
-                return name[1].replace(/[\\\/]?/, "");
-            }}))
-            .pipe(gulp.dest("./"))
-            .pipe(rename({ suffix: ".min" }))
-            .pipe(uglify())  // {outSourceMap: true, sourceRoot: './'}
-            .pipe(gulp.dest("./"))	
-            .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
-                var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
-                return name[1].replace(/[\\\/]?/, "");
-            }}))
-            .pipe(gulp.dest("./"))
-            .pipe(notify({ message: "editormd.js task complete" }));
+    let task = gulp.src(jsFiles);
+    let distPath = gulp.dest(distJsPath);
+
+    // task.pipe(jshint("./.jshintrc"));
+
+    task = task.pipe(jshint.reporter("default"));
+
+    task = task.pipe(concat('editormd.js'));
+
+    // task.pipe(javascriptObfuscator({
+    //         compact: true
+    // })).pipe(distPath);
+
+    /**
+     * add header
+     */
+    // task.pipe(header(headerComment, {pkg : pkg, fileName : function(file) { 
+    //     var name = file.path.split(file.base);
+    //     return name[1].replace(/[\\\/]?/, "");
+    // }})).pipe(gulp.dest(distJsPath));
+
+    /**
+     * minify
+     */
+    // task.pipe(rename({ suffix: ".min" }))
+    //     .pipe(uglify())  // {outSourceMap: true, sourceRoot: './'}
+    //     .pipe(distPath);
+
+    task = task.pipe(minify({
+        ext: {
+            min: '.min.js'
+        },
+        ignoreFiles: ['-min.js']
+    })).pipe(distPath);
+
+    // task.pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
+    //     var name = file.path.split(file.base + ( (os.platform() === "win32") ? "\\" : "/") );
+    //     return name[1].replace(/[\\\/]?/, "");
+    // }})).pipe(distPath);
+
+    // task = task.pipe(notify({ message: "editormd.js task complete" }));
+
+    return task;
 }); 
 
 gulp.task("amd", function() {
@@ -305,6 +340,7 @@ gulp.task("cm-addon", function() {
                 .pipe(gulp.dest(codeMirror.path.dist))
                 .pipe(notify({ message: "codemirror-addon.js task complete" }));
 }); 
+
 /*
 gulp.task("jsdoc", function(){
     return gulp.src(["./src/editormd.js", "README.md"])
@@ -324,19 +360,30 @@ gulp.task("jsdoc2md", function() {
             .pipe(gulp.dest("docs/markdown"));
 });
 */
-gulp.task("watch", function() {
-	gulp.watch("scss/editormd.scss", ["scss"]);
-	gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);
-	gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
-	gulp.watch("src/editormd.js", ["js", "amd"]);
-});
 
-gulp.task("default", function() {
-    gulp.run("scss");
-    gulp.run("scss2");
-    gulp.run("scss3");
-    gulp.run("js");
-    gulp.run("amd");
-    gulp.run("cm-addon");
-    gulp.run("cm-mode");
-});
+
+// gulp.task("watch", function() {
+// 	gulp.watch("scss/editormd.scss", ["scss"]);
+// 	gulp.watch("scss/editormd.preview.scss", ["scss", "scss2"]);
+// 	gulp.watch("scss/editormd.logo.scss", ["scss", "scss3"]);
+// 	gulp.watch("src/editormd.js", ["js", "amd"]);
+// });
+
+// gulp.task("default", function() {
+//     gulp.run("scss");
+//     gulp.run("scss2");
+//     gulp.run("scss3");
+//     gulp.run("js");
+//     gulp.run("amd");
+//     gulp.run("cm-addon");
+//     gulp.run("cm-mode");
+// });
+
+let tasks = [
+    'js'
+];
+
+tasks =  gulp.series(tasks);
+
+gulp.task("default", tasks);
+gulp.watch(['src/*.js','src/**/*.js'], tasks) ;

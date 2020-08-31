@@ -137,7 +137,7 @@ editor.setPreviewTheme('theme-name');
             </div>
         </div>
         <script src="js/jquery.min.js"></script>
-        <script src="../editormd.js"></script>
+        <script src="../dist/js/editormd.js"></script>
         <script type="text/javascript">
 			var testEditor;
             
@@ -171,7 +171,8 @@ editor.setPreviewTheme('theme-name');
                 return select;
             }
 
-            $(function() {                
+            $(function() {  
+
                 testEditor = editormd("test-editormd", {
                     width        : "90%",
                     height       : 720,
@@ -200,7 +201,9 @@ editor.setPreviewTheme('theme-name');
                 
                 themeSelect("preview-area-theme-select", editormd.previewThemes, "previewTheme", function($this, theme) {
                     testEditor.setPreviewTheme(theme);
-                });          
+                });      
+                console.log(`========== setTheme`,{testEditor})
+                testEditor.setTheme('default');
             });
         </script>
     </body>
