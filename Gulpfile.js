@@ -81,6 +81,9 @@ gulp.task("scss3", function() {
 	return scssTask("editormd.logo");
 }); 
 
+/**
+ * @tutorial : https://riptutorial.com/gulp/example/11376/minify-js-using-gulp-minify
+ */
 gulp.task("js", function() { 
     let task = gulp.src(jsFiles);
     let distPath = gulp.dest(distJsPath);
@@ -91,6 +94,7 @@ gulp.task("js", function() {
 
     task = task.pipe(concat('editormd.js'));
 
+    //  javascript-obfuscator
     // task.pipe(javascriptObfuscator({
     //         compact: true
     // })).pipe(distPath);
