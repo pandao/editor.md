@@ -3822,7 +3822,8 @@
         {
             var tag = filterTags[i];
 
-            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
+            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
+
         }
         
         //return html;
@@ -3835,7 +3836,7 @@
 
         if (typeof attrs !== "undefined")
         {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>(?:([^\>]*)\<\/(\1)\>)?/ig;
 
             var filterAttrs = attrs.split(",");
             var filterOn = true;
@@ -3849,14 +3850,24 @@
             if (attrs === "*")
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    return "<" + $2 + ">" + $4 + "</" + $5 + ">";
-                });         
+
+                    if(typeof($4)!== 'undefined'){
+                        return "<" + $2 + ">" + $4 + "</" + $5 + ">";
+                    }else{
+                        return "<" + $2 + "/>";
+                    }
+                });
             }
             else if ((attrs === "on*") || filterOn)
             {
 
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                    var el;
+                    if(typeof($4)!== 'undefined'){
+                        el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                    }else{
+                        el = $("<" + $2 + "/>");
+                    }
                     var _attrs = $($1)[0].attributes;
                     var $attrs = {};
                     
@@ -3881,7 +3892,9 @@
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
                     var el = $($1);
-                    el.html($4);
+                    if(typeof($4)!== 'undefined'){
+                      el.html($4);
+                    }
 
                     $.each(filterAttrs, function(i) {
                         el.attr(filterAttrs[i], null);
