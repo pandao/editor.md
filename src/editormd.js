@@ -3798,11 +3798,21 @@
      */
     
     editormd.filterHTMLTags = function(html, filters) {
-        
+
+        const basicAttrs ={
+            'img': 'src',
+            'a': 'href'
+        }
+
         if (typeof html !== "string") {
             html = new String(html);
         }
-            
+
+        try{
+            html = decodeURI(html)
+        }catch(error){
+            return "Invalid encoding detected"
+        }
         if (typeof filters !== "string") {
             // If no filters set use "script|on*" by default to avoid XSS
             filters = "script|on*";
@@ -3830,7 +3840,7 @@
 
         if (typeof attrs === "undefined")
         {
-            // If no attrs set block "on*" to avoid XSS
+            // If no attrs set, block "on*" to avoid XSS
             attrs = "on*"
         }
 
@@ -3850,7 +3860,18 @@
             if (attrs === "*")
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-
+                    // Add basic attrs to elements that need them
+                    Object.entries(basicAttrs).forEach( item => 
+                    {
+                        var match;
+                        if(item[0].toUpperCase() === $2.toUpperCase())
+                        {
+                            var regBas = new RegExp(item[1]+`\s*=\s*("|')(?:(?!\\1).)*\\1`,"i");
+                            if(match = regBas.exec($3)){
+                                $2 += ' ' + match[0];
+                            }
+                        }
+                    });
                     if(typeof($4)!== 'undefined'){
                         return "<" + $2 + ">" + $4 + "</" + $5 + ">";
                     }else{
@@ -3863,28 +3884,30 @@
 
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
                     var el;
-                    if(typeof($4)!== 'undefined'){
-                        el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                    }else{
-                        el = $("<" + $2 + "/>");
-                    }
-                    var _attrs = $($1)[0].attributes;
-                    var $attrs = {};
-                    
-                    $.each(_attrs, function(i, e) {
-                        if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
-                    });
-                    
-                    $.each($attrs, function(i) {                        
-                        if (i.indexOf("on") === 0) {
-                            delete $attrs[i];
+                    try{
+                        if(typeof($4)!== 'undefined'){
+                            el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                        }else{
+                            el = $("<" + $2 + "/>");
                         }
-                    });
-                    
+                    } catch (error){
+                        console.log('Trying to create invalid element');
+                        return '';
+                    }
+//                    var _attrs = $($1)[0].attributes; // ARH: Replace with regexp, beacause this triggers execution of onLoad ... (Also should be faster now)
+                    var match;
+                    var $attrs = {};
+                    var regOn = /^on*/i
+
+                    var regAttr = /(\w*)\s*=\s*("|')((?:(?!\2).)*)\2/gi; 
+                    while(match = regAttr.exec($3)){
+                        if (!regOn.exec(match[1]) && match[1].length>0){
+                            $attrs[match[1]] = match[3];
+                        }
+                    }
                     el.attr($attrs);
                     
                     var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-
                     return el[0].outerHTML + text;
                 });
             }
