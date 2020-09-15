@@ -1,5 +1,5 @@
 const editorToolbarHandlers = {
-    toolbarHandlers = {
+    toolbarHandlers : {
         undo : function() {
             this.cm.undo();
         },

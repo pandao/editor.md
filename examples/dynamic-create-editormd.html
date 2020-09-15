@@ -26,7 +26,7 @@
             
             $(function() {                
                 $("#create-btn").click(function(){                    
-					$.getScript("../editormd.js", function() {
+					$.getScript("../dist/js/editormd.js", function() {
                         $("#layout").append("<div id=\"test-editormd\"></div>");
                         
                         testEditormd = editormd("test-editormd", {

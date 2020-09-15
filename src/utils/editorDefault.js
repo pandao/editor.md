@@ -1,3 +1,6 @@
+editorClassPrefix  = "editormd-";
+editormdTitle      = "Editor.md";
+
 const editorDefault = {
     mode                 : "gfm",          //gfm or markdown
     name                 : "",             // Form element name
@@ -104,12 +107,12 @@ const editorDefault = {
         italic           : "fa-italic",
         quote            : "fa-quote-left",
         uppercase        : "fa-font",
-        h1               : editormd.classPrefix + "bold",
-        h2               : editormd.classPrefix + "bold",
-        h3               : editormd.classPrefix + "bold",
-        h4               : editormd.classPrefix + "bold",
-        h5               : editormd.classPrefix + "bold",
-        h6               : editormd.classPrefix + "bold",
+        h1               : editorClassPrefix + "bold",
+        h2               : editorClassPrefix + "bold",
+        h3               : editorClassPrefix + "bold",
+        h4               : editorClassPrefix + "bold",
+        h5               : editorClassPrefix + "bold",
+        h6               : editorClassPrefix + "bold",
         "list-ul"        : "fa-list-ul",
         "list-ol"        : "fa-list-ol",
         hr               : "fa-minus",
@@ -178,7 +181,7 @@ const editorDefault = {
             clear            : "清空",
             search           : "搜索",
             help             : "使用帮助",
-            info             : "关于" + editormd.title
+            info             : "关于" + editormdTitle
         },
         buttons : {
             enter  : "确定",

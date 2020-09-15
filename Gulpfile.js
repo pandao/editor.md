@@ -64,7 +64,9 @@ var scssTask = function(fileName, path) {
 };
 
 const jsFiles = [
+    './src/const/*.js',
     './src/utils/*.js',
+    './src/renderer/*.js',
     './src/editormd.js'
 ];
 const distJsPath = './dist/js/';
@@ -93,6 +95,7 @@ gulp.task("js", function() {
     task = task.pipe(jshint.reporter("default"));
 
     task = task.pipe(concat('editormd.js'));
+    
 
     //  javascript-obfuscator
     // task.pipe(javascriptObfuscator({
@@ -128,6 +131,8 @@ gulp.task("js", function() {
 
     // task = task.pipe(notify({ message: "editormd.js task complete" }));
 
+    // const distJsFile = gulp.dest('dist/js/editormd.js');
+    // task = task.pipe( distJsFile );
     return task;
 }); 
 
