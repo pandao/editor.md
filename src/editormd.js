@@ -351,7 +351,6 @@
                 options = id;
             }
             
-            var _this            = this;
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
             var settings         = this.settings     = $.extend(true, editormd.defaults, options);
             
@@ -801,7 +800,6 @@
             }
             
             var cm       = this.cm;
-            var editor   = this.editor;
             var count    = cm.lineCount();
             var preview  = this.preview;
             
@@ -1100,7 +1098,6 @@
             }
             
             var editor      = this.editor;
-            var preview     = this.preview;
             var classPrefix = this.classPrefix;
             
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
@@ -1235,7 +1232,7 @@
             var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");  
             var toolbarIconHandlers = this.getToolbarHandles();  
                 
-            toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
+            toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function() {
 
                 var icon                = $(this).children(".fa");
                 var name                = icon.attr("name");
@@ -1359,8 +1356,7 @@
 
             $("html,body").css("overflow-x", "hidden");
             
-            var _this       = this;
-			var editor      = this.editor;
+            var editor      = this.editor;
             var settings    = this.settings;         
 			var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
             
@@ -1422,7 +1418,6 @@
          */
         
         recreate : function() {
-            var _this            = this;
             var editor           = this.editor;
             var settings         = this.settings;
             
@@ -1617,18 +1612,15 @@
                         {
                             case 120:
                                     $.proxy(toolbarHandlers["watch"], _this)();
-                                    return false;
-                                break;
+                                return false;
                                 
                             case 121:
                                     $.proxy(toolbarHandlers["preview"], _this)();
-                                    return false;
-                                break;
+                                return false;
                                 
                             case 122:
                                     $.proxy(toolbarHandlers["fullscreen"], _this)();                        
-                                    return false;
-                                break;
+                                 return false;
                                 
                             default:
                                 break;
