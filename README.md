@@ -104,7 +104,7 @@ If you using modular script loader:
 	    var testView = editormd.markdownToHTML("test-markdown-view", {
             // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
             // htmlDecode : true,  // Enable / disable HTML tag encode.
-            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+            // htmlDecode : "style,script,iframe|on*",  // Note: If enabled, you should filter some dangerous HTML tags for website security, you can also filter trigers.
         });
     });
 </script>    
@@ -242,6 +242,23 @@ Editor.md options and default values:
     }
 }
 ```
+
+#### Avoid XSS
+
+Script and events are disabled by default to avoid XSS
+
+If you want to enable you need to pass in htmlDecode:
+
+allowScript as FilterTag
+allowOn as FilterAttribute
+
+```
+htmlDecode : "allowScript|allowOn"
+```
+
+extra filters can be set in coma separated list format
+
+Be warned that enabled scripting can be dangerous and lead to [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting)
 
 #### Dependents
 
