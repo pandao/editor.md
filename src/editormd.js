@@ -351,7 +351,6 @@
                 options = id;
             }
             
-            var _this            = this;
             var classPrefix      = this.classPrefix  = editormd.classPrefix; 
             var settings         = this.settings     = $.extend(true, editormd.defaults, options);
             
@@ -801,7 +800,6 @@
             }
             
             var cm       = this.cm;
-            var editor   = this.editor;
             var count    = cm.lineCount();
             var preview  = this.preview;
             
@@ -1100,7 +1098,6 @@
             }
             
             var editor      = this.editor;
-            var preview     = this.preview;
             var classPrefix = this.classPrefix;
             
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
@@ -1235,7 +1232,7 @@
             var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");  
             var toolbarIconHandlers = this.getToolbarHandles();  
                 
-            toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
+            toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function() {
 
                 var icon                = $(this).children(".fa");
                 var name                = icon.attr("name");
@@ -1359,8 +1356,7 @@
 
             $("html,body").css("overflow-x", "hidden");
             
-            var _this       = this;
-			var editor      = this.editor;
+            var editor      = this.editor;
             var settings    = this.settings;         
 			var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
             
@@ -1422,7 +1418,6 @@
          */
         
         recreate : function() {
-            var _this            = this;
             var editor           = this.editor;
             var settings         = this.settings;
             
@@ -1617,18 +1612,15 @@
                         {
                             case 120:
                                     $.proxy(toolbarHandlers["watch"], _this)();
-                                    return false;
-                                break;
+                                return false;
                                 
                             case 121:
                                     $.proxy(toolbarHandlers["preview"], _this)();
-                                    return false;
-                                break;
+                                return false;
                                 
                             case 122:
                                     $.proxy(toolbarHandlers["fullscreen"], _this)();                        
-                                    return false;
-                                break;
+                                 return false;
                                 
                             default:
                                 break;
@@ -3798,11 +3790,21 @@
      */
     
     editormd.filterHTMLTags = function(html, filters) {
-        
+
+        const basicAttrs ={
+            'img': 'src',
+            'a': 'href'
+        }
+
         if (typeof html !== "string") {
             html = new String(html);
         }
-            
+
+        try{
+            html = decodeURI(html)
+        }catch(error){
+            return "Invalid encoding detected"
+        }
         if (typeof filters !== "string") {
             // If no filters set use "script|on*" by default to avoid XSS
             filters = "script|on*";
@@ -3822,20 +3824,21 @@
         {
             var tag = filterTags[i];
 
-            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
+            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
+
         }
         
         //return html;
 
         if (typeof attrs === "undefined")
         {
-            // If no attrs set block "on*" to avoid XSS
+            // If no attrs set, block "on*" to avoid XSS
             attrs = "on*"
         }
 
         if (typeof attrs !== "undefined")
         {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>(?:([^\>]*)\<\/(\1)\>)?/ig;
 
             var filterAttrs = attrs.split(",");
             var filterOn = true;
@@ -3849,31 +3852,54 @@
             if (attrs === "*")
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    return "<" + $2 + ">" + $4 + "</" + $5 + ">";
-                });         
+                    // Add basic attrs to elements that need them
+                    Object.entries(basicAttrs).forEach( item => 
+                    {
+                        var match;
+                        if(item[0].toUpperCase() === $2.toUpperCase())
+                        {
+                            var regBas = new RegExp(item[1]+`\s*=\s*("|')(?:(?!\\1).)*\\1`,"i");
+                            if(match = regBas.exec($3)){
+                                $2 += ' ' + match[0];
+                            }
+                        }
+                    });
+                    if(typeof($4)!== 'undefined'){
+                        return "<" + $2 + ">" + $4 + "</" + $5 + ">";
+                    }else{
+                        return "<" + $2 + "/>";
+                    }
+                });
             }
             else if ((attrs === "on*") || filterOn)
             {
 
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                    var _attrs = $($1)[0].attributes;
-                    var $attrs = {};
-                    
-                    $.each(_attrs, function(i, e) {
-                        if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
-                    });
-                    
-                    $.each($attrs, function(i) {                        
-                        if (i.indexOf("on") === 0) {
-                            delete $attrs[i];
+                    var el;
+                    try{
+                        if(typeof($4)!== 'undefined'){
+                            el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
+                        }else{
+                            el = $("<" + $2 + "/>");
                         }
-                    });
-                    
+                    } catch (error){
+                        console.log('Trying to create invalid element');
+                        return '';
+                    }
+//                    var _attrs = $($1)[0].attributes; // ARH: Replace with regexp, beacause this triggers execution of onLoad ... (Also should be faster now)
+                    var match;
+                    var $attrs = {};
+                    var regOn = /^on*/i
+
+                    var regAttr = /(\w*)\s*=\s*("|')((?:(?!\2).)*)\2/gi; 
+                    while(match = regAttr.exec($3)){
+                        if (!regOn.exec(match[1]) && match[1].length>0){
+                            $attrs[match[1]] = match[3];
+                        }
+                    }
                     el.attr($attrs);
                     
                     var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-
                     return el[0].outerHTML + text;
                 });
             }
@@ -3881,7 +3907,9 @@
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
                     var el = $($1);
-                    el.html($4);
+                    if(typeof($4)!== 'undefined'){
+                      el.html($4);
+                    }
 
                     $.each(filterAttrs, function(i) {
                         el.attr(filterAttrs[i], null);
