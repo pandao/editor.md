@@ -266,3 +266,4 @@ Editor.md options and default values:
 The MIT License.
 
 Copyright (c) 2015-2019 Pandao
+This is line added by Nikhil Wale. This is my first pull request.
