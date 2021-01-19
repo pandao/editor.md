@@ -2003,6 +2003,8 @@
                 smartLists  : true,
                 smartypants : true
             };
+
+            cmValue = cmValue.replace(/&#/g, '');
             
             marked.setOptions(markedOptions);
                     
@@ -3808,6 +3810,8 @@
             'a': 'href'
         }
 
+        const disabled = ['iframe'];
+
         if (typeof html !== "string") {
             html = new String(html);
         }
@@ -3842,6 +3846,11 @@
         
         //return html;
 
+        $.each(disabled, function(index, value){
+            html = html.replace('<'+value+'>', '').replace('</'+value+'>', '');
+            console.log(html);
+        });
+        
         if (typeof attrs === "undefined")
         {
             // If no attrs set, block "on*" to avoid XSS
