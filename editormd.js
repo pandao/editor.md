@@ -3577,8 +3577,8 @@
             markdownToC.push(toc);
             
             var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
-            
-            headingHTML    += "<a name=\"" + text + "\" class=\"reference-link\"></a>";
+            var href = $('<span>' + text + '</span>').text();
+            headingHTML    += "<a name=\"" + href + "\" class=\"reference-link\"></a>";
             headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
             headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkText)) : this.atLink(this.emoji(text));
             headingHTML    += "</h" + level + ">";
@@ -3704,8 +3704,8 @@
             {
                 html += "</ul></li>";
             }
-
-            html += "<li><a class=\"toc-level-" + level + "\" href=\"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            var href = $('<span>' + text + '</span>').text();
+            html += "<li><a class=\"toc-level-" + level + "\" href=\"#" + href + "\" level=\"" + level + "\">" + text + "</a><ul>";
             lastLevel = level;
         }
         
