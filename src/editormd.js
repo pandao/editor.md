@@ -1,15 +1,3 @@
-/*
- * Editor.md
- *
- * @file        editormd.js
- * @version     v1.5.0
- * @description Open source online markdown editor.
- * @license     MIT License
- * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2020-09-17
- */
-
 ;(function(factory) {
     "use strict";
 
