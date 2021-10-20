@@ -6,10 +6,11 @@
 
 <link rel="stylesheet" href="../../lib/codemirror.css">
 <script src="../../lib/codemirror.js"></script>
+<script src="../../addon/mode/simple.js"></script>
 <script src="rust.js"></script>
-<style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
 <div id=nav>
-  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
+  <a href="https://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png" alt=""></a>
 
   <ul>
     <li><a href="../../index.html">Home</a>
@@ -29,30 +30,33 @@
 <div><textarea id="code" name="code">
 // Demo code.
 
-type foo<T> = int;
+type foo<T> = i32;
 enum bar {
-    some(int, foo<float>),
-    none
+    Some(i32, foo<f32>),
+    None
 }
 
-fn check_crate(x: int) {
+fn check_crate(x: i32) {
     let v = 10;
-    alt foo {
-      1 to 3 {
-        print_foo();
-        if x {
-            blah() + 10;
+    match foo {
+        1 ... 3 {
+            print_foo();
+            if x {
+                blah().to_string();
+            }
         }
-      }
-      (x, y) { "bye" }
-      _ { "hi" }
+        (x, y) { "bye" }
+        _ { "hi" }
     }
 }
 </textarea></div>
 
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true
+        lineNumbers: true,
+        lineWrapping: true,
+        indentUnit: 4,
+        mode: "rust"
       });
     </script>
 
