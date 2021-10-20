@@ -1,3 +1,15 @@
+/*
+ * Editor.md
+ *
+ * @file        editormd.js
+ * @version     v1.5.0
+ * @description Open source online markdown editor.
+ * @license     MIT License
+ * @author      Pandao
+ * {@link       https://github.com/pandao/editor.md}
+ * @updateTime  2020-09-17
+ */
+
 ;(function(factory) {
     "use strict";
 
@@ -3800,9 +3812,9 @@
             html = new String(html);
         }
 
-        try{
+        try {
             html = decodeURI(html)
-        }catch(error){
+        } catch (error) {
             return "Invalid encoding detected"
         }
         if (typeof filters !== "string") {
@@ -3820,17 +3832,18 @@
             filterTags.push('script');
         }
 
-		filterTags.push('embed');
+        // Disable embed tags
+        filterTags.push('embed');
 
         for (var i = 0, len = filterTags.length; i < len; i++)
         {
             var tag = filterTags[i];
-
             html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
 
         }
 
-        //return html;
+        // Get rid of javascript embededded into <a> tags as href attributes
+        html = html.replace(new RegExp(/(\<\s*a\s*[^\>]*href=(["']))(\s*javascript:[^=]*)(\2\s*([^\>]*)\>)/, "igm"), "$1$4");
 
         if (typeof attrs === "undefined")
         {
@@ -3840,7 +3853,7 @@
 
         if (typeof attrs !== "undefined")
         {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>(?:([^\>]*)\<\/(\1)\>)?/ig;
+            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
 
             var filterAttrs = attrs.split(",");
             var filterOn = true;
@@ -3878,10 +3891,10 @@
 
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
                     var el;
-                    try{
-                        if(typeof($4)!== 'undefined'){
+                    try {
+                        if (typeof($4) !== 'undefined') {
                             el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                        }else{
+                        } else {
                             el = $("<" + $2 + "/>");
                         }
                     } catch (error){
@@ -3891,18 +3904,18 @@
 //                    var _attrs = $($1)[0].attributes; // ARH: Replace with regexp, beacause this triggers execution of onLoad ... (Also should be faster now)
                     var match;
                     var $attrs = {};
-                    var regOn = /^on*/i
+                    var regOn = /^on*/i;
 
                     var regAttr = /(\w*)\s*=\s*("|')((?:(?!\2).)*)\2/gi;
                     while(match = regAttr.exec($3)){
                         if (!regOn.exec(match[1]) && match[1].length>0){
                             $attrs[match[1]] = match[3];
-                        }
-                    }
+                        };
+                    };
                     el.attr($attrs);
 
                     var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-                    return el[0].outerHTML + text;
+                    return el[0].outerHTML;
                 });
             }
             if(filterAttrs.length > 1 || (filterAttrs[0]!=="*" && filterAttrs[0]!=="on*"))
@@ -3917,7 +3930,7 @@
                         el.attr(filterAttrs[i], null);
                     });
 
-                    return el[0].outerHTML;
+                    return el[0];
                 });
             }
         }
