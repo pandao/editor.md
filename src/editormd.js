@@ -3915,7 +3915,7 @@
                     el.attr($attrs);
 
                     var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-                    return el[0].outerHTML;
+                    return el[0].outerHTML + text;
                 });
             }
             if(filterAttrs.length > 1 || (filterAttrs[0]!=="*" && filterAttrs[0]!=="on*"))
@@ -3930,7 +3930,7 @@
                         el.attr(filterAttrs[i], null);
                     });
 
-                    return el[0];
+                    return el[0].outerHTML;
                 });
             }
         }
