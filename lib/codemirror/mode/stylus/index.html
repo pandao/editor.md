@@ -11,7 +11,7 @@
 <script src="../../addon/hint/css-hint.js"></script>
 <style>.CodeMirror {background: #f8f8f8;} form{margin-bottom: .7em;}</style>
 <div id=nav>
-  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
+  <a href="https://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png" alt=""></a>
 
   <ul>
     <li><a href="../../index.html">Home</a>
@@ -28,8 +28,9 @@
 <h2>Stylus mode</h2>
 <form><textarea id="code" name="code">
 /* Stylus mode */
-#id
-.class
+
+#id,
+.class,
 article
   font-family Arial, sans-serif
 
@@ -96,9 +97,10 @@ a:focus {
 <script>
   var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     extraKeys: {"Ctrl-Space": "autocomplete"},
+    tabSize: 2
   });
 </script>
 
 <p><strong>MIME types defined:</strong> <code>text/x-styl</code>.</p>
-
+<p>Created by <a href="https://github.com/dmitrykiselyov">Dmitry Kiselyov</a></p>
 </article>
