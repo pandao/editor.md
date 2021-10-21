@@ -1,47 +1,21 @@
 {
-  "name": "codemirror",
-  "version": "5.58.2",
-  "main": "lib/codemirror.js",
-  "style": "lib/codemirror.css",
-  "author": {
-    "name": "Marijn Haverbeke",
-    "email": "marijnh@gmail.com",
-    "url": "http://marijnhaverbeke.nl"
-  },
-  "description": "Full-featured in-browser code editor",
-  "license": "MIT",
-  "directories": {
-    "lib": "./lib"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -w -c",
-    "prepare": "npm run-script build",
-    "test": "node ./test/run.js",
-    "lint": "bin/lint"
-  },
-  "devDependencies": {
-    "@rollup/plugin-buble": "^0.21.3",
-    "blint": "^1.1.0",
-    "node-static": "0.7.11",
-    "puppeteer": "^1.20.0",
-    "rollup": "^1.26.3"
-  },
-  "bugs": "http://github.com/codemirror/CodeMirror/issues",
-  "keywords": [
-    "JavaScript",
-    "CodeMirror",
-    "Editor"
-  ],
-  "homepage": "https://codemirror.net",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/codemirror/CodeMirror.git"
-  },
-  "jspm": {
-    "directories": {},
-    "dependencies": {},
-    "devDependencies": {}
-  },
-  "dependencies": {}
+    "name": "codemirror",
+    "version":"5.0.0",
+    "main": "lib/codemirror.js",
+    "description": "In-browser code editing made bearable",
+    "licenses": [{"type": "MIT",
+                  "url": "http://codemirror.net/LICENSE"}],
+    "directories": {"lib": "./lib"},
+    "scripts": {"test": "node ./test/run.js"},
+    "devDependencies": {"node-static": "0.6.0",
+                        "phantomjs": "1.9.2-5",
+                        "blint": ">=0.1.1"},
+    "bugs": "http://github.com/codemirror/CodeMirror/issues",
+    "keywords": ["JavaScript", "CodeMirror", "Editor"],
+    "homepage": "http://codemirror.net",
+    "maintainers":[{"name": "Marijn Haverbeke",
+                    "email": "marijnh@gmail.com",
+                    "web": "http://marijnhaverbeke.nl"}],
+    "repository": {"type": "git",
+                   "url": "https://github.com/codemirror/CodeMirror.git"}
 }
