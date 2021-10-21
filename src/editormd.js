@@ -352,7 +352,7 @@
             }
 
             var classPrefix      = this.classPrefix  = editormd.classPrefix;
-            var settings         = this.settings     = $.extend(true, editormd.defaults, options);
+            var settings         = this.settings     = $.extend(true, {}, editormd.defaults, options);
 
             id                   = (typeof id === "object") ? settings.id : id;
 
@@ -1743,9 +1743,9 @@
             var cm               = this.cm;
             var settings         = this.settings;
 
-            if (!settings.syncScrolling) {
-                return this;
-            }
+            // if (!settings.syncScrolling) {
+            //     return this;
+            // }
 
             cm.on("change", function(_cm, changeObj) {
 
@@ -1945,7 +1945,8 @@
 
         save : function() {
 
-            if (timer === null)
+            // if (timer === null)
+            if (timer === null && !(!settings.watch && state.preview))
             {
                 return this;
             }
@@ -2504,7 +2505,8 @@
                     position  : "",
                     top       : 0,
                     width     : editor.width(),
-                    height    : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height()
+                    height : editor.height(),
+                    //height    : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height()
                 });
 
                 if (this.state.loaded)
@@ -2556,12 +2558,14 @@
                 previewContainer.css("padding", "20px");
             }
 
+            const toolbarHeight = (settings.toolbar) ? toolbar.height() : 0;
+
             preview.css({
                 background : null,
                 position   : "absolute",
                 width      : editor.width() / 2,
-                height     : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height() - toolbar.height(),
-                top        : (settings.toolbar)    ? toolbar.height() : 0
+                height     : editor.height() - toolbarHeight,
+                top        : toolbarHeight,
             });
 
             if (this.state.loaded)
@@ -3347,7 +3351,8 @@
 
     // Emoji graphics files url path
     editormd.emoji     = {
-        path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+        // path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+        path: "https://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/",
         ext   : ".png"
     };
 
