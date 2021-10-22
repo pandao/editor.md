@@ -1,5 +1,5 @@
 {
-  "name": "editor.md",
+  "name": "@ibm-skills-network/editor.md",
   "version": "1.5.0",
   "description": "Open source online markdown editor.",
   "directories": {
@@ -10,9 +10,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pandao/editor.md.git"
+  "repository": "https://github.com/ibm-skills-network/npm-registry",
+  "publishConfig": {
+    "registry":"https://github.com/ibm-skills-network/npm-registry"
   },
   "keywords": [
     "editor.md",
