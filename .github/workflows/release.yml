@@ -1,0 +1,27 @@
+on:
+  push:
+#     branches:
+#       - master
+    tags:
+      - "**"
+  pull_request:
+    branches:
+      - master
+
+name: release
+
+jobs:
+  publish:
+    name: npm package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: npm install
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          registry: https://npm.pkg.github.com
+          token: ${{ secrets.GITHUB_TOKEN }}
+          dry-run: ${{ github.event_name == 'pull_request' }}
