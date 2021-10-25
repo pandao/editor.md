@@ -1,0 +1,2 @@
+@ibm-skills-network:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GH_PERSONAL_ACCESS_TOKEN
