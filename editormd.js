@@ -3849,12 +3849,12 @@
                 // for each image, construct a new img tag with only necessary attributes
                 for (let j = 0; j < allImages.length; j++) {
                     let imageHTML = allImages[j][0];
-                    let src = imageHTML.match(/src=(["'])?[^'"]*\1/mi);
-                    let alt = imageHTML.match(/alt=(["'])?[^'"]*\1/mi);
-                    let width = imageHTML.match(/width=(["'])?[^'"]*\1/mi);
-                    let height = imageHTML.match(/height=(["'])?[^'"]*\1/mi);
-                    let style = imageHTML.match(/style=(["'])?[^'"]*\1/mi);
-                    html = html.replace(imageHTML, `<img ${src && src[0]} ${alt && alt[0]} ${width && width[0]} ${height && height[0]} ${style && style[0]}>`);
+                    let src = imageHTML.match(/src=(["'])?(?!\1).*?\1/im);
+                    let alt = imageHTML.match(/alt=(["'])?(?!\1).*?\1/im);
+                    let width = imageHTML.match(/width=(["'])?(?!\1).*?\1/im);
+                    let height = imageHTML.match(/height=(["'])?(?!\1).*?\1/im);
+                    let style = imageHTML.match(/style=(["'])?(?!\1).*?\1/im);
+                    html = html.replace(imageHTML, `<img ${src ? src[0] : "src=''"} ${alt ? alt[0] : "alt=''"} ${width && width[0]} ${height && height[0]} ${style && style[0]}>`);
                 }
             }
             else {
