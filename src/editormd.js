@@ -3842,7 +3842,7 @@
                     let width = imageHTML.match(/width=(["'])?(?!\1).*\1/im);
                     let height = imageHTML.match(/height=(["'])?(?!\1).*\1/im);
                     let style = imageHTML.match(/style=(["'])?(?!\1).*\1/im);
-                    html = html.replace(imageHTML, `<img ${src} ${alt} ${width} ${height} ${style}`);
+                    html = html.replace(imageHTML, `<img ${src} ${alt} ${width} ${height} ${style}>`);
                 }
             }
             else {
