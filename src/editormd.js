@@ -3798,6 +3798,7 @@
 
         const basicAttrs ={
             'img': 'src',
+            'img': 'alt',
             'a': 'href'
         }
 
@@ -3831,8 +3832,22 @@
         for (var i = 0, len = filterTags.length; i < len; i++)
         {
             var tag = filterTags[i];
-            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
-
+            if (tag === 'img') {
+                const allImages = [...html.matchAll(/(\<\s*img[^\>]*\/?\>(<\s*\/?\s*img\s*\>)?)/igm)];
+                // for each image, construct a new img tag with only necessary attributes
+                for (let j = 0; j < allImages.length; j++) {
+                    let imageHTML = allImages[j][0];
+                    let src = imageHTML.match(/src=(["'])?(?!\1).*\1/im);
+                    let alt = imageHTML.match(/alt=(["'])?(?!\1).*\1/im);
+                    let width = imageHTML.match(/width=(["'])?(?!\1).*\1/im);
+                    let height = imageHTML.match(/height=(["'])?(?!\1).*\1/im);
+                    let style = imageHTML.match(/style=(["'])?(?!\1).*\1/im);
+                    html = html.replace(imageHTML, `<img ${src} ${alt} ${width} ${height} ${style}`);
+                }
+            }
+            else {
+                html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
+            }
         }
 
         // Get rid of javascript embededded into <a> tags as href attributes
