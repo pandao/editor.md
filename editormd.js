@@ -3817,12 +3817,9 @@
             html = new String(html);
         }
 
-        try {
-            html = encodeURI(html)
-            html = decodeURI(html)
-        } catch (error) {
-            return "Invalid encoding detected"
-        }
+        // replaces unknown unicode characters
+        html = html.replace(/\uFFFD/g, '');
+        
         if (typeof filters !== "string") {
             // If no filters set use "script|on*" by default to avoid XSS
             filters = "script|on*";
