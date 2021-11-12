@@ -3806,6 +3806,7 @@
         }
 
         try {
+            html = encodeURI(html)
             html = decodeURI(html)
         } catch (error) {
             return "Invalid encoding detected"
