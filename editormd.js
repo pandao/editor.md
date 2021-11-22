@@ -88,6 +88,19 @@
         ]
     };
 
+    editormd.headerModes = {
+        left: {},
+        center: {
+            "file name": "dropdown",
+            "Unsaved Changes": "text"
+        },
+        right: {
+            "Save": "button",
+            "Preview": "dropdown",
+            "Publish": "button",
+        }
+    };
+
     editormd.defaults     = {
         mode                 : "gfm",          //gfm or markdown
         name                 : "",             // Form element name
@@ -1110,13 +1123,20 @@
             }
 
             var editor      = this.editor;
-            var classPrefix = this.classPrefix;
+            var classPrefix = this.classPrefix; // this.classPrefix = "editormd-"
+            var headerModes = editormd.headerModes;
 
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
 
             if (settings.toolbar && toolbar.length < 1)
             {
-                var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\"><div class=\"" + classPrefix + "toolbar-container\"><ul class=\"" + classPrefix + "menu\"></ul></div></div>";
+                var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\">\
+                        <div class=\"" + classPrefix + "header-container\">\
+                        </div>\
+                        <div class=\"" + classPrefix + "toolbar-container\">\
+                            <ul class=\"" + classPrefix + "menu\"></ul>\
+                        </div>\
+                    </div>";
 
                 editor.append(toolbarHTML);
                 toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
@@ -1129,6 +1149,46 @@
                 return this;
             }
 
+            // Store html for header
+            var headerContent = "";
+
+            Object.entries(headerModes).forEach(([headerSection, sectionButtons]) => {
+
+                let sectionHtml = "";
+
+                if (headerSection === "left") {
+                    // set logo and Author IDE title
+                    sectionHtml = "<span class=\"sn-logo\"></span><span class=\"home-title\">Skills Network Author IDE</span>";
+                } else {
+                    // add appropriate HTML for each type of item
+                    for (let name in sectionButtons) {
+                        let htmlSafeName = name.replace(/\s+/g, '-').toLowerCase();
+                        switch (sectionButtons[name]) {
+                            case "dropdown":
+                                sectionHtml += "<button class=\"" + classPrefix + "header-button " + htmlSafeName + "\">" +
+                                    name + "<span class=\"" + classPrefix + "header-dropdown-chevron\"></span></button>";
+                                break;
+                            case "button":
+                                sectionHtml += "<button class=\"" + classPrefix + "header-button " + htmlSafeName + "\">"
+                                    + name + "</button>";
+                                break;
+                            default:
+                                sectionHtml += "<span class=\"" + classPrefix + "header " + htmlSafeName + "\">"
+                                    + name + "</span>";
+                        }
+                    }
+                }
+
+                // add generated html for each section
+                headerContent += "<div class=\"" + classPrefix + "header-section " + headerSection + "\">" + sectionHtml + "</div>";
+
+            });
+
+            // Set html for header
+            toolbar.find("div." + classPrefix + "header-container").html(headerContent);
+
+
+            // Set toolbar icons
             toolbar.show();
 
             var icons       = (typeof settings.toolbarIcons === "function") ? settings.toolbarIcons()
@@ -3819,7 +3879,7 @@
 
         // replaces unknown unicode characters
         html = html.replace(/\uFFFD/g, '');
-        
+
         if (typeof filters !== "string") {
             // If no filters set use "script|on*" by default to avoid XSS
             filters = "script|on*";

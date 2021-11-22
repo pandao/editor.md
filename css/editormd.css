@@ -1,13 +1,13 @@
 /*
  * Editor.md
  *
- * @file        editormd.css 
- * @version     v1.5.0 
+ * @file        editormd.css
+ * @version     v1.5.0
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2015-06-09
+ * @updateTime  2021-11-22
  */
 
 @charset "UTF-8";
@@ -98,7 +98,8 @@
   width: 100%;
   min-height: 37px;
   background: #fff;
-  display: none;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0;
   left: 0;
@@ -115,6 +116,64 @@
   -o-user-select: none;
   user-select: none;
 }
+
+.editormd-header-container {
+  width: 100%;
+  height: 57px;
+  padding: 10px 25px;
+  background-color: #2C2C2C;
+  box-shadow: 0px 0px 5px 0px #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: IBM Plex Sans;
+  font-size: 0.9rem;
+}
+
+.editormd-header-section {
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+}
+
+span.editormd-header {
+  color: #A0A6AC;
+  font-size: 0.8rem;
+}
+
+span.editormd-header-dropdown-chevron {
+  height: 15px;
+  width: 15px;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  background-color: #FFFFFF;
+  mask-image: url(../images/chevron-down.svg);
+  -webkit-mask-image: url(../images/chevron-down.svg);
+  display: inline-block;
+  vertical-align: text-top;
+}
+
+button.editormd-header-button {
+  border: none;
+  background: none;
+  color: #DDE1E6;
+  padding: 2px 10px;
+  display: flex;
+  align-items: center;
+  gap: 0 5px;
+}
+
+.editormd-header-section.right > button.editormd-header-button:last-of-type {
+  border: 2px solid #F2F4F8;
+  border-radius: 6px;
+  padding: 2px 20px;
+}
+
+
 
 .editormd-menu {
   margin: 0;
@@ -3118,8 +3177,8 @@
 .editormd-logo-7x:before,
 .editormd-logo-8x:before {
   content: "\e1987";
-  /* 
-  HTML Entity &#xe1987; 
+  /*
+  HTML Entity &#xe1987;
   example: <span class="editormd-logo">&#xe1987;</span>
   */
 }
@@ -4447,4 +4506,37 @@ hr.editormd-page-break {
 }
 .editormd-theme-dark .CodeMirror {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Skills Network */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+span.sn-logo {
+  height: 16px;
+  width: 25px;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  background-color: #FFFFFF;
+  mask-image: url(../images/IBM/skills-network-logo.svg);
+  -webkit-mask-image: url(../images/IBM/skills-network-logo.svg);
+  margin-right: 12px;
+  display: inline-block;
+  vertical-align: text-top;
+}
+
+span.home-title {
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #FFFFFF;
+  line-height: 100%;
 }
