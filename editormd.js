@@ -85,6 +85,15 @@
             "undo", "redo", "|",
             "watch", "preview", "|",
             "help", "info"
+        ],
+        SkillsNetwork : [
+            "undo", "redo", "|",
+            "bold", "del", "italic", "dropdown:heading:h1, h2, h3, h4, h5, h6", "list-ul", "list-ol", "dropdown:fontcase:ucwords, uppercase, lowercase", "quote", "|",
+            "image", "link", "table", "emoji", "q&a", "hr", "code", "code-block", "|",
+            "New Page", "|",
+            "Header", "|",
+            "dropdownIcon:Cloud IDE:openApplication, openFile, openDatabase", "||",
+            "watch", "fullscreen", "help"
         ]
     };
 
@@ -171,11 +180,11 @@
         tocContainer         : "",
         tocStartLevel        : 1,              // Said from H1 to create ToC
         htmlDecode           : false,          // Open the HTML tag identification
-        pageBreak            : true,           // Enable parse page break [========]
+        pageBreak            : false,           // Enable parse page break [========]
         atLink               : true,           // for @link
         emailLink            : true,           // for email address auto link
         taskList             : false,          // Enable Github Flavored Markdown task lists
-        emoji                : false,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
+        emoji                : true,          // :emoji: , Support Github emoji, Twitter Emoji (Twemoji);
                                                // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
                                                // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
         tex                  : false,          // TeX(LaTeX), based on KaTeX
@@ -185,7 +194,7 @@
 
         toolbar              : true,           // show/hide toolbar
         toolbarAutoFixed     : true,           // on window scroll auto fixed position
-        toolbarIcons         : "full",
+        toolbarIcons         : "SkillsNetwork",
         toolbarTitles        : {},
         toolbarHandlers      : {
             ucwords : function() {
@@ -196,8 +205,9 @@
             }
         },
         toolbarCustomIcons   : {               // using html tag create toolbar icon, unused default <a> tag.
-            lowercase        : "<a href=\"javascript:;\" title=\"Lowercase\" unselectable=\"on\"><i class=\"fa\" name=\"lowercase\" style=\"font-size:24px;margin-top: -10px;\">a</i></a>",
-            "ucwords"        : "<a href=\"javascript:;\" title=\"ucwords\" unselectable=\"on\"><i class=\"fa\" name=\"ucwords\" style=\"font-size:20px;margin-top: -3px;\">Aa</i></a>"
+            lowercase        : "<i class=\"fa\" name=\"lowercase\" style=\"font-size:24px;margin-top: -10px;\">a</i>",
+            "ucwords"        : "<i class=\"fa\" name=\"ucwords\" style=\"font-size:20px;margin-top: -3px;\">Aa</i>",
+            "fontcase"       : "<i class=\"fa\" name=\"fontcase\" unselectable=\"on\"><span class=\"icon-text\" style=\"font-size: 1rem;\">Aa</span></i>"
         },
         toolbarIconsClass    : {
             undo             : "fa-undo",
@@ -207,6 +217,7 @@
             italic           : "fa-italic",
             quote            : "fa-quote-left",
             uppercase        : "fa-font",
+            heading          : "fa-header",
             h1               : editormd.classPrefix + "bold",
             h2               : editormd.classPrefix + "bold",
             h3               : editormd.classPrefix + "bold",
@@ -237,103 +248,21 @@
             help             : "fa-question-circle",
             info             : "fa-info-circle"
         },
-        toolbarIconTexts     : {},
+        toolbarIconTexts     : {
+            "ucwords"        : "Capitalize",
+            uppercase        : "Uppercase",
+            lowercase        : "Lowercase",
+            h1               : "Heading 1",
+            h2               : "Heading 2",
+            h3               : "Heading 3",
+            h4               : "Heading 4",
+            h5               : "Heading 5",
+            h6               : "Heading 6"
+        },
 
+        // Support for other languaages (see README)
         lang : {
-            name        : "zh-cn",
-            description : "开源在线Markdown编辑器<br/>Open source online Markdown editor.",
-            tocTitle    : "目录",
-            toolbar     : {
-                undo             : "撤销（Ctrl+Z）",
-                redo             : "重做（Ctrl+Y）",
-                bold             : "粗体",
-                del              : "删除线",
-                italic           : "斜体",
-                quote            : "引用",
-                ucwords          : "将每个单词首字母转成大写",
-                uppercase        : "将所选转换成大写",
-                lowercase        : "将所选转换成小写",
-                h1               : "标题1",
-                h2               : "标题2",
-                h3               : "标题3",
-                h4               : "标题4",
-                h5               : "标题5",
-                h6               : "标题6",
-                "list-ul"        : "无序列表",
-                "list-ol"        : "有序列表",
-                hr               : "横线",
-                link             : "链接",
-                "reference-link" : "引用链接",
-                image            : "添加图片",
-                code             : "行内代码",
-                "preformatted-text" : "预格式文本 / 代码块（缩进风格）",
-                "code-block"     : "代码块（多语言风格）",
-                table            : "添加表格",
-                datetime         : "日期时间",
-                emoji            : "Emoji表情",
-                "html-entities"  : "HTML实体字符",
-                pagebreak        : "插入分页符",
-                "goto-line"      : "跳转到行",
-                watch            : "关闭实时预览",
-                unwatch          : "开启实时预览",
-                preview          : "全窗口预览HTML（按 Shift + ESC还原）",
-                fullscreen       : "全屏（按ESC还原）",
-                clear            : "清空",
-                search           : "搜索",
-                help             : "使用帮助",
-                info             : "关于" + editormd.title
-            },
-            buttons : {
-                enter  : "确定",
-                cancel : "取消",
-                close  : "关闭"
-            },
-            dialog : {
-                link : {
-                    title    : "添加链接",
-                    url      : "链接地址",
-                    urlTitle : "链接标题",
-                    urlEmpty : "错误：请填写链接地址。"
-                },
-                referenceLink : {
-                    title    : "添加引用链接",
-                    name     : "引用名称",
-                    url      : "链接地址",
-                    urlId    : "链接ID",
-                    urlTitle : "链接标题",
-                    nameEmpty: "错误：引用链接的名称不能为空。",
-                    idEmpty  : "错误：请填写引用链接的ID。",
-                    urlEmpty : "错误：请填写引用链接的URL地址。"
-                },
-                image : {
-                    title    : "添加图片",
-                    url      : "图片地址",
-                    link     : "图片链接",
-                    alt      : "图片描述",
-                    uploadButton     : "本地上传",
-                    imageURLEmpty    : "错误：图片地址不能为空。",
-                    uploadFileEmpty  : "错误：上传的图片不能为空。",
-                    formatNotAllowed : "错误：只允许上传图片文件，允许上传的图片文件格式有："
-                },
-                preformattedText : {
-                    title             : "添加预格式文本或代码块",
-                    emptyAlert        : "错误：请填写预格式文本或代码的内容。"
-                },
-                codeBlock : {
-                    title             : "添加代码块",
-                    selectLabel       : "代码语言：",
-                    selectDefaultText : "请选择代码语言",
-                    otherLanguage     : "其他语言",
-                    unselectedLanguageAlert : "错误：请选择代码所属的语言类型。",
-                    codeEmptyAlert    : "错误：请填写代码内容。"
-                },
-                htmlEntities : {
-                    title : "HTML 实体字符"
-                },
-                help : {
-                    title : "使用帮助"
-                }
-            }
+
         }
     };
 
@@ -1109,10 +1038,9 @@
         },
 
         /**
-         * 配置和初始化工具栏
          * Set toolbar and Initialization
          *
-         * @returns {editormd}  返回editormd的实例对象
+         * @returns {editormd}
          */
 
         setToolbar : function() {
@@ -1207,40 +1135,100 @@
                 }
                 else if (name === "|")
                 {
-                    menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
+                    menu += "<li class=\"divider\" unselectable=\"on\"></li>";
                 }
                 else
                 {
-                    var isHeader = (/h(\d)/.test(name));
-                    var index    = name;
+                    var isDropdown = name.includes("dropdown");
 
-                    if (name === "watch" && !settings.watch) {
-                        index = "unwatch";
+                    // add classes for menu item
+                    var menuClasses = []
+                    if (pullRight) {
+                        menuClasses.push("pull-right");
+                    }
+                    if (isDropdown) {
+                        menuClasses.push("dropdown");
                     }
 
-                    var title     = settings.lang.toolbar[index];
-                    var iconTexts = settings.toolbarIconTexts[index];
-                    var iconClass = settings.toolbarIconsClass[index];
+                    // stores HTML for current menu item; add opening tag
+                    var menuItem = (menuClasses.length > 0) ? "<li class=\"" + menuClasses.join(" ") + "\">" : "<li>";
 
-                    title     = (typeof title     === "undefined") ? "" : title;
-                    iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
-                    iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
+                    // list of icons in menu item (usually just one unless dropdown)
+                    let selections = []
 
-                    var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
-
-                    if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function")
-                    {
-                        menuItem += settings.toolbarCustomIcons[name];
+                    if (isDropdown) {
+                        let info = name.split(":");
+                        var dropdownType = info[0]; // "dropdown", "dropdownIcon"
+                        name = info[1]; // set name to actual parsed name from info
+                        let dropdownContent = info[2].split(",");
+                        selections = [name].concat(dropdownContent);
+                        // set isDropdown to false if no dropdown content
+                        if (!dropdownContent.length) {
+                            isDropdown = false;
+                        }
+                    } else {
+                        selections.push(name)
                     }
-                    else
-                    {
-                        menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
-                        menuItem += "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name.toUpperCase() : ( (iconClass === "") ? iconTexts : "") ) + "</i>";
+
+                    for (let j = 0, len = selections.length; j < len; j++) {
+                        name = selections[j].trim();
+
+                        // insert dropdown opening tag
+                        if (isDropdown && j === 1) {
+                            menuItem += "<div class=\"toolbar-dropdown-content\">";
+                        }
+
+                        // default "dropdown" has no icons in content, use "dropdownIcon" for icon+text options
+                        let hasIcon = !(isDropdown && dropdownType !== "dropdownIcon" && menuItem.includes("toolbar-dropdown-content"));
+                        let isHeader = (/h(\d)/.test(name));
+                        let index    = name;
+
+                        if (name === "watch" && !settings.watch) {
+                            index = "unwatch";
+                        }
+
+                        let title     = settings.lang.toolbar[index]; // hover text
+                        let iconTexts = settings.toolbarIconTexts[index]; // placeholder text if icon is empty
+                        let iconClass = settings.toolbarIconsClass[index]; // font awesome icon class
+
+                        title     = (typeof title     === "undefined" || isDropdown) ? "" : title;
+                        iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
+                        iconClass = (typeof iconClass === "undefined" || !hasIcon) ? "" : iconClass;
+
+
+                        menuItem += "<a href=\"javascript:;\"" + "title=\"" + title + "\" unselectable=\"on\">";
+
+                        // add custom icon
+                        if (hasIcon && typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function")
+                        {
+                            menuItem += settings.toolbarCustomIcons[name];
+                        }
+                        // add icon content
+                        else
+                        {
+                            menuItem += "<i class=\"fa " + iconClass + "\" name=\"" + name + "\" unselectable=\"on\">";
+
+                            if (settings.toolbarIcons !== "SkillsNetwork" && isHeader) {
+                                menuItem += "<span class=\"icon-text\">" + name.toUpperCase() + "</span>";
+                            } else if (iconClass === "" || !hasIcon || dropdownType && dropdownType === "dropdownIcon") {
+                                menuItem += "<span class=\"icon-text\">" + (iconTexts ? iconTexts : name) + "</span>";
+                            }
+
+                            menuItem += "</i>";
+                        }
+
                         menuItem += "</a>";
+
+
+                        // insert dropdown closing tag
+                        if (isDropdown && j === len - 1 && menuItem.includes("toolbar-dropdown-content")) {
+                            menuItem += "</div>";
+                            dropdownType = "";
+                        }
                     }
 
+                    // add closing tag and append to toolbar
                     menuItem += "</li>";
-
                     menu = pullRight ? menuItem + menu : menu + menuItem;
                 }
             }

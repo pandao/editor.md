@@ -5,8 +5,8 @@
             description : "Open source online Markdown editor.",
             tocTitle    : "Table of Contents",
             toolbar : {
-                undo             : "Undo(Ctrl+Z)",
-                redo             : "Redo(Ctrl+Y)",
+                undo             : "Undo",
+                redo             : "Redo",
                 bold             : "Bold",
                 del              : "Strikethrough",
                 italic           : "Italic",
@@ -76,12 +76,12 @@
                     formatNotAllowed : "Error: only allows to upload pictures file, upload allowed image file format:"
                 },
                 preformattedText : {
-                    title             : "Preformatted text / Codes", 
+                    title             : "Preformatted text / Codes",
                     emptyAlert        : "Error: Please fill in the Preformatted text or content of the codes.",
                     placeholder       : "coding now...."
                 },
                 codeBlock : {
-                    title             : "Code block",         
+                    title             : "Code block",
                     selectLabel       : "Languages: ",
                     selectDefaultText : "select a code language...",
                     otherLanguage     : "Other languages",
@@ -97,13 +97,13 @@
                 }
             }
         };
-        
+
         exports.defaults.lang = lang;
     };
-    
+
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
 	else if (typeof define === "function")  // AMD/CMD/Sea.js
@@ -120,10 +120,10 @@
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);
 	}
-    
+
 })();

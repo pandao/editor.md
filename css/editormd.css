@@ -105,10 +105,11 @@
   left: 0;
   z-index: 10;
   border-bottom: 1px solid #ddd;
+  font-family: IBM Plex Sans;
 }
 
 .editormd-toolbar-container {
-  padding: 0 8px;
+  padding: 6px 10px;
   min-height: 35px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -126,7 +127,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: IBM Plex Sans;
   font-size: 0.9rem;
 }
 
@@ -190,9 +190,13 @@ button.editormd-header-button {
   display: inline-block;
   text-indent: -9999px;
   margin: 0 5px;
-  height: 65%;
-  border-right: 1px solid #ddd;
+  height: 20px;
+  width: 1px;
+  background: #ddd;
+  vertical-align: middle;
+  padding: 0;
 }
+
 .editormd-menu > li > a {
   outline: 0;
   color: #666;
@@ -223,6 +227,14 @@ button.editormd-header-button {
   display: block;
   padding: 5px;
 }
+
+.editormd-menu > li i.fa > span.icon-text {
+  font-family: IBM Plex Sans;
+  font-size: 0.9rem;
+  color: #DDE1E6;
+  font-weight: 500;
+}
+
 .editormd-menu > li > a > .editormd-bold {
   padding: 5px 2px;
   display: inline-block;
@@ -234,6 +246,7 @@ button.editormd-header-button {
 .editormd-menu > li + li > a {
   margin-left: 3px;
 }
+
 
 .editormd-dropdown-menu {
   display: none;
@@ -4502,7 +4515,7 @@ hr.editormd-page-break {
   background: #333;
 }
 .editormd-theme-dark .editormd-menu > li.divider {
-  border-right: 1px solid #111;
+  background: #697077;
 }
 .editormd-theme-dark .CodeMirror {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -4513,6 +4526,20 @@ hr.editormd-page-break {
   font-family: 'IBM Plex Sans';
   src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf') format("truetype");
   font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf') format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf') format("truetype");
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -4539,4 +4566,30 @@ span.home-title {
   white-space: nowrap;
   color: #FFFFFF;
   line-height: 100%;
+}
+
+/* Toolbar Dropdown */
+div.toolbar-dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 11;
+  background-color: #1C1E1F;
+  min-width: 160px;
+  color: #CCCCCC8A;
+  box-shadow: 0px 6.681033611297607px 6.681033611297607px 0px #00000080;
+}
+
+.editormd-menu > li.dropdown:hover div.toolbar-dropdown-content {
+  display: block;
+}
+
+div.toolbar-dropdown-content > a {
+  color: #CCCCCC;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+div.toolbar-dropdown-content > a:hover {
+  background-color: #393939;
 }
