@@ -85,15 +85,6 @@
             "undo", "redo", "|",
             "watch", "preview", "|",
             "help", "info"
-        ],
-        SkillsNetwork : [
-            "undo", "redo", "|",
-            "bold", "del", "italic", "dropdown:heading:h1, h2, h3, h4, h5, h6", "list-ul", "list-ol", "dropdown:fontcase:ucwords, uppercase, lowercase", "quote", "|",
-            "image", "link", "table", "emoji", "q&a", "hr", "code", "code-block", "|",
-            "New Page", "|",
-            "Header", "|",
-            "dropdownIcon:Cloud IDE:openApplication, openFile, openDatabase", "||",
-            "watch", "fullscreen", "help"
         ]
     };
 
@@ -194,7 +185,7 @@
 
         toolbar              : true,           // show/hide toolbar
         toolbarAutoFixed     : true,           // on window scroll auto fixed position
-        toolbarIcons         : "SkillsNetwork",
+        toolbarIcons         : "full",
         toolbarTitles        : {},
         toolbarHandlers      : {
             ucwords : function() {
@@ -1208,9 +1199,11 @@
                         {
                             menuItem += "<i class=\"fa " + iconClass + "\" name=\"" + name + "\" unselectable=\"on\">";
 
-                            if (settings.toolbarIcons !== "SkillsNetwork" && isHeader) {
+                            if (typeof settings.toolbarIcons !== "function" && isHeader) {
                                 menuItem += "<span class=\"icon-text\">" + name.toUpperCase() + "</span>";
-                            } else if (iconClass === "" || !hasIcon || dropdownType && dropdownType === "dropdownIcon") {
+                            } else if (dropdownType && dropdownType === "dropdownIcon" && menuItem.includes("toolbar-dropdown-content")) {
+                                menuItem += "<span class=\"icon-text dropdown\">" + (iconTexts ? iconTexts : name) + "</span>";
+                            } else if (iconClass === "" || !hasIcon) {
                                 menuItem += "<span class=\"icon-text\">" + (iconTexts ? iconTexts : name) + "</span>";
                             }
 
@@ -1272,8 +1265,7 @@
         },
 
         /**
-         * 工具栏图标事件处理器
-         * Bind toolbar icons event handle
+         * Bind toolbar icons to their event handlers
          *
          * @returns {editormd}  返回editormd的实例对象
          */
@@ -1289,7 +1281,7 @@
             var toolbar             = this.toolbar;
             var cm                  = this.cm;
             var classPrefix         = this.classPrefix;
-            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");
+            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li a");
             var toolbarIconHandlers = this.getToolbarHandles();
 
             toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function() {
