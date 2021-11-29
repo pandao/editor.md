@@ -114,6 +114,7 @@
         height               : "100%",
         path                 : "./lib/",       // Dependents module file directory
         pluginPath           : "",             // If this empty, default use settings.path + "../plugins/"
+        customPluginPath     : "",
         delay                : 300,            // Delay parse markdown to html, Uint : ms
         autoLoadModules      : true,           // Automatic load dependent module files
         watch                : true,
@@ -2727,13 +2728,12 @@
          * @returns {editormd}           返回editormd的实例对象
          */
 
-        executePlugin : function(name, path) {
-
+        executePlugin : function(name, path, customPlugin = false) {
             var _this    = this;
             var cm       = this.cm;
             var settings = this.settings;
 
-            path = settings.pluginPath + path;
+            path = (customPlugin ? settings.customPluginPath : settings.pluginPath) + path;
 
             if (typeof define === "function")
             {
