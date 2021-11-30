@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js
- * @version     v1.5.0
+ * @version     v1.6.0
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
- * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2020-10-27
+ * {@link       https://github.com/ibm-skills-network/editor.md}
+ * @updateTime  2020-11-30
  */
 
 ;(function(factory) {
@@ -253,9 +253,7 @@
         },
 
         // Support for other languaages (see README)
-        lang : {
-
-        }
+        lang : {}
     };
 
     editormd.classNames  = {
@@ -1030,7 +1028,7 @@
         },
 
         /**
-         * Set toolbar and Initialization
+         * Set toolbar and initialization
          *
          * @returns {editormd}
          */
@@ -1074,7 +1072,7 @@
 
             // for each titlebar section
             Object.entries(titlebarModes).forEach(([titlebarSection, sectionButtons]) => {
-              
+
                 let sectionHtml = "";
 
                 if (titlebarSection === "left") {
@@ -1218,7 +1216,6 @@
                         }
 
                         menuItem += "</a>";
-
 
                         // insert dropdown closing tag
                         if (isDropdown && j === len - 1 && menuItem.includes("toolbar-dropdown-content")) {
