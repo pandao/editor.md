@@ -1072,15 +1072,16 @@
             // Store html for titlebar
             var titlebarContent = "";
 
+            // for each titlebar section
             Object.entries(titlebarModes).forEach(([titlebarSection, sectionButtons]) => {
-
+              
                 let sectionHtml = "";
 
                 if (titlebarSection === "left") {
                     // set logo and Author IDE title
                     sectionHtml = "<span class=\"sn-logo\"></span><span class=\"home-title\">Skills Network Author IDE</span>";
                 } else {
-                    // add appropriate HTML for each type of item
+                    // for each item in the section, add HTML to sectionHTML
                     for (let name in sectionButtons) {
                         let htmlSafeName = name.replace(/\s+/g, '-').toLowerCase();
                         switch (sectionButtons[name]) {
@@ -1104,7 +1105,7 @@
                     }
                 }
 
-                // add generated html for each section
+                // add generated html for the section to the titlebar
                 titlebarContent += "<div class=\"" + classPrefix + "titlebar-section " + titlebarSection + "\">" + sectionHtml + "</div>";
 
             });
