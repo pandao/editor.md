@@ -88,7 +88,7 @@
         ]
     };
 
-    editormd.headerModes = {
+    editormd.titlebarModes = {
         left: {},
         center: {
             "file name": "dropdown",
@@ -1044,14 +1044,14 @@
 
             var editor      = this.editor;
             var classPrefix = this.classPrefix; // this.classPrefix = "editormd-"
-            var headerModes = editormd.headerModes;
+            var titlebarModes = editormd.titlebarModes;
 
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
 
             if (settings.toolbar && toolbar.length < 1)
             {
                 var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\">\
-                        <div class=\"" + classPrefix + "header-container\">\
+                        <div class=\"" + classPrefix + "titlebar-container\">\
                         </div>\
                         <div class=\"" + classPrefix + "toolbar-container\">\
                             <ul class=\"" + classPrefix + "menu\"></ul>\
@@ -1069,14 +1069,14 @@
                 return this;
             }
 
-            // Store html for header
-            var headerContent = "";
+            // Store html for titlebar
+            var titlebarContent = "";
 
-            Object.entries(headerModes).forEach(([headerSection, sectionButtons]) => {
+            Object.entries(titlebarModes).forEach(([titlebarSection, sectionButtons]) => {
 
                 let sectionHtml = "";
 
-                if (headerSection === "left") {
+                if (titlebarSection === "left") {
                     // set logo and Author IDE title
                     sectionHtml = "<span class=\"sn-logo\"></span><span class=\"home-title\">Skills Network Author IDE</span>";
                 } else {
@@ -1085,27 +1085,32 @@
                         let htmlSafeName = name.replace(/\s+/g, '-').toLowerCase();
                         switch (sectionButtons[name]) {
                             case "dropdown":
-                                sectionHtml += "<button class=\"" + classPrefix + "header-button " + htmlSafeName + "\">" +
-                                    name + "<span class=\"" + classPrefix + "header-dropdown-chevron\"></span></button>";
+                                sectionHtml += "<div class=\"" + classPrefix + "titlebar-dropdown\"> \
+                                        <button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\"> \
+                                            <span class=\"dropdown-text\">" + name + "</span> \
+                                            <span class=\"" + classPrefix + "titlebar-dropdown-chevron\"></span> \
+                                        </button> \
+                                        <div class=\"toolbar-dropdown-content\"></div> \
+                                    </div>";
                                 break;
                             case "button":
-                                sectionHtml += "<button class=\"" + classPrefix + "header-button " + htmlSafeName + "\">"
+                                sectionHtml += "<button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\">"
                                     + name + "</button>";
                                 break;
                             default:
-                                sectionHtml += "<span class=\"" + classPrefix + "header " + htmlSafeName + "\">"
+                                sectionHtml += "<span class=\"" + classPrefix + "titlebar " + htmlSafeName + "\">"
                                     + name + "</span>";
                         }
                     }
                 }
 
                 // add generated html for each section
-                headerContent += "<div class=\"" + classPrefix + "header-section " + headerSection + "\">" + sectionHtml + "</div>";
+                titlebarContent += "<div class=\"" + classPrefix + "titlebar-section " + titlebarSection + "\">" + sectionHtml + "</div>";
 
             });
 
-            // Set html for header
-            toolbar.find("div." + classPrefix + "header-container").html(headerContent);
+            // Set html for titlebar
+            toolbar.find("div." + classPrefix + "titlebar-container").html(titlebarContent);
 
 
             // Set toolbar icons
