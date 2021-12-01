@@ -9,6 +9,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  # Allows you to use the GitHub API to trigger a webhook event 
+  repository_dispatch:
+
 jobs:
   mirror:
     uses: ibm-skills-network/.github/.github/workflows/mirror-github-ibm.yml@main
