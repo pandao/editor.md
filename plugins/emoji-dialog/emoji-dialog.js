@@ -4,7 +4,7 @@
  * @file        emoji-dialog.js
  * @author      pandao
  * @version     1.2.0
- * @updateTime  2015-03-08
+ * @updateTime  2021-12-02
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -69,13 +69,13 @@
 			var _this       = this;
 			var cm          = this.cm;
 			var settings    = _this.settings;
-            
+
             if (!settings.emoji)
             {
                 alert("settings.emoji == false");
                 return ;
             }
-            
+
 			var path        = settings.pluginPath + pluginName + "/";
 			var editor      = this.editor;
 			var cursor      = cm.getCursor();
@@ -88,16 +88,16 @@
 			var lang        = this.lang;
 			var dialogName  = classPrefix + pluginName, dialog;
 			var dialogLang  = lang.dialog.emoji;
-			
+
 			var dialogContent = [
-				"<div class=\"" + classPrefix + "emoji-dialog-box\" style=\"width: 760px;height: 334px;margin-bottom: 8px;overflow: hidden;\">",
+				"<div class=\"" + classPrefix + "emoji-dialog-box\" style=\"width: 760px;margin-bottom: 8px;overflow: hidden;\">",
 				"<div class=\"" + classPrefix + "tab\"></div>",
 				"</div>",
 			].join("\n");
 
 			cm.focus();
 
-			if (editor.find("." + dialogName).length > 0) 
+			if (editor.find("." + dialogName).length > 0)
 			{
                 dialog = editor.find("." + dialogName);
 
@@ -107,7 +107,7 @@
 				this.dialogShowMask(dialog);
 				this.dialogLockScreen();
 				dialog.show();
-			} 
+			}
 			else
 			{
 				dialog = this.createDialog({
@@ -124,25 +124,25 @@
 						backgroundColor : settings.dialogMaskBgColor
 					},
 					buttons    : {
-						enter  : [lang.buttons.enter, function() {							
+						enter  : [lang.buttons.enter, function() {
 							cm.replaceSelection(selecteds.join(" "));
 							this.hide().lockScreen(false).hideMask();
-							
+
 							return false;
 						}],
-						cancel : [lang.buttons.cancel, function() {                           
+						cancel : [lang.buttons.cancel, function() {
 							this.hide().lockScreen(false).hideMask();
-							
+
 							return false;
 						}]
 					}
 				});
 			}
-			
+
 			var category = ["Github emoji", "Twemoji", "Font awesome", "Editor.md logo"];
 			var tab      = dialog.find("." + classPrefix + "tab");
 
-			if (tab.html() === "") 
+			if (tab.html() === "")
 			{
 				var head = "<ul class=\"" + classPrefix + "tab-head\">";
 
@@ -157,7 +157,7 @@
 
 				var container = "<div class=\"" + classPrefix + "tab-container\">";
 
-				for (var x = 0; x < 4; x++) 
+				for (var x = 0; x < 4; x++)
                 {
 					var display = (x === 0) ? "" : "display:none;";
 					container += "<div class=\"" + classPrefix + "tab-box\" style=\"height: 260px;overflow: hidden;overflow-y: auto;" + display + "\"></div>";
@@ -165,9 +165,9 @@
 
 				container += "</div>";
 
-				tab.append(container);  
+				tab.append(container);
 			}
-            
+
 			var tabBoxs = tab.find("." + classPrefix + "tab-box");
             var emojiCategories = ["github-emoji", "twemoji", "font-awesome", logoPrefix];
 
@@ -180,7 +180,7 @@
                     //console.log("break =>", cname);
                     return ;
                 }
-                
+
                 var pagination = function(data, type) {
                     var rowNumber = (type === "editormd-logo") ? "5" : 20;
                     var pageTotal = Math.ceil(data.length / rowNumber);
@@ -193,17 +193,17 @@
                         for (var x = 0; x < rowNumber; x++)
                         {
                             var emoji = $.trim(data[(i * rowNumber) + x]);
-                            
+
                             if (typeof emoji !== "undefined" && emoji !== "")
                             {
                                 var img = "", icon = "";
-                                
+
                                 if (type === "github-emoji")
                                 {
                                     var src = (emoji === "+1") ? "plus1" : emoji;
                                     src     = (src === "black_large_square") ? "black_square" : src;
                                     src     = (src === "moon") ? "waxing_gibbous_moon" : src;
-                                    
+
                                     src     = exports.emoji.path + src + exports.emoji.ext;
                                     img     = "<img src=\"" + src + "\" width=\"24\" class=\"emoji\" title=\"&#58;" + emoji + "&#58;\" alt=\"&#58;" + emoji + "&#58;\" />";
                                     row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + img + "</a>";
@@ -227,7 +227,7 @@
                             }
                             else
                             {
-                                row += "<a href=\"javascript:;\" value=\"\"></a>";                        
+                                row += "<a href=\"javascript:;\" value=\"\"></a>";
                             }
                         }
 
@@ -237,10 +237,10 @@
                     }
 
                     table += "</div>";
-                    
+
                     return table;
                 };
-                
+
                 if (emojiTabIndex === 0)
                 {
                     for (var i = 0, len = $data.length; i < len; i++)
@@ -258,15 +258,15 @@
 				$tab.find("." + classPrefix + "emoji-btn").bind(exports.mouseOrTouch("click", "touchend"), function() {
 					$(this).toggleClass("selected");
 
-					if ($(this).hasClass("selected")) 
+					if ($(this).hasClass("selected"))
 					{
 						selecteds.push($(this).attr("value"));
 					}
 				});
 			};
-			
-			if (emojiData.length < 1) 
-			{            
+
+			if (emojiData.length < 1)
+			{
 				if (typeof dialog.loading === "function") {
                     dialog.loading(true);
                 }
@@ -281,8 +281,8 @@
                     emojiData[logoPrefix] = logos;
 					drawTable();
 				});
-			} 
-			else 
+			}
+			else
 			{
 				drawTable();
 			}
@@ -298,10 +298,10 @@
 		};
 
 	};
-    
+
 	// CommonJS/Node.js
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
 	else if (typeof define === "function")  // AMD/CMD/Sea.js
@@ -318,7 +318,7 @@
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);
