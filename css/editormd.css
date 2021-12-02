@@ -400,8 +400,8 @@ button.editormd-titlebar-button {
   mask-size: 100% 100%;
   -webkit-mask-size: 100% 100%;
   background-color: #8D8D8D;
-  mask-image: url(../images/close_small.svg);
-  -webkit-mask-image: url(../images/close_small.svg);
+  mask-image: url(../images/close-small.svg);
+  -webkit-mask-image: url(../images/close-small.svg);
   vertical-align: text-top;
 }
 
