@@ -4337,7 +4337,7 @@
         var defaults = {
             name : "",
             width : 420,
-            height: 240,
+            height: "auto",
             title : "",
             drag  : true,
             closed : true,
@@ -4366,7 +4366,7 @@
         if (options.title !== "")
         {
             html += "<div class=\"" + classPrefix + "dialog-header\"" + ( (options.drag) ? " style=\"cursor: move;\"" : "" ) + ">";
-            html += "<strong class=\"" + classPrefix + "dialog-title\">" + options.title + "</strong>";
+            html += "<span class=\"" + classPrefix + "dialog-title\">" + options.title + "</span>";
             html += "</div>";
         }
 
