@@ -4,7 +4,7 @@
  * @file        emoji-dialog.js
  * @author      pandao
  * @version     1.2.0
- * @updateTime  2015-03-08
+ * @updateTime  2021-12-02
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */

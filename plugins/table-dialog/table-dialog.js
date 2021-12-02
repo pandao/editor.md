@@ -4,7 +4,7 @@
  * @file        table-dialog.js
  * @author      pandao
  * @version     1.2.1
- * @updateTime  2015-06-09
+ * @updateTime  2021-12-02
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
