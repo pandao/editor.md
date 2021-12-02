@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js
- * @version     v1.6.0
+ * @version     v1.6.1
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/ibm-skills-network/editor.md}
- * @updateTime  2020-11-30
+ * @updateTime  2021-12-02
  */
 
 ;(function(factory) {
@@ -92,7 +92,7 @@
         left: {},
         center: {
             "file name": "dropdown",
-            "Unsaved Changes": "text"
+            "Status Text": "text"
         },
         right: {
             "Save": "button",

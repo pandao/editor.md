@@ -136,6 +136,7 @@
   display: flex;
   align-items: center;
   gap: 0 10px;
+  position: relative;
 }
 
 span.editormd-titlebar {
@@ -399,8 +400,8 @@ button.editormd-titlebar-button {
   mask-size: 100% 100%;
   -webkit-mask-size: 100% 100%;
   background-color: #8D8D8D;
-  mask-image: url(../images/close-small.svg);
-  -webkit-mask-image: url(../images/close-small.svg);
+  mask-image: url(../images/close_small.svg);
+  -webkit-mask-image: url(../images/close_small.svg);
   vertical-align: text-top;
 }
 
@@ -4782,6 +4783,13 @@ span.home-title {
   white-space: nowrap;
   color: #FFFFFF;
   line-height: 100%;
+}
+
+.editormd-titlebar-section .status-text {
+  position: absolute;
+  left: 100%;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 /* Toolbar Dropdown */
