@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.5.0";
+    editormd.version      = "1.6.0";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -1347,7 +1347,7 @@
 
         createInfoDialog : function() {
             var _this        = this;
-			var editor       = this.editor;
+			      var editor       = this.editor;
             var classPrefix  = this.classPrefix;
 
             var infoDialogHTML = [
@@ -4367,12 +4367,11 @@
         {
             html += "<div class=\"" + classPrefix + "dialog-header\"" + ( (options.drag) ? " style=\"cursor: move;\"" : "" ) + ">";
             html += "<span class=\"" + classPrefix + "dialog-title\">" + options.title + "</span>";
+            if (options.closed)
+            {
+                html += "<a href=\"javascript:;\" class=\"" + classPrefix + "dialog-close\"></a>";
+            }
             html += "</div>";
-        }
-
-        if (options.closed)
-        {
-            html += "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "dialog-close\"></a>";
         }
 
         html += "<div class=\"" + classPrefix + "dialog-container\">" + options.content;
@@ -4446,7 +4445,7 @@
 
         $(window).resize(dialogPosition);
 
-        dialog.children("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
+        dialog.find("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
             dialog.hide().lockScreen(false).hideMask();
         });
 
