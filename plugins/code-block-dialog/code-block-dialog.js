@@ -83,7 +83,7 @@
             else
             {
                 var dialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
-                                        dialogLang.selectLabel + "<select style=\"margin-left: 8px;\"><option selected=\"selected\" value=\"\">" + dialogLang.selectDefaultText + "</option></select>" +
+                                        dialogLang.selectLabel + "<select class=\"select_language\" style=\"margin-left: 8px;\"><option selected=\"selected\" value=\"\">" + dialogLang.selectDefaultText + "</option></select>" +
                                     "</div>" +
                                     "<textarea placeholder=\"" + dialogLang.placeholder + "\" style=\"display:none;\">" + selection + "</textarea>" +
                                     "<div class='dialog-warning'><span class='warning-sign'></span>Execute code feature only available for Shell and Bash</div>";
