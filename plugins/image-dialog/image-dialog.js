@@ -53,8 +53,9 @@
                                             return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
                                                                                 "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
                                                                                 "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
-                                                                            "</div>" : "</div>";
+                                                                            "</div>" : "";
                                         })() +
+                                        "</div>" +
                                         "<br/>" +
                                         "<label>" + imageLang.alt + "</label>" +
                                         "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
