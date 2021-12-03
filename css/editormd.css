@@ -4730,6 +4730,10 @@ hr.editormd-page-break {
   background-position-y: 9px;
 }
 
+.editormd-theme-dark .editormd-dialog-container .markdown-body {
+  color: #F4F4F4;
+  border: none;
+}
 
 /* Skills Network */
 @font-face {
@@ -4790,6 +4794,29 @@ span.home-title {
   left: 100%;
   white-space: nowrap;
   margin-left: 10px;
+}
+
+.editormd-dialog-container .dialog-warning {
+  display: flex;
+  gap: 0 12px;
+  color: #8D8D8D;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.editormd-dialog-container .dialog-warning > span.warning-sign {
+  height: 15px;
+  width: 15px;
+  background: #8D8D8D;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-image: url(../images/warning.svg);
+  -webkit-mask-image: url(../images/warning.svg);
+  display: inline-block;
 }
 
 /* Toolbar Dropdown */

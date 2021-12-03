@@ -4,7 +4,7 @@
  * @file        code-block-dialog.js
  * @author      pandao
  * @version     1.2.0
- * @updateTime  2021-12-02
+ * @updateTime  2021-12-03
  * {@link       https://github.com/pandao/editor.md}
  * @license     MIT
  */
@@ -65,8 +65,8 @@
             var cursor      = cm.getCursor();
             var selection   = cm.getSelection();
             var classPrefix = this.classPrefix;
-			var dialogName  = classPrefix + pluginName, dialog;
-			var dialogLang  = lang.dialog.codeBlock;
+            var dialogName  = classPrefix + pluginName, dialog;
+            var dialogLang  = lang.dialog.codeBlock;
 
 			cm.focus();
 
@@ -85,7 +85,8 @@
                 var dialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
                                         dialogLang.selectLabel + "<select style=\"margin-left: 8px;\"><option selected=\"selected\" value=\"\">" + dialogLang.selectDefaultText + "</option></select>" +
                                     "</div>" +
-                                    "<textarea placeholder=\"" + dialogLang.placeholder + "\" style=\"display:none;\">" + selection + "</textarea>";
+                                    "<textarea placeholder=\"" + dialogLang.placeholder + "\" style=\"display:none;\">" + selection + "</textarea>" +
+                                    "<div class='dialog-warning'><span class='warning-sign'></span>Execute code feature only available for Shell and Bash</div>";
 
                 dialog = this.createDialog({
                     name   : dialogName,
