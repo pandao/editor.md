@@ -4395,9 +4395,6 @@ hr.editormd-page-break {
   color: #888;
   background-color: #2C2827;
 }
-.editormd-preview-theme-dark .editormd-preview-container pre.prettyprint {
-  border: none;
-}
 .editormd-preview-theme-dark .editormd-preview-container blockquote {
   color: #555;
   padding: 0.5em;
