@@ -356,7 +356,7 @@
                 markdownTextarea.val(settings.markdown);
             }
 
-            if (settings.appendMarkdown !== undefined)
+            if (settings.appendMarkdown !== "")
             {
                 markdownTextarea.val(markdownTextarea.val() + settings.appendMarkdown);
             }
@@ -4031,7 +4031,7 @@
             saveTo        = div.find("textarea");
         }
 
-        var markdownDoc   = (settings.markdown === "") ? saveTo.val() : settings.markdown;
+        var markdownDoc   = (settings.markdown === undefined) ? saveTo.val() : settings.markdown;
         var markdownToC   = [];
 
         var rendererOptions = {
