@@ -47,7 +47,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.4";
+    editormd.version      = "1.6.5";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -96,7 +96,7 @@
         theme                : "",             // Editor.md self themes, before v1.5.0 is CodeMirror theme, default empty
         editorTheme          : "default",      // Editor area, this is CodeMirror theme at v1.5.0
         previewTheme         : "",             // Preview area theme, default empty
-        markdown             : "",             // Markdown source code
+        markdown             : undefined,             // Markdown source code
         appendMarkdown       : "",             // if in init textarea value not empty, append markdown to textarea
         width                : "100%",
         height               : "100%",
@@ -351,12 +351,12 @@
             this.mask          = editor.children("." + classPrefix + "mask");
             this.containerMask = editor.children("." + classPrefix  + "container-mask");
 
-            if (settings.markdown !== "")
+            if (settings.markdown !== undefined)
             {
                 markdownTextarea.val(settings.markdown);
             }
 
-            if (settings.appendMarkdown !== "")
+            if (settings.appendMarkdown !== undefined)
             {
                 markdownTextarea.val(markdownTextarea.val() + settings.appendMarkdown);
             }
