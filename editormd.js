@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/ibm-skills-network/editor.md}
- * @updateTime  2021-12-06
+ * @updateTime  2021-12-15
  */
 
 ;(function(factory) {
@@ -86,19 +86,6 @@
             "watch", "preview", "|",
             "help", "info"
         ]
-    };
-
-    editormd.titlebarModes = {
-        left: {},
-        center: {
-            "file name": "dropdown",
-            "Status Text": "text"
-        },
-        right: {
-            "Save": "button",
-            "Preview": "dropdown",
-            "Publish": "button",
-        }
     };
 
     editormd.defaults     = {
@@ -186,6 +173,11 @@
 
         toolbar              : true,           // show/hide toolbar
         toolbarAutoFixed     : true,           // on window scroll auto fixed position
+        titlebar             : {
+            left: {},
+            center: {},
+            right: {}
+        },
         toolbarIcons         : "full",
         toolbarTitles        : {},
         toolbarHandlers      : {
@@ -1040,9 +1032,9 @@
                 return this;
             }
 
-            var editor      = this.editor;
-            var classPrefix = this.classPrefix; // this.classPrefix = "editormd-"
-            var titlebarModes = editormd.titlebarModes;
+            var editor        = this.editor;
+            var classPrefix   = this.classPrefix; // this.classPrefix = "editormd-"
+            var titlebarModes = (typeof settings.titlebar === "function") ? settings.titlebar() : settings.titlebar;
 
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
 
@@ -1082,10 +1074,12 @@
                     // for each item in the section, add HTML to sectionHTML
                     for (let name in sectionButtons) {
                         let htmlSafeName = name.replace(/\s+/g, '-').toLowerCase();
+                        let hoverTitle = (typeof settings.lang.titlebar[name] === "string") ? settings.lang.titlebar[name] : "";
+
                         switch (sectionButtons[name]) {
                             case "dropdown":
                                 sectionHtml += "<div class=\"" + classPrefix + "titlebar-dropdown\"> \
-                                        <button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\"> \
+                                        <button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\" title=\"" + hoverTitle + "\"> \
                                             <span class=\"dropdown-text\">" + name + "</span> \
                                             <span class=\"" + classPrefix + "titlebar-dropdown-chevron\"></span> \
                                         </button> \
@@ -1093,13 +1087,13 @@
                                     </div>";
                                 break;
                             case "button":
-                                sectionHtml += "<button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\">"
+                                sectionHtml += "<button class=\"" + classPrefix + "titlebar-button " + htmlSafeName + "\" title=\"" + hoverTitle + "\">"
                                     + name + "</button>";
                                 break;
                             default:
-                                sectionHtml += "<span class=\"" + classPrefix + "titlebar " + htmlSafeName + "\">"
+                                sectionHtml += "<span class=\"" + classPrefix + "titlebar " + htmlSafeName + "\" title=\"" + hoverTitle + "\">"
                                     + name + "</span>";
-                        }
+                        };
                     }
                 }
 
