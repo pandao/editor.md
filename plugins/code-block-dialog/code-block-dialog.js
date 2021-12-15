@@ -92,6 +92,7 @@
                     name   : dialogName,
                     title  : dialogLang.title,
                     width  : 780,
+                    height : 551,
                     mask   : settings.dialogShowMask,
                     drag   : settings.dialogDraggable,
                     content    : dialogHTML,
@@ -189,7 +190,7 @@
           backgroundColor : "#2c2c2c",
 					fontSize  : settings.fontSize,
 					width     : "100%",
-					height    : "390px",
+					height    : "300px",
           fontFamily : "Inter",
           color: "#F4F4F4"
 				});
