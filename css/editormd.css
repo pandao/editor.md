@@ -4719,12 +4719,18 @@ hr.editormd-page-break {
   border-color: #8D8D8D;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: transparent;
+  background: #2C2C2C;
   background-image: url("../images/chevron-down.svg");
   background-size: 20px 15px;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 3px);
   background-position-y: 9px;
+}
+
+.editormd-theme-dark .editormd-dialog-container select option {
+  font-size: inherit;
+  background: #2C2C2C;
+  color: #CCC;
 }
 
 .editormd-theme-dark .editormd-dialog-container .markdown-body {
