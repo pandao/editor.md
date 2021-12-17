@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2021-11-22
+ * @updateTime  2021-12-17
  */
 
 @charset "UTF-8";
@@ -651,6 +651,7 @@ button.editormd-titlebar-button {
 }
 .editormd-form br {
   clear: both;
+  margin-bottom: 20px;
 }
 .editormd-form iframe {
   display: none;
