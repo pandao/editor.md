@@ -83,10 +83,11 @@
 				"<label>" + dialogLang.cellsLabel + "</label>",
         "<div class='form-flex'>",
 				"<span style=\"margin-right: 8px;\">" + dialogLang.rows + "</span>",
-        " <input type=\"number\" value=\"3\" class=\"number-input\" style=\"width:40px;\" max=\"100\" min=\"2\" data-rows />&nbsp;&nbsp;",
+        " <input type=\"number\" value=\"3\" class=\"number-input\" style=\"width:50px;\" max=\"100\" min=\"2\" data-rows />&nbsp;&nbsp;",
 				"<span style=\"margin: 0 8px;\">" + dialogLang.cols + "</span>",
-        " <input type=\"number\" value=\"2\" class=\"number-input\" style=\"width:40px;\" max=\"100\" min=\"1\" data-cols /><br/>",
+        " <input type=\"number\" value=\"2\" class=\"number-input\" style=\"width:50px;\" max=\"100\" min=\"1\" data-cols /><br/>",
         "</div>",
+        "<br>",
 				"<label>" + dialogLang.alignLabel + "</label>",
 				"<div class=\"fa-btns\"></div>",
 				"</div>"
