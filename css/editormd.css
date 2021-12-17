@@ -7,7 +7,7 @@
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2021-11-22
+ * @updateTime  2021-12-17
  */
 
 @charset "UTF-8";
@@ -651,6 +651,7 @@ button.editormd-titlebar-button {
 }
 .editormd-form br {
   clear: both;
+  margin-bottom: 20px;
 }
 .editormd-form iframe {
   display: none;
@@ -4719,12 +4720,18 @@ hr.editormd-page-break {
   border-color: #8D8D8D;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: transparent;
+  background: #2C2C2C;
   background-image: url("../images/chevron-down.svg");
   background-size: 20px 15px;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 3px);
   background-position-y: 9px;
+}
+
+.editormd-theme-dark .editormd-dialog-container select option {
+  font-size: inherit;
+  background: #2C2C2C;
+  color: #CCC;
 }
 
 .editormd-theme-dark .editormd-dialog-container .markdown-body {
