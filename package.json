@@ -34,7 +34,7 @@
     "gulp-minify-css": "^0.5.0",
     "gulp-notify": "^2.1.0",
     "gulp-rename": "^1.2.0",
-    "gulp-replace": "^0.5.3",
+    "gulp-replace": "^0.6.0",
     "gulp-ruby-sass": "^1.0.1",
     "gulp-uglifyjs": "^0.6.1",
     "gulp-util": "^3.0.1"
