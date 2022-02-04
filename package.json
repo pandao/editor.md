@@ -26,17 +26,17 @@
   },
   "homepage": "https://github.com/pandao/editor.md",
   "devDependencies": {
-    "dateformatter": "^0.1.0",
-    "gulp": "^3.8.11",
-    "gulp-concat": "^2.4.2",
-    "gulp-header": "^1.2.2",
-    "gulp-jshint": "^1.9.0",
-    "gulp-minify-css": "^0.5.0",
-    "gulp-notify": "^2.1.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-replace": "^0.6.0",
-    "gulp-ruby-sass": "^1.0.1",
-    "gulp-uglifyjs": "^0.6.1",
-    "gulp-util": "^3.0.1"
+    "dateformatter": "0.1.0",
+    "gulp": "4.0.2",
+    "gulp-concat": "2.6.1",
+    "gulp-header": "2.0.9",
+    "gulp-jshint": "2.1.0",
+    "gulp-minify-css": "1.2.4",
+    "gulp-notify": "4.0.0",
+    "gulp-rename": "2.0.0",
+    "gulp-replace": "0.6.1",
+    "gulp-ruby-sass": "3.0.0",
+    "gulp-uglifyjs": "0.6.2",
+    "gulp-util": "3.0.8"
   }
 }
