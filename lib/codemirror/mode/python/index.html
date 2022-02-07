@@ -8,9 +8,9 @@
 <script src="../../lib/codemirror.js"></script>
 <script src="../../addon/edit/matchbrackets.js"></script>
 <script src="python.js"></script>
-<style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
 <div id=nav>
-  <a href="http://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png"></a>
+  <a href="https://codemirror.net"><h1>CodeMirror</h1><img id=logo src="../../doc/logo.png" alt=""></a>
 
   <ul>
     <li><a href="../../index.html">Home</a>
@@ -126,6 +126,15 @@ class ExampleClass(ParentClass):
     def __init__(self, mixin = 'Hello'):
         self.mixin = mixin
 
+# Python 3.6 f-strings (https://www.python.org/dev/peps/pep-0498/)
+f'My name is {name}, my age next year is {age+1}, my anniversary is {anniversary:%A, %B %d, %Y}.'
+f'He said his name is {name!r}.'
+f"""He said his name is {name!r}."""
+f'{"quoted string"}'
+f'{{ {4*10} }}'
+f'This is an error }'
+f'This is ok }}'
+fr'x={4*10}\n'
 </textarea></div>
 
 
@@ -176,7 +185,7 @@ def pairwise_cython(double[:, ::1] X):
     </script>
     <h2>Configuration Options for Python mode:</h2>
     <ul>
-      <li>version - 2/3 - The version of Python to recognize.  Default is 2.</li>
+      <li>version - 2/3 - The version of Python to recognize.  Default is 3.</li>
       <li>singleLineStringErrors - true/false - If you have a single-line string that is not terminated at the end of the line, this will show subsequent lines as errors if true, otherwise it will consider the newline as the end of the string. Default is false.</li>
       <li>hangingIndent - int - If you want to write long arguments to a function starting on a new line, how much that line should be indented. Defaults to one normal indentation unit.</li>
     </ul>
@@ -186,7 +195,7 @@ def pairwise_cython(double[:, ::1] X):
       <li>singleOperators - RegEx - Regular Expression for single operator matching,  default : <pre>^[\\+\\-\\*/%&amp;|\\^~&lt;&gt;!]</pre> including <pre>@</pre> on Python 3</li>
       <li>singleDelimiters - RegEx - Regular Expression for single delimiter matching, default :  <pre>^[\\(\\)\\[\\]\\{\\}@,:`=;\\.]</pre></li>
       <li>doubleOperators - RegEx - Regular Expression for double operators matching, default : <pre>^((==)|(!=)|(&lt;=)|(&gt;=)|(&lt;&gt;)|(&lt;&lt;)|(&gt;&gt;)|(//)|(\\*\\*))</pre></li>
-      <li>doubleDelimiters - RegEx - Regular Expressoin for double delimiters matching, default : <pre>^((\\+=)|(\\-=)|(\\*=)|(%=)|(/=)|(&amp;=)|(\\|=)|(\\^=))</pre></li>
+      <li>doubleDelimiters - RegEx - Regular Expression for double delimiters matching, default : <pre>^((\\+=)|(\\-=)|(\\*=)|(%=)|(/=)|(&amp;=)|(\\|=)|(\\^=))</pre></li>
       <li>tripleDelimiters - RegEx - Regular Expression for triple delimiters matching, default : <pre>^((//=)|(&gt;&gt;=)|(&lt;&lt;=)|(\\*\\*=))</pre></li>
       <li>identifiers - RegEx - Regular Expression for identifier, default : <pre>^[_A-Za-z][_A-Za-z0-9]*</pre> on Python 2 and <pre>^[_A-Za-z\u00A1-\uFFFF][_A-Za-z0-9\u00A1-\uFFFF]*</pre> on Python 3.</li>
       <li>extra_keywords - list of string - List of extra words ton consider as keywords</li>
