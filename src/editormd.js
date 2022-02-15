@@ -47,7 +47,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.8";
+    editormd.version      = "1.6.10";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -3540,7 +3540,7 @@
                 }
             }
 
-            var out = "<a href=\"" + href + "\"";
+            var out = "<a href=\"" + href + "\" target=\"_blank\" rel=\"noopener noreferrer\"";
 
             if (atLinkReg.test(title) || atLinkReg.test(text))
             {
