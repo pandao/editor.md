@@ -1,6 +1,6 @@
 {
   "name": "@ibm-skills-network/editor.md",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "Open source online markdown editor.",
   "directories": {
     "doc": "docs",
@@ -35,8 +35,9 @@
     "gulp-notify": "4.0.0",
     "gulp-rename": "2.0.0",
     "gulp-replace": "0.6.1",
-    "gulp-ruby-sass": "3.0.0",
     "gulp-uglifyjs": "0.6.2",
-    "gulp-util": "3.0.8"
+    "gulp-ruby-sass":"4.0.0",
+    "gulp-util": "3.0.8",
+    "lodash": "^4.17.21"
   }
 }

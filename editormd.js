@@ -1,12 +1,12 @@
 /*
  * Editor.md
  *
- * @file        editormd.js
- * @version     v1.6.8
+ * @file        editormd.js 
+ * @version     v1.6.9 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
- * {@link       https://github.com/ibm-skills-network/editor.md}
+ * {@link       https://github.com/pandao/editor.md}
  * @updateTime  2022-02-14
  */
 
