@@ -24,7 +24,6 @@
                 "list-ol"        : "Ordered list",
                 hr               : "Horizontal line",
                 link             : "Link",
-                "reference-link" : "Reference link",
                 image            : "Image",
                 code             : "Inline code",
                 "preformatted-text" : "Preformatted text / Code block (Tab indent)",
