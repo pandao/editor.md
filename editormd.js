@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js
- * @version     v1.6.7
+ * @version     v1.6.8
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/ibm-skills-network/editor.md}
- * @updateTime  2021-12-17
+ * @updateTime  2022-02-14
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.7";
+    editormd.version      = "1.6.8";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -69,7 +69,7 @@
             "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
             "h1", "h2", "h3", "h4", "h5", "h6", "|",
             "list-ul", "list-ol", "hr", "|",
-            "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+            "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
             "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
             "help", "info"
         ],
@@ -212,7 +212,6 @@
             "list-ol"        : "fa-list-ol",
             hr               : "fa-minus",
             link             : "fa-link",
-            "reference-link" : "fa-anchor",
             image            : "fa-picture-o",
             code             : "fa-code",
             "preformatted-text" : "fa-file-code-o",
@@ -1307,7 +1306,7 @@
                     }
                 }
 
-                if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" &&
+                if (name !== "link" && name !== "image" && name !== "code-block" &&
                     name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info")
                 {
                     cm.focus();
@@ -3118,10 +3117,6 @@
             this.executePlugin("linkDialog", "link-dialog/link-dialog");
         },
 
-        "reference-link" : function() {
-            this.executePlugin("referenceLinkDialog", "reference-link-dialog/reference-link-dialog");
-        },
-
         pagebreak : function() {
             if (!this.settings.pageBreak)
             {
@@ -3613,7 +3608,6 @@
 
             var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
 
-            headingHTML    += "<a name=\"" + text + "\" class=\"reference-link\"></a>";
             headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
             headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkText)) : this.atLink(this.emoji(text));
             headingHTML    += "</h" + level + ">";
