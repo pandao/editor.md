@@ -804,19 +804,15 @@ button.editormd-titlebar-button {
   line-height: 1.6;
   margin-top: 35px;
 }
-.editormd .CodeMirror pre {
+.editormd .CodeMirror pre.CodeMirror-line,
+.editormd .CodeMirror pre.CodeMirror-line-like {
   font-size: 14px;
   padding: 0 12px;
 }
 .editormd .CodeMirror-linenumbers {
   padding: 0 5px;
 }
-.editormd .CodeMirror-selected {
-  background: #70B7FF;
-}
-.editormd .CodeMirror-focused .CodeMirror-selected {
-  background: #70B7FF;
-}
+
 .editormd .CodeMirror, .editormd .CodeMirror-scroll, .editormd .editormd-preview {
   -webkit-overflow-scrolling: touch;
 }

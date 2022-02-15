@@ -92,7 +92,7 @@ gulp.task("js", function() {
             .pipe(notify({ message: "editormd.js task complete" }));
 }); 
 
-gulp.task("amd", function() {
+gulp.task("amd", async function() {
     var replaceText1 = [
         'var cmModePath  = "codemirror/mode/";',
         '            var cmAddonPath = "codemirror/addon/";', 
@@ -226,14 +226,14 @@ var codeMirror = {
         "r", 
         "ruby", 
         "rst",
-        "smartymixed",
+        "smarty",
         "vb",
         "vbscript",
         "velocity",
         "xquery",
         "yaml",
         "erlang",
-        "jade",
+        "pug"
     ],
 
     addons : [
@@ -305,6 +305,35 @@ gulp.task("cm-addon", function() {
                 .pipe(gulp.dest(codeMirror.path.dist))
                 .pipe(notify({ message: "codemirror-addon.js task complete" }));
 }); 
+
+gulp.task("cm-lib-css", function() { 
+    return gulp.src('lib/codemirror/lib/codemirror.css')
+                .pipe(concat("codemirror.min.css"))
+                .pipe(gulp.dest(codeMirror.path.dist))
+                .pipe(minifycss()) //{outSourceMap: true, sourceRoot: codeMirror.path.dist}
+                .pipe(gulp.dest(codeMirror.path.dist))	
+                .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
+                    var name = file.path.split(file.base + "\\");
+                    return (name[1]?name[1]:name[0]).replace(/\\/g, "");
+                }}))
+                .pipe(gulp.dest(codeMirror.path.dist))
+                .pipe(notify({ message: "codemirror-css task complete" }));
+});
+
+gulp.task("cm-lib-js", function() { 
+    return gulp.src('lib/codemirror/lib/codemirror.js')
+                .pipe(concat("codemirror.min.js"))
+                .pipe(gulp.dest(codeMirror.path.dist))
+                .pipe(uglify()) //{outSourceMap: true, sourceRoot: codeMirror.path.dist}
+                .pipe(gulp.dest(codeMirror.path.dist))	
+                .pipe(header(headerMiniComment, {pkg : pkg, fileName : function(file) {
+                    var name = file.path.split(file.base + "\\");
+                    return (name[1]?name[1]:name[0]).replace(/\\/g, "");
+                }}))
+                .pipe(gulp.dest(codeMirror.path.dist))
+                .pipe(notify({ message: "codemirror-js task complete" }));
+});
+
 /*
 gulp.task("jsdoc", function(){
     return gulp.src(["./src/editormd.js", "README.md"])
