@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.6.10 
+ * @version     v1.6.11 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-02-15
+ * @updateTime  2022-03-09
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.10";
+    editormd.version      = "1.6.11";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
