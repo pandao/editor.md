@@ -4766,7 +4766,7 @@ hr.editormd-page-break {
 
 @font-face {
   font-family: 'Consolas';
-  src: url('../fonts/Consolas-Font/CONSOLA.ttf') format("truetype");
+  src: url('../fonts/Consolas-Font/CONSOLA.TTF') format("truetype");
   font-weight: normal;
   font-style: normal;
 }
