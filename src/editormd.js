@@ -47,7 +47,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.11";
+    editormd.version      = "1.6.13";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -4270,8 +4270,8 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     // You can custom KaTeX load url.
     editormd.katexURL  = {
-        css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
+        css : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
+        js  : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
     };
 
     editormd.kaTeXLoaded = false;
