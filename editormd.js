@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.6.13 
+ * @version     v1.6.14 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-03-11
+ * @updateTime  2022-03-24
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.13";
+    editormd.version      = "1.6.14";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -1068,7 +1068,7 @@
 
                 if (titlebarSection === "left") {
                     // set logo and Author IDE title
-                    sectionHtml = "<span class=\"sn-logo\"></span><span class=\"home-title\">Skills Network Author IDE</span>";
+                    sectionHtml = "<img class=\"sn-logo\"><span class=\"home-title\">Skills Network Author IDE</span>";
                 } else {
                     // for each item in the section, add HTML to sectionHTML
                     for (let name in sectionButtons) {

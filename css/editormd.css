@@ -4771,21 +4771,11 @@ hr.editormd-page-break {
   font-style: normal;
 }
 
-span.sn-logo {
-  height: 16px;
-  width: 25px;
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-  background-color: #FFFFFF;
-  mask-image: url(../images/IBM/skills-network-logo.svg);
-  -webkit-mask-image: url(../images/IBM/skills-network-logo.svg);
-  margin-right: 12px;
-  display: inline-block;
-  vertical-align: text-top;
+img.sn-logo {
+  height: 35px;
+  margin-right: 2px;
+  width: 35px;
+  content:url(../images/IBM/SN_grayscale_darkmode_tree.svg);
 }
 
 span.home-title {
