@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.6.14 
+ * @version     v1.7.0 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-03-24
+ * @updateTime  2022-04-14
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.6.14";
+    editormd.version      = "1.7.0";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -140,6 +140,8 @@
         onwatch              : null,
         onunwatch            : null,
         onpreviewing         : function() {},
+        onCmChange           : null,
+        fixCodeBlocks        : function() {}, // run after prettyprint(function to prettify code blocks) finished
         onpreviewed          : function() {},
         onfullscreen         : function() {},
         onfullscreenExit     : function() {},
@@ -1509,7 +1511,7 @@
 
                 if (typeof prettyPrint !== "undefined")
                 {
-                    prettyPrint();
+                    prettyPrint($.proxy(settings.fixCodeBlocks,this));
                 }
             }
 
@@ -1797,14 +1799,15 @@
             // }
 
             cm.on("change", function(_cm, changeObj) {
-
+                // console.log("cmChange")
                 if (settings.watch)
                 {
                     _this.previewContainer.css("padding", settings.autoHeight ? "20px 20px 50px 40px" : "20px");
                 }
-
+                if (timer) clearTimeout(timer);
+                if (settings.onCmChange) $.proxy(settings.onCmChange, _this)();
                 timer = setTimeout(function() {
-                    clearTimeout(timer);
+                    // console.log("cmChangeinsideTimeout")
                     _this.save();
                     timer = null;
                 }, settings.delay);
@@ -1822,7 +1825,7 @@
          */
 
         loadedDisplay : function(recreate) {
-
+            // console.log("loadedDisplay")
             recreate             = recreate || false;
 
             var _this            = this;
@@ -1831,12 +1834,6 @@
             var settings         = this.settings;
 
             this.containerMask.hide();
-
-            this.save();
-
-            if (settings.watch) {
-                preview.show();
-            }
 
             editor.data("oldWidth", editor.width()).data("oldHeight", editor.height()); // 为了兼容Zepto
 
@@ -1855,6 +1852,11 @@
             }
 
             this.state.loaded = true;
+
+            if (settings.watch) {
+                this.save();
+                preview.show();
+            }
 
             return this;
         },
@@ -1901,7 +1903,7 @@
          */
 
         resize : function(width, height) {
-
+            // console.log("resize")
             width  = width  || null;
             height = height || null;
 
@@ -1974,7 +1976,6 @@
             else
             {
                 codeMirror.width(editor.width());
-                preview.hide();
             }
 
             if (state.loaded)
@@ -1993,7 +1994,7 @@
          */
 
         save : function() {
-
+            // console.log("saving")
             var _this            = this;
             var state            = this.state;
             var settings         = this.settings;
@@ -2013,116 +2014,120 @@
                 return this;
             }
 
-            var marked          = editormd.$marked;
-            var markdownToC     = this.markdownToC = [];
-            var rendererOptions = this.markedRendererOptions = {
-                toc                  : settings.toc,
-                tocm                 : settings.tocm,
-                tocStartLevel        : settings.tocStartLevel,
-                pageBreak            : settings.pageBreak,
-                taskList             : settings.taskList,
-                emoji                : settings.emoji,
-                tex                  : settings.tex,
-                atLink               : settings.atLink,           // for @link
-                emailLink            : settings.emailLink,        // for mail address auto link
-                flowChart            : settings.flowChart,
-                sequenceDiagram      : settings.sequenceDiagram,
-                previewCodeHighlight : settings.previewCodeHighlight,
-            };
-
-            var markedOptions = this.markedOptions = {
-                renderer    : editormd.markedRenderer(markdownToC, rendererOptions),
-                gfm         : true,
-                tables      : true,
-                breaks      : true,
-                pedantic    : false,
-                sanitize    : (settings.htmlDecode) ? false : true,  // 关闭忽略HTML标签，即开启识别HTML标签，默认为false
-                smartLists  : true,
-                smartypants : true
-            };
-
-            marked.setOptions(markedOptions);
-
-            var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
-
-            //console.info("cmValue", cmValue, newMarkdownDoc);
-
-            newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
-
-            //console.error("cmValue", cmValue, newMarkdownDoc);
-
-            this.markdownTextarea.text(cmValue);
-
             cm.save();
 
-            if (settings.saveHTMLToTextarea)
-            {
-                this.htmlTextarea.text(newMarkdownDoc);
-            }
+            if (settings.saveHTMLToTextarea || settings.watch || (!settings.watch && state.preview)){
+                // console.log("rendering")
+                var marked          = editormd.$marked;
+                var markdownToC     = this.markdownToC = [];
+                var rendererOptions = this.markedRendererOptions = {
+                    toc                  : settings.toc,
+                    tocm                 : settings.tocm,
+                    tocStartLevel        : settings.tocStartLevel,
+                    pageBreak            : settings.pageBreak,
+                    taskList             : settings.taskList,
+                    emoji                : settings.emoji,
+                    tex                  : settings.tex,
+                    atLink               : settings.atLink,           // for @link
+                    emailLink            : settings.emailLink,        // for mail address auto link
+                    flowChart            : settings.flowChart,
+                    sequenceDiagram      : settings.sequenceDiagram,
+                    previewCodeHighlight : settings.previewCodeHighlight,
+                };
 
-            if(settings.watch || (!settings.watch && state.preview))
-            {
-                previewContainer.html(newMarkdownDoc);
+                var markedOptions = this.markedOptions = {
+                    renderer    : editormd.markedRenderer(markdownToC, rendererOptions),
+                    gfm         : true,
+                    tables      : true,
+                    breaks      : true,
+                    pedantic    : false,
+                    sanitize    : (settings.htmlDecode) ? false : true,  // 关闭忽略HTML标签，即开启识别HTML标签，默认为false
+                    smartLists  : true,
+                    smartypants : true
+                };
 
-                this.previewCodeHighlight();
+                marked.setOptions(markedOptions);
 
-                if (settings.toc)
+                var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
+
+                //console.info("cmValue", cmValue, newMarkdownDoc);
+
+                newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
+
+                //console.error("cmValue", cmValue, newMarkdownDoc);
+
+                this.markdownTextarea.text(cmValue);
+
+
+                if (settings.saveHTMLToTextarea)
                 {
-                    var tocContainer = (settings.tocContainer === "") ? previewContainer : $(settings.tocContainer);
-                    var tocMenu      = tocContainer.find("." + this.classPrefix + "toc-menu");
-
-                    tocContainer.attr("previewContainer", (settings.tocContainer === "") ? "true" : "false");
-
-                    if (settings.tocContainer !== "" && tocMenu.length > 0)
-                    {
-                        tocMenu.remove();
-                    }
-
-                    editormd.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel);
-
-                    if (settings.tocDropdown || tocContainer.find("." + this.classPrefix + "toc-menu").length > 0)
-                    {
-                        editormd.tocDropdownMenu(tocContainer, (settings.tocTitle !== "") ? settings.tocTitle : this.lang.tocTitle);
-                    }
-
-                    if (settings.tocContainer !== "")
-                    {
-                        previewContainer.find(".markdown-toc").css("border", "none");
-                    }
+                    this.htmlTextarea.text(newMarkdownDoc);
                 }
 
-                if (settings.tex)
+                if(settings.watch || (!settings.watch && state.preview))
                 {
-                    if (!editormd.kaTeXLoaded && settings.autoLoadModules)
+                    previewContainer.html(newMarkdownDoc);
+
+                    this.previewCodeHighlight();
+
+                    if (settings.toc)
                     {
-                        editormd.loadKaTeX(function() {
+                        var tocContainer = (settings.tocContainer === "") ? previewContainer : $(settings.tocContainer);
+                        var tocMenu      = tocContainer.find("." + this.classPrefix + "toc-menu");
+
+                        tocContainer.attr("previewContainer", (settings.tocContainer === "") ? "true" : "false");
+
+                        if (settings.tocContainer !== "" && tocMenu.length > 0)
+                        {
+                            tocMenu.remove();
+                        }
+
+                        editormd.markdownToCRenderer(markdownToC, tocContainer, settings.tocDropdown, settings.tocStartLevel);
+
+                        if (settings.tocDropdown || tocContainer.find("." + this.classPrefix + "toc-menu").length > 0)
+                        {
+                            editormd.tocDropdownMenu(tocContainer, (settings.tocTitle !== "") ? settings.tocTitle : this.lang.tocTitle);
+                        }
+
+                        if (settings.tocContainer !== "")
+                        {
+                            previewContainer.find(".markdown-toc").css("border", "none");
+                        }
+                    }
+
+                    if (settings.tex)
+                    {
+                        if (!editormd.kaTeXLoaded && settings.autoLoadModules)
+                        {
+                            editormd.loadKaTeX(function() {
+                                editormd.$katex = katex;
+                                editormd.kaTeXLoaded = true;
+                                _this.katexRender();
+                            });
+                        }
+                        else
+                        {
                             editormd.$katex = katex;
-                            editormd.kaTeXLoaded = true;
-                            _this.katexRender();
-                        });
+                            this.katexRender();
+                        }
                     }
-                    else
+
+                    if (settings.flowChart || settings.sequenceDiagram)
                     {
-                        editormd.$katex = katex;
-                        this.katexRender();
+                        flowchartTimer = setTimeout(function(){
+                            clearTimeout(flowchartTimer);
+                            _this.flowChartAndSequenceDiagramRender();
+                            flowchartTimer = null;
+                        }, 10);
+                    }
+
+                    if (state.loaded)
+                    {
+                        $.proxy(settings.onchange, this)();
                     }
                 }
 
-                if (settings.flowChart || settings.sequenceDiagram)
-                {
-                    flowchartTimer = setTimeout(function(){
-                        clearTimeout(flowchartTimer);
-                        _this.flowChartAndSequenceDiagramRender();
-                        flowchartTimer = null;
-                    }, 10);
-                }
-
-                if (state.loaded)
-                {
-                    $.proxy(settings.onchange, this)();
-                }
             }
-
             return this;
         },
 
@@ -2518,56 +2523,40 @@
                 toolbar.find(".fa[name=preview]").toggleClass("active");
             }
 
-            codeMirror.toggle();
+            codeMirror.hide();
 
-            var escHandle = function(event) {
-                if (event.shiftKey && event.keyCode === 27) {
-                    _this.previewed();
-                }
-            };
+            this.state.preview = true;
 
-            if (codeMirror.css("display") === "none") // 为了兼容Zepto，而不使用codeMirror.is(":hidden")
+            if (this.state.fullscreen) {
+                preview.css("background", "#fff");
+            }
+
+            editor.find("." + this.classPrefix + "preview-close-btn").show().bind(editormd.mouseOrTouch("click", "touchend"), function(){
+                _this.previewed();
+            });
+
+            if (!settings.watch)
             {
-                this.state.preview = true;
-
-                if (this.state.fullscreen) {
-                    preview.css("background", "#fff");
-                }
-
-                editor.find("." + this.classPrefix + "preview-close-btn").show().bind(editormd.mouseOrTouch("click", "touchend"), function(){
-                    _this.previewed();
-                });
-
-                if (!settings.watch)
-                {
-                    this.save();
-                }
-                else
-                {
-                    previewContainer.css("padding", "");
-                }
-
-                previewContainer.addClass(this.classPrefix + "preview-active");
-
-                preview.show().css({
-                    position  : "",
-                    top       : 0,
-                    width     : editor.width(),
-                    height : editor.height(),
-                    //height    : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height()
-                });
-
-                if (this.state.loaded)
-                {
-                    $.proxy(settings.onpreviewing, this)();
-                }
-
-                $(window).bind("keyup", escHandle);
+                this.save();
             }
             else
             {
-                $(window).unbind("keyup", escHandle);
-                this.previewed();
+                previewContainer.css("padding", "");
+            }
+
+            previewContainer.addClass(this.classPrefix + "preview-active");
+
+            preview.show().css({
+                position  : "",
+                top       : 0,
+                width     : editor.width(),
+                height : editor.height(),
+                //height    : (settings.autoHeight && !this.state.fullscreen) ? "auto" : editor.height()
+            });
+
+            if (this.state.loaded)
+            {
+                $.proxy(settings.onpreviewing, this)();
             }
         },
 
@@ -2645,16 +2634,6 @@
                 toolbar.find(".fa[name=fullscreen]").parent().toggleClass("active");
             }
 
-            var escHandle = function(event) {
-                if (!event.shiftKey && event.keyCode === 27)
-                {
-                    if (state.fullscreen)
-                    {
-                        _this.fullscreenExit();
-                    }
-                }
-            };
-
             if (!editor.hasClass(fullscreenClass))
             {
                 state.fullscreen = true;
@@ -2670,11 +2649,9 @@
 
                 $.proxy(settings.onfullscreen, this)();
 
-                $(window).bind("keyup", escHandle);
             }
             else
             {
-                $(window).unbind("keyup", escHandle);
                 this.fullscreenExit();
             }
 
@@ -4060,7 +4037,7 @@
             smartypants : true
         };
 
-		markdownDoc = new String(markdownDoc);
+		// markdownDoc = new String(markdownDoc);
 
         var markdownParsed = marked(markdownDoc, markedOptions);
 
@@ -4099,7 +4076,9 @@
         if (settings.previewCodeHighlight)
         {
             div.find("pre").addClass("prettyprint linenums");
-            prettyPrint();
+            //TODO: fix later if we decide to generate html
+            prettyPrint()
+            // prettyPrint($.proxy(editormd.settings.fixCodeBlocks, editormd));
         }
 
         if (!editormd.isIE8)
