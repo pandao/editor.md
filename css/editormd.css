@@ -4163,7 +4163,6 @@ li.L9 {
 .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint {
   padding: 10px;
   border: 1px solid #ddd;
-  white-space: pre-wrap;
   word-wrap: break-word;
 }
 .editormd-preview-container ol.linenums, .editormd-html-preview ol.linenums {
