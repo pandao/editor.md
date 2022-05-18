@@ -1790,7 +1790,7 @@
          */
 
         loadedDisplay : function(recreate) {
-            console.log("loadedDisplay")
+            // console.log("loadedDisplay")
             recreate             = recreate || false;
 
             var _this            = this;
