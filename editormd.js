@@ -2,7 +2,7 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.2 
+ * @version     v1.7.3 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.2";
+    editormd.version      = "1.7.3";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -1709,59 +1709,21 @@
                 });
             };
 
-            var cmUnbindScroll = function() {
-                codeMirror.find(".CodeMirror-scroll").unbind(mouseOrTouch("scroll", "touchmove"));
-            };
-
             var previewBindScroll = function() {
-
                 preview.bind(mouseOrTouch("scroll", "touchmove"), function(event) {
                     if (timer == null){
-                        // var height    = $(this).height();
-                        // var scrollTop = $(this).scrollTop();
-                        // var percent   = (scrollTop / $(this)[0].scrollHeight);
-                        // var codeView  = codeMirror.find(".CodeMirror-scroll");
-
-                        // if(scrollTop === 0)
-                        // {
-                        //     codeView.scrollTop(0);
-                        // }
-                        // else if (scrollTop + height >= $(this)[0].scrollHeight)
-                        // {
-                        //     codeView.scrollTop(codeView[0].scrollHeight);
-                        // }
-                        // else
-                        // {
-                        //     codeView.scrollTop(codeView[0].scrollHeight * percent);
-                        // }
                         $.proxy(settings.onpreviewscroll, _this)(event);
                     }
                 });
 
             };
 
-            var previewUnbindScroll = function() {
-                preview.unbind(mouseOrTouch("scroll", "touchmove"));
-            };
-
-			codeMirror.bind({
-				mouseover  : cmBindScroll,
-				mouseout   : cmUnbindScroll,
-				touchstart : cmBindScroll,
-				touchend   : cmUnbindScroll
-			});
-
             if (settings.syncScrolling === "single") {
+                cmBindScroll();
                 return this;
             }
 
-			preview.bind({
-				mouseover  : previewBindScroll,
-				mouseout   : previewUnbindScroll,
-				touchstart : previewBindScroll,
-				touchend   : previewUnbindScroll
-			});
-
+            previewBindScroll();
             return this;
         },
 
