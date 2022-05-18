@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.1 
+ * @version     v1.7.2 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-04-19
+ * @updateTime  2022-05-18
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.1";
+    editormd.version      = "1.7.2";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -1692,7 +1692,7 @@
         bindScrollEvent : function() {
 
             var _this            = this;
-            var preview          = this.preview;
+            var preview          = this.previewContainer;
             var settings         = this.settings;
             var codeMirror       = this.codeMirror;
             var mouseOrTouch     = editormd.mouseOrTouch;
@@ -1703,33 +1703,9 @@
 
             var cmBindScroll = function() {
                 codeMirror.find(".CodeMirror-scroll").bind(mouseOrTouch("scroll", "touchmove"), function(event) {
-                    var height    = $(this).height();
-                    var scrollTop = $(this).scrollTop();
-                    var percent   = (scrollTop / $(this)[0].scrollHeight);
-
-                    var tocHeight = 0;
-
-                    preview.find(".markdown-toc-list").each(function(){
-                        tocHeight += $(this).height();
-                    });
-
-                    var tocMenuHeight = preview.find(".editormd-toc-menu").height();
-                    tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
-
-                    if (scrollTop === 0)
-                    {
-                        preview.scrollTop(0);
+                    if (timer == null){
+                        $.proxy(settings.onscroll, _this)(event);
                     }
-                    else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
-                    {
-                        preview.scrollTop(preview[0].scrollHeight);
-                    }
-                    else
-                    {
-                        preview.scrollTop((preview[0].scrollHeight  + tocHeight + tocMenuHeight) * percent);
-                    }
-
-                    $.proxy(settings.onscroll, _this)(event);
                 });
             };
 
@@ -1740,25 +1716,26 @@
             var previewBindScroll = function() {
 
                 preview.bind(mouseOrTouch("scroll", "touchmove"), function(event) {
-                    var height    = $(this).height();
-                    var scrollTop = $(this).scrollTop();
-                    var percent   = (scrollTop / $(this)[0].scrollHeight);
-                    var codeView  = codeMirror.find(".CodeMirror-scroll");
+                    if (timer == null){
+                        // var height    = $(this).height();
+                        // var scrollTop = $(this).scrollTop();
+                        // var percent   = (scrollTop / $(this)[0].scrollHeight);
+                        // var codeView  = codeMirror.find(".CodeMirror-scroll");
 
-                    if(scrollTop === 0)
-                    {
-                        codeView.scrollTop(0);
+                        // if(scrollTop === 0)
+                        // {
+                        //     codeView.scrollTop(0);
+                        // }
+                        // else if (scrollTop + height >= $(this)[0].scrollHeight)
+                        // {
+                        //     codeView.scrollTop(codeView[0].scrollHeight);
+                        // }
+                        // else
+                        // {
+                        //     codeView.scrollTop(codeView[0].scrollHeight * percent);
+                        // }
+                        $.proxy(settings.onpreviewscroll, _this)(event);
                     }
-                    else if (scrollTop + height >= $(this)[0].scrollHeight)
-                    {
-                        codeView.scrollTop(codeView[0].scrollHeight);
-                    }
-                    else
-                    {
-                        codeView.scrollTop(codeView[0].scrollHeight * percent);
-                    }
-
-                    $.proxy(settings.onpreviewscroll, _this)(event);
                 });
 
             };
@@ -1825,7 +1802,7 @@
          */
 
         loadedDisplay : function(recreate) {
-            // console.log("loadedDisplay")
+            console.log("loadedDisplay")
             recreate             = recreate || false;
 
             var _this            = this;
@@ -2409,7 +2386,7 @@
 
             this.codeMirror.css("border-right", "1px solid #ddd").width(this.editor.width() / 2);
 
-            timer = 0;
+            timer = undefined;
 
             this.save().resize();
 
