@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.3 
+ * @version     v1.7.4 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-05-18
+ * @updateTime  2022-05-20
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.3";
+    editormd.version      = "1.7.4";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -250,7 +250,8 @@
     };
 
     editormd.classNames  = {
-        tex : editormd.classPrefix + "tex"
+        tex : editormd.classPrefix + "tex",
+        texDisplay : editormd.classPrefix + "texDisaply"
     };
 
     editormd.dialogZindex = 99999;
@@ -1534,7 +1535,19 @@
 
             this.previewContainer.find("." + editormd.classNames.tex).each(function(){
                 var tex  = $(this);
-                editormd.$katex.render(tex.text(), tex[0]);
+                editormd.$katex.render(tex.text(), tex[0],{
+                    throwOnError: false,
+                });
+
+                tex.find(".katex").css("font-size", "1.6em");
+            });
+
+            this.previewContainer.find("." + editormd.classNames.texDisplay).each(function(){
+                var tex  = $(this);
+                editormd.$katex.render(tex.text(), tex[0],{
+                    throwOnError: false,
+                    displayMode: true,
+                });
 
                 tex.find(".katex").css("font-size", "1.6em");
             });
@@ -3541,21 +3554,21 @@
         };
 
         markedRenderer.paragraph = function(text) {
-            var isTeXInline     = /\$\$(.*)\$\$/g.test(text);
-            var isTeXLine       = /^\$\$(.*)\$\$$/.test(text);
+            var isTeXInline     = /\$\$(.+?)\$\$/g.test(text);
+            var isTeXLine       = /^(?!\$\$.+?(?:\$\$).+?\$\$)(\$\$(.+?)\$\$)$/.test(text);
             var isTeXAddClass   = (isTeXLine)     ? " class=\"" + editormd.classNames.tex + "\"" : "";
             var isToC           = (settings.tocm) ? /^(\[TOC\]|\[TOCM\])$/.test(text) : /^\[TOC\]$/.test(text);
             var isToCMenu       = /^\[TOCM\]$/.test(text);
 
             if (!isTeXLine && isTeXInline)
             {
-                text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function($1, $2) {
-                    return "<span class=\"" + editormd.classNames.tex + "\">" + $2.replace(/\$/g, "") + "</span>";
+                text = text.replaceAll(/(\$\$(.+?)\$\$)/g, function(match, $1, $2) {
+                    return "<span class=\"" + editormd.classNames.tex + "\">" + $2.replaceAll(/\<br\>/g,"") + "</span>";
                 });
             }
             else
             {
-                text = (isTeXLine) ? text.replace(/\$/g, "") : text;
+                text = (isTeXLine) ? text.replace(/^(?!\$\$.+?(?:\$\$).+?\$\$)(\$\$(.+?)\$\$)$/, (match, $1, $2) => $2) : text;
             }
 
             var tocHTML = "<div class=\"markdown-toc editormd-markdown-toc\">" + text + "</div>";
@@ -3576,7 +3589,7 @@
             }
             else if ( lang === "math" || lang === "latex" || lang === "katex")
             {
-                return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
+                return "<p class=\"" + editormd.classNames.texDisplay + "\">" + code + "</p>";
             }
             else
             {
@@ -4200,8 +4213,8 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     // You can custom KaTeX load url.
     editormd.katexURL  = {
-        css : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        js  : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
+        css : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.6/katex.min",
+        js  : "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.6/katex.min"
     };
 
     editormd.kaTeXLoaded = false;
