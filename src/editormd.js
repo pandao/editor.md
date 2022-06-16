@@ -42,12 +42,12 @@
      * @returns {Object} editormd     返回editormd对象
      */
 
-    var editormd         = function (id, options) {
-        return new editormd.fn.init(id, options);
+    var editormd         = function (id,author_ide_version, options) {
+        return new editormd.fn.init(id,author_ide_version, options);
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.4";
+    editormd.version      = "1.7.5";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -57,7 +57,7 @@
             "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
             "h1", "h2", "h3", "h4", "h5", "h6", "|",
             "list-ul", "list-ol", "hr", "|",
-            "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+            "link", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
             "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
             "help", "info"
         ],
@@ -136,9 +136,6 @@
         onscroll             : function() {},
         onpreviewscroll      : function() {},
 
-        imageUpload          : false,
-        imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        imageUploadURL       : "",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
 
@@ -202,7 +199,6 @@
             "list-ol"        : "fa-list-ol",
             hr               : "fa-minus",
             link             : "fa-link",
-            image            : "fa-picture-o",
             code             : "fa-code",
             "preformatted-text" : "fa-file-code-o",
             "code-block"     : "fa-file-code-o",
@@ -268,7 +264,7 @@
          * @returns {editormd}               返回editormd的实例对象
          */
 
-        init : function (id, options) {
+        init : function (id, author_ide_version, options) {
 
             options              = options || {};
 
@@ -285,6 +281,7 @@
             var editor           = this.editor       = $("#" + id);
 
             this.id              = id;
+            this.author_ide_version = author_ide_version || editor.version;
             this.lang            = settings.lang;
 
             var classNames       = this.classNames   = {
@@ -1297,7 +1294,7 @@
                     }
                 }
 
-                if (name !== "link" && name !== "image" && name !== "code-block" &&
+                if (name !== "link" && name !== "code-block" &&
                     name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info")
                 {
                     cm.focus();
@@ -2667,7 +2664,7 @@
                 editormd.loadPlugin(path, function() {
                     editormd.loadPlugins[name] = _this[name];
                     _this[name](cm);
-                });
+                }, "head", (customPlugin ? _this.author_ide_version : editormd.version) );
             }
             else
             {
@@ -3047,10 +3044,6 @@
             cm.replaceSelection("\r\n[========]\r\n");
         },
 
-        image : function() {
-            this.executePlugin("imageDialog", "image-dialog/image-dialog");
-        },
-
         code : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
@@ -3234,7 +3227,6 @@
             }
         },
 
-        ["Shift-" + key + "-Alt-I"]     : "image",
         ["Shift-" + key + "-L"]         : "link",
         ["Shift-" + key + "-O"]         : "list-ol",
         ["Shift-" + key + "-P"]         : "preformatted-text",
@@ -4105,15 +4097,16 @@
      * @param {String}   fileName              插件文件路径
      * @param {Function} [callback=function()] 加载成功后执行的回调函数
      * @param {String}   [into="head"]         嵌入页面的位置
+     * @param {String}   [version=editormd.version]
      */
 
-    editormd.loadPlugin = function(fileName, callback, into) {
+    editormd.loadPlugin = function(fileName, callback, into, version) {
         callback   = callback || function() {};
 
         this.loadScript(fileName, function() {
             editormd.loadFiles.plugin.push(fileName);
             callback();
-        }, into);
+        }, into, version);
     };
 
     /**
@@ -4123,11 +4116,13 @@
      * @param {String}   fileName              CSS文件名
      * @param {Function} [callback=function()] 加载成功后执行的回调函数
      * @param {String}   [into="head"]         嵌入页面的位置
+     * @param {String}   [version=editormd.version]
      */
 
-    editormd.loadCSS   = function(fileName, callback, into) {
+    editormd.loadCSS   = function(fileName, callback, into, version=editormd.version) {
         into       = into     || "head";
         callback   = callback || function() {};
+        version    = version  || editormd.version 
 
         var css    = document.createElement("link");
         css.type   = "text/css";
@@ -4137,7 +4132,7 @@
             callback();
         };
 
-        css.href   = fileName + ".css";
+        css.href   = fileName + `.css?version=${version}`;
 
         if(into === "head") {
             document.getElementsByTagName("head")[0].appendChild(css);
@@ -4158,16 +4153,17 @@
      * @param {String}   [into="head"]         嵌入页面的位置
      */
 
-    editormd.loadScript = function(fileName, callback, into) {
+    editormd.loadScript = function(fileName, callback, into, version) {
 
         into          = into     || "head";
+        version       = version  || editormd.version
         callback      = callback || function() {};
 
         var script    = null;
         script        = document.createElement("script");
         script.id     = fileName.replace(/[\./]+/g, "-");
         script.type   = "text/javascript";
-        script.src    = fileName + ".js";
+        script.src    = fileName + `.js?version=${version}`;
 
         if (editormd.isIE8)
         {

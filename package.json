@@ -1,6 +1,6 @@
 {
   "name": "@ibm-skills-network/editor.md",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Open source online markdown editor.",
   "directories": {
     "doc": "docs",
