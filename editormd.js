@@ -254,6 +254,7 @@
 
     editormd.$katex       = null;
     editormd.$marked      = null;
+    editormd.$DOMPurify   = null;
     editormd.$CodeMirror  = null;
     editormd.$prettyPrint = null;
 
@@ -467,6 +468,10 @@
                     _this.loadedDisplay();
                 }
             };
+
+            editormd.loadScript(loadPath + "purify.min", function () {
+                editormd.$DOMPurify = DOMPurify
+            });
 
             editormd.loadCSS(loadPath + "codemirror/codemirror.min");
 
@@ -2001,8 +2006,8 @@
 
                 //console.info("cmValue", cmValue, newMarkdownDoc);
 
-                newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
-
+                // newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
+                newMarkdownDoc = editormd.$DOMPurify.sanitize(newMarkdownDoc,{ ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
                 //console.error("cmValue", cmValue, newMarkdownDoc);
 
                 this.markdownTextarea.text(cmValue);
