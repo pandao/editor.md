@@ -47,7 +47,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.5";
+    editormd.version      = "1.7.6";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -242,7 +242,7 @@
 
     editormd.$katex       = null;
     editormd.$marked      = null;
-    editormd.$DOMPurify   = null;
+    editormd.$filterXSS   = null;
     editormd.$CodeMirror  = null;
     editormd.$prettyPrint = null;
 
@@ -457,8 +457,8 @@
                 }
             };
 
-            editormd.loadScript(loadPath + "purify.min", function () {
-                editormd.$DOMPurify = DOMPurify
+            editormd.loadScript(loadPath + "xss", function () {
+                editormd.$filterXSS = filterXSS
             });
 
             editormd.loadCSS(loadPath + "codemirror/codemirror.min");
@@ -1994,8 +1994,8 @@
 
                 //console.info("cmValue", cmValue, newMarkdownDoc);
 
-                // newMarkdownDoc = editormd.filterHTMLTags(newMarkdownDoc, settings.htmlDecode);
-                newMarkdownDoc = editormd.$DOMPurify.sanitize(newMarkdownDoc,{ ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
+                newMarkdownDoc = editormd.$filterXSS(newMarkdownDoc);
+
                 //console.error("cmValue", cmValue, newMarkdownDoc);
 
                 this.markdownTextarea.text(cmValue);
@@ -3742,165 +3742,6 @@
     };
 
     /**
-     * 简单地过滤指定的HTML标签
-     * Filter custom html tags
-     *
-     * @param   {String}   html          要过滤HTML
-     * @param   {String}   filters       要过滤的标签
-     * @returns {String}   html          返回过滤的HTML
-     */
-
-    editormd.filterHTMLTags = function(html, filters) {
-
-        const basicAttrs ={
-            'img': 'src',
-            'img': 'alt',
-            'a': 'href'
-        }
-
-        if (typeof html !== "string") {
-            html = new String(html);
-        }
-
-        // replaces unknown unicode characters
-        html = html.replace(/\uFFFD/g, '');
-
-        if (typeof filters !== "string") {
-            // If no filters set use "script|on*" by default to avoid XSS
-            filters = "script|on*";
-        }
-
-        var expression = filters.split("|");
-        var filterTags = expression[0].split(",");
-        var attrs      = expression[1];
-
-        if(!filterTags.includes('allowScript') && !filterTags.includes('script'))
-        {
-            // Only allow script if requested specifically
-            filterTags.push('script');
-        }
-
-        // Disable embed tags
-        filterTags.push('embed');
-
-        for (var i = 0, len = filterTags.length; i < len; i++)
-        {
-            var tag = filterTags[i];
-            if (tag === 'img') {
-                const allImages = [...html.matchAll(/(\<\s*img[^\>]*\/?\>(<\s*\/?\s*img\s*\>)?)/igm)];
-                // for each image, construct a new img tag with only necessary attributes
-                for (let j = 0; j < allImages.length; j++) {
-                    let imageHTML = allImages[j][0];
-                    let src = imageHTML.match(/src=(["'])?(?!\1).*?\1/im);
-                    let alt = imageHTML.match(/alt=(["'])?(?!\1).*?\1/im);
-                    let width = imageHTML.match(/width=(["'])?(?!\1).*?\1/im);
-                    let height = imageHTML.match(/height=(["'])?(?!\1).*?\1/im);
-                    let style = imageHTML.match(/style=(["'])?(?!\1).*?\1/im);
-                    html = html.replace(imageHTML, `<img ${src ? src[0] : "src=''"} ${alt ? alt[0] : "alt=''"} ${width && width[0]} ${height && height[0]} ${style && style[0]}>`);
-                }
-            }
-            else {
-                html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>(?:([^\>]*)\<\s*\/" + tag + "\s*\>)?", "igm"), "");
-            }
-        }
-
-        // Get rid of javascript embededded into <a> tags as href attributes
-        html = html.replace(new RegExp(/(\<\s*a\s*[^\>]*href=(["']))(\s*javascript:[^=]*)(\2\s*([^\>]*)\>)/, "igm"), "$1$4");
-
-        if (typeof attrs === "undefined")
-        {
-            // If no attrs set, block "on*" to avoid XSS
-            attrs = "on*"
-        }
-
-        if (typeof attrs !== "undefined")
-        {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
-
-            var filterAttrs = attrs.split(",");
-            var filterOn = true;
-
-            if(filterAttrs.includes('allowOn'))
-            {
-                // Only allow on* if requested specifically
-                filterOn = false;
-            }
-
-            if (attrs === "*")
-            {
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    // Add basic attrs to elements that need them
-                    Object.entries(basicAttrs).forEach( item =>
-                    {
-                        var match;
-                        if(item[0].toUpperCase() === $2.toUpperCase())
-                        {
-                            var regBas = new RegExp(item[1]+`\s*=\s*("|')(?:(?!\\1).)*\\1`,"i");
-                            if(match = regBas.exec($3)){
-                                $2 += ' ' + match[0];
-                            }
-                        }
-                    });
-                    if(typeof($4)!== 'undefined'){
-                        return "<" + $2 + ">" + $4 + "</" + $5 + ">";
-                    }else{
-                        return "<" + $2 + "/>";
-                    }
-                });
-            }
-            else if ((attrs === "on*") || filterOn)
-            {
-
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    var el;
-                    try {
-                        if (typeof($4) !== 'undefined') {
-                            el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                        } else {
-                            el = $("<" + $2 + "/>");
-                        }
-                    } catch (error){
-                        console.log('Trying to create invalid element');
-                        return '';
-                    }
-//                    var _attrs = $($1)[0].attributes; // ARH: Replace with regexp, beacause this triggers execution of onLoad ... (Also should be faster now)
-                    var match;
-                    var $attrs = {};
-                    var regOn = /^on*/i;
-
-                    var regAttr = /(\w*)\s*=\s*("|')((?:(?!\2).)*)\2/gi;
-                    while(match = regAttr.exec($3)){
-                        if (!regOn.exec(match[1]) && match[1].length>0){
-                            $attrs[match[1]] = match[3];
-                        };
-                    };
-                    el.attr($attrs);
-
-                    var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-                    return el[0].outerHTML + text;
-                });
-            }
-            if(filterAttrs.length > 1 || (filterAttrs[0]!=="*" && filterAttrs[0]!=="on*"))
-            {
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
-                    var el = $($1);
-                    if(typeof($4)!== 'undefined'){
-                      el.html($4);
-                    }
-
-                    $.each(filterAttrs, function(i) {
-                        el.attr(filterAttrs[i], null);
-                    });
-
-                    return el[0].outerHTML;
-                });
-            }
-        }
-
-        return html;
-    };
-
-    /**
      * 将Markdown文档解析为HTML用于前台显示
      * Parse Markdown to HTML for Font-end preview.
      *
@@ -3978,7 +3819,7 @@
 
         var markdownParsed = marked(markdownDoc, markedOptions);
 
-        markdownParsed = editormd.filterHTMLTags(markdownParsed, settings.htmlDecode);
+        markdownParsed = editormd.$filterXSS(markdownParsed);
 
         if (settings.markdownSourceCode) {
             saveTo.text(markdownDoc);
