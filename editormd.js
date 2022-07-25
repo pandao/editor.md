@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.8 
+ * @version     v1.7.9 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-07-07
+ * @updateTime  2022-07-25
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.8";
+    editormd.version      = "1.7.9";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -2002,7 +2002,7 @@
 
                 marked.setOptions(markedOptions);
 
-                var newMarkdownDoc = editormd.$marked(cmValue, markedOptions);
+                var newMarkdownDoc = editormd.$marked.parse(cmValue, markedOptions);
 
                 //console.info("cmValue", cmValue, newMarkdownDoc);
 
@@ -3829,7 +3829,7 @@
 
 		// markdownDoc = new String(markdownDoc);
 
-        var markdownParsed = marked(markdownDoc, markedOptions);
+        var markdownParsed = marked.parse(markdownDoc, markedOptions);
 
         markdownParsed = editormd.$filterXSS(markdownParsed);
 
