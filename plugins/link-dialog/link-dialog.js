@@ -32,7 +32,7 @@
             if (editor.find("." + dialogName).length > 0)
             {
                 dialog = editor.find("." + dialogName);
-                dialog.find("[data-url]").val("http://");
+                dialog.find("[data-url]").val("https://");
                 dialog.find("[data-title]").val(selection);
 
                 this.dialogShowMask(dialog);
@@ -43,7 +43,7 @@
             {
                 var dialogHTML = "<div class=\"" + classPrefix + "form\">" + 
                                         "<label>" + linkLang.url + "</label>" + 
-                                        "<input type=\"text\" value=\"http://\" data-url />" +
+                                        "<input type=\"text\" value=\"https://\" data-url />" +
                                         "<br/>" + 
                                         "<label>" + linkLang.urlTitle + "</label>" + 
                                         "<input type=\"text\" value=\"" + selection + "\" data-title />" + 
@@ -67,7 +67,7 @@
                             var url   = this.find("[data-url]").val();
                             var title = this.find("[data-title]").val();
 
-                            if (url === "http://" || url === "")
+                            if (url === "https://" || url === "")
                             {
                                 alert(linkLang.urlEmpty);
                                 return false;

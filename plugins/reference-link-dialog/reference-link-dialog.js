@@ -41,7 +41,7 @@
                                         "<input type=\"text\" data-url-id />" +
                                         "<br/>" +
                                         "<label>" + dialogLang.url + "</label>" +
-                                        "<input type=\"text\" value=\"http://\" data-url />" + 
+                                        "<input type=\"text\" value=\"https://\" data-url />" + 
                                         "<br/>" +
                                         "<label>" + dialogLang.urlTitle + "</label>" +
                                         "<input type=\"text\" value=\"" + selection + "\" data-title />" +
@@ -80,7 +80,7 @@
                                 return false;
                             }
 
-                            if (url === "http://" || url === "")
+                            if (url === "https://" || url === "")
                             {
                                 alert(dialogLang.urlEmpty);
                                 return false;
@@ -113,7 +113,7 @@
 			dialog = editor.find("." + dialogName);
 			dialog.find("[data-name]").val("[" + ReLinkId + "]");
 			dialog.find("[data-url-id]").val("");
-			dialog.find("[data-url]").val("http://");
+			dialog.find("[data-url]").val("https://");
 			dialog.find("[data-title]").val(selection);
 
 			this.dialogShowMask(dialog);
