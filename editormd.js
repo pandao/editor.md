@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.9 
+ * @version     v1.7.10 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2022-07-25
+ * @updateTime  2022-09-09
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.9";
+    editormd.version      = "1.7.10";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -2655,7 +2655,7 @@
          * @returns {editormd}           返回editormd的实例对象
          */
 
-        executePlugin : function(name, path, customPlugin = false) {
+        executePlugin : function(name, path, customPlugin = false, optionalParams= {}) {
             var _this    = this;
             var cm       = this.cm;
             var settings = this.settings;
@@ -2680,12 +2680,12 @@
             {
                 editormd.loadPlugin(path, function() {
                     editormd.loadPlugins[name] = _this[name];
-                    _this[name](cm);
+                    _this[name](cm, optionalParams);
                 }, "head", (customPlugin ? _this.author_ide_version : editormd.version) );
             }
             else
             {
-                $.proxy(editormd.loadPlugins[name], this)(cm);
+                $.proxy(editormd.loadPlugins[name], this)(cm, optionalParams);
             }
 
             return this;
@@ -4108,6 +4108,7 @@
                 backgroundColor : "#fff",
                 opacity : 0.1
             },
+            removeDialogOnClose: false,
             lockScreen : true,
             footer : true,
             buttons : false
@@ -4208,6 +4209,7 @@
 
         dialog.find("." + classPrefix + "dialog-close").bind(mouseOrTouch("click", "touchend"), function() {
             dialog.hide().lockScreen(false).hideMask();
+            if (options.removeDialogOnClose) dialog.remove()
         });
 
         if (typeof options.buttons === "object")
