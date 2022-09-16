@@ -2,7 +2,7 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.11 
+ * @version     v1.7.12 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.11";
+    editormd.version      = "1.7.12";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -3990,7 +3990,7 @@
             callback();
         };
 
-        css.href   = fileName + `.css?version=${version}`;
+        css.href   = fileName + `.css?editormd_version=${version}`;
 
         if(into === "head") {
             document.getElementsByTagName("head")[0].appendChild(css);
@@ -4021,7 +4021,7 @@
         script        = document.createElement("script");
         script.id     = fileName.replace(/[\./]+/g, "-");
         script.type   = "text/javascript";
-        script.src    = fileName + `.js?version=${version}`;
+        script.src    = fileName + `.js?editormd_version=${version}`;
 
         if (editormd.isIE8)
         {
