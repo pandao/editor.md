@@ -71,14 +71,14 @@
                     link     : "Link",
                     alt      : "Title",
                     uploadButton     : "Upload",
-                    imageURLEmpty    : "Error: picture url address can't be empty.",
-                    uploadFileEmpty  : "Error: upload pictures cannot be empty!",
-                    formatNotAllowed : "Error: only allows to upload pictures file, upload allowed image file format:"
+                    imageURLEmpty    : "Error: Picture url address can't be empty.",
+                    uploadFileEmpty  : "Error: Upload pictures cannot be empty!",
+                    formatNotAllowed : "Error: Only allows to upload pictures file, upload allowed image file format:"
                 },
                 preformattedText : {
                     title             : "Preformatted text / Codes", 
                     emptyAlert        : "Error: Please fill in the Preformatted text or content of the codes.",
-                    placeholder       : "coding now...."
+                    placeholder       : "Coding now...."
                 },
                 codeBlock : {
                     title             : "Code block",         
@@ -87,7 +87,7 @@
                     otherLanguage     : "Other languages",
                     unselectedLanguageAlert : "Error: Please select the code language.",
                     codeEmptyAlert    : "Error: Please fill in the code content.",
-                    placeholder       : "coding now...."
+                    placeholder       : "Coding now...."
                 },
                 htmlEntities : {
                     title : "HTML Entities"

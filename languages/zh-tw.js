@@ -78,7 +78,7 @@
                 preformattedText : {
                     title             : "添加預格式文本或代碼塊", 
                     emptyAlert        : "錯誤：請填寫預格式文本或代碼的內容。",
-                    placeholder       : "coding now...."
+                    placeholder       : "Coding now...."
                 },
                 codeBlock : {
                     title             : "添加代碼塊",                 
@@ -87,7 +87,7 @@
                     otherLanguage     : "其他語言",
                     unselectedLanguageAlert : "錯誤：請選擇代碼所屬的語言類型。",
                     codeEmptyAlert    : "錯誤：請填寫代碼內容。",
-                    placeholder:      : "coding now...."
+                    placeholder       : "Coding now...."
                 },
                 htmlEntities : {
                     title : "HTML實體字符"
