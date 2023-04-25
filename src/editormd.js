@@ -47,7 +47,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.12";
+    editormd.version      = "1.7.13";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -2643,7 +2643,7 @@
          * @returns {editormd}           返回editormd的实例对象
          */
 
-        executePlugin : function(name, path, customPlugin = false, optionalParams= {}) {
+        executePlugin : function(name, path, customPlugin = false, optionalParams= {"proxy": false}) {
             var _this    = this;
             var cm       = this.cm;
             var settings = this.settings;
@@ -2659,20 +2659,34 @@
                     return this;
                 }
 
-                this[name](cm);
-
-                return this;
+                if (optionalParams["proxy"]) {
+                    return this[name](cm);
+                } else {
+                    this[name](cm);
+                    return this;
+                }
             }
 
             if ($.inArray(path, editormd.loadFiles.plugin) < 0)
             {
-                editormd.loadPlugin(path, function() {
-                    editormd.loadPlugins[name] = _this[name];
-                    _this[name](cm, optionalParams);
-                }, "head", (customPlugin ? _this.author_ide_version : editormd.version) );
+                if (optionalParams["proxy"]){
+                    return new Promise((res)=>{
+                        editormd.loadPlugin(path, function() {
+                           editormd.loadPlugins[name] = _this[name];
+                           res(_this[name](cm, optionalParams))
+                        }, "head", (customPlugin ? _this.author_ide_version : editormd.version) );
+                    });
+                }
+                else{
+                    editormd.loadPlugin(path, function() {
+                        editormd.loadPlugins[name] = _this[name];
+                        _this[name](cm, optionalParams);
+                    }, "head", (customPlugin ? _this.author_ide_version : editormd.version) );
+                }
             }
             else
             {
+                if (optionalParams["proxy"]) return $.proxy(editormd.loadPlugins[name], this)(cm, optionalParams);
                 $.proxy(editormd.loadPlugins[name], this)(cm, optionalParams);
             }
 
