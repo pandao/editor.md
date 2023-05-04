@@ -2,12 +2,12 @@
  * Editor.md
  *
  * @file        editormd.js 
- * @version     v1.7.13 
+ * @version     v1.7.14 
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/editor.md}
- * @updateTime  2023-04-25
+ * @updateTime  2023-05-03
  */
 
 ;(function(factory) {
@@ -59,7 +59,7 @@
     };
 
     editormd.title        = editormd.$name = "Editor.md";
-    editormd.version      = "1.7.13";
+    editormd.version      = "1.7.14";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
 
@@ -1256,6 +1256,11 @@
 
         dialogShowMask : function(dialog) {
             $.proxy(editormd.dialogShowMask, this)(dialog);
+
+            return this;
+        },
+        positionDialog : function(dialog, position) {
+            $.proxy(editormd.positionDialog, this)(dialog, position);
 
             return this;
         },
@@ -2762,6 +2767,32 @@
         }
     };
 
+
+    editormd.positionDialog = function(dialog, position="center") {
+        var left, top;
+
+        switch (position) {
+          case "center":
+            left = ($(window).width() - dialog.width()) / 2 + "px";
+            top = ($(window).height() - dialog.height()) / 2 + "px";
+            break;
+          case "center-left":
+            left = ($(window).width() / 4 - dialog.width() / 2) + "px";
+            top = ($(window).height() - dialog.height()) / 2 + "px";
+            break;
+          case "center-right":
+            left = ($(window).width() * 3 / 4 - dialog.width() / 2) + "px";
+            top = ($(window).height() - dialog.height()) / 2 + "px";
+            break;
+          default:
+            console.warn(`Unsupported dialog position: ${position}`);
+            left = ($(window).width() - dialog.width()) / 2 + "px";
+            top = ($(window).height() - dialog.height()) / 2 + "px";
+        }
+      
+        dialog.css({ top, left });
+    };
+
     /**
      * 显示透明背景层
      * Display mask layer when dialog opening
@@ -4123,6 +4154,12 @@
                 opacity : 0.1
             },
             removeDialogOnClose: false,
+            resizeableX: false,
+            resizeableY: false,
+            minWidth: 0,
+            minHeight: 0,
+            maxWidth: "none",
+            maxHeight: "none",
             lockScreen : true,
             footer : true,
             buttons : false
@@ -4207,7 +4244,14 @@
             zIndex : editormd.dialogZindex,
             border : (editormd.isIE8) ? "1px solid #ddd" : "",
             width  : (typeof options.width  === "number") ? options.width + "px"  : options.width,
-            height : (typeof options.height === "number") ? options.height + "px" : options.height
+            height : (typeof options.height === "number") ? options.height + "px" : options.height,
+            "min-width": (typeof options.minWidth === "number") ? options.minWidth + "px" : options.minWidth,
+            "min-height": (typeof options.minHeight === "number") ? options.minHeight + "px" : options.minHeight,
+            "max-width": (typeof options.maxWidth === "number") ? options.maxWidth + "px" : options.maxWidth,
+            "max-height": (typeof options.maxHeight === "number") ? options.maxHeight + "px" : options.maxHeight,
+            ...((options.resizeableX || options.resizeableY) ? { overflow: 'hidden',
+                                                                 resize: (options.resizeableX && options.resizeableY) ? "both" : ((options.resizeableX) ? "horizontal" : "vertical")
+                                                               } : {})
         });
 
         var dialogPosition = function(){
