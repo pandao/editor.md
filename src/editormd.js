@@ -1,3 +1,4 @@
+
 ;(function(factory) {
     "use strict";
     
@@ -75,7 +76,14 @@
             "help", "info"
         ]
     };
-    
+
+    /**
+     * 判断一个对象是否为字符串
+     * @param obj
+     * @return {boolean}
+     */
+    const isString = (obj) => typeof obj === 'string' || obj instanceof String;
+
     editormd.defaults     = {
         mode                 : "gfm",          //gfm or markdown
         name                 : "",             // Form element name
@@ -3877,7 +3885,7 @@
      * 将Markdown文档解析为HTML用于前台显示
      * Parse Markdown to HTML for Font-end preview.
      * 
-     * @param   {String}   id            用于显示HTML的对象ID
+     * @param   {String|document}   id            用于显示HTML的对象ID 或者 用于显示 HTML 的对象
      * @param   {Object}   [options={}]  配置选项，可选
      * @returns {Object}   div           返回jQuery对象元素
      */
@@ -3908,7 +3916,7 @@
         
         editormd.$marked  = marked;
 
-        var div           = $("#" + id);
+        var div           =  isString(id) ? $("#" + id) : $(id)
         var settings      = div.settings = $.extend(true, defaults, options || {});
         var saveTo        = div.find("textarea");
         
