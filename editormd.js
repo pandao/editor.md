@@ -3798,88 +3798,120 @@
         return tocMenus;
     };
     
-    /**
-     * 简单地过滤指定的HTML标签
+        /**
+     * 完整地过滤指定的HTML标签、属性名、属性值
+     * 
      * Filter custom html tags
      * 
      * @param   {String}   html          要过滤HTML
      * @param   {String}   filters       要过滤的标签
      * @returns {String}   html          返回过滤的HTML
      */
-    
-    editormd.filterHTMLTags = function(html, filters) {
-        
+    editormd.filterHTMLTags = function (html, filters) {
         if (typeof html !== "string") {
             html = new String(html);
         }
-            
         if (typeof filters !== "string") {
             return html;
         }
 
-        var expression = filters.split("|");
-        var filterTags = expression[0].split(",");
-        var attrs      = expression[1];
+        // 拆分过滤规则：标签过滤|属性名过滤|属性值过滤（兼容缺省段）
+        let expression = filters.split("|");
+        let filterTags = expression[0] ? expression[0].split(",").filter(tag => tag.trim()) : [];
+        let attrNameFilters = expression[1] ? expression[1].split(",").filter(attr => attr.trim()) : [];
+        let attrValueFilters = expression[2] ? expression[2].split(",").filter(val => val.trim()) : [];
 
-        for (var i = 0, len = filterTags.length; i < len; i++)
-        {
-            var tag = filterTags[i];
-
-            html = html.replace(new RegExp("\<\s*" + tag + "\s*([^\>]*)\>([^\>]*)\<\s*\/" + tag + "\s*\>", "igm"), "");
+        // -------------------------- 标签过滤 --------------------------
+        for (let i = 0, len = filterTags.length; i < len; i++) {
+            let tag = filterTags[i];
+            if (!tag.trim()) continue;
+            // 转义正则特殊字符
+            let escapedTag = tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let tagRegex = new RegExp("<\\s*\\/?\\s*" + escapedTag + "\\s*[^>]*>", "igm");
+            // 转义标签的<>为纯文本
+            html = html.replace(tagRegex, function (match) {
+                return match.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            });
         }
-        
-        //return html;
 
-        if (typeof attrs !== "undefined")
-        {
-            var htmlTagRegex = /\<(\w+)\s*([^\>]*)\>([^\>]*)\<\/(\w+)\>/ig;
+        // -------------------------- 属性过滤逻辑 --------------------------
+        // 标签头匹配正则（兼容自闭合标签）
+        let htmlTagRegex = /<\s*(\w+)\s*([\s\S]*?)\s*(?:\/)?>/ig;
 
-            if (attrs === "*")
-            {
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    return "<" + $2 + ">" + $4 + "</" + $5 + ">";
-                });         
+        // 工具函数：检测单个规则是否匹配目标字符串（处理通配符）
+        // rule: 过滤规则（如on*、href、javascript）
+        // target: 待匹配的目标字符串（属性名/属性值）
+        function isMatch(rule, target) {
+            if (!rule || !target) return false;
+            // 统一转小写，实现不区分大小写匹配
+            rule = rule.toLowerCase();
+            target = target.toLowerCase();
+
+            // 通配符规则处理：
+            // 1. 以*结尾（如on*）→ 匹配"开头包含"
+            if (rule.endsWith("*")) {
+                let prefix = rule.slice(0, -1);
+                return target.startsWith(prefix);
             }
-            else if (attrs === "on*")
-            {
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4, $5) {
-                    var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
-                    var _attrs = $($1)[0].attributes;
-                    var $attrs = {};
-                    
-                    $.each(_attrs, function(i, e) {
-                        if (e.nodeName !== '"') $attrs[e.nodeName] = e.nodeValue;
-                    });
-                    
-                    $.each($attrs, function(i) {                        
-                        if (i.indexOf("on") === 0) {
-                            delete $attrs[i];
-                        }
-                    });
-                    
-                    el.attr($attrs);
-                    
-                    var text = (typeof el[1] !== "undefined") ? $(el[1]).text() : "";
-
-                    return el[0].outerHTML + text;
-                });
+            // 2. 以*开头（如*xxx）→ 匹配"结尾包含"（扩展兼容，用户未提但补充）
+            else if (rule.startsWith("*")) {
+                let suffix = rule.slice(1);
+                return target.endsWith(suffix);
             }
-            else
-            {
-                html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
-                    var filterAttrs = attrs.split(",");
-                    var el = $($1);
-                    el.html($4);
-
-                    $.each(filterAttrs, function(i) {
-                        el.attr(filterAttrs[i], null);
-                    });
-
-                    return el[0].outerHTML;
-                });
+            // 3. 无通配符（如href、javascript）→ 匹配"包含"（*xxx*）
+            else {
+                return target.includes(rule);
             }
         }
-        
+
+        // 工具函数：检测属性集合是否命中属性名/属性值过滤规则
+        function checkAttrFilter(attrStr) {
+            // 解析属性字符串：[属性名, 双引号值, 单引号值, 无引号值]
+            let attrRegex = /([\w-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g;
+            let attrMatch;
+
+            while ((attrMatch = attrRegex.exec(attrStr)) !== null) {
+                let attrName = attrMatch[1].trim();
+                // 属性值优先级：双引号 > 单引号 > 无引号
+                let attrValue = attrMatch[2] || attrMatch[3] || attrMatch[4] || "";
+
+                // 检测属性名是否命中过滤规则
+                for (let i = 0; i < attrNameFilters.length; i++) {
+                    if (isMatch(attrNameFilters[i], attrName)) {
+                        return true;
+                    }
+                }
+
+                // 检测属性值是否命中过滤规则
+                for (let j = 0; j < attrValueFilters.length; j++) {
+                    if (isMatch(attrValueFilters[j], attrValue)) {
+                        return true;
+                    }
+                }
+            }
+
+            // 无匹配的属性名/值
+            return false;
+        }
+
+        // 执行属性过滤：只要命中属性名/值规则，就转义标签头为纯文本
+        if (attrNameFilters.length > 0 || attrValueFilters.length > 0) {
+            html = html.replace(htmlTagRegex, function ($0) {
+                // $0: 完整的标签头（如 <a href="javascript:alert(1)" onclick="xxx">）
+                // 提取标签头中的属性字符串（去掉标签名和首尾空格）
+                let attrStr = $0.replace(/<\s*\w+\s*/, '').replace(/\s*\/?>$/, '');
+
+                // 检测是否命中过滤规则
+                if (checkAttrFilter(attrStr)) {
+                    // 命中规则：转义<>为HTML实体，变为纯文本
+                    return $0.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                } else {
+                    // 未命中：保留原标签头
+                    return $0;
+                }
+            });
+        }
+
         return html;
     };
     
